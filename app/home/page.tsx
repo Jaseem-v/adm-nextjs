@@ -85,6 +85,41 @@ const members = [
     image: "/images/team6.png",
   },
 ];
+
+const popularCompanies = [
+  {
+    id: 1,
+    image: "/images/fbImage.png",
+    logo: "/images/fbLogo.png",
+    title: "Facebook",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+  },
+  {
+    id: 2,
+    image: "/images/googleImg.png",
+    logo: "/images/googleLogo.png",
+    title: "Google",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+  },
+  {
+    id: 3,
+    image: "/images/appleImg.png",
+    logo: "/images/appleLogo.png",
+    title: "Apple",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+  },
+  {
+    id: 4,
+    image: "/images/youtubeImg.png",
+    logo: "/images/youtubeLogo.png",
+    title: "Youtube",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+  },
+];
 const Home = () => {
   return (
     <>
@@ -363,39 +398,44 @@ const Home = () => {
             AbudhabiMalayalees
           </p>
           <div className="companies mt-12 md:mt-16 lg:mt-20  grid lg:grid-cols-2 gap-x-8 gap-y-12 justify-items-center">
-            <div className="company flex flex-col gap-3 max-w-fit ">
-              <div>
-                <img src="/images/fbImage.png" alt="company1" />
-              </div>
-              <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
-                <div className="w-12 h-12">
-                  <img
-                    src="/images/fbLogo.png"
-                    alt="companylogo"
-                    width="48px"
-                  />
-                </div>
+            {popularCompanies.map((company) => (
+              <div
+                className="company flex flex-col gap-3 max-w-fit "
+                key={company.id}
+              >
                 <div>
-                  <p className="font-semibold text-2xl md:text-3xl lg:text-4xl">
-                    Facebook
-                  </p>
-                  <p className="mt-2 text-desc text-sm max-w-md font-semibold">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua
-                  </p>
-                  <button className="mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
-                    Load More
-                  </button>
-                  <img
-                    src="/images/blackTRarrow.png"
-                    alt="arrow"
-                    className="absolute top-3 right-3"
-                  />
+                  <img src={company.image} alt="company1" />
+                </div>
+                <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
+                  <div className="w-12 h-12">
+                    <img src={company.logo} alt="companylogo" width="48px" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-2xl md:text-3xl lg:text-4xl">
+                      {company.title}
+                    </p>
+                    <p className="mt-2 text-desc text-sm max-w-md font-semibold">
+                      {company.description}
+                    </p>
+                    <button className="mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
+                      Load More
+                    </button>
+                    <img
+                      src="/images/blackTRarrow.png"
+                      alt="arrow"
+                      className="absolute top-3 right-3"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
+          <button
+            class="mt-8 md:mt-12 lg:mt-16 font-regular border border-white py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-white text-center block mx-auto
+                    hover:bg-gray-900"
+          >
+            Load More
+          </button>
         </div>
       </section>
     </>
