@@ -145,6 +145,13 @@ const newsFeed = [
       "Lorem ipsum dolor sit amet, consectetur elit, adipiscing sed do eiusmod tempor incididunt ut labore",
   },
 ];
+
+const numbers = [
+  { id: 1, title: "Happy Clients", number: 100 },
+  { id: 1, title: "Awards Won", number: 70 },
+  { id: 1, title: "Projects Completed", number: 200 },
+  { id: 1, title: "Cups of Coffee", number: 500 },
+];
 const Home = () => {
   return (
     <>
@@ -339,25 +346,17 @@ const Home = () => {
       <section className=" py-16 bg-gray bg-zinc-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
-              <h3 className="text-4xl font-bold text-white">100</h3>
-              <p className="text-white">Happy Clients</p>
-            </div>
-
-            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
-              <h3 className="text-4xl font-bold text-white">50</h3>
-              <p className="text-white">Awards Won</p>
-            </div>
-
-            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
-              <h3 className="text-4xl font-bold text-white">200</h3>
-              <p className="text-white">Projects Completed</p>
-            </div>
-
-            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
-              <h3 className="text-4xl font-bold text-white">500</h3>
-              <p className="text-white">Cups of Coffee</p>
-            </div>
+            {numbers.map((number) => (
+              <div
+                className="col-span-1 flex justify-center py-8 px-8  flex-col items-center"
+                key={number.id}
+              >
+                <h3 className="text-4xl font-bold text-white">
+                  {number.number}
+                </h3>
+                <p className="text-white">{number.title}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -416,7 +415,7 @@ const Home = () => {
           <p className="font-kaisei text-white font-bold text-xl md:text-3xl lg:text-4xl">
             Popular Companies
           </p>
-          <p className="text-white mt-4 md:mt-5 lg:mt-6 xl:mt-7 font-semibold text-2xl md:text-4xl lg:text-5xl md:max-w-2xl lg:max-w-4xl">
+          <p className="text-white mt-4 md:mt-5 lg:mt-6 xl:mt-7 font-semibold text-2xl md:text-4xl lg:text-5xl md:max-w-2xl lg:max-w-4xl font-poppins">
             Discover the Vibrant Business Landscape of Abu Dhabi with
             AbudhabiMalayalees
           </p>
@@ -644,10 +643,10 @@ const Home = () => {
             Connecting the Abu Dhabi Malayalee Community: Stay Updated with the
             Latest News and Events
           </p>
-          <div className="mt-16 flex flex-col lg:flex-row gap-12 items-center">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 place-items-center">
             {newsFeed.map((news) => (
               <div
-                className=" max-w-xs md:max-w-md rounded-[20px] shadow-card flex flex-col items-start justify-center"
+                className="rounded-[20px] shadow-card flex flex-col items-start justify-center"
                 key={news.id}
               >
                 <div>
@@ -723,6 +722,7 @@ const Home = () => {
       {/* CONTACT FORM */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
+      <div className="w-full h-16 md:h-24 xl:h-32" />
       <ContactForm />
     </>
   );

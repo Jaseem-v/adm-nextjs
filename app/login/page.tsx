@@ -1,13 +1,11 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   return (
     <main className="h-screen font-inter max-w-screen-xl mx-auto flex items-center justify-center relative">
       <section className="">
@@ -57,20 +55,18 @@ const Login = () => {
                                 py-4 focus:outline-none"
                 />
               </form>
-              <button
-                onClick={handleSubmit}
-                className="font-regular bg-lightOrange py-3 md:py-4 px-12 text-lg md:text-xl rounded-md w-full  hover:bg-amber-500 transition-all duration-200 active:bg-amber-700"
-              >
+              <button className="font-regular bg-lightOrange py-3 md:py-4 px-12 text-lg md:text-xl rounded-md w-full  hover:bg-amber-500 transition-all duration-200 active:bg-amber-700">
                 Login
               </button>
               <button className="mt-4 font-regular bg-white py-3 md:py-4 px-12 text-lg md:text-xl rounded-md w-full border border-black hover:bg-gray-200">
                 Login with google
               </button>
               <div className="mt-5 flex gap-1 justify-center font-bold text-base md:text-lg lg:text-xl">
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p className="font-medium">Don't have an account?</p>
-                <a href="/signup.html">
+                <Link href="/signup">
                   <p>Register Now</p>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="hidden xl:block">

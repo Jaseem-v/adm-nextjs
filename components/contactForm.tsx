@@ -2,9 +2,7 @@ import styles from "./contactForm.module.css";
 
 const ContactForm = () => {
   return (
-    <section
-      className={`${styles.contactUs} mt-36 w-full pb-12 md:pb-16 lg:pb-20`}
-    >
+    <section className={`${styles.contactUs} w-full pb-12 md:pb-16 lg:pb-20`}>
       <div
         className="max-w-screen-xl mx-auto px-4 xl:px-0 pt-14 md:pt-20 lg:pt-32 text-white 
             "

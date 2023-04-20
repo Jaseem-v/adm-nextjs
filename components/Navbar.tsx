@@ -3,6 +3,7 @@
 import { useState } from "react";
 import BusinessDropdown from "./BusinessDropdown";
 import Link from "next/link";
+import "./Navbar.css";
 
 const navItems = [
   { id: 1, title: "Home", animation: "nav1", link: "home" },
@@ -29,7 +30,7 @@ const Navbar = () => {
     >
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-5 xl:px-0">
         {/* logo👇 */}
-        <a href="/index.html" className="logo flex items-center gap-2 py-7">
+        <Link href="/" className="logo flex items-center gap-2 py-7">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/logo.png" alt="logo" className="h-10 lg:h-12" />
           <p className="text-lg lg:text-2xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
@@ -37,7 +38,7 @@ const Navbar = () => {
             <br />
             Malayalees
           </p>
-        </a>
+        </Link>
         {/* \\\\\\\\\\\\\\\\\\\\\\ */}
         {/*  menu items */}
         {!isMobileNav && (
@@ -52,7 +53,7 @@ const Navbar = () => {
                 >
                   <Link
                     href={`/${item.link}`}
-                    className={`${item.animation} text-base font-bold hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                    className={`${item.animation} text-base hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
                     aria-current="page"
                   >
                     {item.title}
@@ -77,11 +78,11 @@ const Navbar = () => {
         )}
         {/* login */}
         <div className="hidden lg:block">
-          <a href="/login.html">
+          <Link href="/login">
             <button className="navBtn font-regular bg-white text-black py-3 px-12 text-base rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
               Login
             </button>
-          </a>
+          </Link>
         </div>
 
         {/* \\\\\\\\\\\\\\\\\ */}
@@ -95,38 +96,41 @@ const Navbar = () => {
             aria-expanded="false"
             onClick={() => setIsMobileNavOpen((prevState) => !prevState)}
           >
-            <svg
-              className=" block h-8 w-8"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              id="menu-open"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-            <svg
-              className=" hidden h-8 w-8"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              id="menu-close"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            {!isMobileNavOpen ? (
+              <svg
+                className=" block h-8 w-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                id="menu-open"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="block h-8 w-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                id="menu-close"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            )}
           </button>
         </div>
       </div>
@@ -140,41 +144,69 @@ const Navbar = () => {
               className="flex flex-col items-center justify-center gap-10"
               id="navbar-cta"
             >
-              <li className="">
-                <a href="#" className={selectedStyle} aria-current="page">
-                  Home
-                </a>
+              <li>
+                <Link
+                  href="/"
+                  className={selectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  HOME
+                </Link>
               </li>
-              <li className="">
-                <a href="aboutUs.html" className={nonSelectedStyle}>
-                  About Us
-                </a>
+              <li>
+                <Link
+                  href="/about"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  ABOUT US
+                </Link>
               </li>
-              <li className="">
-                <a href="gallery.html" className={nonSelectedStyle}>
-                  Gallery
-                </a>
+              <li>
+                <Link
+                  href="/gallery"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  GALERY
+                </Link>
               </li>
-              <li className="">
-                <a href="businessFirms.html" className={nonSelectedStyle}>
-                  Business Firms
-                </a>
+              <li>
+                <Link
+                  href="/business"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  BUSINESS FIRMS
+                </Link>
               </li>
-              <li className="">
-                <a href="businessPersons.html" className={nonSelectedStyle}>
-                  Business Persons
-                </a>
+              <li>
+                <Link
+                  href="/business/persons"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  BUSINESS PERSONS
+                </Link>
               </li>
 
-              <li className="">
-                <a href="events.html" className={nonSelectedStyle}>
-                  Events
-                </a>
+              <li>
+                <Link
+                  href="/events"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  EVENTS
+                </Link>
               </li>
-              <li className="">
-                <a href="contactUs.html" className={nonSelectedStyle}>
-                  Contact Us
-                </a>
+              <li>
+                <Link
+                  href="/contact"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  CONTACT US
+                </Link>
               </li>
             </ul>
           </div>
