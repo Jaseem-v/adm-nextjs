@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import "./home.css";
+import ContactForm from "@/components/contactForm";
 
 const socialMedia = [
   {
@@ -118,6 +119,30 @@ const popularCompanies = [
     title: "Youtube",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+  },
+];
+
+const newsFeed = [
+  {
+    id: 1,
+    image: "/images/news1.png",
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur elit, adipiscing sed do eiusmod tempor incididunt ut labore",
+  },
+  {
+    id: 2,
+    image: "/images/news2.png",
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur elit, adipiscing sed do eiusmod tempor incididunt ut labore",
+  },
+  {
+    id: 3,
+    image: "/images/news1.png",
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur elit, adipiscing sed do eiusmod tempor incididunt ut labore",
   },
 ];
 const Home = () => {
@@ -431,13 +456,276 @@ const Home = () => {
             ))}
           </div>
           <button
-            class="mt-8 md:mt-12 lg:mt-16 font-regular border border-white py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-white text-center block mx-auto
+            className="mt-8 md:mt-12 lg:mt-16 font-regular border border-white py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-white text-center block mx-auto
                     hover:bg-gray-900"
           >
             Load More
           </button>
         </div>
       </section>
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* GALLERY */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section className="gallery-wrapper py-16">
+        <div className="max-w-screen-xl mx-auto mb-16">
+          <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
+            <div className="bg-lightOrange w-full h-[1px]"></div>
+            <h3 className=" font-kaisei text-white font-semibold tracking-wide uppercase text-2xl md:text-3xl lg:text-4xl">
+              Gallery
+            </h3>
+            <div className="bg-lightOrange w-full h-[1px]"></div>
+          </div>
+        </div>
+        <div className="content">
+          <div className="gallery full">
+            <div className="swiper-container">
+              <div className="swiper-wrapper">
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3663038/pexels-photo-3663038.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3551207/pexels-photo-3551207.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3375493/pexels-photo-3375493.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3663039/pexels-photo-3663039.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3551208/pexels-photo-3551208.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3375494/pexels-photo-3375494.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="swiper-next-button">
+              <em className="material-icons"></em>
+            </div>
+            <div className="swiper-prev-button">
+              <em className="material-icons"></em>
+            </div>
+          </div>
+
+          <div className="gallery thumb">
+            <div className="swiper-container">
+              <div className="swiper-wrapper">
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3663038/pexels-photo-3663038.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      alt=""
+                    />
+
+                    <div className="overlay">
+                      <em className="material-icons"></em>
+                    </div>
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3551207/pexels-photo-3551207.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      alt=""
+                    />
+
+                    <div className="overlay">
+                      <em className="material-icons"></em>
+                    </div>
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3375493/pexels-photo-3375493.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      alt=""
+                    />
+
+                    <div className="overlay">
+                      <em className="material-icons"></em>
+                    </div>
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3663039/pexels-photo-3663039.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      alt=""
+                    />
+
+                    <div className="overlay">
+                      <em className="material-icons"></em>
+                    </div>
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3551208/pexels-photo-3551208.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      alt=""
+                    />
+
+                    <div className="overlay">
+                      <em className="material-icons"></em>
+                    </div>
+                  </div>
+                </div>
+                <div className="swiper-slide">
+                  <div className="image">
+                    <img
+                      src="https://images.pexels.com/photos/3375494/pexels-photo-3375494.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      alt=""
+                    />
+
+                    <div className="overlay">
+                      <em className="material-icons"></em>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="swiper-next-button">
+              <em className="material-icons">arrow_right_alt</em>
+            </div>
+            <div className="swiper-prev-button">
+              <em className="material-icons">arrow_right_alt</em>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* NEWS FEED */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section>
+        <div className="max-w-screen-xl mx-auto px-4 xl:px-0 pt-14 md:pt-20 lg:pt-32">
+          <div className="news-feed-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0">
+            <div className="bg-lightOrange w-full h-[1px] "></div>
+            <h3 className="min-w-[132px] font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black bg-white z-10 pl-1">
+              News Feed
+            </h3>
+            <div className="bg-lightOrange w-full h-[1px]"></div>
+          </div>
+          <p className="md:max-w-3xl lg:max-w-none font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
+            Connecting the Abu Dhabi Malayalee Community: Stay Updated with the
+            Latest News and Events
+          </p>
+          <div className="mt-16 flex flex-col lg:flex-row gap-12 items-center">
+            {newsFeed.map((news) => (
+              <div
+                className=" max-w-xs md:max-w-md rounded-[20px] shadow-card flex flex-col items-start justify-center"
+                key={news.id}
+              >
+                <div>
+                  <img src={news.image} alt="news" />
+                </div>
+                <div className="py-8 px-10 lg:py-10 lg:px-12">
+                  <div className="flex justify-between items-center">
+                    <p className="font-semibold text-xl md:text-2xl">
+                      {news.title}
+                    </p>
+                    <p className="bg-lightOrange px-2 py-2 text-xs">New</p>
+                  </div>
+                  <p className="mt-3 text-base md:text-lg lg:text-xl md:max-w-xs">
+                    {news.description}
+                  </p>
+                  <a
+                    href="#"
+                    className="block mt-8 font-semibold text-base md:text-lg lg:text-xl"
+                  >
+                    Read more
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* TESTIMONIAL */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section>
+        <div className=" px-4 xl:px-0 pt-14 md:pt-20 lg:pt-32">
+          <div className="news-feed-title max-w-screen-xl mx-auto grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0">
+            <div className="bg-lightOrange w-full h-[1px] "></div>
+            <h3 className="min-w-[132px] font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black bg-white z-10 pl-1">
+              Testimonial
+            </h3>
+            <div className="bg-lightOrange w-full h-[1px]"></div>
+          </div>
+          <div className="text-center">
+            <p className="md:max-w-3xl lg:max-w-none font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center max-w-full">
+              Voices of the Abu Dhabi Malayalee Community: Hear what our members
+              have to say!
+            </p>
+          </div>
+          <div className="flex items-center justify-center gap-5 pb-36">
+            <div className="mt-16 p-5 md:p-6 lg:p-8 xl:p-10 bg-lightOrange  max-w-3xl rounded-[20px] flex flex-col items-center justify-center text-center shadow-card">
+              <img src="/images/quote.png" alt="quote" />
+              <p className="pt-9 font-medium max-w-2xl text-lg md:text-xl lg:text-2xl">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim
+              </p>
+              <div className="pt-10 -mb-36 flex items-center justify-center flex-col">
+                <img
+                  src="/images/testimonialImg.png"
+                  alt="testimony"
+                  className="w-[70px] md:w-24 lg:w-28 xl:w-[118px]"
+                />
+                <p className="pt-2 font-medium text-xl">Lorem ipsum</p>
+                <p className="font-medium text-sm text-desc">
+                  consectetur adipiscing
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* CONTACT FORM */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <ContactForm />
     </>
   );
 };
