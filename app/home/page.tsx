@@ -46,6 +46,45 @@ const socialMedia = [
     icon: "fab fa-instagram",
   },
 ];
+
+const members = [
+  {
+    id: 1,
+    name: "John wook",
+    position: "CEO of Amazon",
+    image: "/images/team1.png",
+  },
+  {
+    id: 2,
+    name: "John wook",
+    position: "CEO of flipkart",
+    image: "/images/team2.png",
+  },
+  {
+    id: 3,
+    name: "John wook",
+    position: "CEO of Linkedin",
+    image: "/images/team3.png",
+  },
+  {
+    id: 4,
+    name: "John wook",
+    position: "CEO of Facebook",
+    image: "/images/team4.png",
+  },
+  {
+    id: 5,
+    name: "John wook",
+    position: "CEO of Apple",
+    image: "/images/team5.png",
+  },
+  {
+    id: 6,
+    name: "John wook",
+    position: "CEO of Google",
+    image: "/images/team6.png",
+  },
+];
 const Home = () => {
   return (
     <>
@@ -138,6 +177,7 @@ const Home = () => {
           </div>
           <div className="container mx-auto flex flex-wrap py-12">
             <div className="w-full md:w-1/2 p-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/aboutUs-1.png"
                 alt="About Us"
@@ -227,6 +267,132 @@ const Home = () => {
                     </div>
                   </div>
                 </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* NUMBERS */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section className=" py-16 bg-gray bg-zinc-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
+              <h3 className="text-4xl font-bold text-white">100</h3>
+              <p className="text-white">Happy Clients</p>
+            </div>
+
+            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
+              <h3 className="text-4xl font-bold text-white">50</h3>
+              <p className="text-white">Awards Won</p>
+            </div>
+
+            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
+              <h3 className="text-4xl font-bold text-white">200</h3>
+              <p className="text-white">Projects Completed</p>
+            </div>
+
+            <div className="col-span-1 flex justify-center py-8 px-8  flex-col items-center">
+              <h3 className="text-4xl font-bold text-white">500</h3>
+              <p className="text-white">Cups of Coffee</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* MEMBERS */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section className=" max-w-screen-xl mx-auto px-5 xl:px-0 py-16">
+        <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0">
+          <div className="bg-lightOrange w-full h-[1px] "></div>
+          <h3 className="min-w-[188px] font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black z-10 pl-1">
+            Meet Our Members
+          </h3>
+          <div className="bg-lightOrange w-full h-[1px]"></div>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
+            As a member, gain exclusive access to a thriving network of fellow
+            entrepreneurs and professionals, all united by the shared goal of
+            success. Join us today and unlock your potential.
+          </p>
+          <div className="team grid  mt-12 md:grid-cols-2 xl:grid-cols-3 gap-y-7 lg:gap-y-10 lg:gap-x-10 gap-x-7">
+            {members.map((member) => (
+              <div className="team-member" key={member.id}>
+                <div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={member.image}
+                    alt="team-member-1"
+                    className="rounded"
+                  />
+                </div>
+                <div className="mt-2">
+                  <p className="font-semibold text-lg md:text-xl lg:text-2xl">
+                    {member.name}
+                  </p>
+                  <p className="font-kaisei font-bold text-base md:text-lg">
+                    {member.position}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-lightOrange hover:bg-orange transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-white">
+            Load More
+          </button>
+        </div>
+      </section>
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* POPULAR COMPANIES */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section className="bg-black pb-16">
+        <div className=" max-w-screen-xl mx-auto px-5 xl:px-0 mt-10 md:mt-12 lg:mt-14 pt-14 md:pt-20 lg:pt-32">
+          <p className="font-kaisei text-white font-bold text-xl md:text-3xl lg:text-4xl">
+            Popular Companies
+          </p>
+          <p className="text-white mt-4 md:mt-5 lg:mt-6 xl:mt-7 font-semibold text-2xl md:text-4xl lg:text-5xl md:max-w-2xl lg:max-w-4xl">
+            Discover the Vibrant Business Landscape of Abu Dhabi with
+            AbudhabiMalayalees
+          </p>
+          <div className="companies mt-12 md:mt-16 lg:mt-20  grid lg:grid-cols-2 gap-x-8 gap-y-12 justify-items-center">
+            <div className="company flex flex-col gap-3 max-w-fit ">
+              <div>
+                <img src="/images/fbImage.png" alt="company1" />
+              </div>
+              <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
+                <div className="w-12 h-12">
+                  <img
+                    src="/images/fbLogo.png"
+                    alt="companylogo"
+                    width="48px"
+                  />
+                </div>
+                <div>
+                  <p className="font-semibold text-2xl md:text-3xl lg:text-4xl">
+                    Facebook
+                  </p>
+                  <p className="mt-2 text-desc text-sm max-w-md font-semibold">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua
+                  </p>
+                  <button className="mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
+                    Load More
+                  </button>
+                  <img
+                    src="/images/blackTRarrow.png"
+                    alt="arrow"
+                    className="absolute top-3 right-3"
+                  />
+                </div>
               </div>
             </div>
           </div>
