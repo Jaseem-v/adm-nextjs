@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import BusinessDropdown from "./BusinessDropdown";
+import Link from "next/link";
 
 const navItems = [
-  { id: 1, title: "Home", animation: "nav1" },
-  { id: 2, title: "About Us", animation: "nav2" },
-  { id: 3, title: "Gallery", animation: "nav3" },
-  { id: 4, title: "Business", animation: "nav4" },
-  { id: 5, title: "Events", animation: "nav5" },
-  { id: 6, title: "Contact Us", animation: "nav6" },
+  { id: 1, title: "Home", animation: "nav1", link: "home" },
+  { id: 2, title: "About Us", animation: "nav2", link: "about" },
+  { id: 3, title: "Gallery", animation: "nav3", link: "gallery" },
+  { id: 4, title: "Business", animation: "nav4", link: "business" },
+  { id: 5, title: "Events", animation: "nav5", link: "events" },
+  { id: 6, title: "Contact Us", animation: "nav6", link: "contact" },
 ];
 
 const Navbar = () => {
@@ -49,8 +50,8 @@ const Navbar = () => {
                   } `}
                   key={item.id}
                 >
-                  <a
-                    href="#"
+                  <Link
+                    href={`/${item.link}`}
                     className={`${item.animation} text-base font-bold hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
                     aria-current="page"
                   >
@@ -63,7 +64,7 @@ const Navbar = () => {
                         onMouseEnter={() => setIsBusinessDropdown(true)}
                       />
                     )}
-                  </a>
+                  </Link>
                   {item.title === "Business" && isBusinessDropdown && (
                     <BusinessDropdown
                       setIsBusinessDropdown={setIsBusinessDropdown}
