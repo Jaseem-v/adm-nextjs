@@ -237,7 +237,6 @@ const Home = () => {
           </div>
           <div className="container mx-auto flex flex-wrap py-12">
             <div className="w-full md:w-1/2 p-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/aboutUs-1.png"
                 alt="About Us"
@@ -385,7 +384,6 @@ const Home = () => {
             {members.map((member) => (
               <div className="team-member" key={member.id}>
                 <div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={member.image}
                     alt="team-member-1"
