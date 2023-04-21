@@ -1,32 +1,17 @@
+import SectionHeader from "@/components/SectionHeader";
+import Link from "next/link";
+
 const BusinessPersons = () => {
   return (
     <>
       {/* \\\\\\\\\\\\ */}
       {/* HEADER */}
       {/* \\\\\\\\\\\\ */}
-      <div
-        className="py-16 md:py-20 lg:py-24 xl:py-28
-            px-5 xl:px-0  bg-black text-white"
-      >
-        <div className=" flex flex-col items-start justify-center max-w-screen-xl mx-auto">
-          <p className="font-kaisei text-lg md:text-xl lg:text-2xl">
-            Business profiles
-          </p>
-          <p
-            className="font-bold text-4xl md:text-5xl lg:text-6xl
-                    mt-3 md:mt-4 lg:mt-5"
-          >
-            Business Persons
-          </p>
-          <p
-            className="text-sm md:text-base max-w-lg text-start
-                    mt-3 md:mt-4 lg:mt-5"
-          >
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore
-          </p>
-        </div>
-      </div>
+      <SectionHeader
+        title="Business Persons"
+        classname="businessFirms-header"
+        description="consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"
+      />
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
@@ -78,21 +63,25 @@ const BusinessPersons = () => {
           {/* business persons div */}
           <div className="grid place-items-center justify-items-center w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-14 md:mb-16 lg:mb-20 mt-40">
             {/* business person card */}
-            <div
-              className="py-8 md:py-9 lg:py-10  pl-12 md:pl-14 lg:pl-16 pr-44 rounded-[20px]
+            <Link href="/businesspersons/details">
+              <div
+                className="py-8 md:py-9 lg:py-10  pl-12 md:pl-14 lg:pl-16 pr-44 rounded-[20px]
                     border border-black relative"
-            >
-              <div className="flex flex-col gap-1 items-start">
-                <p className="font-semibold text-lg md:text-xl">John Lormmy</p>
-                <p className="font-light text-sm">CEO Amazon</p>
-                <p className="font-light text-sm">www.amazon.com</p>
+              >
+                <div className="flex flex-col gap-1 items-start">
+                  <p className="font-semibold text-lg md:text-xl">
+                    John Lormmy
+                  </p>
+                  <p className="font-light text-sm">CEO Amazon</p>
+                  <p className="font-light text-sm">www.amazon.com</p>
+                </div>
+                <img
+                  src="/images/p.png"
+                  alt="person"
+                  className="absolute bottom-0 right-6"
+                />
               </div>
-              <img
-                src="/images/p.png"
-                alt="person"
-                className="absolute bottom-0 right-6"
-              />
-            </div>
+            </Link>
             {/* business person card */}
           </div>
         </div>
