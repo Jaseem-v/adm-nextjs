@@ -130,7 +130,7 @@ const Business = () => {
           <div
             className="border border-black px-4 py-2 lg:py-3
                 flex items-center justify-between
-                mt-10 md:mt-11 lg:mt-12"
+                mt-10 md:mt-11 lg:mt-12 max-w-full"
           >
             <input
               type="text"
@@ -138,8 +138,8 @@ const Business = () => {
               className="focus:outline-none"
             />
             <a href="">
-              <button className="font-regular text-white bg-orange py-3 px-12 text-base rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
-                Search here
+              <button className="font-regular text-white bg-orange py-3  px-4 min-[380px]:px-8 text-base rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                Search
               </button>
             </a>
           </div>
