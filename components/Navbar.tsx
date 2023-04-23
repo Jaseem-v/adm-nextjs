@@ -6,7 +6,7 @@ import Link from "next/link";
 import "./Navbar.css";
 
 const navItems = [
-  { id: 1, title: "Home", animation: "nav1", link: "home" },
+  { id: 1, title: "Home", animation: "nav1", link: "" },
   { id: 2, title: "About Us", animation: "nav2", link: "about" },
   { id: 3, title: "Gallery", animation: "nav3", link: "gallery" },
   { id: 4, title: "Business", animation: "nav4", link: "business" },
