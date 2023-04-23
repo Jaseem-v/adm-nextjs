@@ -1,9 +1,8 @@
-import Image from "next/image";
 import React from "react";
 import "./home.css";
 import ContactForm from "@/components/contactForm";
 
-const socialMedia = [
+export const socialMedia = [
   {
     id: 1,
     title: "Facebook",
@@ -48,7 +47,7 @@ const socialMedia = [
   },
 ];
 
-const members = [
+export const members = [
   {
     id: 1,
     name: "John wook",
@@ -87,7 +86,7 @@ const members = [
   },
 ];
 
-const popularCompanies = [
+export const popularCompanies = [
   {
     id: 1,
     image: "/images/fbImage.png",
@@ -122,7 +121,7 @@ const popularCompanies = [
   },
 ];
 
-const newsFeed = [
+export const newsFeed = [
   {
     id: 1,
     image: "/images/news1.png",
@@ -146,7 +145,7 @@ const newsFeed = [
   },
 ];
 
-const numbers = [
+export const numbers = [
   { id: 1, title: "Happy Clients", number: 100 },
   { id: 1, title: "Awards Won", number: 70 },
   { id: 1, title: "Projects Completed", number: 200 },
