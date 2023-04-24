@@ -1,6 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./contactForm.module.css";
 
 const ContactForm = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
   return (
     <section className={`${styles.contactUs} w-full pb-12 md:pb-16 lg:pb-20`}>
       <div
@@ -26,6 +33,8 @@ const ContactForm = () => {
               <input
                 type="text"
                 name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 id="name"
                 className="w-full rounded-[40px] bg-black border border-white 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
@@ -35,6 +44,8 @@ const ContactForm = () => {
               <input
                 type="email"
                 name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 className="w-full rounded-[40px] bg-black border border-white 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
@@ -44,6 +55,8 @@ const ContactForm = () => {
               <textarea
                 name="Message"
                 id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 cols={30}
                 rows={8}
                 className="rounded-[40px] bg-black border border-white
