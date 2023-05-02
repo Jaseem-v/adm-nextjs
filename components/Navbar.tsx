@@ -32,8 +32,8 @@ const Navbar = () => {
         {/* logo👇 */}
         <Link href="/" className="logo flex items-center gap-2 py-7">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo.png" alt="logo" className="h-10 lg:h-12" />
-          <p className="text-lg lg:text-2xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
+          <img src="/images/logo.png" alt="logo" className="h-10 lg:h-11" />
+          <p className="text-lg lg:text-xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
             Abu Dhabi
             <br />
             Malayalees
@@ -42,7 +42,7 @@ const Navbar = () => {
         {/* \\\\\\\\\\\\\\\\\\\\\\ */}
         {/*  menu items */}
         {!isMobileNav && (
-          <div className="hidden lg:grid h-[120px] items-center border-x px-16">
+          <div className="hidden lg:grid h-[120px] items-center px-16">
             <ul className="flex gap-14" id="navbar-cta">
               {navItems.map((item) => (
                 <li
@@ -53,7 +53,7 @@ const Navbar = () => {
                 >
                   <Link
                     href={`/${item.link}`}
-                    className={`${item.animation} text-base hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                    className={`${item.animation} text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
                     aria-current="page"
                   >
                     {item.title}
@@ -77,9 +77,14 @@ const Navbar = () => {
           </div>
         )}
         {/* login */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex gap-5 text-sm">
           <Link href="/login">
-            <button className="navBtn font-regular bg-white text-black py-3 px-12 text-base rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+            <button className="navBtn font-regular bg-orange text-white py-3 px-8 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+              Claim my Listing
+            </button>
+          </Link>
+          <Link href="/login">
+            <button className="navBtn font-regular bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
               Login
             </button>
           </Link>
