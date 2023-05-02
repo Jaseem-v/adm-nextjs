@@ -43,7 +43,7 @@ const Navbar = () => {
         {/*  menu items */}
         {!isMobileNav && (
           <div className="hidden lg:grid h-[120px] items-center px-16">
-            <ul className="flex gap-14" id="navbar-cta">
+            <ul className="flex gap-10" id="navbar-cta">
               {navItems.map((item) => (
                 <li
                   className={`py-12 hidden lg:block ${
