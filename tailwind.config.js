@@ -22,10 +22,12 @@ module.exports = {
         poppins: ["Poppins", "sans-serif"],
         kaisei: ["Kaisei Decol", "sans-serif"],
         inter: ["Inter", "Poppins", "sans-serif"],
+        lexend: ["Lexend", "sans-serif"],
       },
       colors: {
         lightGrey: "#ADADAD",
         darkGrey: "#9F9F9F",
+        darkOrange: "#E46E00",
         desc: "rgba(0, 0, 0, 0.6)",
       },
       borderColor: {

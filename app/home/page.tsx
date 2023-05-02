@@ -148,9 +148,9 @@ export const newsFeed = [
 
 export const numbers = [
   { id: 1, title: "Happy Clients", number: 100 },
-  { id: 1, title: "Awards Won", number: 70 },
-  { id: 1, title: "Projects Completed", number: 200 },
-  { id: 1, title: "Cups of Coffee", number: 500 },
+  { id: 2, title: "Awards Won", number: 70 },
+  { id: 3, title: "Projects Completed", number: 200 },
+  { id: 4, title: "Cups of Coffee", number: 500 },
 ];
 const Home = () => {
   return <Index />;
