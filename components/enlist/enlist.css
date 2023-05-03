@@ -1,0 +1,5 @@
+.preview-map {
+  background-image: url(./../../public/images/preview-map.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}

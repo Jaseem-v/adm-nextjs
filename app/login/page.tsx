@@ -1,4 +1,5 @@
 "use client";
+import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
 import UserForm from "@/components/enlist/userForm";
 import Link from "next/link";
 import { useState } from "react";
@@ -77,7 +78,10 @@ const Login = () => {
     //     </div>
     //   </section>
     // </main>
-    <UserForm />
+    <div className="container grid justify-items-center pt-14 w-full mx-auto lg:grid-cols-2">
+      <UserForm />
+      <EnlistSkeleton />
+    </div>
   );
 };
 
