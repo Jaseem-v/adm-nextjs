@@ -11,7 +11,7 @@ type FormValues = {
   confirmPassword: string;
 };
 
-const schema = yup.object({
+const Userschema = yup.object({
   firstname: yup.string().required("Firstname is required"),
   lastname: yup.string().required("Lastname is required"),
   email: yup
@@ -38,7 +38,15 @@ const UserForm = () => {
       password: "",
       confirmPassword: "",
     },
+    resolver: yupResolver(Userschema),
   });
+
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
   return (
     <div className="userForm my-20">
       <h1 className="font-semibold font-lexend text-xl md:text-2xl xl:text-3xl">
@@ -47,41 +55,54 @@ const UserForm = () => {
       <p className="text-sm mt-2">
         Register to save your updates and publish your company page
       </p>
-      <form action="" className="my-5 grid grid-cols-2 gap-x-5 gap-y-3">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        className="my-5 grid grid-cols-2 gap-x-5 gap-y-3"
+      >
         <div className="form-control">
           <label htmlFor="firstname">First Name</label>
           <input
             type="text"
             id="firstname"
-            name="firstname"
             placeholder="e.g. Harry"
+            {...register("firstname")}
           />
+          <p className="error">{errors.firstname?.message}</p>
         </div>
         <div className="form-control">
           <label htmlFor="lastname">Last Name</label>
           <input
             type="text"
             id="lastname"
-            name="lastname"
             placeholder="e.g. Brook"
+            {...register("lastname")}
           />
+          <p className="error">{errors.lastname?.message}</p>
         </div>
         <div className="form-control col-span-2">
           <label htmlFor="email">Email</label>
           <input
             type="text"
             id="email"
-            name="email"
             placeholder="e.g. harrybrook@business.com"
+            {...register("email")}
           />
+          <p className="error">{errors.email?.message}</p>
         </div>
         <div className="form-control col-span-2">
           <label htmlFor="password">Password</label>
-          <input type="text" id="password" name="password" />
+          <input type="text" id="password" {...register("password")} />
+          <p className="error">{errors.password?.message}</p>
         </div>
         <div className="form-control col-span-2">
           <label htmlFor="confirmPassword">Confirm Password</label>
-          <input type="text" id="confirmPassword" name="confirmPassword" />
+          <input
+            type="text"
+            id="confirmPassword"
+            {...register("confirmPassword")}
+          />
+          <p className="error">{errors.confirmPassword?.message}</p>
         </div>
       </form>
     </div>
