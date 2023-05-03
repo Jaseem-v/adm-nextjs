@@ -11,6 +11,8 @@ module.exports = {
         bgBlack: "#030304",
         orange: "#E46E00",
         lightOrange: "#F9A825",
+        skeleton: "#f5f2f0",
+        darkSkeleton: "#a6a8ab",
       },
       backgroundImage: {
         logoBg:
@@ -30,6 +32,8 @@ module.exports = {
         darkGrey: "#9F9F9F",
         darkOrange: "#E46E00",
         desc: "rgba(0, 0, 0, 0.6)",
+        skeleton: "#f5f2f0",
+        darkSkeleton: "#a6a8ab",
       },
       borderColor: {
         lightGreen: "rgba(63, 130, 119, 0.1)",
