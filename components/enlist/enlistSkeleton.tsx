@@ -216,6 +216,50 @@ export const EnlistSkeleton = () => {
                 Directions
               </span>
             </div>
+            <div className="w-2/5 flex flex-col py-6 px-4 rounded border-t border-r border-b border-gray-300 ">
+              <div className="flex items-center">
+                <p className="mr-3 w-16 text-darkSkeleton font-sans">
+                  Mon
+                </p>
+                <div className="w-full h-4 bg-skeleton" />
+              </div>
+              <div className="flex items-center">
+                <p className="mr-3 w-16 text-darkSkeleton font-sans ">
+                  Tue
+                </p>
+                <div className="w-full h-4 bg-skeleton" />
+              </div>
+              <div className="flex items-center">
+                <p className="mr-3 w-16 text-darkSkeleton font-sans ">
+                  Wed
+                </p>
+                <div className="w-full h-4 bg-skeleton" />
+              </div>
+              <div className="flex items-center">
+                <p className="mr-3 w-16 text-darkSkeleton font-sans ">
+                  Thu
+                </p>
+                <div className="w-full h-4 bg-skeleton" />
+              </div>
+              <div className="flex items-center">
+                <p className="mr-3 w-16 text-darkSkeleton font-sans ">
+                  Fri
+                </p>
+                <div className="w-full h-4 bg-skeleton" />
+              </div>
+              <div className="flex items-center">
+                <p className="mr-3 w-16 text-darkSkeleton font-sans ">
+                  Sat
+                </p>
+                <div className="w-full h-4 bg-skeleton" />
+              </div>
+              <div className="flex items-center">
+                <p className="mr-3 w-16 text-darkSkeleton font-sans ">
+                  Sun
+                </p>
+                <div className="w-full h-4 bg-skeleton" />
+              </div>
+            </div>
           </div>
         </div>
         {/* SIMILAR BUSINESSES */}
