@@ -17,6 +17,7 @@ module.exports = {
           "linear-gradient(180deg, #F5E4BB 50.51%, rgba(255, 166, 0, 0) 151.89%)",
         gold: "linear-gradient(135.12deg, #F8D754 24.95%, #FFF5CF 193.21%)",
         contactUsImg: "url('./assets/images/contactUsImg.png')",
+        enlist: "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%)",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

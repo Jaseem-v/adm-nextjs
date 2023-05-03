@@ -2,6 +2,7 @@
   background-image: url(./../public/images/enlist-company.png);
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: bottom;
 }
 .enlist-individual {
   background-image: url(./../public/images/enlist-individual.png);
