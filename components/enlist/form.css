@@ -1,0 +1,23 @@
+.userForm {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.form-control input {
+  border: 1px solid rgba(183, 186, 191);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.form-control::placeholder {
+  font-size: 12px;
+  color: #adadad;
+}
