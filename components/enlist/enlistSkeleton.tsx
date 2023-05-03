@@ -17,7 +17,7 @@ export const EnlistSkeleton = () => {
       {/* \\\\\\\\\\\\\\\\\\ */}
 
       {/* NAVBAR */}
-      <div className="bg-skeleton flex justify-between items-center p-3 flex-wrap">
+      <div className="bg-skeleton flex justify-between items-center p-3 flex-wrap font-inter">
         <div className="flex items-center">
           <div className="mr-4 flex-shrink-0">
             <img src="/public/images/logo.png" alt="logo" />
@@ -332,7 +332,27 @@ export const EnlistSkeleton = () => {
           </div>
         </div>
         {/* DETAILED INFORMATION */}
-        <div className="bg-white max-w-3/4 lg:max-w-9/10 rounded py-4 px-6"></div>
+        <div className="bg-white max-w-3/4 lg:max-w-9/10 rounded py-4 px-6">
+          <p className="font-bold text-darkSkeleton font-serif mb-3">
+            Detailed Information
+          </p>
+          <div className="flex items-center p-2 border-b border-gray-300">
+            <p className="w-1/2">Loaction Type</p>
+            <div className="w-32 h-4 bg-skeleton" />
+          </div>
+          <div className="flex items-center p-2 border-b border-gray-300">
+            <p className="w-1/2">Year Established</p>
+            <div className="w-32 h-4 bg-skeleton" />
+          </div>
+          <div className="flex items-center p-2 border-b border-gray-300">
+            <p className="w-1/2">Annual Revenue Estimate</p>
+            <div className="w-20 h-4 bg-skeleton" />
+          </div>
+          <div className="flex items-center p-2">
+            <p className="w-1/2">Employees</p>
+            <div className="w-16 h-4 bg-skeleton" />
+          </div>
+        </div>
       </div>
     </div>
   );
