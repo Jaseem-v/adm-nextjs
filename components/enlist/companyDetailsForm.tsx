@@ -9,6 +9,7 @@ type FormValues = {
   building: string;
   city: string;
   zip: number;
+  hideAddress: boolean
 };
 
 const Userschema = yup.object({
@@ -17,6 +18,7 @@ const Userschema = yup.object({
   building: yup.string(),
   city: yup.string().required("City is required"),
   zip: yup.string().required("Zip is required").max(5),
+  hideAddress: yup.boolean()
 });
 
 const CompanyDetailsForm = () => {
@@ -27,6 +29,7 @@ const CompanyDetailsForm = () => {
       building: "",
       city: "",
       zip: undefined,
+      hideAddress: true
     },
     resolver: yupResolver(Userschema),
   });
@@ -39,7 +42,7 @@ const CompanyDetailsForm = () => {
   };
   return (
     <div className="userForm">
-      <h1 className="font-semibold font-kaisei text-xl md:text-2xl xl:text-3xl text-[#0B1E3F]">
+      <h1 className="font-semibold font-kaisei text-xl md:text-2xl xl:text-4xl text-[#0B1E3F]">
         Join Our Community with Ease
       </h1>
       <p className="text-sm mt-4 text-[#0B1E3F]">
@@ -50,9 +53,9 @@ const CompanyDetailsForm = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="my-5 grid grid-cols-6 gap-x-5 gap-y-3"
+        className="grid grid-cols-6 gap-x-5"
       >
-        <p className="font-serif font-medium text-2xl col-span-6 mt-6 mb-3">What is the name of your company?</p>
+        <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">What is the name of your company?</p>
         <div className="form-control col-span-6">
           <label htmlFor="companyName">Company Name</label>
           <input
@@ -64,9 +67,9 @@ const CompanyDetailsForm = () => {
           />
           <p className="error">{errors.companyName?.message}</p>
         </div>
-        <p className="font-serif font-medium text-2xl col-span-6 mt-6 mb-3">Where is your company located?</p>
+        <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">Where is your company located?</p>
 
-        <div className="form-control col-span-6">
+        <div className="form-control col-span-6 ">
           <label htmlFor="streetAddress">Street Address</label>
           <input
             type="text"
@@ -77,7 +80,7 @@ const CompanyDetailsForm = () => {
           />
           <p className="error">{errors.streetAddress?.message}</p>
         </div>
-        <div className="form-control col-span-2">
+        <div className="form-control col-span-2 mt-4">
           <label htmlFor="building">Apt/Suite (optional)</label>
           <input
             type="text"
@@ -88,7 +91,7 @@ const CompanyDetailsForm = () => {
           />
           <p className="error">{errors.building?.message}</p>
         </div>
-        <div className="form-control col-span-2">
+        <div className="form-control col-span-2 mt-4">
           <label htmlFor="city">City</label>
           <input
             type="text"
@@ -99,7 +102,7 @@ const CompanyDetailsForm = () => {
           />
           <p className="error">{errors.city?.message}</p>
         </div>
-        <div className="form-control col-span-2">
+        <div className="form-control col-span-2 mt-4">
           <label htmlFor="zip">Zip</label>
           <input
             type="text"
@@ -110,6 +113,11 @@ const CompanyDetailsForm = () => {
           />
           <p className="error">{errors.zip?.message}</p>
         </div>
+        <label htmlFor="hideAddress" className="col-span-6 text-sm">
+          <input type="checkbox" id="hideAddress" className="my-4" {...register("hideAddress")}/><span className="ml-1">Don{`'`}t dispaly my address publicly</span></label>
+        <label htmlFor="hideAddress" className="col-span-6 text-sm">
+          <input type="checkbox" id="hideAddress" className="my-4" {...register("hideAddress")}/><span className="ml-1">We deliver or provide service at customer locations</span></label>
+        <button className="font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px]">Add my company</button>
       </form>
     </div>
   );
