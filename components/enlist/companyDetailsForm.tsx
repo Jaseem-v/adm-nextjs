@@ -1,3 +1,6 @@
+import { BiSearch } from "react-icons/bi";
+import { BsFillTrash3Fill } from "react-icons/bs"
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -10,6 +13,7 @@ type FormValues = {
   city: string;
   zip: number;
   hideAddress: boolean
+  hasServiceArea: boolean
 };
 
 const Userschema = yup.object({
@@ -18,7 +22,8 @@ const Userschema = yup.object({
   building: yup.string(),
   city: yup.string().required("City is required"),
   zip: yup.string().required("Zip is required").max(5),
-  hideAddress: yup.boolean()
+  hideAddress: yup.boolean(),
+  hasServiceArea: yup.boolean()
 });
 
 const CompanyDetailsForm = () => {
@@ -29,7 +34,8 @@ const CompanyDetailsForm = () => {
       building: "",
       city: "",
       zip: undefined,
-      hideAddress: true
+      hideAddress: true,
+      hasServiceArea: false
     },
     resolver: yupResolver(Userschema),
   });
@@ -114,13 +120,32 @@ const CompanyDetailsForm = () => {
           <p className="error">{errors.zip?.message}</p>
         </div>
         <label htmlFor="hideAddress" className="col-span-6 text-sm">
-          <input type="checkbox" id="hideAddress" className="my-4" {...register("hideAddress")}/><span className="ml-1">Don{`'`}t dispaly my address publicly</span></label>
-        <label htmlFor="hideAddress" className="col-span-6 text-sm">
-          <input type="checkbox" id="hideAddress" className="my-4" {...register("hideAddress")}/><span className="ml-1">We deliver or provide service at customer locations</span></label>
+          <input type="checkbox" id="hideAddress" className="mt-4" {...register("hideAddress")}/><span className="ml-1">Don{`'`}t dispaly my address publicly</span></label>
+        <label htmlFor="hasServiceArea" className="col-span-6 text-sm">
+          <input type="checkbox" id="hasServiceArea" className="my-4" {...register("hasServiceArea")}/><span className="ml-1">We deliver or provide service at customer locations</span></label>
+
+
         <button className="font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px]">Add my company</button>
       </form>
+
     </div>
   );
 };
 
 export default CompanyDetailsForm;
+
+{/* <div className="flex flex-col w-full gap-2 items-start">
+  <div className="flex items-center">
+    <BiSearch color="#b7babf" className="mr-2"/>
+    <div className="text-lg font-medium mr-4">Service Areas</div>
+    <span className="text-sm">0/5 Areas Listed</span>
+  </div>
+
+  listed area
+  <div className="flex items-center">
+    <BsFillTrash3Fill color="#b7babf" />
+    <input type="text" className="form-control" placeholder="Enter City" />
+    <div className="autosuggests" role="listbox"></div>
+    <div>✅</div>
+  </div>
+</div> */}
