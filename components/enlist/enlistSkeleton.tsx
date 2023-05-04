@@ -50,7 +50,7 @@ export const EnlistSkeleton = () => {
           </div>
           <p
             id="business-name"
-            className="font-serif text-black font-bold text-3xl mt-6"
+            className=" text-zinc-800 font-bold font-kaisei text-3xl mt-6"
           >
             Business Name
           </p>

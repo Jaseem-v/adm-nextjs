@@ -48,8 +48,8 @@ const UserForm = () => {
     console.log(data);
   };
   return (
-    <div className="userForm my-20">
-      <h1 className="font-semibold font-lexend text-xl md:text-2xl xl:text-3xl">
+    <div className="userForm">
+      <h1 className="font-semibold font-kaisei text-xl md:text-2xl xl:text-3xl">
         Congratulations! Your company page is ready.
       </h1>
       <p className="text-sm mt-2">
