@@ -41,7 +41,7 @@ const UserForm = () => {
     resolver: yupResolver(Userschema),
   });
 
-  const { register, handleSubmit, formState } = form;
+  const { register, handleSubmit, formState, trigger } = form;
   const { errors } = formState;
 
   const onSubmit = (data: FormValues) => {
@@ -67,16 +67,18 @@ const UserForm = () => {
             id="firstname"
             placeholder="e.g. Harry"
             {...register("firstname")}
+            onBlur={() => trigger("firstname")}
           />
           <p className="error">{errors.firstname?.message}</p>
         </div>
         <div className="form-control">
-          <label htmlFor="lastname">Last Name</label>
+          <label htmlFor="lastname" >Last Name</label>
           <input
             type="text"
             id="lastname"
             placeholder="e.g. Brook"
             {...register("lastname")}
+            onBlur={() => trigger("lastname")}
           />
           <p className="error">{errors.lastname?.message}</p>
         </div>
@@ -87,12 +89,13 @@ const UserForm = () => {
             id="email"
             placeholder="e.g. harrybrook@business.com"
             {...register("email")}
+            onBlur={() => trigger("email")}
           />
           <p className="error">{errors.email?.message}</p>
         </div>
         <div className="form-control col-span-2">
           <label htmlFor="password">Password</label>
-          <input type="text" id="password" {...register("password")} />
+          <input type="text" id="password" {...register("password")} onBlur={() => trigger("password")} />
           <p className="error">{errors.password?.message}</p>
         </div>
         <div className="form-control col-span-2">
@@ -101,6 +104,7 @@ const UserForm = () => {
             type="text"
             id="confirmPassword"
             {...register("confirmPassword")}
+            onBlur={() => trigger("confirmPassword")}
           />
           <p className="error">{errors.confirmPassword?.message}</p>
         </div>

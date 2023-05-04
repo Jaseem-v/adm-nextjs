@@ -3,3 +3,9 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.preview-logo {
+  background-image: url(./../../public/images/logo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}

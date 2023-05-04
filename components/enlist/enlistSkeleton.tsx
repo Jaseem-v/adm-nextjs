@@ -20,7 +20,7 @@ export const EnlistSkeleton = () => {
       <div className="bg-skeleton flex justify-between items-center p-3 flex-wrap font-inter">
         <div className="flex items-center">
           <div className="mr-4 flex-shrink-0">
-            <img src="/public/images/logo.png" alt="logo" />
+            <div className="preview-logo w-[42px] h-7 rounded-sm"></div>
           </div>
           <div className="rounded-lg rounded-r-none bg-white flex items-center p-2">
             <div className="h-4 mr-4 w-40 max-w-40 bg-skeleton"></div>

@@ -24,5 +24,6 @@
 
 .error {
   color: #e5574e;
-  font-size: 14px;
+  font-size: 13px;
+  font-family: 'Lexend', sans-serif;
 }
