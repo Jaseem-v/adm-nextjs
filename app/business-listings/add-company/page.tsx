@@ -17,7 +17,7 @@ const EnlistCompany = () => {
     ]);
   return (
     <div className="container grid justify-items-center pt-14 w-full mx-auto lg:grid-cols-2">
-      <div className="flex flex-col">
+      <div className="flex flex-col px-6 md:px-8 w-full">
         {!isFirstStep && (
           <div className="w-full text-inter mb-6 ">
             <button onClick={back}>{`<`} Previous</button>

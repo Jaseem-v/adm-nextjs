@@ -51,7 +51,7 @@ const CompanyDetailsForm = () => {
     console.log(data);
   };
   return (
-    <div className="userForm">
+    <div className="companyDetailsForm ">
       <h1 className="font-semibold font-kaisei text-xl md:text-2xl xl:text-4xl text-[#0B1E3F]">
         Join Our Community with Ease
       </h1>
@@ -148,9 +148,9 @@ const CompanyDetailsForm = () => {
           </span>
         </label>
 
-        <button className="font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px]">
+        {/* <button className="font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px]">
           Add my company
-        </button>
+        </button> */}
       </form>
     </div>
   );

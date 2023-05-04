@@ -27,18 +27,18 @@ const CompanyCategoryForm = () => {
   };
   return (
     <div className="companyCategoryForm">
-      <div className="w-full text-inter mb-6 ">
+      {/* <div className="w-full text-inter mb-6 ">
         <button>{`<`} Previous</button>
-      </div>
+      </div> */}
       <h1 className="font-semibold font-kaisei text-xl md:text-2xl xl:text-4xl text-[#0B1E3F]">
         Tell Us About Your Business
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
+        <p className="font-serif font-medium text-xl  mt-10 mb-4">
           Attract the right customers by classifying your business.
         </p>
-        <div className="form-control col-span-6">
+        <div className="form-control max-w-xl">
           <label htmlFor="categories">Business Categories</label>
           <input
             type="text"
@@ -50,9 +50,9 @@ const CompanyCategoryForm = () => {
           <p className="error">{errors.categories?.message}</p>
         </div>
 
-        <button className="font-normal font-inter my-9 px-6 py-2 rounded bg-orange text-white col-span-2 text-[15px]">
+        {/* <button className="font-normal font-inter my-9 px-6 py-2 rounded bg-orange text-white col-span-2 text-[15px]">
           Continue
-        </button>
+        </button> */}
       </form>
     </div>
   );
