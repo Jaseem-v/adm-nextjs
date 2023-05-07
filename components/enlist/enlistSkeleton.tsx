@@ -11,6 +11,10 @@ import { ImLinkedin2 } from "react-icons/im";
 import { RiDirectionFill } from "react-icons/ri";
 import { MdVerified } from "react-icons/md";
 
+interface Props {
+  data: object;
+}
+
 export const EnlistSkeleton = () => {
   return (
     <div className="w-full">
