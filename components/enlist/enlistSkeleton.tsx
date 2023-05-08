@@ -16,6 +16,8 @@ interface Props {
   streetAddress: string;
   city: string;
   zip: string;
+
+  phoneNumber: string;
 }
 
 export const EnlistSkeleton = ({
@@ -23,6 +25,7 @@ export const EnlistSkeleton = ({
   streetAddress,
   city,
   zip,
+  phoneNumber,
 }: Props) => {
   return (
     <div className="w-full">
@@ -38,8 +41,8 @@ export const EnlistSkeleton = ({
             <div className="h-4 mr-4 w-40 max-w-40 bg-skeleton"></div>
             <div className="flex items-center">
               <CiLocationOn />
-              <p>
-                Business City <span>, default</span>
+              <p className="font-regular">
+                Business City <span>, Abu dhabi</span>
               </p>
             </div>
           </div>
@@ -64,7 +67,9 @@ export const EnlistSkeleton = ({
             id="business-name"
             className=" text-zinc-800 font-bold font-kaisei text-3xl mt-6"
           >
-            {companyName.length > 0 ? companyName : "Business name"}
+            {companyName && companyName.length > 0
+              ? companyName
+              : "Business name"}
           </p>
 
           <div className="flex items-center mt-2 mb-8 flex-wrap">
@@ -72,21 +77,27 @@ export const EnlistSkeleton = ({
               <div className="w-5 h-4 bg-skeleton" />
             </div>
             {/* location */}
-            <div className="flex items-center mr-2 font-medium">
+            <div className="flex items-center mr-2 ">
               <CiLocationOn />
               <p className="flex-shrink-0">
                 <span>
-                  {streetAddress.length > 0 ? streetAddress : "Street Address"}
+                  {streetAddress && streetAddress.length > 0
+                    ? streetAddress
+                    : "Street Address"}
                 </span>
-                , <span>{city.length > 0 ? city : "city"}</span> ,{" "}
+                , <span>{city && city.length > 0 ? city : "city"}</span> ,{" "}
                 <span>Abu dhabi</span>,{" "}
-                <span>{zip.length > 0 ? zip : "500001"}</span>
+                <span>{zip && zip.length > 0 ? zip : "500001"}</span>
               </p>
             </div>
             {/* phone */}
             <div className="flex items-center mr-2 gap-1">
               <RiPhoneFill />
-              <div className="w-20 h-4 bg-skeleton"></div>
+              {phoneNumber && phoneNumber.length > 0 ? (
+                phoneNumber
+              ) : (
+                <div className="w-20 h-4 bg-skeleton"></div>
+              )}
             </div>
             {/* website */}
             <div className="flex items-center mr-2 gap-1">

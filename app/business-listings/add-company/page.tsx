@@ -88,14 +88,19 @@ const EnlistCompany = () => {
   });
 
   const SecondStepSchema = yup.object({
-    phoneNumber: yup
+    phone: yup
       .string()
-      .matches(
-        /^\d{10}$/,
-        "Phone number must be 10 digits long and contain only numbers"
-      )
-      .required("Phone number is required"),
-    websiteUrl: yup.string().url("Please enter a valid URL"),
+      .required("Phone number is required")
+      .matches(/^(?:\+971|0)?(?:50|52|54|55|56|58|2|3|4|6|7|9)\d{7}$/, {
+        message: "Please enter a valid Abu Dhabi phone number",
+      }),
+    websiteUrl: yup
+      .string()
+      .url("Please enter a valid URL")
+      .required("Website is required")
+      .matches(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/, {
+        message: "Please enter a valid website URL",
+      }),
   });
 
   const ThirdStepSchema = yup.object({
@@ -124,7 +129,7 @@ const EnlistCompany = () => {
     hideAddress: boolean;
     hasServiceArea: boolean;
 
-    phoneNumber: number;
+    phoneNumber: string;
     websiteUrl: string;
 
     categories: string;
@@ -156,6 +161,8 @@ const EnlistCompany = () => {
   const streetAddressValue = watch("streetAddress");
   const cityValue = watch("city");
   const zipValue = watch("zip");
+  const phoneNumberValue = watch("phoneNumber");
+
   // STEPS
   async function next() {
     console.log("data", data);
@@ -308,6 +315,7 @@ const EnlistCompany = () => {
         <input
           type="text"
           inputMode="numeric"
+          pattern="[0-9]"
           id="phoneNumber"
           placeholder="e.g. +971 123 4567"
           {...register("phoneNumber")}
@@ -394,6 +402,7 @@ const EnlistCompany = () => {
         streetAddress={streetAddressValue}
         city={cityValue}
         zip={zipValue}
+        phoneNumber={phoneNumberValue}
       />
     </div>
   );
