@@ -19,7 +19,7 @@ type FormData = {
   streetAddress: string;
   building: string;
   city: string;
-  zip: number | null;
+  zip: string;
   hideAddress: boolean;
   hasServiceArea: boolean;
 
@@ -34,7 +34,7 @@ const INITIAL_DATA: FormData = {
   streetAddress: "",
   building: "",
   city: "",
-  zip: null,
+  zip: "",
   hideAddress: true,
   hasServiceArea: false,
 
@@ -80,8 +80,9 @@ const EnlistCompany = () => {
     city: yup.string().required("City is required"),
     zip: yup
       .string()
-      .required("zip is required")
-      .matches(/^\d{6}$/, "Zip code must be 6 digits"),
+      .matches(/^[0-9]*$/, "Zip must be a number")
+      .matches(/^\d{6}$/, "Zip code must be 6 digits")
+      .required("Zip is required"),
     hideAddress: yup.boolean(),
     hasServiceArea: yup.boolean(),
   });
@@ -119,7 +120,7 @@ const EnlistCompany = () => {
     streetAddress: string;
     building: string;
     city: string;
-    zip: number;
+    zip: string;
     hideAddress: boolean;
     hasServiceArea: boolean;
 
@@ -147,9 +148,14 @@ const EnlistCompany = () => {
     resolver: yupResolver(getSchemaForStep(page)),
   });
 
-  const { register, handleSubmit, formState, trigger, setValue } = form;
+  const { register, handleSubmit, formState, trigger, watch } = form;
   const { errors } = formState;
 
+  // WATCH
+  const companyNameValue = watch("companyName");
+  const streetAddressValue = watch("streetAddress");
+  const cityValue = watch("city");
+  const zipValue = watch("zip");
   // STEPS
   async function next() {
     console.log("data", data);
@@ -251,6 +257,8 @@ const EnlistCompany = () => {
           <label htmlFor="zip">Zip</label>
           <input
             type="text"
+            inputMode="numeric"
+            pattern="[0-9]"
             id="zip"
             placeholder="126452"
             {...register("zip")}
@@ -304,10 +312,6 @@ const EnlistCompany = () => {
           placeholder="e.g. +971 123 4567"
           {...register("phoneNumber")}
           onBlur={() => trigger("phoneNumber")}
-          value={data.phoneNumber}
-          onChange={(e) =>
-            setData((prev) => ({ ...prev, phoneNumber: e.target.value }))
-          }
         />
         <p className="error">{errors.phoneNumber?.message}</p>
       </div>
@@ -324,10 +328,6 @@ const EnlistCompany = () => {
           placeholder="e.g. www.yourwebsite.com"
           {...register("websiteUrl")}
           onBlur={() => trigger("websiteUrl")}
-          value={data.websiteUrl}
-          onChange={(e) =>
-            setData((prev) => ({ ...prev, websiteUrl: e.target.value }))
-          }
         />
         <p className="error">{errors.websiteUrl?.message}</p>
       </div>
@@ -389,7 +389,12 @@ const EnlistCompany = () => {
           </button>
         </form>
       </div>
-      <EnlistSkeleton />
+      <EnlistSkeleton
+        companyName={companyNameValue}
+        streetAddress={streetAddressValue}
+        city={cityValue}
+        zip={zipValue}
+      />
     </div>
   );
 };

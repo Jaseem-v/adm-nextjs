@@ -12,10 +12,18 @@ import { RiDirectionFill } from "react-icons/ri";
 import { MdVerified } from "react-icons/md";
 
 interface Props {
-  data: object;
+  companyName: string;
+  streetAddress: string;
+  city: string;
+  zip: string;
 }
 
-export const EnlistSkeleton = () => {
+export const EnlistSkeleton = ({
+  companyName,
+  streetAddress,
+  city,
+  zip,
+}: Props) => {
   return (
     <div className="w-full">
       {/* \\\\\\\\\\\\\\\\\\ */}
@@ -56,7 +64,7 @@ export const EnlistSkeleton = () => {
             id="business-name"
             className=" text-zinc-800 font-bold font-kaisei text-3xl mt-6"
           >
-            Business Name
+            {companyName.length > 0 ? companyName : "Business name"}
           </p>
 
           <div className="flex items-center mt-2 mb-8 flex-wrap">
@@ -67,8 +75,12 @@ export const EnlistSkeleton = () => {
             <div className="flex items-center mr-2 font-medium">
               <CiLocationOn />
               <p className="flex-shrink-0">
-                <span>Street Address</span>, <span>City</span> ,{" "}
-                <span>default</span>, <span>012345</span>
+                <span>
+                  {streetAddress.length > 0 ? streetAddress : "Street Address"}
+                </span>
+                , <span>{city.length > 0 ? city : "city"}</span> ,{" "}
+                <span>Abu dhabi</span>,{" "}
+                <span>{zip.length > 0 ? zip : "500001"}</span>
               </p>
             </div>
             {/* phone */}
