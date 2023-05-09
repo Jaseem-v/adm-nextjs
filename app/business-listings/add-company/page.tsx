@@ -54,25 +54,6 @@ const EnlistCompany = () => {
   //   setValue(name, value); // set the value in the react-hook-form state
   // };
 
-  const CompanyDetailsSchema = yup.object({
-    companyName: yup.string().required("Company name is required"),
-    streetAddress: yup.string().required("streetAddress is required"),
-    building: yup.string(),
-    city: yup.string().required("City is required"),
-    zip: yup.string().required("Zip is required").max(5),
-    hideAddress: yup.boolean(),
-    hasServiceArea: yup.boolean(),
-
-    phoneNumber: yup
-      .number()
-      .required("This field is required")
-      .min(10)
-      .max(10),
-    websiteUrl: yup.string().url("Please enter a valid URL"),
-
-    categories: yup.string().required("This field is required"),
-  });
-
   const FirstStepSchema = yup.object({
     companyName: yup.string().required("Company name is required"),
     streetAddress: yup.string().required("streetAddress is required"),
@@ -88,19 +69,21 @@ const EnlistCompany = () => {
   });
 
   const SecondStepSchema = yup.object({
-    phone: yup
+    phoneNumber: yup
       .string()
       .required("Phone number is required")
-      .matches(/^(?:\+971|0)?(?:50|52|54|55|56|58|2|3|4|6|7|9)\d{7}$/, {
-        message: "Please enter a valid Abu Dhabi phone number",
-      }),
+      .max(10)
+      .min(10),
+    // .matches(/^(?:\+971|0)?(?:50|52|54|55|56|58|2|3|4|6|7|9)\d{7}$/, {
+    //   message: "Please enter a valid Abu Dhabi phone number",
+    // }),
     websiteUrl: yup
       .string()
-      .url("Please enter a valid URL")
-      .required("Website is required")
-      .matches(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/, {
-        message: "Please enter a valid website URL",
-      }),
+      .matches(
+        /^(?:https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/,
+        "Please enter a valid website URL"
+      )
+      .nullable(),
   });
 
   const ThirdStepSchema = yup.object({
@@ -162,26 +145,39 @@ const EnlistCompany = () => {
   const cityValue = watch("city");
   const zipValue = watch("zip");
   const phoneNumberValue = watch("phoneNumber");
+  const websiteUrlValue = watch("websiteUrl");
 
   // STEPS
   async function next() {
-    console.log("data", data);
-    if (
-      (await form.trigger([
-        "companyName",
-        "streetAddress",
-        "building",
-        "city",
-        "zip",
-        "hideAddress",
-        "hasServiceArea",
-      ])) &&
-      Object.keys(errors).length === 0
-    ) {
-      setPage((i) => {
-        if (i >= 2) return i;
-        return i + 1;
-      });
+    if (page === 0) {
+      if (
+        (await form.trigger([
+          "companyName",
+          "streetAddress",
+          "building",
+          "city",
+          "zip",
+          "hideAddress",
+          "hasServiceArea",
+        ])) &&
+        Object.keys(errors).length === 0
+      ) {
+        setPage((i) => {
+          if (i >= 2) return i;
+          return i + 1;
+        });
+      }
+    } else if (page === 1) {
+      console.log("error", errors);
+      if (
+        (await form.trigger(["phoneNumber", "websiteUrl"])) &&
+        Object.keys(errors).length === 0
+      ) {
+        setPage((i) => {
+          if (i >= 2) return i;
+          return i + 1;
+        });
+      }
     }
   }
 
@@ -313,8 +309,7 @@ const EnlistCompany = () => {
       <div className="form-control col-span-6">
         <label htmlFor="phoneNumber">Phone number</label>
         <input
-          type="text"
-          inputMode="numeric"
+          type="tel"
           pattern="[0-9]"
           id="phoneNumber"
           placeholder="e.g. +971 123 4567"
@@ -375,6 +370,8 @@ const EnlistCompany = () => {
     console.log(data);
   };
 
+  const isError = Object.keys(errors).length !== 0;
+
   return (
     <div className="container grid justify-items-center pt-14 w-full mx-auto lg:grid-cols-2">
       <div className="flex flex-col px-6 md:px-8 w-full">
@@ -389,8 +386,11 @@ const EnlistCompany = () => {
           {page === 2 && step3}
           {/* <button className="bg-orange">click</button> */}
           <button
-            className="font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit"
+            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
+              isError ? "bg-opacity-50" : ""
+            }`}
             onClick={next}
+            disabled={isError}
           >
             {page !== 2 && (page === 0 ? "Add my company" : "Continue")}
             {page === 2 && "Finish"}
@@ -403,6 +403,7 @@ const EnlistCompany = () => {
         city={cityValue}
         zip={zipValue}
         phoneNumber={phoneNumberValue}
+        websiteUrl={websiteUrlValue}
       />
     </div>
   );

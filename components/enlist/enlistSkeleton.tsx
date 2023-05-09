@@ -18,6 +18,7 @@ interface Props {
   zip: string;
 
   phoneNumber: string;
+  websiteUrl: string;
 }
 
 export const EnlistSkeleton = ({
@@ -26,6 +27,7 @@ export const EnlistSkeleton = ({
   city,
   zip,
   phoneNumber,
+  websiteUrl,
 }: Props) => {
   return (
     <div className="w-full">
@@ -39,7 +41,7 @@ export const EnlistSkeleton = ({
           </div>
           <div className="rounded-lg rounded-r-none bg-white flex items-center p-2">
             <div className="h-4 mr-4 w-40 max-w-40 bg-skeleton"></div>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               <CiLocationOn />
               <p className="font-regular">
                 Business City <span>, Abu dhabi</span>
@@ -102,7 +104,11 @@ export const EnlistSkeleton = ({
             {/* website */}
             <div className="flex items-center mr-2 gap-1">
               <VscGlobe />
-              <div className="w-20 h-4 bg-skeleton"></div>
+              {websiteUrl && websiteUrl.length > 0 ? (
+                websiteUrl
+              ) : (
+                <div className="w-20 h-4 bg-skeleton"></div>
+              )}
             </div>
           </div>
 
