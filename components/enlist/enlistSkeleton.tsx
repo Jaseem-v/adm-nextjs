@@ -19,6 +19,8 @@ interface Props {
 
   phoneNumber: string;
   websiteUrl: string;
+
+  isCompany: boolean;
 }
 
 export const EnlistSkeleton = ({
@@ -28,6 +30,7 @@ export const EnlistSkeleton = ({
   zip,
   phoneNumber,
   websiteUrl,
+  isCompany,
 }: Props) => {
   return (
     <div className="w-full">
@@ -134,66 +137,68 @@ export const EnlistSkeleton = ({
           <div className="w-1/4 h-4 bg-skeleton" />
         </div>
         {/* SERVICES */}
-        <div className="bg-white max-w-3/4 lg:max-w-9/10 rounded py-4 px-6 my-6">
-          <p className="font-bold text-darkSkeleton font-serif mb-3">
-            Services
-          </p>
-          <div className="flex justify-between">
-            <div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-40 h-4 bg-skeleton"></div>
+        {isCompany && (
+          <div className="bg-white max-w-3/4 lg:max-w-9/10 rounded py-4 px-6 my-6">
+            <p className="font-bold text-darkSkeleton font-serif mb-3">
+              Services
+            </p>
+            <div className="flex justify-between">
+              <div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-40 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-24 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-32 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-28 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-24 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-36 h-4 bg-skeleton"></div>
+                </div>
               </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-24 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-32 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-28 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-24 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-36 h-4 bg-skeleton"></div>
+              <div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-40 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-24 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-32 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-28 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-24 h-4 bg-skeleton"></div>
+                </div>
+                <div className="flex items-center gap-1 my-2">
+                  <FaCheckCircle color="#a6a8ab" />
+                  <div className="w-36 h-4 bg-skeleton"></div>
+                </div>
               </div>
             </div>
-            <div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-40 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-24 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-32 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-28 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-24 h-4 bg-skeleton"></div>
-              </div>
-              <div className="flex items-center gap-1 my-2">
-                <FaCheckCircle color="#a6a8ab" />
-                <div className="w-36 h-4 bg-skeleton"></div>
-              </div>
-            </div>
+            <div className="w-2/5 h-4 bg-skeleton mt-4" />
           </div>
-          <div className="w-2/5 h-4 bg-skeleton mt-4" />
-        </div>
+        )}
         {/* PHOTOS */}
         <div className="bg-white max-w-3/4 lg:max-w-9/10 rounded py-4 px-6 my-6">
           <p className="font-bold text-darkSkeleton font-serif mb-3">Photos</p>

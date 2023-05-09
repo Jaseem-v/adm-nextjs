@@ -1,18 +1,13 @@
 "use client";
 
-import CompanyCategoryForm from "@/components/enlist/companyCategoryForm";
-import CompanyContactForm from "@/components/enlist/companyContactForm";
-import CompanyDetailsForm from "@/components/enlist/companyDetailsForm";
 import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
 import UserForm from "@/components/enlist/userForm";
-import { useMultistepForm } from "@/hooks/useMultistepForm";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./../../../components/enlist/form.css";
-import { isEmptyStatement } from "typescript";
 
 type FormData = {
   companyName: string;
@@ -47,12 +42,6 @@ const INITIAL_DATA: FormData = {
 const EnlistCompany = () => {
   const [data, setData] = useState(INITIAL_DATA);
   const [page, setPage] = useState(0);
-
-  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
-  //   setData((prevValues) => ({ ...prevValues, [name]: value }));
-  //   setValue(name, value); // set the value in the react-hook-form state
-  // };
 
   const FirstStepSchema = yup.object({
     companyName: yup.string().required("Company name is required"),
@@ -371,6 +360,7 @@ const EnlistCompany = () => {
   };
 
   const isError = Object.keys(errors).length !== 0;
+  const isCompany = true;
 
   return (
     <div className="container grid justify-items-center pt-14 w-full mx-auto lg:grid-cols-2">
@@ -404,6 +394,7 @@ const EnlistCompany = () => {
         zip={zipValue}
         phoneNumber={phoneNumberValue}
         websiteUrl={websiteUrlValue}
+        isCompany={isCompany}
       />
     </div>
   );
