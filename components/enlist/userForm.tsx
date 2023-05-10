@@ -49,11 +49,8 @@ const UserForm = () => {
   };
   return (
     <div className="userForm">
-      <h1 className="font-semibold font-kaisei text-xl md:text-2xl xl:text-3xl">
-        Congratulations! Your company page is ready.
-      </h1>
-      <p className=" mt-4">
-        Register to save your updates and publish your company page
+      <p className="font-semibold font-kaisei text-xl md:text-2xl xl:text-3xl mb-4">
+        Enlist yourself to the community
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}

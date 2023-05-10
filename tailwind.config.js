@@ -27,6 +27,7 @@ module.exports = {
         kaisei: ["Kaisei Decol", "sans-serif"],
         inter: ["Inter", "Poppins", "sans-serif"],
         lexend: ["Lexend", "sans-serif"],
+        playfair: ["Playfair Display", "serif"],
       },
       colors: {
         lightGrey: "#ADADAD",

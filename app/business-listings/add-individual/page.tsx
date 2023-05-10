@@ -15,7 +15,7 @@ const EnlistIndividual = () => {
           Register
         </button>
       </div>
-      <EnlistSkeleton />
+      {/* <EnlistSkeleton /> */}
     </div>
   );
 };
