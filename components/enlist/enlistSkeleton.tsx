@@ -70,7 +70,7 @@ export const EnlistSkeleton = ({
           </div>
           <p
             id="business-name"
-            className=" text-zinc-800 font-bold font-kaisei text-3xl mt-6"
+            className=" text-zinc-800 font-bold font-playfair text-3xl mt-6"
           >
             {companyName && companyName.length > 0
               ? companyName
