@@ -64,7 +64,7 @@ const EnlistIndividual = () => {
     resolver: yupResolver(SecondStepSchema),
   });
 
-  const { register, handleSubmit, formState, trigger, watch } = form;
+  const { register, handleSubmit, formState, trigger, watch, setValue } = form;
   const { errors } = formState;
 
   const onSubmit = (d: FormValues) => {
