@@ -214,21 +214,39 @@ export const EnlistSkeleton = ({
             <div className="flex gap-1 items-baseline">
               <CiLocationOn />
               <div className="flex flex-col">
-                <p>Business Name</p>
-                <p>Street Address</p>
                 <p>
-                  <span>City</span> , <span>default</span> , <span>012345</span>
+                  {companyName && companyName.length > 0
+                    ? companyName
+                    : "Business name"}
+                </p>
+                <p>
+                  {streetAddress && streetAddress.length > 0
+                    ? streetAddress
+                    : "Street Address"}
+                </p>
+                <p>
+                  <span>{city && city.length > 0 ? city : "city"}</span> ,{" "}
+                  <span>abu dhabi</span> ,{" "}
+                  <span>{zip && zip.length > 0 ? zip : "500001"}</span>
                 </p>
               </div>
             </div>
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2 mb-1">
                 <RiPhoneFill color="#a6a8ab" />
-                <div className="mr-1 w-32 h-4 bg-skeleton" />
+                {phoneNumber && phoneNumber.length > 0 ? (
+                  phoneNumber
+                ) : (
+                  <div className="mr-1 w-32 h-4 bg-skeleton" />
+                )}
               </div>
-              <div className="flex items-center gap-2 mb-1">
-                <VscGlobe color="#a6a8ab" />
-                <div className="mr-1 w-44 h-4 bg-skeleton" />
+              <div className="flex items-center gap-2 mb-1 w-44">
+                <VscGlobe color="#a6a8ab" className="w-4 h-4 flex-shrink-0" />
+                {websiteUrl && websiteUrl.length > 0 ? (
+                  <div className="break-all">{websiteUrl}</div>
+                ) : (
+                  <div className="mr-1 w-44 h-4 bg-skeleton" />
+                )}
               </div>
               <div className="flex items-center gap-2 mb-1">
                 <CgFacebook color="#a6a8ab" />
