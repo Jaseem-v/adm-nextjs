@@ -9,3 +9,9 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.profilePreview {
+  background-image: url(./../../public/images/profilePreview.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}

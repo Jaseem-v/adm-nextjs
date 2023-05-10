@@ -62,40 +62,44 @@ export const IndividualPreviewSkeleton = ({
             <p>{">"}</p>
             <div className="w-40 h-3 bg-skeleton"></div>
           </div>
-          <p
-            id="business-name"
-            className=" text-zinc-800 font-bold font-playfair text-3xl mt-6"
-          >
-            {firstname && firstname.length > 0 ? firstname : "Business man"}{" "}
-            <span>{` `}</span>
-            <span>{lastname && lastname.length > 0 ? lastname : ""}</span>
-          </p>
-
-          <div className="flex items-center mt-2 mb-8 flex-wrap">
-            {/* location */}
-            <div className="flex items-center mr-2 ">
-              <CiLocationOn />
-              <p className="flex-shrink-0">
-                <span>{place && place.length > 0 ? place : "Place"}</span>
-              </p>
-            </div>
-            {/* phone */}
-            <div className="flex items-center mr-2 gap-1">
-              <RiPhoneFill />
-              {phone && phone.length > 0 ? (
-                phone
-              ) : (
-                <div className="w-20 h-4 bg-skeleton"></div>
-              )}
-            </div>
-            {/* website */}
-            <div className="flex items-center mr-2 gap-1">
-              <VscGlobe />
-              {email && email.length > 0 ? (
-                email
-              ) : (
-                <div className="w-20 h-4 bg-skeleton"></div>
-              )}
+          <div className="flex gap-4 py-4">
+          <div className="profilePreview w-[100px] h-[120px] rounded-sm" />
+            <div className="flex flex-col">
+                <p
+                  id="business-name"
+                  className=" text-zinc-800 font-bold font-playfair text-3xl mt-6"
+                >
+                  {firstname && firstname.length > 0 ? firstname : "Business man"}{" "}
+                  <span>{` `}</span>
+                  <span>{lastname && lastname.length > 0 ? lastname : ""}</span>
+                </p>
+                <div className="flex items-center mt-2 mb-8 flex-wrap">
+                  {/* location */}
+                  <div className="flex items-center gap-1 mr-2 ">
+                    <CiLocationOn />
+                    <p className="flex-shrink-0">
+                      <span>{place && place.length > 0 ? place : "Place"}</span>
+                    </p>
+                  </div>
+                  {/* phone */}
+                  <div className="flex items-center mr-2 gap-1">
+                    <RiPhoneFill />
+                    {phone && phone.length > 0 ? (
+                      phone
+                    ) : (
+                      <div className="w-20 h-4 bg-skeleton"></div>
+                    )}
+                  </div>
+                  {/* website */}
+                  <div className="flex items-center mr-2 gap-1">
+                    <VscGlobe />
+                    {email && email.length > 0 ? (
+                      email
+                    ) : (
+                      <div className="w-20 h-4 bg-skeleton"></div>
+                    )}
+                  </div>
+                </div>
             </div>
           </div>
 
