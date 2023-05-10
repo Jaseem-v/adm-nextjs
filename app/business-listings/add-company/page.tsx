@@ -68,34 +68,16 @@ const EnlistCompany = () => {
     categories: yup.string().required("This field is required"),
   });
 
-  const SecondStepSchema = yup.object({
-    firstname: yup.string().required("Firstname is required"),
-    lastname: yup.string().required("Lastname is required"),
-    email: yup
-      .string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: yup
-      .string()
-      .required("Password is required")
-      .min(8, "Password must be atleast 8 charecters"),
-    confirmPassword: yup
-      .string()
-      .required("Confirm your password")
-      .oneOf([yup.ref("password")], "password must match")
-      .nullable(),
-  });
-
-  const getSchemaForStep = (step: number) => {
-    switch (step) {
-      case 0:
-        return FirstStepSchema;
-      case 1:
-        return SecondStepSchema;
-      default:
-        return FirstStepSchema; // default to first step schema
-    }
-  };
+  // const getSchemaForStep = (step: number) => {
+  //   switch (step) {
+  //     case 0:
+  //       return FirstStepSchema;
+  //     case 1:
+  //       return SecondStepSchema;
+  //     default:
+  //       return FirstStepSchema; // default to first step schema
+  //   }
+  // };
 
   type FormValues = {
     companyName: string;
@@ -127,7 +109,7 @@ const EnlistCompany = () => {
 
       categories: "",
     },
-    resolver: yupResolver(getSchemaForStep(page)),
+    resolver: yupResolver(FirstStepSchema),
   });
 
   const { register, handleSubmit, formState, trigger, watch, setValue } = form;
@@ -331,6 +313,12 @@ const EnlistCompany = () => {
     </div>
   );
 
+  console.log("data", data);
+
+  // \\\\\\\\\\\\\\\\\\\
+  // STEP 2
+  // \\\\\\\\\\\\\\\\\\\
+
   interface Step2Props {
     setData: React.Dispatch<React.SetStateAction<FormValues>>;
     isSubmitted: boolean;
@@ -338,6 +326,27 @@ const EnlistCompany = () => {
   }
 
   const Step2 = ({ setData, isSubmitted, setIsSubmitted }: Step2Props) => {
+    const phoneRegExp =
+      /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+    const SecondStepSchema = yup.object({
+      firstname: yup.string().required("Firstname is required"),
+      lastname: yup.string().required("Lastname is required"),
+      phone: yup
+        .string()
+        .required("Phone number is required")
+        .matches(phoneRegExp, "Phone number is not valid"),
+      email: yup
+        .string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      username: yup.string().required("Username is required").min(4),
+      password: yup
+        .string()
+        .required("Password is required")
+        .min(8, "Password must be atleast 8 charecters"),
+      place: yup.string().required("Place is required").min(3),
+    });
+
     type FormValues = {
       firstname: string;
       lastname: string;
@@ -365,10 +374,11 @@ const EnlistCompany = () => {
     const { errors } = formState;
 
     const onSubmit = (d: FormValues) => {
+      console.log("errors", errors);
       setData((prevData) => ({ ...prevData, ...d }));
-      console.log("d", d);
       setIsSubmitted(true);
     };
+    console.log(errors);
 
     const isError = Object.keys(errors).length !== 0;
     return (
@@ -415,9 +425,7 @@ const EnlistCompany = () => {
               {...register("phone")}
               onBlur={() => trigger("phone")}
             />
-            <p className="error">
-              {(isSubmitted || errors.phone) && errors.phone?.message}
-            </p>
+            <p className="error">{errors.phone?.message}</p>
           </div>
           <div className="form-control col-span-2">
             <label htmlFor="email">Email</label>
@@ -459,9 +467,7 @@ const EnlistCompany = () => {
               {...register("place")}
               onBlur={() => trigger("place")}
             />
-            <p className="error">
-              {(isSubmitted || errors.place) && errors.place?.message}
-            </p>
+            <p className="error">{errors.place?.message}</p>
           </div>
           <button
             className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
