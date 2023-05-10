@@ -137,9 +137,9 @@ export default function Index() {
                           aria-hidden="true"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M9 5l7 3-3 2-1 7-5-6z"
                           />
                         </svg>
@@ -169,9 +169,9 @@ export default function Index() {
                           aria-hidden="true"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M9 5l7 3-3 2-1 7-5-6z"
                           />
                         </svg>
