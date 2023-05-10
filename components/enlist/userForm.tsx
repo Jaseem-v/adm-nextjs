@@ -18,9 +18,10 @@ type FormValues = {
 
 interface Step2Props {
   setData: React.Dispatch<React.SetStateAction<FormValues>>;
+  setWatchData: React.Dispatch<React.SetStateAction<FormValues>>;
 }
 
-const UserForm = ({ setData}: Step2Props) => {
+const UserForm = ({ setData, setWatchData }: Step2Props) => {
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const SecondStepSchema = yup.object({
@@ -55,23 +56,24 @@ const UserForm = ({ setData}: Step2Props) => {
     resolver: yupResolver(SecondStepSchema),
   });
 
-  const { register, handleSubmit, formState, trigger } = form;
+  const { register, handleSubmit, formState, trigger, watch } = form;
   const { errors } = formState;
 
   const onSubmit = (d: FormValues) => {
     console.log("errors", errors);
     setData((prevData) => ({ ...prevData, ...d }));
   };
-  console.log(errors);
 
   const isError = Object.keys(errors).length !== 0;
   return (
     <div className="userForm">
       <h1 className="font-semibold font-playfair text-xl md:text-2xl xl:text-3xl">
-        Congratulations! Your company page is ready.
+        Expand Your Network and Grow Your Business
       </h1>
       <p className=" mt-4">
-        Register to save your updates and publish your company page
+        Join our thriving business community to connect with like-minded
+        entrepreneurs, share insights, and unlock new opportunities for growth
+        and collaboration.
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
