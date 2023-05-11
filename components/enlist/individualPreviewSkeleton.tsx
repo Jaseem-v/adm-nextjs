@@ -66,7 +66,7 @@ export const IndividualPreviewSkeleton = ({
             <div className="flex flex-col">
               <p
                 id="business-name"
-                className=" text-zinc-800 font-bold font-playfair text-3xl mt-6"
+                className=" text-zinc-800 font-bold font-lora text-3xl mt-6"
               >
                 {firstname && firstname.length > 0 ? firstname : "Business man"}{" "}
                 <span>{` `}</span>

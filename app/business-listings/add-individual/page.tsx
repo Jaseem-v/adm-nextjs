@@ -83,7 +83,7 @@ const EnlistIndividual = () => {
 
   const UserForm = (
     <div className="userForm">
-      <h1 className="font-semibold font-playfair text-xl md:text-2xl xl:text-3xl">
+      <h1 className="font-bold font-lora text-xl md:text-2xl xl:text-3xl">
         Expand Your Network and Grow Your Business
       </h1>
       <p className=" mt-4">

@@ -67,7 +67,7 @@ const UserForm = ({ setData, setWatchData }: Step2Props) => {
   const isError = Object.keys(errors).length !== 0;
   return (
     <div className="userForm">
-      <h1 className="font-semibold font-playfair text-xl md:text-2xl xl:text-3xl">
+      <h1 className="font-semibold font-lora text-xl md:text-2xl xl:text-3xl">
         Expand Your Network and Grow Your Business
       </h1>
       <p className=" mt-4">
