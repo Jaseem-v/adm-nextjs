@@ -37,6 +37,8 @@ module.exports = {
         skeleton: "#f5f2f0",
         darkSkeleton: "#a6a8ab",
         mediumSkeleton: "#e4dedb",
+        success: "#48ad70",
+        error: "#e5574e"
       },
       borderColor: {
         lightGreen: "rgba(63, 130, 119, 0.1)",
