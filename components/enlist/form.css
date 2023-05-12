@@ -11,6 +11,12 @@
   padding: 8px 12px;
   font-size: 14px;
 }
+.form-control select {
+  border: 1px solid rgba(183, 186, 191);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
 
 .form-control::placeholder {
   font-size: 12px;

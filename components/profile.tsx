@@ -5,6 +5,8 @@ import { HiPlus } from "react-icons/hi"
 import { IoClose } from "react-icons/io5"
 import { CiLocationOn } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
+import { RiPhoneFill } from "react-icons/ri";
 
 
 import "./enlist/form.css"
@@ -13,6 +15,7 @@ const Profile = () => {
     return ( 
         <div className="bg-[#F5F2F0]" >
             <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
+                {/* \\\\\\\\\\\\\\\\\ */}
                     {/* PROGRESS👇 */}
                 <div className="m-4 lg:m-0 flex flex-col gap-1 p-5 rounded-md border-2 border-primary-v1 text-gray-800 bg-white">
                     <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
@@ -80,7 +83,7 @@ const Profile = () => {
                 </div>
                     {/* PROGRESS👆 */}
                     {/* MAIN DETAILS👇 */}
-                    <div className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6">
+                    <div className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6 m-4">
                         <div className="relative w-48 h-48  rounded overflow-hidden">{/* image */}
                             <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"><IoClose color="white"/></div>{/* close */}
                             <div className="h-48 w-48 bg-cover bg-no-repeat bg-center bg-slate-200"></div>
@@ -106,7 +109,7 @@ const Profile = () => {
                                 </div>
                                 </div>
                             </div>
-                            {/* infor */}
+                            {/* info */}
                             <div className="flex flex-col gap-6 text-gray-800">
                                 <form className="flex flex-col gap-2">
                                     <div className="flex flex-row gap-4">
@@ -123,7 +126,7 @@ const Profile = () => {
 
                                     </div>
                                         <div className="flex flex-col gap-6">
-                                            <div className="flex flex-row items-start gap-2">
+                                            {/* <div className="flex flex-row items-start gap-2">
                                                 <CiLocationOn className="mt-1"  />
                                                 <div className="flex flex-col gap-1">
                                                     <p className="text-lg font-medium flex items-center gap-1">Address <span><FaEye className="h-3"/></span></p>
@@ -131,7 +134,95 @@ const Profile = () => {
                                                     
                                                 </div>
                                             </div>
-                                            <div className="flex flex-row gap-2"></div>
+                                            <div className="flex flex-row gap-2">
+                                                <RiPhoneFill />
+                                                <div className="flex flex-col gap-1">
+                                                    <p className="text-lg font-medium flex items-center gap-1">Phone <span><FaEye className="h-3"/></span></p>
+                                                    <p className="text-lg text-gray-700">+971 123 4567</p>
+                                                </div>
+                                            </div> */}
+
+                                            {/* edit mode */}
+                                            <div className="flex flex-col gap-2">
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <CiLocationOn />
+                                                    <p className="text-lg font-medium">Address</p>
+                                                    <FaEye />
+                                                </div>
+                                                <div className="flex flex-col gap-3">
+                                                    <div className="flex flex-col gap-1 form-control">
+                                                        <label htmlFor="state">State</label>
+                                                        <select name="state" id="state" className="w-1/2 md:w-1/4">
+                                                            <option value="Abudhabi">Abudhabi</option></select>
+                                                    </div>
+                                                    <div className="flex flex-col gap-1 form-control">
+                                                    <label htmlFor="streetAddress">Street Address</label>
+            <input
+              type="text"
+              id="streetAddress"
+              placeholder="e.g. Sheikh Zayed St"
+            />
+                                                    </div>
+                                                    {/* <div className="flex flex-col gap-1"></div>  ADDRESS LINE 2*/}
+                                                    <div className="grid md:grid-cols-3 md:gap-x-10 gap-y-3">
+                                                        <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                                                        <label htmlFor="building">Apt/Suite (optional)</label>
+            <input
+              type="text"
+              id="building"
+              placeholder="#200"
+            />
+                                                        </div>
+                                                        <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                                                        <label htmlFor="city">City</label>
+            <input
+              type="text"
+              id="city"
+              placeholder="e.g. Al Ain"
+            />
+                                                        </div>
+                                                        <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                                                        <label htmlFor="zip">Zip</label>
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]"
+              id="zip"
+              placeholder="126452"
+            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-row gap-2 items-center">
+                                                        <label htmlFor="hideAddress" className="cursor-pointer">
+                                                            <input type="checkbox" className="cursor-pointer"  id="hideAddress" name="hideAddress" checked/>
+                                                            <span className="ml-1 text-sm">Don{`'`}t display my address publicly</span>
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex flex-row gap-2 items-center">
+                                                        <label htmlFor="showServiceArea" className="cursor-pointer">
+                                                            <input type="checkbox" className="cursor-pointer"  id="showServiceArea" name="showServiceArea" checked/>
+                                                            <span className="ml-1 text-sm">We deliver or provide sersvice at customer locations</span>
+                                                        </label>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+
+                                            {/* service areas */}
+                                            <div className="flex flex-col w-full gap-2 px-4 items-start">
+                                                <div className="flex items-center">
+                                                    <CiLocationOn />
+                                                    <p className="text-lg font-medium mr-4">Service Areas</p>
+                                                    <p className="text-sm">2/6 Areas listed</p>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <FaTrashAlt />
+                                                    <div className="form-control">
+                                                    <input type="text" />
+                                                    </div>
+                                                </div>
+                                                <p className="font-bold cursor-pointer text-orange">+ Add Service Area</p>
+                                            </div>
                                         </div>
                                 </form>
                             </div>
