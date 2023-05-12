@@ -3,6 +3,10 @@
 import { BsPencilSquare } from "react-icons/bs"
 import { HiPlus } from "react-icons/hi"
 import { IoClose } from "react-icons/io5"
+import { CiLocationOn } from "react-icons/ci";
+import { FaEye } from "react-icons/fa";
+
+
 import "./enlist/form.css"
 
 const Profile = () => {
@@ -116,7 +120,19 @@ const Profile = () => {
                                         <button className="bg-orange text-white py-1 px-3 rounded ">Verify</button>
                                             </div> */}
                                         </div>
+
                                     </div>
+                                        <div className="flex flex-col gap-6">
+                                            <div className="flex flex-row items-start gap-2">
+                                                <CiLocationOn className="mt-1"  />
+                                                <div className="flex flex-col gap-1">
+                                                    <p className="text-lg font-medium flex items-center gap-1">Address <span><FaEye className="h-3"/></span></p>
+                                                    <p className="text-lg text-gray-700">{`brooklyn, Brooklyn Manor, NY, 45676`}</p>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-row gap-2"></div>
+                                        </div>
                                 </form>
                             </div>
                         </div>
