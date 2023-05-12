@@ -10,6 +10,7 @@ import { RiPhoneFill } from "react-icons/ri";
 import { VscGlobe } from "react-icons/vsc";
 import { FaRegNewspaper } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
+import { FaShareAlt } from "react-icons/fa";
 
 
 import "./enlist/form.css";
@@ -20,7 +21,7 @@ const Profile = () => {
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* PROGRESS👇 */}
-        <div className="m-4 lg:m-0 flex flex-col gap-1 p-5 rounded-md border-2 border-primary-v1 text-gray-800 bg-white">
+        <div className=" lg:m-0 flex flex-col gap-1 p-5 rounded-md border-2 border-primary-v1 text-gray-800 bg-white">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
             <div className="flex flex-col gap-2 text-inter">
               <p className="text-4xl lg:text-7xl font-semibold">50%</p>
@@ -92,7 +93,7 @@ const Profile = () => {
         </div>
         {/* PROGRESS👆 */}
         {/* MAIN DETAILS👇 */}
-        <div className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6 m-4">
+        <div className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6">
           <div className="relative w-48 h-48  rounded overflow-hidden">
             {/* image */}
             <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
@@ -111,9 +112,9 @@ const Profile = () => {
                     Business name
                   </span>
                   <span className="flex-1"></span>
-                  <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-darks-v1">
-                    Edit
-                  </button>
+                  <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+                      Edit
+                </button>
                   {/* edit mode */}
                   {/* <div className="flex items-center form-control">
                                         <input type="text" placeholder="edit mode" className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 " />
@@ -136,9 +137,9 @@ const Profile = () => {
                   <span className="flex-1"></span>
                   {/* optional */}
                   <div>
-                    <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-darks-v1">
+                  <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
                       Edit
-                    </button>
+                </button>
                     {/* edit mode */}
                     {/* <div className="flex items-start flex-wrap gap-2">
                                             <button className="bg-skeleton py-1 px-3  rounded ">Cancel</button>
@@ -320,9 +321,9 @@ const Profile = () => {
                   <p className="text-2xl font-lora font-medium title">
                     Website
                   </p>
-                  <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-darks-v1">
-                    Edit
-                  </button>
+                  <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+                      Edit
+                </button>
 
                   {/* edit mode */}
                   {/* <div className="flex items-start flex-wrap gap-2">
@@ -361,11 +362,14 @@ const Profile = () => {
           </div>
         </div>
         {/* MAIN DETAILS👆 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 m-4">
-          <div className="flex flex-col">
+
+        {/* \\\\\\\\\\\\\\ */}
+        {/* ABOUT👇 */}
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <p className="text-2xl font-medium font-lora text-black title">About</p>
-                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-darks-v1">
+                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
                       Edit
                 </button>
                 {/* edit mode */}
@@ -435,6 +439,48 @@ const Profile = () => {
           {/* edited */}
           
         </div>
+        {/* ABOUT👆 */}
+
+        {/* \\\\\\\\\\\ */}
+        {/* SOCAIL MEDIA LINKS👇 */}
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">Social Media Links</p>
+                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+                      Edit
+                </button>
+                {/* edit mode */}
+                {/* <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded ">
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div> */}
+                {/* edit mode */}
+              </div>
+              <p className="text-lg">Customers use this information to learn what makes your company great.</p>
+          </div>
+          <div className="border-2 border-black border-dashed p-4">
+            <div className="flex flex-wrap gap-4">
+              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                <FaShareAlt className="h-5 w-6"/>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-700">Stay connected with your customers. Add links to your business social networks.</p>
+                  <div className="flex items-center font-bold gap-1">
+                    <span className="cursor-pointer hover:underline">Add social links</span>
+                    <FaChevronRight />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        {/* SOCAIL MEDIA LINKS👆 */}
       </div>
     </div>
   );
