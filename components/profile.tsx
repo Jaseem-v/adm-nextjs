@@ -11,6 +11,13 @@ import { VscGlobe } from "react-icons/vsc";
 import { FaRegNewspaper } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
+import { BsFacebook } from "react-icons/bs";
+import { BsTwitter } from "react-icons/bs";
+import { BsInstagram } from "react-icons/bs";
+import { BsLinkedin } from "react-icons/bs";
+import { BsYoutube } from "react-icons/bs";
+import { BsPinterest } from "react-icons/bs";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 
 import "./enlist/form.css";
@@ -461,7 +468,7 @@ const Profile = () => {
                   </div> */}
                 {/* edit mode */}
               </div>
-              <p className="text-lg">Customers use this information to learn what makes your company great.</p>
+              <p className="text-lg">Add links to your social media pages on various major platforms.</p>
           </div>
           <div className="border-2 border-black border-dashed p-4">
             <div className="flex flex-wrap gap-4">
@@ -479,6 +486,98 @@ const Profile = () => {
               </div>
             </div>
           </div>
+          {/* edit mode */}
+          {/* <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="facebook">Facebook URL</label>
+              <div className="flex w-full flex-row">
+                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton">
+                  <BsFacebook />
+                  <p className="text-sm">https://</p>
+                </div>
+                <input type="text" id="facebook" className="form-input w-full" placeholder="e.g. www.facebook.com/companyProfile"/>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="instagram">Instagram</label>
+              <div className="flex w-full flex-row">
+                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                  <BsInstagram />
+                  <p className="text-sm">@</p>
+                </div>
+                <input type="text" id="instagram" className="form-input w-full" placeholder="e.g. @instagramProfile"/>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="twitter">Twitter</label>
+              <div className="flex w-full flex-row">
+                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                  <BsTwitter />
+                  <p className="text-sm">@</p>
+                </div>
+                <input type="text" id="twitter" className="form-input w-full" placeholder="e.g. @twitterProfile"/>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="linkedin">LinkedIn URL</label>
+              <div className="flex w-full flex-row">
+                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                  <BsLinkedin />
+                  <p className="text-sm">https://</p>
+                </div>
+                <input type="text" id="linkedin" className="form-input w-full" placeholder="e.g. www.linkedin.com/companyProfile"/>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="youtube">Youtube Channel</label>
+              <div className="flex w-full flex-row">
+                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                  <BsYoutube />
+                  <p className="text-sm">https://</p>
+                </div>
+                <input type="text" id="youtube" className="form-input w-full" placeholder="e.g. www.youtube.com/profile"/>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="pinterest">Pinterest URL</label>
+              <div className="flex w-full flex-row">
+                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                  <BsPinterest />
+                  <p className="text-sm">https://</p>
+                </div>
+                <input type="text" id="pinterest" className="form-input w-full" placeholder="e.g. www.pinterest.com/profile"/>
+              </div>
+            </div>
+          </div> */}
+          {/* edit mode */}
+          {/* edited */}
+          {/* <div className="flex flex-col gap-6">
+            <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsFacebook className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>http://facebook.com</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+
+            <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsInstagram className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>@mkbhd</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+          </div> */}
+          {/* edited */}
           </div>
         {/* SOCAIL MEDIA LINKS👆 */}
       </div>

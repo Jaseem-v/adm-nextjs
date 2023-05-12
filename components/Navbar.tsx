@@ -82,13 +82,13 @@ const Navbar = () => {
         {/* login */}
         <div className="hidden lg:flex items-center gap-5 text-sm">
           <button
-            className="navBtn font-regular bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+            className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
             onClick={() => setShowEnlistModel(true)}
           >
             Claim my Listing
           </button>
           <Link href="/login">
-            <button className="navBtn font-regular bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+            <button className="navBtn font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
               Login
             </button>
           </Link>

@@ -5,6 +5,14 @@
   font-size: 14px;
 }
 
+.form-input {
+  border: 1px solid rgba(183, 186, 191);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+
 .form-control input {
   border: 1px solid rgba(183, 186, 191);
   border-radius: 4px;
