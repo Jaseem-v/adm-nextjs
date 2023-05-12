@@ -8,6 +8,9 @@ import { FaEye } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import { RiPhoneFill } from "react-icons/ri";
 import { VscGlobe } from "react-icons/vsc";
+import { FaRegNewspaper } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
+
 
 import "./enlist/form.css";
 
@@ -20,15 +23,15 @@ const Profile = () => {
         <div className="m-4 lg:m-0 flex flex-col gap-1 p-5 rounded-md border-2 border-primary-v1 text-gray-800 bg-white">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
             <div className="flex flex-col gap-2 text-inter">
-              <p className="text-4xl lg:text-7xl font-semibold">30%</p>
+              <p className="text-4xl lg:text-7xl font-semibold">50%</p>
               <p className="font-semibold text-lg md:text-xl lg:max-w-[194px]">
                 of your profile is complete
               </p>
             </div>
             <div className="flex flex-col gap-4 lg:py-6 w-full xl:w-min">
               <div className="w-full xl:w-[800px] h-8 bg-skeleton rounded-full overflow-hidden">
-                <div className="h-full w-1/4 bg-gold flex items-center justify-center font-semibold text-white">
-                  30%
+                <div className="h-full w-1/2 bg-gold flex items-center justify-center font-semibold text-white">
+                  50%
                 </div>
               </div>
               <p className="text-lg md:text-xl font-medium">
@@ -320,7 +323,7 @@ const Profile = () => {
                   <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-darks-v1">
                     Edit
                   </button>
-                  
+
                   {/* edit mode */}
                   {/* <div className="flex items-start flex-wrap gap-2">
                     <button className="bg-skeleton py-1 px-3  rounded ">
@@ -331,7 +334,6 @@ const Profile = () => {
                     </button>
                   </div> */}
                   {/* edit mode */}
-
                 </div>
               </div>
               <div className="flex flex-row items-center gap-2">
@@ -340,10 +342,99 @@ const Profile = () => {
                   userwebsite.com
                 </a>
               </div>
+              {/* edit mode */}
+              {/* <div className="flex w-full ">
+                <div className="px-2 py-2 bg-skeleton flex items-center justify-center rounded-l">
+                  <VscGlobe />
+                </div>
+                <div className=" w-full rounded rounded-l-none border-l-0">
+                  <input
+                    type="text"
+                    id="websiteUrl"
+                    placeholder="www.yourwebsite.com"
+                    className="border border-[#b7babf] py-2 px-3 w-full border-l-0 rounded-sm text-sm"
+                  />
+                </div>
+              </div> */}
+              {/* edit mode */}
             </div>
           </div>
         </div>
         {/* MAIN DETAILS👆 */}
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 m-4">
+          <div className="flex flex-col">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">About</p>
+                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-darks-v1">
+                      Edit
+                </button>
+                {/* edit mode */}
+                {/* <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded ">
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div> */}
+                {/* edit mode */}
+              </div>
+              <p className="text-lg">Customers use this information to learn what makes your company great.</p>
+          </div>
+          <div className="border-2 border-black border-dashed p-4">
+            <div className="flex flex-wrap gap-4">
+              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                <FaRegNewspaper className="h-5 w-6"/>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-700">Tell your customers more about your business! What makes your business unique? Introduce your company name and explain what your business does, where youoperate (or the markets you serve), and tell us how long you’ve been doing it for.</p>
+                  <div className="flex items-center font-bold gap-1">
+                    <span className="cursor-pointer hover:underline">Add business description</span>
+                    <FaChevronRight />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* edit mode */}
+          {/* <div className="w-full">
+            <div className="flex flex-col gap-4 lg:w-3/4">
+              <p className="font-semibold">Short Description:</p>
+              <div className="flex flex-col">
+                <div className="flex">
+                  <textarea name="shortDescription" id="shortDescription" rows={3} maxLength={150} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."></textarea>
+                </div>
+                <div className="self-end">
+                  <span>0/150</span>
+                </div>
+              </div>
+              <p className="font-semibold">Detailed Description:</p>
+              <div className="flex flex-col">
+                <div className="flex">
+                  <textarea name="detailedDescription" id="detailedDescription" rows={10} maxLength={2500} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."></textarea>
+                </div>
+                <div className="self-end">
+                  <span>0/2500</span>
+                </div>
+              </div>
+            </div>
+          </div> */}
+          {/* edit mode */}
+          {/* edited */}
+          {/* <div className="flex flex-col gap-4 leading-relaxed">
+            <div className="lg:w-3/4">
+              <p className="font-semibold">Short Description:</p>
+              <p>The actual short description text</p>
+            </div>
+            <div className="lg:w-3/4">
+            <p className="font-semibold">Detailed Description:</p>
+              <p>The actual detailed description text</p>
+            </div>
+          </div> */}
+          {/* edited */}
+          
+        </div>
       </div>
     </div>
   );
