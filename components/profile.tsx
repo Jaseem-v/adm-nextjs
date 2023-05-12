@@ -146,7 +146,7 @@ const Profile = () => {
                                             <div className="flex flex-col gap-2">
                                                 <div className="flex flex-row items-center gap-2">
                                                     <CiLocationOn />
-                                                    <p className="text-lg font-medium">Address</p>
+                                                    <p className="text-lg font-semibold">Address</p>
                                                     <FaEye />
                                                 </div>
                                                 <div className="flex flex-col gap-3">
@@ -221,7 +221,27 @@ const Profile = () => {
                                                     <input type="text" />
                                                     </div>
                                                 </div>
-                                                <p className="font-bold cursor-pointer text-orange">+ Add Service Area</p>
+                                                <p className="font-semibold cursor-pointer text-orange-600 hover:underline">+ Add Service Area</p>
+                                            </div>
+
+                                            {/* phone */}
+                                            <div className="flex flex-col w-full gap-2">
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <RiPhoneFill />
+                                                    <p className="text-lg font-semibold">Phone</p>
+                                                </div>
+                                                <div className="flex flex-col gap-2">
+                                                    <div className="flex flex-col gap-1 form-control">
+                                                        <label htmlFor="phone">Phone</label>
+                                                        <input type="text" inputMode="numeric" pattern="[0-9]" id="phone" placeholder="1112223333" className="md:w-1/2"/>
+                                                    </div>
+                                                    <div className="flex flex-grow gap-2 items-center">
+                                                        <label htmlFor="hidePhone" className="cursor-pointer flex items-center ">
+                                                            <input type="checkbox" id="hidePhone" />
+                                                            <span className="ml-1 text-sm">Don{`'`}t display my phone publicly</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                 </form>
