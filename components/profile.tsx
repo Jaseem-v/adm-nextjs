@@ -18,6 +18,7 @@ import { BsLinkedin } from "react-icons/bs";
 import { BsYoutube } from "react-icons/bs";
 import { BsPinterest } from "react-icons/bs";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import { BsFillCameraFill } from "react-icons/bs";
 
 
 import "./enlist/form.css";
@@ -471,7 +472,7 @@ const Profile = () => {
               <p className="text-lg">Add links to your social media pages on various major platforms.</p>
           </div>
           <div className="border-2 border-black border-dashed p-4">
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap lg:flex-col gap-4">
               <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
                 <FaShareAlt className="h-5 w-6"/>
               </div>
@@ -580,6 +581,57 @@ const Profile = () => {
           {/* edited */}
           </div>
         {/* SOCAIL MEDIA LINKS👆 */}
+
+        {/* \\\\\\\\\\\\\\\\ */}
+        {/* PHOTOS */}
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
+                <p className="text-2xl font-medium font-lora text-black title">Photos</p>
+              <p className="text-lg">Upload images of your business so your customers can see what products you sell or what services you provide. Photos must be png, jpeg, or gif format.</p>
+              <hr className="w-full text-gray-300"/>
+              <div className="text-xs pb-4">{`0`}{`/30 photos added`}</div>
+          </div>
+          <div className="border-2 border-black border-dashed p-4">
+          <div className="flex flex-wrap lg:flex-col gap-4">
+              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                <BsFillCameraFill className="h-5 w-6"/>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-700">Photos are one of the biggest factors consumers use to evaluate a business. Make sure your photos show your business at its best.</p>
+                  <div className="flex items-center font-bold gap-1">
+                    <span className="cursor-pointer hover:underline">Add photos</span>
+                    <FaChevronRight />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* edit mode */}
+          {/* <div className="flex flex-row flex-wrap gap-4"> */}
+            {/* added photo👇 */}
+            {/* <div>
+              <div className="relative">
+                <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
+                  <IoClose color="white" />
+                </div>
+                <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+                  <div className="h-48 w-48 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('https://unsplash.com/photos/Nnh4gV8TwlY')"}}></div>
+                </div>
+              </div>
+            </div> */}
+            {/* added photo👆 */}
+            {/* <div>
+              <input type="file" className="hidden" />
+              <div className="w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black">
+                <p className="font-semibold">Add a photo</p>
+                <BsFillCameraFill className="w-11 h-11" />
+              </div>
+            </div>
+          </div> */}
+          {/* edit mode */}
+          </div>
+          {/* PHOTOS👆 */}
       </div>
     </div>
   );
