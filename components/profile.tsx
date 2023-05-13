@@ -20,6 +20,8 @@ import { BsPinterest } from "react-icons/bs";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { BsFillCameraFill } from "react-icons/bs";
 import { IoMdContact } from "react-icons/io";
+import { MdMiscellaneousServices } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 
 
 import "./enlist/form.css";
@@ -715,6 +717,74 @@ const Profile = () => {
           
         </div>
           {/* CONTACT👆 */}
+          {/* \\\\\\\\\\\ */}
+
+          {/* \\\\\\\\\\\ */}
+          {/* PRODUCTS AND SERVICES👆 */}
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">Products and Services</p>
+                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+                      Edit
+                </button>
+                {/* edit mode */}
+                {/* <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded ">
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div> */}
+                {/* edit mode */}
+              </div>
+              <p className="text-lg">Create a list of your products and services for your customers.</p>
+          </div>
+          <div className="border-2 border-black border-dashed p-4">
+            <div className="flex flex-wrap gap-4">
+              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                <MdMiscellaneousServices className="h-5 w-6"/>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-700">Attract the right customers by creating a list of up to 30 products or services that you offer.</p>
+                  <div className="flex items-center font-bold gap-1">
+                    <span className="cursor-pointer hover:underline">Create services list</span>
+                    <FaChevronRight />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* edit mode */}
+          <div className="flex flex-col gap-2">
+            <hr className="w-full text-grey-300"/>
+            <div className="text-xs">{`1`}{`/30 Items Listed`}</div>
+            <form name="editProductForm" >
+              <div className="flex ">
+                <input type="text" name="product-0" className="form-input rounded-r-0"/>
+                <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
+                <button type="submit" className="py-2 px-4 bg-error text-white" title="save"><FaTrashAlt /></button>
+              </div>
+            </form>
+          </div>
+          {/* edit mode */}
+          {/* edited */}
+          {/* <div className="flex flex-col gap-4 leading-relaxed">
+            <div className="lg:w-3/4">
+              <p className="font-semibold">Short Description:</p>
+              <p>The actual short description text</p>
+            </div>
+            <div className="lg:w-3/4">
+            <p className="font-semibold">Detailed Description:</p>
+              <p>The actual detailed description text</p>
+            </div>
+          </div> */}
+          {/* edited */}
+          
+        </div>
+          {/* PRODUCTS AND SERVICES👆 */}
           {/* \\\\\\\\\\\ */}
 
       </div>
