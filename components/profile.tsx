@@ -456,6 +456,216 @@ const Profile = () => {
           
         </div>
         {/* ABOUT👆 */}
+        {/* \\\\\\\\\\\\\\\\ */}
+
+        {/* \\\\\\\\\\\ */}
+          {/* BUSINESS CATEGORIES👇 */}
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">Business Categories</p>
+                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+                      Edit
+                </button>
+                {/* edit mode */}
+                {/* <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded ">
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div> */}
+                {/* edit mode */}
+              </div>
+              <p className="text-lg">Categorizing your business will help customers find your listing among your competitors.</p>
+          </div>
+          <div className="flex flex-col gap-2 mt-2">
+            <p>Marketing</p>
+            <p>Software development</p>
+          </div>
+          {/* edit mode */}
+          {/* <div className="flex flex-col gap-1">
+            <label htmlFor="primaryCategory">
+              Primary Category (required)
+            </label>
+              <p className="text-sm text-gray-600">Select the category that best describes your business</p>
+          </div>
+          <div className="flex flex-row gap-4 items-center">
+            <div className="w-80 px-4 py-2 bg-skeleton">
+              <p>Marketing</p>
+            </div>
+            <div className="hover:underline cursor-pointer">change</div> */}
+            {/* edit mode */}
+            {/* <div className="hover:underline cursor-pointer">cancel</div> */}
+            {/* edit mode */}
+          {/* </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="primaryCategory">
+            Secondary Categories (optional)
+            </label>
+              <p className="text-sm text-gray-600">Secondary categories let people know any additional services your business provides.</p>
+          </div>
+          <div className="flex flex-row gap-4 items-center">
+            <div className="w-80 px-4 py-2 bg-skeleton">
+              <p>Software development</p>
+            </div>
+            <div className="hover:underline cursor-pointer">change</div>
+            <div className="hover:underline cursor-pointer text-error">remove</div>
+          </div>
+          <div className="flex flex-row gap-4">
+            <div role="combobox" aria-controls="react-autosuggestion" aria-expanded="false" className="react-autosuggestion-container">
+              <input type="text" autoComplete="off" aria-autocomplete="list" aria-controls="react-autosuggestion" className="form-control" placeholder="Search for a category" />
+              <div className="react-auto-suggestion-container" id="react-autosuggestion" role="listbox"></div>
+            </div>
+          </div> */}
+          {/* edit mode */}
+          
+        </div>
+          {/* BUSINESS CATEGORIES👆 */}
+          {/* \\\\\\\\\\\ */}
+
+          {/* \\\\\\\\\\\ */}
+          {/* PRODUCTS AND SERVICES👆 */}
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">Products and Services</p>
+                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+                      Edit
+                </button>
+                {/* edit mode */}
+                {/* <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded ">
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div> */}
+                {/* edit mode */}
+              </div>
+              <p className="text-lg">Create a list of your products and services for your customers.</p>
+          </div>
+          <div className="border-2 border-black border-dashed p-4">
+            <div className="flex flex-wrap gap-4">
+              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                <MdMiscellaneousServices className="h-5 w-6"/>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-700">Attract the right customers by creating a list of up to 30 products or services that you offer.</p>
+                  <div className="flex items-center font-bold gap-1">
+                    <span className="cursor-pointer hover:underline">Create services list</span>
+                    <FaChevronRight />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* edit mode */}
+          {/* <div className="flex flex-col gap-2">
+            <hr className="w-full text-grey-300"/>
+            <div className="text-xs">{`1`}{`/30 Items Listed`}</div> */}
+            {/* edited */}
+            {/* <div title="click to edit" className="flex flex-row gap-2 items-center cursor-pointer"> */}
+              {/* <FaCheckCircle /> */}
+              {/* reordering */}
+              {/* <div className="flex flex-col">
+                <AiFillCaretUp />
+                <AiFillCaretDown />
+              </div> */}
+              {/* reordering */}
+              {/* <span>bottle</span>
+            </div>
+            <div className="flex flex-row items-center gap-4">
+              <div className="flex flex-row gap-2 items-center cursor-pointer">
+                <BsFillPlusCircleFill className="text-success" />
+                <span>Add a product</span>
+              </div>
+              <div className="flex flex-row gap-2 items-center cursor-pointer">
+                <TiArrowUnsorted className="text-orange-700" />
+                <span>Reorder product</span>
+              </div>
+            </div> */}
+            {/* edited */}
+            {/* reordering */}
+            {/* <div className="flex flex-row items-center gap-2 cursor-pointer text-error">
+              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
+                <IoClose className="text-error"/>
+                <span>Cancel</span>
+              </button>
+              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
+                <FaCheck className="text-error"/>
+                <span>Save</span>
+              </button>
+            </div> */}
+            {/* reordering */}
+            {/* <form name="editProductForm" >
+              <div className="flex ">
+                <input type="text" name="product-0" className="form-input rounded-r-0"/>
+                <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
+                <button type="submit" className="py-2 px-4 bg-error text-white" title="save"><FaTrashAlt /></button>
+              </div>
+            </form>
+          </div> */}
+          {/* edit mode */}
+          
+        </div>
+          {/* PRODUCTS AND SERVICES👆 */}
+          {/* \\\\\\\\\\\ */}
+
+          {/* \\\\\\\\\\\\\\\\ */}
+        {/* PHOTOS */}
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
+                <p className="text-2xl font-medium font-lora text-black title">Photos</p>
+              <p className="text-lg">Upload images of your business so your customers can see what products you sell or what services you provide. Photos must be png, jpeg, or gif format.</p>
+              <hr className="w-full text-gray-300"/>
+              <div className="text-xs pb-4">{`0`}{`/30 photos added`}</div>
+          </div>
+          <div className="border-2 border-black border-dashed p-4">
+          <div className="flex flex-wrap lg:flex-col gap-4">
+              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                <BsFillCameraFill className="h-5 w-6"/>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-700">Photos are one of the biggest factors consumers use to evaluate a business. Make sure your photos show your business at its best.</p>
+                  <div className="flex items-center font-bold gap-1">
+                    <span className="cursor-pointer hover:underline">Add photos</span>
+                    <FaChevronRight />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* edit mode */}
+          {/* <div className="flex flex-row flex-wrap gap-4"> */}
+            {/* added photo👇 */}
+            {/* <div>
+              <div className="relative">
+                <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
+                  <IoClose color="white" />
+                </div>
+                <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+                  <div className="h-48 w-48 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('https://unsplash.com/photos/Nnh4gV8TwlY')"}}></div>
+                </div>
+              </div>
+            </div> */}
+            {/* added photo👆 */}
+            {/* <div>
+              <input type="file" className="hidden" />
+              <div className="w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black">
+                <p className="font-semibold">Add a photo</p>
+                <BsFillCameraFill className="w-11 h-11" />
+              </div>
+            </div>
+          </div> */}
+          {/* edit mode */}
+          </div>
+          {/* PHOTOS👆 */}
+          {/* \\\\\\\\\\\\\\ */}
 
         {/* \\\\\\\\\\\ */}
         {/* SOCAIL MEDIA LINKS👇 */}
@@ -590,56 +800,7 @@ const Profile = () => {
           </div>
         {/* SOCAIL MEDIA LINKS👆 */}
 
-        {/* \\\\\\\\\\\\\\\\ */}
-        {/* PHOTOS */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
-          <div className="flex flex-col gap-4">
-                <p className="text-2xl font-medium font-lora text-black title">Photos</p>
-              <p className="text-lg">Upload images of your business so your customers can see what products you sell or what services you provide. Photos must be png, jpeg, or gif format.</p>
-              <hr className="w-full text-gray-300"/>
-              <div className="text-xs pb-4">{`0`}{`/30 photos added`}</div>
-          </div>
-          <div className="border-2 border-black border-dashed p-4">
-          <div className="flex flex-wrap lg:flex-col gap-4">
-              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                <BsFillCameraFill className="h-5 w-6"/>
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-4">
-                  <p className="text-gray-700">Photos are one of the biggest factors consumers use to evaluate a business. Make sure your photos show your business at its best.</p>
-                  <div className="flex items-center font-bold gap-1">
-                    <span className="cursor-pointer hover:underline">Add photos</span>
-                    <FaChevronRight />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* edit mode */}
-          {/* <div className="flex flex-row flex-wrap gap-4"> */}
-            {/* added photo👇 */}
-            {/* <div>
-              <div className="relative">
-                <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
-                  <IoClose color="white" />
-                </div>
-                <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
-                  <div className="h-48 w-48 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('https://unsplash.com/photos/Nnh4gV8TwlY')"}}></div>
-                </div>
-              </div>
-            </div> */}
-            {/* added photo👆 */}
-            {/* <div>
-              <input type="file" className="hidden" />
-              <div className="w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black">
-                <p className="font-semibold">Add a photo</p>
-                <BsFillCameraFill className="w-11 h-11" />
-              </div>
-            </div>
-          </div> */}
-          {/* edit mode */}
-          </div>
-          {/* PHOTOS👆 */}
+        
 
           {/* \\\\\\\\\\\ */}
           {/* CONTACT */}
@@ -724,161 +885,9 @@ const Profile = () => {
           {/* CONTACT👆 */}
           {/* \\\\\\\\\\\ */}
 
-          {/* \\\\\\\\\\\ */}
-          {/* PRODUCTS AND SERVICES👆 */}
-          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
-          <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <p className="text-2xl font-medium font-lora text-black title">Products and Services</p>
-                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
-                      Edit
-                </button>
-                {/* edit mode */}
-                {/* <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded ">
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div> */}
-                {/* edit mode */}
-              </div>
-              <p className="text-lg">Create a list of your products and services for your customers.</p>
-          </div>
-          <div className="border-2 border-black border-dashed p-4">
-            <div className="flex flex-wrap gap-4">
-              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                <MdMiscellaneousServices className="h-5 w-6"/>
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-4">
-                  <p className="text-gray-700">Attract the right customers by creating a list of up to 30 products or services that you offer.</p>
-                  <div className="flex items-center font-bold gap-1">
-                    <span className="cursor-pointer hover:underline">Create services list</span>
-                    <FaChevronRight />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* edit mode */}
-          {/* <div className="flex flex-col gap-2">
-            <hr className="w-full text-grey-300"/>
-            <div className="text-xs">{`1`}{`/30 Items Listed`}</div> */}
-            {/* edited */}
-            {/* <div title="click to edit" className="flex flex-row gap-2 items-center cursor-pointer"> */}
-              {/* <FaCheckCircle /> */}
-              {/* reordering */}
-              {/* <div className="flex flex-col">
-                <AiFillCaretUp />
-                <AiFillCaretDown />
-              </div> */}
-              {/* reordering */}
-              {/* <span>bottle</span>
-            </div>
-            <div className="flex flex-row items-center gap-4">
-              <div className="flex flex-row gap-2 items-center cursor-pointer">
-                <BsFillPlusCircleFill className="text-success" />
-                <span>Add a product</span>
-              </div>
-              <div className="flex flex-row gap-2 items-center cursor-pointer">
-                <TiArrowUnsorted className="text-orange-700" />
-                <span>Reorder product</span>
-              </div>
-            </div> */}
-            {/* edited */}
-            {/* reordering */}
-            {/* <div className="flex flex-row items-center gap-2 cursor-pointer text-error">
-              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
-                <IoClose className="text-error"/>
-                <span>Cancel</span>
-              </button>
-              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
-                <FaCheck className="text-error"/>
-                <span>Save</span>
-              </button>
-            </div> */}
-            {/* reordering */}
-            {/* <form name="editProductForm" >
-              <div className="flex ">
-                <input type="text" name="product-0" className="form-input rounded-r-0"/>
-                <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
-                <button type="submit" className="py-2 px-4 bg-error text-white" title="save"><FaTrashAlt /></button>
-              </div>
-            </form>
-          </div> */}
-          {/* edit mode */}
           
-        </div>
-          {/* PRODUCTS AND SERVICES👆 */}
-          {/* \\\\\\\\\\\ */}
           
-          {/* \\\\\\\\\\\ */}
-          {/* BUSINESS CATEGORIES👇 */}
-          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
-          <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <p className="text-2xl font-medium font-lora text-black title">Business Categories</p>
-                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
-                      Edit
-                </button>
-                {/* edit mode */}
-                {/* <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded ">
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div> */}
-                {/* edit mode */}
-              </div>
-              <p className="text-lg">Categorizing your business will help customers find your listing among your competitors.</p>
-          </div>
-          <div className="flex flex-col gap-2 mt-2">
-            <p>Marketing</p>
-          </div>
-          {/* edit mode */}
-          {/* <div className="flex flex-col gap-1">
-            <label htmlFor="primaryCategory">
-              Primary Category (required)
-            </label>
-              <p className="text-sm text-gray-600">Select the category that best describes your business</p>
-          </div>
-          <div className="flex flex-row gap-4 items-center">
-            <div className="w-80 px-4 py-2 bg-skeleton">
-              <p>Marketing</p>
-            </div>
-            <div className="hover:underline cursor-pointer">change</div> */}
-            {/* edit mode */}
-            {/* <div className="hover:underline cursor-pointer">cancel</div> */}
-            {/* edit mode */}
-          {/* </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="primaryCategory">
-            Secondary Categories (optional)
-            </label>
-              <p className="text-sm text-gray-600">Secondary categories let people know any additional services your business provides.</p>
-          </div>
-          <div className="flex flex-row gap-4 items-center">
-            <div className="w-80 px-4 py-2 bg-skeleton">
-              <p>Software development</p>
-            </div>
-            <div className="hover:underline cursor-pointer">change</div>
-            <div className="hover:underline cursor-pointer text-error">remove</div>
-          </div>
-          <div className="flex flex-row gap-4">
-            <div role="combobox" aria-controls="react-autosuggestion" aria-expanded="false" className="react-autosuggestion-container">
-              <input type="text" autoComplete="off" aria-autocomplete="list" aria-controls="react-autosuggestion" className="form-control" placeholder="Search for a category" />
-              <div className="react-auto-suggestion-container" id="react-autosuggestion" role="listbox"></div>
-            </div>
-          </div> */}
-          {/* edit mode */}
           
-        </div>
-          {/* BUSINESS CATEGORIES👆 */}
-          {/* \\\\\\\\\\\ */}
 
       </div>
     </div>
