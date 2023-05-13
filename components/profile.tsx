@@ -22,6 +22,11 @@ import { BsFillCameraFill } from "react-icons/bs";
 import { IoMdContact } from "react-icons/io";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
+import { BsFillPlusCircleFill } from "react-icons/bs";
+import { TiArrowUnsorted } from "react-icons/ti";
+import { AiFillCaretDown } from "react-icons/ai";
+import { AiFillCaretUp } from "react-icons/ai";
 
 
 import "./enlist/form.css";
@@ -758,30 +763,52 @@ const Profile = () => {
             </div>
           </div>
           {/* edit mode */}
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <hr className="w-full text-grey-300"/>
-            <div className="text-xs">{`1`}{`/30 Items Listed`}</div>
-            <form name="editProductForm" >
+            <div className="text-xs">{`1`}{`/30 Items Listed`}</div> */}
+            {/* edited */}
+            {/* <div title="click to edit" className="flex flex-row gap-2 items-center cursor-pointer"> */}
+              {/* <FaCheckCircle /> */}
+              {/* reordering */}
+              {/* <div className="flex flex-col">
+                <AiFillCaretUp />
+                <AiFillCaretDown />
+              </div> */}
+              {/* reordering */}
+              {/* <span>bottle</span>
+            </div>
+            <div className="flex flex-row items-center gap-4">
+              <div className="flex flex-row gap-2 items-center cursor-pointer">
+                <BsFillPlusCircleFill className="text-success" />
+                <span>Add a product</span>
+              </div>
+              <div className="flex flex-row gap-2 items-center cursor-pointer">
+                <TiArrowUnsorted className="text-orange-700" />
+                <span>Reorder product</span>
+              </div>
+            </div> */}
+            {/* edited */}
+            {/* reordering */}
+            {/* <div className="flex flex-row items-center gap-2 cursor-pointer text-error">
+              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
+                <IoClose className="text-error"/>
+                <span>Cancel</span>
+              </button>
+              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
+                <FaCheck className="text-error"/>
+                <span>Save</span>
+              </button>
+            </div> */}
+            {/* reordering */}
+            {/* <form name="editProductForm" >
               <div className="flex ">
                 <input type="text" name="product-0" className="form-input rounded-r-0"/>
                 <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
                 <button type="submit" className="py-2 px-4 bg-error text-white" title="save"><FaTrashAlt /></button>
               </div>
             </form>
-          </div>
-          {/* edit mode */}
-          {/* edited */}
-          {/* <div className="flex flex-col gap-4 leading-relaxed">
-            <div className="lg:w-3/4">
-              <p className="font-semibold">Short Description:</p>
-              <p>The actual short description text</p>
-            </div>
-            <div className="lg:w-3/4">
-            <p className="font-semibold">Detailed Description:</p>
-              <p>The actual detailed description text</p>
-            </div>
           </div> */}
-          {/* edited */}
+          {/* edit mode */}
           
         </div>
           {/* PRODUCTS AND SERVICES👆 */}
