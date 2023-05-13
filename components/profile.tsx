@@ -813,6 +813,72 @@ const Profile = () => {
         </div>
           {/* PRODUCTS AND SERVICES👆 */}
           {/* \\\\\\\\\\\ */}
+          
+          {/* \\\\\\\\\\\ */}
+          {/* BUSINESS CATEGORIES👇 */}
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">Business Categories</p>
+                <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+                      Edit
+                </button>
+                {/* edit mode */}
+                {/* <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded ">
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div> */}
+                {/* edit mode */}
+              </div>
+              <p className="text-lg">Categorizing your business will help customers find your listing among your competitors.</p>
+          </div>
+          <div className="flex flex-col gap-2 mt-2">
+            <p>Marketing</p>
+          </div>
+          {/* edit mode */}
+          {/* <div className="flex flex-col gap-1">
+            <label htmlFor="primaryCategory">
+              Primary Category (required)
+            </label>
+              <p className="text-sm text-gray-600">Select the category that best describes your business</p>
+          </div>
+          <div className="flex flex-row gap-4 items-center">
+            <div className="w-80 px-4 py-2 bg-skeleton">
+              <p>Marketing</p>
+            </div>
+            <div className="hover:underline cursor-pointer">change</div> */}
+            {/* edit mode */}
+            {/* <div className="hover:underline cursor-pointer">cancel</div> */}
+            {/* edit mode */}
+          {/* </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="primaryCategory">
+            Secondary Categories (optional)
+            </label>
+              <p className="text-sm text-gray-600">Secondary categories let people know any additional services your business provides.</p>
+          </div>
+          <div className="flex flex-row gap-4 items-center">
+            <div className="w-80 px-4 py-2 bg-skeleton">
+              <p>Software development</p>
+            </div>
+            <div className="hover:underline cursor-pointer">change</div>
+            <div className="hover:underline cursor-pointer text-error">remove</div>
+          </div>
+          <div className="flex flex-row gap-4">
+            <div role="combobox" aria-controls="react-autosuggestion" aria-expanded="false" className="react-autosuggestion-container">
+              <input type="text" autoComplete="off" aria-autocomplete="list" aria-controls="react-autosuggestion" className="form-control" placeholder="Search for a category" />
+              <div className="react-auto-suggestion-container" id="react-autosuggestion" role="listbox"></div>
+            </div>
+          </div> */}
+          {/* edit mode */}
+          
+        </div>
+          {/* BUSINESS CATEGORIES👆 */}
+          {/* \\\\\\\\\\\ */}
 
       </div>
     </div>
