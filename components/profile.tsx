@@ -671,31 +671,35 @@ const Profile = () => {
               </div>
             </div>
           </div>
-              <button className="py-2 rounded w-48 bg-black text-white">Add contact</button>
-          {/* edit mode */}
-          {/* <div className="w-full">
-            <div className="flex flex-col gap-4 lg:w-3/4">
-              <p className="font-semibold">Short Description:</p>
-              <div className="flex flex-col">
-                <div className="flex">
-                  <textarea name="shortDescription" id="shortDescription" rows={3} maxLength={150} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."></textarea>
-                </div>
-                <div className="self-end">
-                  <span>0/150</span>
-                </div>
+          <button className="py-2 rounded w-48 bg-black text-white">Add contact</button>
+          {/* EDIT MODE */}
+          {/* <div className="md:grid gap-2 grid-cols-2">
+            <div className="flex flex-col gap-2 py-2">
+              <span className="text-xs text-red-700">Required</span>
+              <div className="form-control"> 
+                <input type="text" placeholder="First Name" className="w-80" id="firstname" name="firstname"/>
               </div>
-              <p className="font-semibold">Detailed Description:</p>
-              <div className="flex flex-col">
-                <div className="flex">
-                  <textarea name="detailedDescription" id="detailedDescription" rows={10} maxLength={2500} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."></textarea>
-                </div>
-                <div className="self-end">
-                  <span>0/2500</span>
-                </div>
+              <span className="text-xs text-red-700">Required</span>
+              <div className="form-control">
+                <input type="text" placeholder="Last Name" className="w-80" id="lastname" name="lastname"/>
+              </div>
+              <span className="text-xs text-red-700">Required</span>
+              <div className="form-control">
+                <input type="text" placeholder="Title or Role" className="w-80" id="title" name="title"/>
+              </div>
+              <div className="form-control">
+                <input type="email" placeholder="Email" className="w-80" id="email" name="email"/>
+              </div>
+              <div className="form-control">
+                <input type="text" placeholder="Phone" className="w-80" id="phone" name="phone"/>
+              </div>
+              <div className="form-control">
+                <input type="text" placeholder="Fax" className="w-80" id="fax" name="fax"/>
               </div>
             </div>
+            <div className="error">First Name, Last Name and Title are required</div>
           </div> */}
-          {/* edit mode */}
+          {/* EDIT MODE */}
           {/* edited */}
           {/* <div className="flex flex-col gap-4 leading-relaxed">
             <div className="lg:w-3/4">
