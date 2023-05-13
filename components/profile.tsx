@@ -19,6 +19,7 @@ import { BsYoutube } from "react-icons/bs";
 import { BsPinterest } from "react-icons/bs";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { BsFillCameraFill } from "react-icons/bs";
+import { IoMdContact } from "react-icons/io";
 
 
 import "./enlist/form.css";
@@ -632,6 +633,86 @@ const Profile = () => {
           {/* edit mode */}
           </div>
           {/* PHOTOS👆 */}
+
+          {/* \\\\\\\\\\\ */}
+          {/* CONTACT */}
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">Contacts</p>
+                {/* edit mode */}
+                {/* <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded ">
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div> */}
+                {/* edit mode */}
+              </div>
+              <p className="text-lg">Who are the primary contacts in your business?</p>
+          </div>
+          <div className="md:grid gap-2 grid-cols-2">
+            <div className="border-2 border-black border-dashed p-4">
+              <div className="flex flex-wrap lg:flex-col gap-4">
+                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                  <IoMdContact className="h-5 w-6"/>
+                </div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4">
+                    <p className="text-gray-700">Inform customers on special contacts in your company.</p>
+                    <div className="flex items-center font-bold gap-1">
+                      <span className="cursor-pointer hover:underline">Create an additional contact</span>
+                      <FaChevronRight />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+              <button className="py-2 rounded w-48 bg-black text-white">Add contact</button>
+          {/* edit mode */}
+          {/* <div className="w-full">
+            <div className="flex flex-col gap-4 lg:w-3/4">
+              <p className="font-semibold">Short Description:</p>
+              <div className="flex flex-col">
+                <div className="flex">
+                  <textarea name="shortDescription" id="shortDescription" rows={3} maxLength={150} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."></textarea>
+                </div>
+                <div className="self-end">
+                  <span>0/150</span>
+                </div>
+              </div>
+              <p className="font-semibold">Detailed Description:</p>
+              <div className="flex flex-col">
+                <div className="flex">
+                  <textarea name="detailedDescription" id="detailedDescription" rows={10} maxLength={2500} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."></textarea>
+                </div>
+                <div className="self-end">
+                  <span>0/2500</span>
+                </div>
+              </div>
+            </div>
+          </div> */}
+          {/* edit mode */}
+          {/* edited */}
+          {/* <div className="flex flex-col gap-4 leading-relaxed">
+            <div className="lg:w-3/4">
+              <p className="font-semibold">Short Description:</p>
+              <p>The actual short description text</p>
+            </div>
+            <div className="lg:w-3/4">
+            <p className="font-semibold">Detailed Description:</p>
+              <p>The actual detailed description text</p>
+            </div>
+          </div> */}
+          {/* edited */}
+          
+        </div>
+          {/* CONTACT👆 */}
+          {/* \\\\\\\\\\\ */}
+
       </div>
     </div>
   );
