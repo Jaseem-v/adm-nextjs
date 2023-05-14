@@ -30,8 +30,8 @@ import { TiArrowUnsorted } from "react-icons/ti";
 import { AiFillCaretDown } from "react-icons/ai";
 import { AiFillCaretUp } from "react-icons/ai";
 
-import React, {useCallback} from 'react'
-import {FileWithPath, useDropzone} from 'react-dropzone'
+import React, { useCallback } from "react";
+import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState } from "react";
 
 type EditModeState = {
@@ -48,7 +48,7 @@ const Profile = () => {
     products: false,
     socialMedia: false,
     contact: false,
-    photos: false
+    photos: false,
   };
   const [editModeState, setEditModeState] =
     useState<EditModeState>(initialEditModeState);
@@ -56,8 +56,8 @@ const Profile = () => {
   const [isPrimaryCategoryChange, setIsPrimaryCategoryChange] = useState(false);
   const [isSecondaryCategoryChange, setIsSecondaryCategoryChange] =
     useState(false);
-  const [isAddedPhoto, setIsAddedPhoto] = useState(false)  
-  const [uploadedPhoto, setUploadedPhoto] = useState<string | null | ArrayBuffer>(null)
+  const [isAddedPhoto, setIsAddedPhoto] = useState(false);
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
 
   const handleToggleEditMode = (section: string) => {
     setEditModeState((prevState) => {
@@ -74,26 +74,39 @@ const Profile = () => {
   const verifyBusinessName = () => {};
 
   // DROPZONE
-  const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
-    acceptedFiles.forEach((file: FileWithPath) => {
-      const reader: FileReader = new FileReader();
-  
-      reader.onabort = () => console.log('File reading was aborted');
-      reader.onerror = () => console.log('File reading has failed');
-      reader.onload = () => {
-        // Do whatever you want with the file contents
-        const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
-        console.log(binaryStr);
-        setUploadedPhoto(URL.createObjectURL(file));
-        setIsAddedPhoto(true);
-      };
-  
-      reader.readAsArrayBuffer(file);
-    });
-    console.log(acceptedFiles)
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[]) => {
+      acceptedFiles.forEach((file: FileWithPath) => {
+        const reader: FileReader = new FileReader();
 
-const {getRootProps, getInputProps, acceptedFiles, isDragActive} = useDropzone({onDrop})
+        reader.onabort = () => console.log("File reading was aborted");
+        reader.onerror = () => console.log("File reading has failed");
+        reader.onload = () => {
+          // Do whatever you want with the file contents
+          const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
+          console.log(binaryStr);
+          const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
+          setUploadedPhotos(newPhotos);
+          setIsAddedPhoto(true);
+        };
+
+        reader.readAsArrayBuffer(file);
+      });
+      console.log(acceptedFiles);
+    },
+    [uploadedPhotos]
+  );
+
+  const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
+    useDropzone({ onDrop });
+
+  const removePhoto = (index: number) => {
+    const newPhotos = uploadedPhotos.filter((_, i) => i !== index);
+    setUploadedPhotos(newPhotos);
+    if (newPhotos.length === 0) {
+      setIsAddedPhoto(false);
+    }
+  };
   return (
     <div className="bg-[#F5F2F0]">
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
@@ -943,48 +956,69 @@ const {getRootProps, getInputProps, acceptedFiles, isDragActive} = useDropzone({
               {`/30 photos added`}
             </div>
           </div>
-          {!editModeState.photos ? <div className="border-2 border-black border-dashed p-4">
-            <div className="flex flex-wrap lg:flex-col gap-4">
-              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                <BsFillCameraFill className="h-5 w-6" />
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-4">
-                  <p className="text-gray-700">
-                    Photos are one of the biggest factors consumers use to
-                    evaluate a business. Make sure your photos show your
-                    business at its best.
-                  </p>
-                  <div className="flex items-center font-bold gap-1">
-                    <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode('photos')}>
-                      Add photos
-                    </span>
-                    <FaChevronRight />
+          {!editModeState.photos ? (
+            <div className="border-2 border-black border-dashed p-4">
+              <div className="flex flex-wrap lg:flex-col gap-4">
+                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                  <BsFillCameraFill className="h-5 w-6" />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4">
+                    <p className="text-gray-700">
+                      Photos are one of the biggest factors consumers use to
+                      evaluate a business. Make sure your photos show your
+                      business at its best.
+                    </p>
+                    <div className="flex items-center font-bold gap-1">
+                      <span
+                        className="cursor-pointer hover:underline"
+                        onClick={() => handleToggleEditMode("photos")}
+                      >
+                        Add photos
+                      </span>
+                      <FaChevronRight />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div> : <div className="flex flex-row flex-wrap gap-4">
-            {/* if photo is added */}
-            {isAddedPhoto && <div>
-              <div className="relative">
-                <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
-                  <IoClose color="white" />
+          ) : (
+            <div className="flex flex-row flex-wrap gap-4">
+              {/* if photo is added */}
+              {isAddedPhoto && (
+                <div className="flex flex-row flex-wrap gap-4">
+                  {uploadedPhotos.map((photo, index) => (
+                    <div key={index} className="relative">
+                      <div
+                        className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
+                        onClick={() => removePhoto(index)}
+                      >
+                        <IoClose color="white" />
+                      </div>
+                      <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+                        <div
+                          className="h-48 w-48 bg-cover bg-no-repeat bg-center"
+                          style={{ backgroundImage: `url('${photo}')` }}
+                        ></div>
+                      </div>
+                    </div>
+                    ))}
+                    </div>
+              )}
+              <div {...getRootProps()}>
+                <input type="file" {...getInputProps()} />
+                <div
+                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                    isDragActive ? "border-blue-500" : "border-black"
+                  }`}
+                >
+                  <p className="font-semibold">Add a photo</p>
+                  <BsFillCameraFill className="w-11 h-11" />
                 </div>
-                <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
-                  <div className="h-48 w-48 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url('${uploadedPhoto}')` }}></div>
-                </div>
-              </div>
-            </div>}
-            <div {...getRootProps()}>
-              <input type="file"  {...getInputProps()}/>
-              <div className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${isDragActive ? 'border-blue-500' : 'border-black'}`}>
-                <p className="font-semibold">Add a photo</p>
-                <BsFillCameraFill className="w-11 h-11" />
               </div>
             </div>
-          </div>}
-          
+          )}
+
           {/* edit mode */}
           {/* <div className="flex flex-row flex-wrap gap-4"> */}
           {/* added photo👇 */}
