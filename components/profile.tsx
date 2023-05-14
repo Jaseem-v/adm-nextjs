@@ -985,10 +985,10 @@ const Profile = () => {
           ) : (
             <div className="flex flex-row flex-wrap gap-4">
               {/* if photo is added */}
-              {isAddedPhoto && (
-                <div className="flex flex-row flex-wrap gap-4">
-                  {uploadedPhotos.map((photo, index) => (
-                    <div key={index} className="relative">
+              {uploadedPhotos.length > 0 &&
+                uploadedPhotos.map((photo, index) => (
+                  <div key={index}>
+                    <div className="relative">
                       <div
                         className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
                         onClick={() => removePhoto(index)}
@@ -1002,9 +1002,9 @@ const Profile = () => {
                         ></div>
                       </div>
                     </div>
-                    ))}
-                    </div>
-              )}
+                  </div>
+                ))}
+
               <div {...getRootProps()}>
                 <input type="file" {...getInputProps()} />
                 <div
