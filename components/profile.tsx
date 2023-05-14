@@ -31,15 +31,47 @@ import { AiFillCaretUp } from "react-icons/ai";
 import "./enlist/form.css";
 import { useState } from "react";
 
+type EditModeState = {
+  [key: string]: boolean;
+};
+
 const Profile = () => {
+  const initialEditModeState: EditModeState = {
+    businessName: false,
+    businessInfo: false,
+    website: false,
+    about: false
+  }
+  const [editModeState, setEditModeState] = useState<EditModeState>(initialEditModeState)
+  const handleToggleEditMode = (section: string) => {
+    setEditModeState((prevState) => {
+      const newState: EditModeState = {};
+  
+      for (const key in prevState) {
+        newState[key] = key === section ? !prevState[key] : false;
+      }
+  
+      return newState;
+    });
+  };
   const [isBusinessNameEditMode, setIsBusinessNameEditMode] = useState(false);
   const [isBusinessInfoEditMode, setIsBusinessInfoEditMode] = useState(false);
   const [isServiceArea, setIsServiceArea] = useState(false);
   const [isWebsiteEditMode, setIsWebsiteEditMode] = useState(false);
 
+  const [isAboutEditMode, setIsAboutEditMode] = useState(false)
+
+  function cancelEditMode() {
+    setIsBusinessNameEditMode(false)
+    setIsBusinessInfoEditMode(false);
+    setIsWebsiteEditMode(false)
+    setIsAboutEditMode(false)
+  }
   // BUSINESS NAME
   const handleToggleBusinessNameEditMode = () => {
     setIsBusinessNameEditMode(!isBusinessNameEditMode);
+    setIsBusinessInfoEditMode(false);
+    setIsWebsiteEditMode(false)
   };
 
   const verifyBusinessName = () => {};
@@ -47,11 +79,21 @@ const Profile = () => {
   // BUSINESS INFO
   const handleToggleBusinessInfoEditMode = () => {
     setIsBusinessInfoEditMode(!isBusinessInfoEditMode);
+    setIsBusinessNameEditMode(false)
+    setIsWebsiteEditMode(false)
   };
 
   const handleToggleWebsiteEditMode = () => {
     setIsWebsiteEditMode(!isWebsiteEditMode);
+    setIsBusinessNameEditMode(false)
+    setIsBusinessInfoEditMode(false);
   };
+
+  // ABOUT
+  const handleToggleAboutEditMode = () => {
+    cancelEditMode()
+    setIsAboutEditMode(!isAboutEditMode)
+  }
   return (
     <div className="bg-[#F5F2F0]">
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
@@ -144,7 +186,7 @@ const Profile = () => {
             {/* name */}
             <div className="flex flex-row gap-4 pb-4">
               <div className="flex flex-col w-full">
-                {!isBusinessNameEditMode ? (
+                {!editModeState.businessName ? (
                   <div className="flex gap-4 items-center justify-between">
                     {/* normal */}
                     <span className="text-4xl font-extrabold text-gray-900 font-lora w-2/3">
@@ -153,7 +195,7 @@ const Profile = () => {
                     <span className="flex-1"></span>
                     <button
                       className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                      onClick={handleToggleBusinessNameEditMode}
+                      onClick={() => handleToggleEditMode('businessName')}
                     >
                       Edit
                     </button>
@@ -171,7 +213,7 @@ const Profile = () => {
                     <div className="flex items-start flex-wrap gap-2">
                       <button
                         className="bg-skeleton py-1 px-3  rounded "
-                        onClick={handleToggleBusinessNameEditMode}
+                        onClick={() => handleToggleEditMode('businessName')}
                       >
                         Cancel
                       </button>
@@ -196,10 +238,10 @@ const Profile = () => {
                   <span className="flex-1"></span>
                   {/* optional */}
                   <div>
-                    {!isBusinessInfoEditMode ? (
+                    {!editModeState.businessInfo ? (
                       <button
                         className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                        onClick={handleToggleBusinessInfoEditMode}
+                        onClick={() => handleToggleEditMode('businessInfo')}
                       >
                         Edit
                       </button>
@@ -207,7 +249,7 @@ const Profile = () => {
                       <div className="flex items-start flex-wrap gap-2">
                         <button
                           className="bg-skeleton py-1 px-3  rounded "
-                          onClick={handleToggleBusinessInfoEditMode}
+                          onClick={() => handleToggleEditMode('businessInfo')}
                         >
                           Cancel
                         </button>
@@ -219,7 +261,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="flex flex-col gap-6">
-                  {!isBusinessInfoEditMode ? (
+                  {!editModeState.businessInfo ? (
                     <div className="flex flex-row items-start gap-2">
                       <CiLocationOn className="mt-1" />
                       <div className="flex flex-col gap-1">
@@ -331,7 +373,7 @@ const Profile = () => {
                     </div>
                   )}
 
-                  {isBusinessInfoEditMode && isServiceArea && (
+                  {editModeState.businessInfo && isServiceArea && (
                     <div className="flex flex-col w-full gap-2 px-4 items-start">
                       <div className="flex items-center">
                         <CiLocationOn />
@@ -352,7 +394,7 @@ const Profile = () => {
                     </div>
                   )}
 
-                  {!isBusinessInfoEditMode ? (
+                  {!editModeState.businessInfo ? (
                     <div className="flex flex-row gap-2">
                       <RiPhoneFill className="mt-1" />
                       <div className="flex flex-col gap-1">
@@ -410,10 +452,10 @@ const Profile = () => {
                   <p className="text-2xl font-lora font-medium title">
                     Website
                   </p>
-                  {!isWebsiteEditMode ? (
+                  {!editModeState.website ? (
                     <button
                       className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                      onClick={handleToggleWebsiteEditMode}
+                      onClick={() => handleToggleEditMode('website')}
                     >
                       Edit
                     </button>
@@ -421,7 +463,7 @@ const Profile = () => {
                     <div className="flex items-start flex-wrap gap-2">
                       <button
                         className="bg-skeleton py-1 px-3  rounded "
-                        onClick={handleToggleWebsiteEditMode}
+                        onClick={() => handleToggleEditMode('website')}
                       >
                         Cancel
                       </button>
@@ -432,7 +474,7 @@ const Profile = () => {
                   )}
                 </div>
               </div>
-              {!isWebsiteEditMode ? (
+              {!editModeState.website ? (
                 <div className="flex flex-row items-center gap-2">
                   <VscGlobe />
                   <a className="hover:underline" target="_blank" href="#">
@@ -468,18 +510,19 @@ const Profile = () => {
               <p className="text-2xl font-medium font-lora text-black title">
                 About
               </p>
-              <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950">
+              {!editModeState.about ? <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950" onClick={() => handleToggleEditMode('about')}>
                 Edit
-              </button>
-              {/* edit mode */}
-              {/* <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded ">
+              </button> : <div className="flex items-start flex-wrap gap-2">
+                    <button className="bg-skeleton py-1 px-3  rounded " onClick={() => handleToggleEditMode('about')}>
                       Cancel
                     </button>
                     <button className="bg-orange text-white py-1 px-3 rounded ">
                       Verify
                     </button>
-                  </div> */}
+                  </div>}
+              
+              {/* edit mode */}
+              {/*  */}
               {/* edit mode */}
             </div>
             <p className="text-lg">
