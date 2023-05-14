@@ -54,46 +54,11 @@ const Profile = () => {
       return newState;
     });
   };
-  const [isBusinessNameEditMode, setIsBusinessNameEditMode] = useState(false);
-  const [isBusinessInfoEditMode, setIsBusinessInfoEditMode] = useState(false);
+
   const [isServiceArea, setIsServiceArea] = useState(false);
-  const [isWebsiteEditMode, setIsWebsiteEditMode] = useState(false);
-
-  const [isAboutEditMode, setIsAboutEditMode] = useState(false)
-
-  function cancelEditMode() {
-    setIsBusinessNameEditMode(false)
-    setIsBusinessInfoEditMode(false);
-    setIsWebsiteEditMode(false)
-    setIsAboutEditMode(false)
-  }
-  // BUSINESS NAME
-  const handleToggleBusinessNameEditMode = () => {
-    setIsBusinessNameEditMode(!isBusinessNameEditMode);
-    setIsBusinessInfoEditMode(false);
-    setIsWebsiteEditMode(false)
-  };
 
   const verifyBusinessName = () => {};
 
-  // BUSINESS INFO
-  const handleToggleBusinessInfoEditMode = () => {
-    setIsBusinessInfoEditMode(!isBusinessInfoEditMode);
-    setIsBusinessNameEditMode(false)
-    setIsWebsiteEditMode(false)
-  };
-
-  const handleToggleWebsiteEditMode = () => {
-    setIsWebsiteEditMode(!isWebsiteEditMode);
-    setIsBusinessNameEditMode(false)
-    setIsBusinessInfoEditMode(false);
-  };
-
-  // ABOUT
-  const handleToggleAboutEditMode = () => {
-    cancelEditMode()
-    setIsAboutEditMode(!isAboutEditMode)
-  }
   return (
     <div className="bg-[#F5F2F0]">
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
@@ -520,17 +485,14 @@ const Profile = () => {
                       Verify
                     </button>
                   </div>}
-              
-              {/* edit mode */}
-              {/*  */}
-              {/* edit mode */}
+            
             </div>
             <p className="text-lg">
               Customers use this information to learn what makes your company
               great.
             </p>
           </div>
-          <div className="border-2 border-black border-dashed p-4">
+          {!editModeState.about ? <div className="border-2 border-black border-dashed p-4">
             <div className="flex flex-wrap gap-4">
               <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
                 <FaRegNewspaper className="h-5 w-6" />
@@ -553,9 +515,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-          </div>
-          {/* edit mode */}
-          {/* <div className="w-full">
+          </div> : <div className="w-full">
             <div className="flex flex-col gap-4 lg:w-3/4">
               <p className="font-semibold">Short Description:</p>
               <div className="flex flex-col">
@@ -576,8 +536,8 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-          </div> */}
-          {/* edit mode */}
+          </div>}
+          
           {/* edited */}
           {/* <div className="flex flex-col gap-4 leading-relaxed">
             <div className="lg:w-3/4">
