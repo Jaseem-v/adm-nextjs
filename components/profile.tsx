@@ -44,26 +44,26 @@ const Profile = () => {
     businessCategories: false,
     products: false,
     socialMedia: false,
-    contact: false
-  }
-  const [editModeState, setEditModeState] = useState<EditModeState>(initialEditModeState)
+    contact: false,
+  };
+  const [editModeState, setEditModeState] =
+    useState<EditModeState>(initialEditModeState);
   const [isServiceArea, setIsServiceArea] = useState(false);
-  const [isPrimaryCategoryChange, setIsPrimaryCategoryChange] = useState(false)
-  const [isSecondaryCategoryChange, setIsSecondaryCategoryChange] = useState(false)
+  const [isPrimaryCategoryChange, setIsPrimaryCategoryChange] = useState(false);
+  const [isSecondaryCategoryChange, setIsSecondaryCategoryChange] =
+    useState(false);
 
   const handleToggleEditMode = (section: string) => {
     setEditModeState((prevState) => {
       const newState: EditModeState = {};
-  
+
       for (const key in prevState) {
         newState[key] = key === section ? !prevState[key] : false;
       }
-  
+
       return newState;
     });
   };
-
-
 
   const verifyBusinessName = () => {};
 
@@ -169,7 +169,7 @@ const Profile = () => {
                     <span className="flex-1"></span>
                     <button
                       className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                      onClick={() => handleToggleEditMode('businessName')}
+                      onClick={() => handleToggleEditMode("businessName")}
                     >
                       Edit
                     </button>
@@ -187,7 +187,7 @@ const Profile = () => {
                     <div className="flex items-start flex-wrap gap-2">
                       <button
                         className="bg-skeleton py-1 px-3  rounded "
-                        onClick={() => handleToggleEditMode('businessName')}
+                        onClick={() => handleToggleEditMode("businessName")}
                       >
                         Cancel
                       </button>
@@ -215,7 +215,7 @@ const Profile = () => {
                     {!editModeState.businessInfo ? (
                       <button
                         className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                        onClick={() => handleToggleEditMode('businessInfo')}
+                        onClick={() => handleToggleEditMode("businessInfo")}
                       >
                         Edit
                       </button>
@@ -223,7 +223,7 @@ const Profile = () => {
                       <div className="flex items-start flex-wrap gap-2">
                         <button
                           className="bg-skeleton py-1 px-3  rounded "
-                          onClick={() => handleToggleEditMode('businessInfo')}
+                          onClick={() => handleToggleEditMode("businessInfo")}
                         >
                           Cancel
                         </button>
@@ -429,7 +429,7 @@ const Profile = () => {
                   {!editModeState.website ? (
                     <button
                       className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                      onClick={() => handleToggleEditMode('website')}
+                      onClick={() => handleToggleEditMode("website")}
                     >
                       Edit
                     </button>
@@ -437,7 +437,7 @@ const Profile = () => {
                     <div className="flex items-start flex-wrap gap-2">
                       <button
                         className="bg-skeleton py-1 px-3  rounded "
-                        onClick={() => handleToggleEditMode('website')}
+                        onClick={() => handleToggleEditMode("website")}
                       >
                         Cancel
                       </button>
@@ -484,69 +484,96 @@ const Profile = () => {
               <p className="text-2xl font-medium font-lora text-black title">
                 About
               </p>
-              {!editModeState.about ? <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950" onClick={() => handleToggleEditMode('about')}>
-                Edit
-              </button> : <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded " onClick={() => handleToggleEditMode('about')}>
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div>}
-            
+              {!editModeState.about ? (
+                <button
+                  className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
+                  onClick={() => handleToggleEditMode("about")}
+                >
+                  Edit
+                </button>
+              ) : (
+                <div className="flex items-start flex-wrap gap-2">
+                  <button
+                    className="bg-skeleton py-1 px-3  rounded "
+                    onClick={() => handleToggleEditMode("about")}
+                  >
+                    Cancel
+                  </button>
+                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                    Verify
+                  </button>
+                </div>
+              )}
             </div>
             <p className="text-lg">
               Customers use this information to learn what makes your company
               great.
             </p>
           </div>
-          {!editModeState.about ? <div className="border-2 border-black border-dashed p-4">
-            <div className="flex flex-wrap gap-4">
-              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                <FaRegNewspaper className="h-5 w-6" />
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-4">
-                  <p className="text-gray-700">
-                    Tell your customers more about your business! What makes
-                    your business unique? Introduce your company name and
-                    explain what your business does, where youoperate (or the
-                    markets you serve), and tell us how long you’ve been doing
-                    it for.
-                  </p>
-                  <div className="flex items-center font-bold gap-1">
-                    <span className="cursor-pointer hover:underline">
-                      Add business description
-                    </span>
-                    <FaChevronRight />
+          {!editModeState.about ? (
+            <div className="border-2 border-black border-dashed p-4">
+              <div className="flex flex-wrap gap-4">
+                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                  <FaRegNewspaper className="h-5 w-6" />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4">
+                    <p className="text-gray-700">
+                      Tell your customers more about your business! What makes
+                      your business unique? Introduce your company name and
+                      explain what your business does, where youoperate (or the
+                      markets you serve), and tell us how long you’ve been doing
+                      it for.
+                    </p>
+                    <div className="flex items-center font-bold gap-1">
+                      <span className="cursor-pointer hover:underline">
+                        Add business description
+                      </span>
+                      <FaChevronRight />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div> : <div className="w-full">
-            <div className="flex flex-col gap-4 lg:w-3/4">
-              <p className="font-semibold">Short Description:</p>
-              <div className="flex flex-col">
-                <div className="flex">
-                  <textarea name="shortDescription" id="shortDescription" rows={3} maxLength={150} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."></textarea>
+          ) : (
+            <div className="w-full">
+              <div className="flex flex-col gap-4 lg:w-3/4">
+                <p className="font-semibold">Short Description:</p>
+                <div className="flex flex-col">
+                  <div className="flex">
+                    <textarea
+                      name="shortDescription"
+                      id="shortDescription"
+                      rows={3}
+                      maxLength={150}
+                      className="border border-[#b7babf] w-full py-2 px-3 text-sm"
+                      placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
+                    ></textarea>
+                  </div>
+                  <div className="self-end">
+                    <span>0/150</span>
+                  </div>
                 </div>
-                <div className="self-end">
-                  <span>0/150</span>
-                </div>
-              </div>
-              <p className="font-semibold">Detailed Description:</p>
-              <div className="flex flex-col">
-                <div className="flex">
-                  <textarea name="detailedDescription" id="detailedDescription" rows={10} maxLength={2500} className="border border-[#b7babf] w-full py-2 px-3 text-sm" placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."></textarea>
-                </div>
-                <div className="self-end">
-                  <span>0/2500</span>
+                <p className="font-semibold">Detailed Description:</p>
+                <div className="flex flex-col">
+                  <div className="flex">
+                    <textarea
+                      name="detailedDescription"
+                      id="detailedDescription"
+                      rows={10}
+                      maxLength={2500}
+                      className="border border-[#b7babf] w-full py-2 px-3 text-sm"
+                      placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."
+                    ></textarea>
+                  </div>
+                  <div className="self-end">
+                    <span>0/2500</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>}
-          
+          )}
+
           {/* edited */}
           {/* <div className="flex flex-col gap-4 leading-relaxed">
             <div className="lg:w-3/4">
@@ -571,60 +598,139 @@ const Profile = () => {
               <p className="text-2xl font-medium font-lora text-black title">
                 Business Categories
               </p>
-              {!editModeState.businessCategories ? <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950" onClick={() => handleToggleEditMode('businessCategories')}>
-                Edit
-              </button> : <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded " onClick={() => handleToggleEditMode('businessCategories')}>
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div>}
-              
+              {!editModeState.businessCategories ? (
+                <button
+                  className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
+                  onClick={() => handleToggleEditMode("businessCategories")}
+                >
+                  Edit
+                </button>
+              ) : (
+                <div className="flex items-start flex-wrap gap-2">
+                  <button
+                    className="bg-skeleton py-1 px-3  rounded "
+                    onClick={() => handleToggleEditMode("businessCategories")}
+                  >
+                    Cancel
+                  </button>
+                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                    Verify
+                  </button>
+                </div>
+              )}
             </div>
             <p className="text-lg">
               Categorizing your business will help customers find your listing
               among your competitors.
             </p>
           </div>
-          {!editModeState.businessCategories ? <div className="flex flex-col gap-2 mt-2">
-            <p>Marketing</p>
-            <p>Web development</p>
-          </div> : <><div className="flex flex-col gap-1">
-            <label htmlFor="primaryCategory">
-              Primary Category (required)
-            </label>
-              <p className="text-sm text-gray-600">Select the category that best describes your business</p>
-          </div>
-          <div className="flex flex-row gap-4 items-center">
-            {!isPrimaryCategoryChange ? <div className="w-80 px-4 py-2 bg-skeleton">
+          {!editModeState.businessCategories ? (
+            <div className="flex flex-col gap-2 mt-2">
               <p>Marketing</p>
-            </div> : <input type="text" autoComplete="off" aria-autocomplete="list" aria-controls="react-autosuggestion" className="form-input md:w-80" placeholder="Search for a category" /> }
-            
-            <div className="hover:underline cursor-pointer" onClick={() => setIsPrimaryCategoryChange(!isPrimaryCategoryChange)}>{editModeState.businessCategories && isPrimaryCategoryChange ? 'cancel' : 'change'}</div>
-            </div>
-            <div className="flex flex-col gap-1">
-            <label htmlFor="primaryCategory">
-            Secondary Categories (optional)
-            </label>
-              <p className="text-sm text-gray-600">Secondary categories let people know any additional services your business provides.</p>
-          </div>
-          <div className="flex flex-row gap-4 items-center">
-          {!isSecondaryCategoryChange ? <div className="w-80 px-4 py-2 bg-skeleton">
               <p>Web development</p>
-            </div> : <input type="text" autoComplete="off" aria-autocomplete="list" aria-controls="react-autosuggestion" className="form-input md:w-80" placeholder="Search for a category" /> }
-            <div className="hover:underline cursor-pointer" onClick={() => setIsSecondaryCategoryChange(!isSecondaryCategoryChange)}>{editModeState.businessCategories && isSecondaryCategoryChange ? 'cancel' : 'change'}</div>
-            {!isSecondaryCategoryChange && <div className="hover:underline cursor-pointer text-error">remove</div>}
-            
-          </div>
-          <div className="flex flex-row gap-4">
-            <div role="combobox" aria-controls="react-autosuggestion" aria-expanded="false" className="react-autosuggestion-container">
-              <input type="text" autoComplete="off" aria-autocomplete="list" aria-controls="react-autosuggestion" className="form-input md:w-80" placeholder="Search for a category" />
-              <div className="react-auto-suggestion-container" id="react-autosuggestion" role="listbox"></div>
             </div>
-          </div></>}
-          
+          ) : (
+            <>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="primaryCategory">
+                  Primary Category (required)
+                </label>
+                <p className="text-sm text-gray-600">
+                  Select the category that best describes your business
+                </p>
+              </div>
+              <div className="flex flex-row gap-4 items-center">
+                {!isPrimaryCategoryChange ? (
+                  <div className="w-80 px-4 py-2 bg-skeleton">
+                    <p>Marketing</p>
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    aria-autocomplete="list"
+                    aria-controls="react-autosuggestion"
+                    className="form-input md:w-80"
+                    placeholder="Search for a category"
+                  />
+                )}
+
+                <div
+                  className="hover:underline cursor-pointer"
+                  onClick={() =>
+                    setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                  }
+                >
+                  {editModeState.businessCategories && isPrimaryCategoryChange
+                    ? "cancel"
+                    : "change"}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="primaryCategory">
+                  Secondary Categories (optional)
+                </label>
+                <p className="text-sm text-gray-600">
+                  Secondary categories let people know any additional services
+                  your business provides.
+                </p>
+              </div>
+              <div className="flex flex-row gap-4 items-center">
+                {!isSecondaryCategoryChange ? (
+                  <div className="w-80 px-4 py-2 bg-skeleton">
+                    <p>Web development</p>
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    aria-autocomplete="list"
+                    aria-controls="react-autosuggestion"
+                    className="form-input md:w-80"
+                    placeholder="Search for a category"
+                  />
+                )}
+                <div
+                  className="hover:underline cursor-pointer"
+                  onClick={() =>
+                    setIsSecondaryCategoryChange(!isSecondaryCategoryChange)
+                  }
+                >
+                  {editModeState.businessCategories && isSecondaryCategoryChange
+                    ? "cancel"
+                    : "change"}
+                </div>
+                {!isSecondaryCategoryChange && (
+                  <div className="hover:underline cursor-pointer text-error">
+                    remove
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-row gap-4">
+                <div
+                  role="combobox"
+                  aria-controls="react-autosuggestion"
+                  aria-expanded="false"
+                  className="react-autosuggestion-container"
+                >
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    aria-autocomplete="list"
+                    aria-controls="react-autosuggestion"
+                    className="form-input md:w-80"
+                    placeholder="Search for a category"
+                  />
+                  <div
+                    className="react-auto-suggestion-container"
+                    id="react-autosuggestion"
+                    role="listbox"
+                  ></div>
+                </div>
+              </div>
+            </>
+          )}
+
           {/* edit mode */}
           {/* <div className="flex flex-col gap-1">
             <label htmlFor="primaryCategory">
@@ -678,38 +784,69 @@ const Profile = () => {
               Create a list of your products and services for your customers.
             </p>
           </div>
-          {!editModeState.products ? <div className="border-2 border-black border-dashed p-4">
-            <div className="flex flex-wrap gap-4">
-              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                <MdMiscellaneousServices className="h-5 w-6" />
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-4">
-                  <p className="text-gray-700">
-                    Attract the right customers by creating a list of up to 30
-                    products or services that you offer.
-                  </p>
-                  <div className="flex items-center font-bold gap-1">
-                    <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode('products')}>
-                      Create services list
-                    </span>
-                    <FaChevronRight />
+          {!editModeState.products ? (
+            <div className="border-2 border-black border-dashed p-4">
+              <div className="flex flex-wrap gap-4">
+                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                  <MdMiscellaneousServices className="h-5 w-6" />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4">
+                    <p className="text-gray-700">
+                      Attract the right customers by creating a list of up to 30
+                      products or services that you offer.
+                    </p>
+                    <div className="flex items-center font-bold gap-1">
+                      <span
+                        className="cursor-pointer hover:underline"
+                        onClick={() => handleToggleEditMode("products")}
+                      >
+                        Create services list
+                      </span>
+                      <FaChevronRight />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div> : <div className="flex flex-col gap-2">
-            <hr className="w-full text-grey-300"/>
-            <div className="text-xs">{`1`}{`/30 Items Listed`}</div>
-            <form name="editProductForm" >
-              <div className="flex">
-                <input type="text" name="product-0" className="form-input rounded-r-0"/>
-                <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
-                <button type="submit" className="py-2 px-4 bg-error text-white" title="save"><FaTrashAlt /></button>
-                <div className="flex items-center justify-center px-2"><IoClose className="text-error w-6 h-6 stroke-3 cursor-pointer" onClick={() => handleToggleEditMode('products')}/></div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <hr className="w-full text-grey-300" />
+              <div className="text-xs">
+                {`1`}
+                {`/30 Items Listed`}
               </div>
-            </form>
-          </div>}
+              <form name="editProductForm">
+                <div className="flex">
+                  <input
+                    type="text"
+                    name="product-0"
+                    className="form-input rounded-r-0"
+                  />
+                  <button
+                    type="submit"
+                    className="py-2 px-4 bg-success text-white"
+                    title="save"
+                  >
+                    <FaCheck />
+                  </button>
+                  <button
+                    type="submit"
+                    className="py-2 px-4 bg-error text-white"
+                    title="save"
+                  >
+                    <FaTrashAlt />
+                  </button>
+                  <div className="flex items-center justify-center px-2">
+                    <IoClose
+                      className="text-error w-6 h-6 stroke-3 cursor-pointer"
+                      onClick={() => handleToggleEditMode("products")}
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
           {/* edit mode */}
           {/* <div className="flex flex-col gap-2">
             <hr className="w-full text-grey-300"/>
@@ -836,109 +973,153 @@ const Profile = () => {
               <p className="text-2xl font-medium font-lora text-black title">
                 Social Media Links
               </p>
-              {!editModeState.socialMedia ? <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950" onClick={() => handleToggleEditMode('socialMedia')}>
-                Edit
-              </button> : <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded " onClick={() => handleToggleEditMode('socialMedia')} >
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div>}
+              {!editModeState.socialMedia ? (
+                <button
+                  className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
+                  onClick={() => handleToggleEditMode("socialMedia")}
+                >
+                  Edit
+                </button>
+              ) : (
+                <div className="flex items-start flex-wrap gap-2">
+                  <button
+                    className="bg-skeleton py-1 px-3  rounded "
+                    onClick={() => handleToggleEditMode("socialMedia")}
+                  >
+                    Cancel
+                  </button>
+                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                    Verify
+                  </button>
+                </div>
+              )}
             </div>
             <p className="text-lg">
               Add links to your social media pages on various major platforms.
             </p>
           </div>
-          {!editModeState.socialMedia ? <div className="border-2 border-black border-dashed p-4">
-            <div className="flex flex-wrap lg:flex-col gap-4">
-              <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                <FaShareAlt className="h-5 w-6" />
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-4">
-                  <p className="text-gray-700">
-                    Stay connected with your customers. Add links to your
-                    business social networks.
-                  </p>
-                  <div className="flex items-center font-bold gap-1">
-                    <span className="cursor-pointer hover:underline">
-                      Add social links
-                    </span>
-                    <FaChevronRight />
+          {!editModeState.socialMedia ? (
+            <div className="border-2 border-black border-dashed p-4">
+              <div className="flex flex-wrap lg:flex-col gap-4">
+                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                  <FaShareAlt className="h-5 w-6" />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4">
+                    <p className="text-gray-700">
+                      Stay connected with your customers. Add links to your
+                      business social networks.
+                    </p>
+                    <div className="flex items-center font-bold gap-1">
+                      <span className="cursor-pointer hover:underline">
+                        Add social links
+                      </span>
+                      <FaChevronRight />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div> : <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-1">
-              <label htmlFor="facebook">Facebook URL</label>
-              <div className="flex w-full flex-row">
-                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                  <BsFacebook />
-                  <p className="text-sm">https://</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="facebook">Facebook URL</label>
+                <div className="flex w-full flex-row">
+                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                    <BsFacebook />
+                    <p className="text-sm">https://</p>
+                  </div>
+                  <input
+                    type="text"
+                    id="facebook"
+                    className="form-input w-full"
+                    placeholder="e.g. www.facebook.com/companyProfile"
+                  />
                 </div>
-                <input type="text" id="facebook" className="form-input w-full" placeholder="e.g. www.facebook.com/companyProfile"/>
               </div>
-            </div>
 
-            <div className="flex flex-col gap-1">
-              <label htmlFor="instagram">Instagram</label>
-              <div className="flex w-full flex-row">
-                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                  <BsInstagram />
-                  <p className="text-sm">@</p>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="instagram">Instagram</label>
+                <div className="flex w-full flex-row">
+                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                    <BsInstagram />
+                    <p className="text-sm">@</p>
+                  </div>
+                  <input
+                    type="text"
+                    id="instagram"
+                    className="form-input w-full"
+                    placeholder="e.g. @instagramProfile"
+                  />
                 </div>
-                <input type="text" id="instagram" className="form-input w-full" placeholder="e.g. @instagramProfile"/>
               </div>
-            </div>
 
-            <div className="flex flex-col gap-1">
-              <label htmlFor="twitter">Twitter</label>
-              <div className="flex w-full flex-row">
-                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                  <BsTwitter />
-                  <p className="text-sm">@</p>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="twitter">Twitter</label>
+                <div className="flex w-full flex-row">
+                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                    <BsTwitter />
+                    <p className="text-sm">@</p>
+                  </div>
+                  <input
+                    type="text"
+                    id="twitter"
+                    className="form-input w-full"
+                    placeholder="e.g. @twitterProfile"
+                  />
                 </div>
-                <input type="text" id="twitter" className="form-input w-full" placeholder="e.g. @twitterProfile"/>
               </div>
-            </div>
 
-            <div className="flex flex-col gap-1">
-              <label htmlFor="linkedin">LinkedIn URL</label>
-              <div className="flex w-full flex-row">
-                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                  <BsLinkedin />
-                  <p className="text-sm">https://</p>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="linkedin">LinkedIn URL</label>
+                <div className="flex w-full flex-row">
+                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                    <BsLinkedin />
+                    <p className="text-sm">https://</p>
+                  </div>
+                  <input
+                    type="text"
+                    id="linkedin"
+                    className="form-input w-full"
+                    placeholder="e.g. www.linkedin.com/companyProfile"
+                  />
                 </div>
-                <input type="text" id="linkedin" className="form-input w-full" placeholder="e.g. www.linkedin.com/companyProfile"/>
               </div>
-            </div>
 
-            <div className="flex flex-col gap-1">
-              <label htmlFor="youtube">Youtube Channel</label>
-              <div className="flex w-full flex-row">
-                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                  <BsYoutube />
-                  <p className="text-sm">https://</p>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="youtube">Youtube Channel</label>
+                <div className="flex w-full flex-row">
+                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                    <BsYoutube />
+                    <p className="text-sm">https://</p>
+                  </div>
+                  <input
+                    type="text"
+                    id="youtube"
+                    className="form-input w-full"
+                    placeholder="e.g. www.youtube.com/profile"
+                  />
                 </div>
-                <input type="text" id="youtube" className="form-input w-full" placeholder="e.g. www.youtube.com/profile"/>
               </div>
-            </div>
 
-            <div className="flex flex-col gap-1">
-              <label htmlFor="pinterest">Pinterest URL</label>
-              <div className="flex w-full flex-row">
-                <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                  <BsPinterest />
-                  <p className="text-sm">https://</p>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="pinterest">Pinterest URL</label>
+                <div className="flex w-full flex-row">
+                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                    <BsPinterest />
+                    <p className="text-sm">https://</p>
+                  </div>
+                  <input
+                    type="text"
+                    id="pinterest"
+                    className="form-input w-full"
+                    placeholder="e.g. www.pinterest.com/profile"
+                  />
                 </div>
-                <input type="text" id="pinterest" className="form-input w-full" placeholder="e.g. www.pinterest.com/profile"/>
               </div>
             </div>
-          </div>}
-          
+          )}
+
           {/* edited */}
           {/* <div className="flex flex-col gap-6">
             <div className="flex flex-row items-center gap-4">
@@ -973,70 +1154,125 @@ const Profile = () => {
               <p className="text-2xl font-medium font-lora text-black title">
                 Contacts
               </p>
-              {editModeState.contact && <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded " onClick={() => handleToggleEditMode('contact')}>
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div>}
+              {editModeState.contact && (
+                <div className="flex items-start flex-wrap gap-2">
+                  <button
+                    className="bg-skeleton py-1 px-3  rounded "
+                    onClick={() => handleToggleEditMode("contact")}
+                  >
+                    Cancel
+                  </button>
+                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                    Verify
+                  </button>
+                </div>
+              )}
             </div>
             <p className="text-lg">
               Who are the primary contacts in your business?
             </p>
           </div>
-          {!editModeState.contact ? <><div className="md:grid gap-2 grid-cols-2">
-            <div className="border-2 border-black border-dashed p-4">
-              <div className="flex flex-wrap lg:flex-col gap-4">
-                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                  <IoMdContact className="h-5 w-6" />
-                </div>
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-4">
-                    <p className="text-gray-700">
-                      Inform customers on special contacts in your company.
-                    </p>
-                    <div className="flex items-center font-bold gap-1">
-                      <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode('contact')}>
-                        Create an additional contact
-                      </span>
-                      <FaChevronRight />
+          {!editModeState.contact ? (
+            <>
+              <div className="md:grid gap-2 grid-cols-2">
+                <div className="border-2 border-black border-dashed p-4">
+                  <div className="flex flex-wrap lg:flex-col gap-4">
+                    <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                      <IoMdContact className="h-5 w-6" />
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-4">
+                        <p className="text-gray-700">
+                          Inform customers on special contacts in your company.
+                        </p>
+                        <div className="flex items-center font-bold gap-1">
+                          <span
+                            className="cursor-pointer hover:underline"
+                            onClick={() => handleToggleEditMode("contact")}
+                          >
+                            Create an additional contact
+                          </span>
+                          <FaChevronRight />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <button
+                className="py-2 mt-2 rounded w-48 bg-black text-white"
+                onClick={() => handleToggleEditMode("contact")}
+              >
+                Add contact
+              </button>
+            </>
+          ) : (
+            <div className="md:grid gap-2 grid-cols-2">
+              <div className="flex flex-col gap-2 py-2">
+                <span className="text-xs text-red-700">Required</span>
+                <div className="form-control">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="w-80"
+                    id="firstname"
+                    name="firstname"
+                  />
+                </div>
+                <span className="text-xs text-red-700">Required</span>
+                <div className="form-control">
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="w-80"
+                    id="lastname"
+                    name="lastname"
+                  />
+                </div>
+                <span className="text-xs text-red-700">Required</span>
+                <div className="form-control">
+                  <input
+                    type="text"
+                    placeholder="Title or Role"
+                    className="w-80"
+                    id="title"
+                    name="title"
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-80"
+                    id="email"
+                    name="email"
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    type="text"
+                    placeholder="Phone"
+                    className="w-80"
+                    id="phone"
+                    name="phone"
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    type="text"
+                    placeholder="Fax"
+                    className="w-80"
+                    id="fax"
+                    name="fax"
+                  />
+                </div>
+              </div>
+              <div className="error">
+                First Name, Last Name and Title are required
+              </div>
             </div>
-          </div>
-          <button className="py-2 mt-2 rounded w-48 bg-black text-white" onClick={() => handleToggleEditMode('contact')}>
-            Add contact
-          </button></> : <div className="md:grid gap-2 grid-cols-2">
-            <div className="flex flex-col gap-2 py-2">
-              <span className="text-xs text-red-700">Required</span>
-              <div className="form-control"> 
-                <input type="text" placeholder="First Name" className="w-80" id="firstname" name="firstname"/>
-              </div>
-              <span className="text-xs text-red-700">Required</span>
-              <div className="form-control">
-                <input type="text" placeholder="Last Name" className="w-80" id="lastname" name="lastname"/>
-              </div>
-              <span className="text-xs text-red-700">Required</span>
-              <div className="form-control">
-                <input type="text" placeholder="Title or Role" className="w-80" id="title" name="title"/>
-              </div>
-              <div className="form-control">
-                <input type="email" placeholder="Email" className="w-80" id="email" name="email"/>
-              </div>
-              <div className="form-control">
-                <input type="text" placeholder="Phone" className="w-80" id="phone" name="phone"/>
-              </div>
-              <div className="form-control">
-                <input type="text" placeholder="Fax" className="w-80" id="fax" name="fax"/>
-              </div>
-            </div>
-            <div className="error">First Name, Last Name and Title are required</div>
-          </div>}
-          
+          )}
+
           {/* EDIT MODE */}
           {/*  */}
           {/* EDIT MODE */}
