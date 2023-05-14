@@ -590,7 +590,7 @@ const Profile = () => {
           </div>
           {!editModeState.businessCategories ? <div className="flex flex-col gap-2 mt-2">
             <p>Marketing</p>
-            <p>Software development</p>
+            <p>Web development</p>
           </div> : <><div className="flex flex-col gap-1">
             <label htmlFor="primaryCategory">
               Primary Category (required)
@@ -612,7 +612,7 @@ const Profile = () => {
           </div>
           <div className="flex flex-row gap-4 items-center">
           {!isSecondaryCategoryChange ? <div className="w-80 px-4 py-2 bg-skeleton">
-              <p>Marketing</p>
+              <p>Web development</p>
             </div> : <input type="text" autoComplete="off" aria-autocomplete="list" aria-controls="react-autosuggestion" className="form-input md:w-80" placeholder="Search for a category" /> }
             <div className="hover:underline cursor-pointer" onClick={() => setIsSecondaryCategoryChange(!isSecondaryCategoryChange)}>{editModeState.businessCategories && isSecondaryCategoryChange ? 'cancel' : 'change'}</div>
             {!isSecondaryCategoryChange && <div className="hover:underline cursor-pointer text-error">remove</div>}
@@ -673,23 +673,12 @@ const Profile = () => {
               <p className="text-2xl font-medium font-lora text-black title">
                 Products and Services
               </p>
-              {!editModeState.products ? <button className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950" onClick={() => handleToggleEditMode('products')}>
-                Edit
-              </button> : <div className="flex items-start flex-wrap gap-2">
-                    <button className="bg-skeleton py-1 px-3  rounded " onClick={() => handleToggleEditMode('products')} >
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div>}
-              
             </div>
             <p className="text-lg">
               Create a list of your products and services for your customers.
             </p>
           </div>
-          <div className="border-2 border-black border-dashed p-4">
+          {!editModeState.products ? <div className="border-2 border-black border-dashed p-4">
             <div className="flex flex-wrap gap-4">
               <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
                 <MdMiscellaneousServices className="h-5 w-6" />
@@ -701,7 +690,7 @@ const Profile = () => {
                     products or services that you offer.
                   </p>
                   <div className="flex items-center font-bold gap-1">
-                    <span className="cursor-pointer hover:underline">
+                    <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode('products')}>
                       Create services list
                     </span>
                     <FaChevronRight />
@@ -709,7 +698,18 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> : <div className="flex flex-col gap-2">
+            <hr className="w-full text-grey-300"/>
+            <div className="text-xs">{`1`}{`/30 Items Listed`}</div>
+            <form name="editProductForm" >
+              <div className="flex">
+                <input type="text" name="product-0" className="form-input rounded-r-0"/>
+                <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
+                <button type="submit" className="py-2 px-4 bg-error text-white" title="save"><FaTrashAlt /></button>
+                <div className="flex items-center justify-center px-2"><IoClose className="text-error w-6 h-6 stroke-3 cursor-pointer" onClick={() => handleToggleEditMode('products')}/></div>
+              </div>
+            </form>
+          </div>}
           {/* edit mode */}
           {/* <div className="flex flex-col gap-2">
             <hr className="w-full text-grey-300"/>
