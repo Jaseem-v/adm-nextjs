@@ -107,6 +107,35 @@ const Profile = () => {
       setIsAddedPhoto(false);
     }
   };
+
+  // INITIAL STATE
+    const [editInfoState, setEditInfoState] = useState({
+      businessName: "",
+      streetAddress: "",
+      city: "",
+      state: "",
+      zip: "",
+      hideAddress: false,
+      serviceAtCustomerLocation: false,
+      phone: "",
+      hidePhone: true,
+      website: "",
+      shortDescription: "",
+      detailedDescription: "",
+      primaryCategory: "",
+      secondaryCategory: [],
+      products: [],
+      photos: [],
+      socialMedia: {
+        facebook: "",
+        instagram: "",
+        twitter: "",
+        linkedin: "",
+        youtube: "",
+        pinterest: ""
+      },
+      contacts: ""  
+    })
   return (
     <div className="bg-[#F5F2F0]">
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
