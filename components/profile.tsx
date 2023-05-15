@@ -566,7 +566,7 @@ const Profile = () => {
                       it for.
                     </p>
                     <div className="flex items-center font-bold gap-1">
-                      <span className="cursor-pointer hover:underline">
+                      <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode("about")}>
                         Add business description
                       </span>
                       <FaChevronRight />
@@ -1018,30 +1018,6 @@ const Profile = () => {
               </div>
             </div>
           )}
-
-          {/* edit mode */}
-          {/* <div className="flex flex-row flex-wrap gap-4"> */}
-          {/* added photo👇 */}
-          {/* <div>
-              <div className="relative">
-                <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
-                  <IoClose color="white" />
-                </div>
-                <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
-                  <div className="h-48 w-48 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('https://unsplash.com/photos/Nnh4gV8TwlY')"}}></div>
-                </div>
-              </div>
-            </div> */}
-          {/* added photo👆 */}
-          {/* <div>
-              <input type="file" className="hidden" />
-              <div className="w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black">
-                <p className="font-semibold">Add a photo</p>
-                <BsFillCameraFill className="w-11 h-11" />
-              </div>
-            </div>
-          </div> */}
-          {/* edit mode */}
         </div>
         {/* PHOTOS👆 */}
         {/* \\\\\\\\\\\\\\ */}
