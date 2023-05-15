@@ -71,7 +71,10 @@ const Profile = () => {
     });
   };
 
-  const verifyBusinessName = () => {};
+  const verifyBusinessName = () => {
+    console.log('verified')
+    handleToggleEditMode('businessName')
+  };
 
   // DROPZONE
   const onDrop = useCallback(
@@ -268,7 +271,7 @@ const Profile = () => {
                   <div className="flex gap-4 items-center justify-between">
                     {/* normal */}
                     <span className="text-4xl font-extrabold text-gray-900 font-lora w-2/3">
-                      Business name
+                      {editInfoState.businessName.length > 0 ? editInfoState.businessName : "Business name"}
                     </span>
                     <span className="flex-1"></span>
                     <button
@@ -285,6 +288,8 @@ const Profile = () => {
                         type="text"
                         placeholder="edit mode"
                         className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
+                        value={editInfoState.businessName}
+                        onChange={(e) => handleEditInfoStateChange('businessName', e.target.value)}
                       />
                     </div>
                     <span className="flex-1"></span>
