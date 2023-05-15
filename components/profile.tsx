@@ -109,6 +109,34 @@ const Profile = () => {
   };
 
   // INITIAL STATE
+  type EditInfoStateType = {
+    businessName: string;
+    streetAddress: string;
+    city: string;
+    state: string;
+    zip: string;
+    hideAddress: boolean;
+    serviceAtCustomerLocation: boolean;
+    phone: string;
+    hidePhone: boolean;
+    website: string;
+    shortDescription: string;
+    detailedDescription: string;
+    primaryCategory: string;
+    secondaryCategory: string[];
+    products: string[];
+    photos: any[]; // Assuming photos can be of any type, adjust accordingly
+    socialMedia: {
+      facebook: string;
+      instagram: string;
+      twitter: string;
+      linkedin: string;
+      youtube: string;
+      pinterest: string;
+    };
+    contacts: string;
+  };
+
     const [editInfoState, setEditInfoState] = useState({
       businessName: "",
       streetAddress: "",
@@ -136,6 +164,13 @@ const Profile = () => {
       },
       contacts: ""  
     })
+
+    const handleEditInfoStateChange = (section: keyof EditInfoStateType, value: EditInfoStateType[keyof EditInfoStateType] ) => {
+      setEditInfoState(prevState => ({
+        ...prevState,
+        [section]: value
+      }));
+    };
   return (
     <div className="bg-[#F5F2F0]">
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
