@@ -71,10 +71,6 @@ const Profile = () => {
     });
   };
 
-  const verifyBusinessName = () => {
-    console.log('verified')
-    handleToggleEditMode('businessName')
-  };
 
   // DROPZONE
   const onDrop = useCallback(
@@ -144,7 +140,7 @@ const Profile = () => {
       businessName: "",
       streetAddress: "",
       city: "",
-      state: "",
+      state: "Abudhabi",
       zip: "",
       hideAddress: false,
       serviceAtCustomerLocation: false,
@@ -174,6 +170,19 @@ const Profile = () => {
         [section]: value
       }));
     };
+
+    // SECTION FUNCTIONS
+    const verifyBusinessName = () => {
+      console.log('verified business name')
+      // POST API
+      handleToggleEditMode('businessName')
+    };
+
+    const verifyBusinessInfo = () => {
+      console.log('verified business info')
+      // POST API
+      handleToggleEditMode('businessInfo')
+    }
   return (
     <div className="bg-[#F5F2F0]">
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
@@ -336,7 +345,7 @@ const Profile = () => {
                         >
                           Cancel
                         </button>
-                        <button className="bg-orange text-white py-1 px-3 rounded ">
+                        <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyBusinessInfo}>
                           Verify
                         </button>
                       </div>
@@ -354,7 +363,7 @@ const Profile = () => {
                             <FaEye className="h-3" />
                           </span>
                         </p>
-                        <p className="text-lg text-gray-700">{`brooklyn, Brooklyn Manor, NY, 45676`}</p>
+                        <p className="text-lg text-gray-700">{editInfoState.streetAddress.length > 0 ? editInfoState.streetAddress : 'Brooklyn'}{`, `}{editInfoState.city.length > 0 ? editInfoState.city : 'city'}{`, `}{editInfoState.state}{`, `}{editInfoState.zip.length > 0 ? editInfoState.zip : '123456'}</p>
                       </div>
                     </div>
                   ) : (
@@ -385,6 +394,8 @@ const Profile = () => {
                             type="text"
                             id="streetAddress"
                             placeholder="e.g. Sheikh Zayed St"
+                            value={editInfoState.streetAddress}
+                            onChange={(e) => handleEditInfoStateChange('streetAddress', e.target.value)}
                           />
                         </div>
                         <div className="flex flex-col gap-1"></div>{" "}
@@ -406,6 +417,8 @@ const Profile = () => {
                               type="text"
                               id="city"
                               placeholder="e.g. Al Ain"
+                              value={editInfoState.city}
+                            onChange={(e) => handleEditInfoStateChange('city', e.target.value)}
                             />
                           </div>
                           <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
@@ -416,6 +429,8 @@ const Profile = () => {
                               pattern="[0-9]"
                               id="zip"
                               placeholder="126452"
+                              value={editInfoState.zip}
+                            onChange={(e) => handleEditInfoStateChange('zip', e.target.value)}
                             />
                           </div>
                         </div>
