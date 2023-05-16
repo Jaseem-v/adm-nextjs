@@ -1136,7 +1136,9 @@ const Profile = () => {
                 {`1`}
                 {`/30 Items Listed`}
               </div>
+              {editInfoState.products.map(product => (
               <div
+              key={product.id}
                 title="click to edit"
                 className="flex flex-row gap-2 items-center cursor-pointer"
               >
@@ -1147,8 +1149,9 @@ const Profile = () => {
                 <AiFillCaretDown />
               </div> */}
                 {/* reordering */}
-                <span>bottle</span>
+                <span>{product.name}</span>
               </div>
+              ))}
               <div className="flex flex-row items-center gap-4">
                 <div className="flex flex-row gap-2 items-center cursor-pointer">
                   <BsFillPlusCircleFill className="text-success" />
