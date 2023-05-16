@@ -49,7 +49,7 @@ const Profile = () => {
     socialMedia: false,
     contact: false,
     photos: false,
-    detailedInformation: false
+    detailedInformation: false,
   };
   const [editModeState, setEditModeState] =
     useState<EditModeState>(initialEditModeState);
@@ -76,13 +76,16 @@ const Profile = () => {
   const businessInfoRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
 
-  const handleProgessBarClick = (ref: React.RefObject<HTMLDivElement>, section: string) => {
+  const handleProgessBarClick = (
+    ref: React.RefObject<HTMLDivElement>,
+    section: string
+  ) => {
     const navbarHeight = 120;
     const rect = ref.current?.getBoundingClientRect();
     const topOffset = rect?.top || 0;
     window.scrollTo({
       top: window.pageYOffset + topOffset - navbarHeight,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
     handleToggleEditMode(section);
   };
@@ -151,73 +154,73 @@ const Profile = () => {
     contacts: string;
   };
 
-    const [editInfoState, setEditInfoState] = useState({
-      businessName: "",
-      streetAddress: "",
-      city: "",
-      state: "Abudhabi",
-      zip: "",
-      hideAddress: false,
-      serviceAtCustomerLocation: false,
-      phone: "",
-      hidePhone: true,
-      website: "",
-      shortDescription: "",
-      detailedDescription: "",
-      primaryCategory: "",
-      secondaryCategory: [],
-      products: [],
-      photos: [],
-      socialMedia: {
-        facebook: "",
-        instagram: "",
-        twitter: "",
-        linkedin: "",
-        youtube: "",
-        pinterest: ""
-      },
-      contacts: ""  
-    })
+  const [editInfoState, setEditInfoState] = useState({
+    businessName: "",
+    streetAddress: "",
+    city: "",
+    state: "Abudhabi",
+    zip: "",
+    hideAddress: false,
+    serviceAtCustomerLocation: false,
+    phone: "",
+    hidePhone: true,
+    website: "",
+    shortDescription: "",
+    detailedDescription: "",
+    primaryCategory: "",
+    secondaryCategory: [],
+    products: [],
+    photos: [],
+    socialMedia: {
+      facebook: "",
+      instagram: "",
+      twitter: "",
+      linkedin: "",
+      youtube: "",
+      pinterest: "",
+    },
+    contacts: "",
+  });
 
-    const handleEditInfoStateChange = (section: keyof EditInfoStateType, value: EditInfoStateType[keyof EditInfoStateType] ) => {
-      setEditInfoState(prevState => ({
+  const handleEditInfoStateChange = (
+    section: keyof EditInfoStateType,
+    value: EditInfoStateType[keyof EditInfoStateType]
+  ) => {
+    setEditInfoState((prevState) => ({
+      ...prevState,
+      [section]: value,
+    }));
+  };
+
+  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.target.value.trim();
+
+    if (input === "" || /^\d+$/.test(input)) {
+      setEditInfoState((prevState) => ({
         ...prevState,
-        [section]: value
+        phone: input,
       }));
-    };
-
-    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const input = event.target.value.trim();
-  
-      if (input === '' || /^\d+$/.test(input)) {
-        setEditInfoState(prevState => ({
-          ...prevState,
-          phone: input
-        }));
-      }
-    };
-
-    // SECTION FUNCTIONS
-    const verifyBusinessName = () => {
-      // POST API
-      handleToggleEditMode('businessName')
-      console.log('verified business name')
-    };
-
-    const verifyBusinessInfo = () => {
-      // POST API
-      handleToggleEditMode('businessInfo')
-      console.log('verified business info')
     }
+  };
 
-    const verifyAbout = () => {
-      // POST API
-      handleToggleEditMode('about')
-      console.log('verified about')
-    }
+  // SECTION FUNCTIONS
+  const verifyBusinessName = () => {
+    // POST API
+    handleToggleEditMode("businessName");
+    console.log("verified business name");
+  };
 
-    
-  
+  const verifyBusinessInfo = () => {
+    // POST API
+    handleToggleEditMode("businessInfo");
+    console.log("verified business info");
+  };
+
+  const verifyAbout = () => {
+    // POST API
+    handleToggleEditMode("about");
+    console.log("verified about");
+  };
 
   return (
     <div className="bg-[#F5F2F0]">
@@ -245,7 +248,12 @@ const Profile = () => {
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-success">Name, Address & phone</p>
-                  <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleProgessBarClick(businessInfoRef, 'businessInfo')}>
+                  <div
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() =>
+                      handleProgessBarClick(businessInfoRef, "businessInfo")
+                    }
+                  >
                     <BsPencilSquare />
                     <p>Edit</p>
                   </div>
@@ -253,7 +261,12 @@ const Profile = () => {
                 {/* ITEM 2 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-success">Business Categories</p>
-                  <div className="flex items-center gap-2" onClick={() => handleProgessBarClick(categoriesRef, 'businessCategories')}>
+                  <div
+                    className="flex items-center gap-2"
+                    onClick={() =>
+                      handleProgessBarClick(categoriesRef, "businessCategories")
+                    }
+                  >
                     <BsPencilSquare />
                     <p>Edit</p>
                   </div>
@@ -299,7 +312,10 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* MAIN DETAILS👇 */}
-        <div className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6" ref={businessInfoRef}>
+        <div
+          className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6"
+          ref={businessInfoRef}
+        >
           <div className="relative w-48 h-48  rounded overflow-hidden">
             {/* image */}
             <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
@@ -316,7 +332,9 @@ const Profile = () => {
                   <div className="flex gap-4 items-center justify-between">
                     {/* normal */}
                     <span className="text-4xl font-extrabold text-gray-900 font-lora w-2/3">
-                      {editInfoState.businessName.length > 0 ? editInfoState.businessName : "Business name"}
+                      {editInfoState.businessName.length > 0
+                        ? editInfoState.businessName
+                        : "Business name"}
                     </span>
                     <span className="flex-1"></span>
                     <button
@@ -334,7 +352,12 @@ const Profile = () => {
                         placeholder="edit mode"
                         className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
                         value={editInfoState.businessName}
-                        onChange={(e) => handleEditInfoStateChange('businessName', e.target.value)}
+                        onChange={(e) =>
+                          handleEditInfoStateChange(
+                            "businessName",
+                            e.target.value
+                          )
+                        }
                       />
                     </div>
                     <span className="flex-1"></span>
@@ -381,7 +404,10 @@ const Profile = () => {
                         >
                           Cancel
                         </button>
-                        <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyBusinessInfo}>
+                        <button
+                          className="bg-orange text-white py-1 px-3 rounded "
+                          onClick={verifyBusinessInfo}
+                        >
                           Verify
                         </button>
                       </div>
@@ -399,7 +425,21 @@ const Profile = () => {
                             <FaEye className="h-3" />
                           </span>
                         </p>
-                        <p className="text-lg text-gray-700">{editInfoState.streetAddress.length > 0 ? editInfoState.streetAddress : 'Brooklyn'}{`, `}{editInfoState.city.length > 0 ? editInfoState.city : 'city'}{`, `}{editInfoState.state}{`, `}{editInfoState.zip.length > 0 ? editInfoState.zip : '123456'}</p>
+                        <p className="text-lg text-gray-700">
+                          {editInfoState.streetAddress.length > 0
+                            ? editInfoState.streetAddress
+                            : "Brooklyn"}
+                          {`, `}
+                          {editInfoState.city.length > 0
+                            ? editInfoState.city
+                            : "city"}
+                          {`, `}
+                          {editInfoState.state}
+                          {`, `}
+                          {editInfoState.zip.length > 0
+                            ? editInfoState.zip
+                            : "123456"}
+                        </p>
                       </div>
                     </div>
                   ) : (
@@ -431,7 +471,12 @@ const Profile = () => {
                             id="streetAddress"
                             placeholder="e.g. Sheikh Zayed St"
                             value={editInfoState.streetAddress}
-                            onChange={(e) => handleEditInfoStateChange('streetAddress', e.target.value)}
+                            onChange={(e) =>
+                              handleEditInfoStateChange(
+                                "streetAddress",
+                                e.target.value
+                              )
+                            }
                           />
                         </div>
                         <div className="flex flex-col gap-1"></div>{" "}
@@ -454,7 +499,12 @@ const Profile = () => {
                               id="city"
                               placeholder="e.g. Al Ain"
                               value={editInfoState.city}
-                            onChange={(e) => handleEditInfoStateChange('city', e.target.value)}
+                              onChange={(e) =>
+                                handleEditInfoStateChange(
+                                  "city",
+                                  e.target.value
+                                )
+                              }
                             />
                           </div>
                           <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
@@ -466,7 +516,9 @@ const Profile = () => {
                               id="zip"
                               placeholder="126452"
                               value={editInfoState.zip}
-                            onChange={(e) => handleEditInfoStateChange('zip', e.target.value)}
+                              onChange={(e) =>
+                                handleEditInfoStateChange("zip", e.target.value)
+                              }
                             />
                           </div>
                         </div>
@@ -538,7 +590,11 @@ const Profile = () => {
                             <FaEye className="h-3" />
                           </span>
                         </p>
-                        <p className="text-lg text-gray-700">{editInfoState.phone.length > 0 ? editInfoState.phone : '+971 123 4567'}</p>
+                        <p className="text-lg text-gray-700">
+                          {editInfoState.phone.length > 0
+                            ? editInfoState.phone
+                            : "+971 123 4567"}
+                        </p>
                       </div>
                     </div>
                   ) : (
@@ -661,7 +717,10 @@ const Profile = () => {
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyAbout}>
+                  <button
+                    className="bg-orange text-white py-1 px-3 rounded "
+                    onClick={verifyAbout}
+                  >
                     Verify
                   </button>
                 </div>
@@ -673,82 +732,99 @@ const Profile = () => {
             </p>
           </div>
           {!editModeState.about ? (
-  editInfoState.shortDescription.length > 0 || editInfoState.detailedDescription.length > 0 ? (
-    <div className="flex flex-col gap-4 leading-relaxed">
-      <div className="lg:w-3/4">
-        <p className="font-semibold">Short Description:</p>
-        <p>{editInfoState.shortDescription}</p>
-      </div>
-      <div className="lg:w-3/4">
-        <p className="font-semibold">Detailed Description:</p>
-        <p>{editInfoState.detailedDescription}</p>
-      </div>
-    </div>
-  ) : (
-    <div className="border-2 border-black border-dashed p-4">
-      <div className="flex flex-wrap gap-4">
-        <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-          <FaRegNewspaper className="h-5 w-6" />
-        </div>
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-4">
-            <p className="text-gray-700">
-              Tell your customers more about your business! What makes your business unique? Introduce your company name and explain what your business does, where you operate (or the markets you serve), and tell us how long you’ve been doing it for.
-            </p>
-            <div className="flex items-center font-bold gap-1">
-              <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode("about")}>
-                Add business description
-              </span>
-              <FaChevronRight />
+            editInfoState.shortDescription.length > 0 ||
+            editInfoState.detailedDescription.length > 0 ? (
+              <div className="flex flex-col gap-4 leading-relaxed">
+                <div className="lg:w-3/4">
+                  <p className="font-semibold">Short Description:</p>
+                  <p>{editInfoState.shortDescription}</p>
+                </div>
+                <div className="lg:w-3/4">
+                  <p className="font-semibold">Detailed Description:</p>
+                  <p>{editInfoState.detailedDescription}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="border-2 border-black border-dashed p-4">
+                <div className="flex flex-wrap gap-4">
+                  <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                    <FaRegNewspaper className="h-5 w-6" />
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
+                      <p className="text-gray-700">
+                        Tell your customers more about your business! What makes
+                        your business unique? Introduce your company name and
+                        explain what your business does, where you operate (or
+                        the markets you serve), and tell us how long you’ve been
+                        doing it for.
+                      </p>
+                      <div className="flex items-center font-bold gap-1">
+                        <span
+                          className="cursor-pointer hover:underline"
+                          onClick={() => handleToggleEditMode("about")}
+                        >
+                          Add business description
+                        </span>
+                        <FaChevronRight />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          ) : (
+            <div className="w-full">
+              <div className="flex flex-col gap-4 lg:w-3/4">
+                <p className="font-semibold">Short Description:</p>
+                <div className="flex flex-col">
+                  <div className="flex">
+                    <textarea
+                      name="shortDescription"
+                      id="shortDescription"
+                      rows={3}
+                      maxLength={150}
+                      className="border border-[#b7babf] w-full py-2 px-3 text-sm"
+                      placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
+                      value={editInfoState.shortDescription}
+                      onChange={(e) =>
+                        handleEditInfoStateChange(
+                          "shortDescription",
+                          e.target.value
+                        )
+                      }
+                    ></textarea>
+                  </div>
+                  <div className="self-end">
+                    <span>0/150</span>
+                  </div>
+                </div>
+                <p className="font-semibold">Detailed Description:</p>
+                <div className="flex flex-col">
+                  <div className="flex">
+                    <textarea
+                      name="detailedDescription"
+                      id="detailedDescription"
+                      rows={10}
+                      maxLength={2500}
+                      className="border border-[#b7babf] w-full py-2 px-3 text-sm"
+                      placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."
+                      value={editInfoState.detailedDescription}
+                      onChange={(e) =>
+                        handleEditInfoStateChange(
+                          "detailedDescription",
+                          e.target.value
+                        )
+                      }
+                    ></textarea>
+                  </div>
+                  <div className="self-end">
+                    <span>0/2500</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-) : (
-  <div className="w-full">
-    <div className="flex flex-col gap-4 lg:w-3/4">
-      <p className="font-semibold">Short Description:</p>
-      <div className="flex flex-col">
-        <div className="flex">
-          <textarea
-            name="shortDescription"
-            id="shortDescription"
-            rows={3}
-            maxLength={150}
-            className="border border-[#b7babf] w-full py-2 px-3 text-sm"
-            placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
-            value={editInfoState.shortDescription}
-            onChange={(e) => handleEditInfoStateChange('shortDescription', e.target.value)}
-          ></textarea>
-        </div>
-        <div className="self-end">
-          <span>0/150</span>
-        </div>
-      </div>
-      <p className="font-semibold">Detailed Description:</p>
-      <div className="flex flex-col">
-        <div className="flex">
-          <textarea
-            name="detailedDescription"
-            id="detailedDescription"
-            rows={10}
-            maxLength={2500}
-            className="border border-[#b7babf] w-full py-2 px-3 text-sm"
-            placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."
-            value={editInfoState.detailedDescription}
-            onChange={(e) => handleEditInfoStateChange('detailedDescription', e.target.value)}
-          ></textarea>
-        </div>
-        <div className="self-end">
-          <span>0/2500</span>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+          )}
 
           {/* edited */}
           {/* <div className="flex flex-col gap-4 leading-relaxed">
@@ -768,7 +844,10 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* BUSINESS CATEGORIES👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={categoriesRef}>
+        <div
+          className="flex flex-col gap-4 bg-white text-gray-800 p-6"
+          ref={categoriesRef}
+        >
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -1484,18 +1563,19 @@ const Profile = () => {
         </div>
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
-        
-        
+
         {/* \\\\\\\\\\\ */}
         {/* DETAILED INFORMATION👇 */}
         <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <h3 className="text-2xl font-medium font-lora text-black title">Detailed Information</h3>
+              <h3 className="text-2xl font-medium font-lora text-black title">
+                Detailed Information
+              </h3>
               {!editModeState.detailedInformation ? (
                 <button
                   className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                  onClick={() => handleToggleEditMode("socialMedia")}
+                  onClick={() => handleToggleEditMode("detailedInformation")}
                 >
                   Edit
                 </button>
@@ -1503,7 +1583,7 @@ const Profile = () => {
                 <div className="flex items-start flex-wrap gap-2">
                   <button
                     className="bg-skeleton py-1 px-3  rounded "
-                    onClick={() => handleToggleEditMode("socialMedia")}
+                    onClick={() => handleToggleEditMode("detailedInformation")}
                   >
                     Cancel
                   </button>
@@ -1514,27 +1594,76 @@ const Profile = () => {
               )}
             </div>
             <p className="text-lg text-gray-700">
-            Additional business information to set your apart from your competitors. <br />This is unique information and increases the legitimacy of your business
+              Additional business information to set your apart from your
+              competitors. <br />
+              This is unique information and increases the legitimacy of your
+              business
             </p>
           </div>
-          <div className="flex flex-col gap-2 text-gray-700">
-            <div className="flex border-b border-gray-200 py-2">
-              <p className="w-64">Location Type</p>
-              <p>headquarters</p>
+          {!editModeState.detailedInformation ? (
+            <div className="flex flex-col gap-2 text-gray-700">
+              <div className="flex border-b border-gray-200 py-2">
+                <p className="w-64">Location Type</p>
+                <p>headquarters</p>
+              </div>
+              <div className="flex border-b border-gray-200 py-2">
+                <p className="w-64">Year Established</p>
+                <p>2015</p>
+              </div>
+              <div className="flex border-b border-gray-200 py-2">
+                <p className="w-64">Annual Revenue Estimate</p>
+                <p>more than 1M</p>
+              </div>
+              <div className="flex py-2">
+                <p className="w-64">Employees</p>
+                <p>5 to 9</p>
+              </div>
             </div>
-            <div className="flex border-b border-gray-200 py-2">
-              <p className="w-64">Year Established</p>
-              <p>2015</p>
+          ) : (
+            <div className="flex flex-col gap-2 text-gray-700">
+              <div className="flex items-center gap-4">
+                <p>Location Type</p>
+                <div>
+                  <input
+                    type="text"
+                    id="locationType"
+                    className="w-48 form-input"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <p>Year Established</p>
+                <div>
+                  <input
+                    type="text"
+                    id="yearEstablished"
+                    className="w-48 form-input"
+                    maxLength={4}
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <p>Annual Revenue Estimate</p>
+                <div>
+                  <input
+                    type="text"
+                    id="annualRevenueEstimate"
+                    className="w-48 form-input"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <p>Employees</p>
+                <div>
+                  <input
+                    type="text"
+                    id="employees"
+                    className="w-48 form-input"
+                  />
+                </div>
+              </div>
             </div>
-            <div className="flex border-b border-gray-200 py-2">
-              <p className="w-64">Annual Revenue Estimate</p>
-              <p>more than 1M</p>
-            </div>
-            <div className="flex py-2">
-              <p className="w-64">Employees</p>
-              <p>5 to 9</p>
-            </div>
-          </div>
+          )}
         </div>
         {/* DETAILED INFORMATION👆 */}
         {/* \\\\\\\\\\\ */}
