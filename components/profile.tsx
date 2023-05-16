@@ -30,7 +30,7 @@ import { TiArrowUnsorted } from "react-icons/ti";
 import { AiFillCaretDown } from "react-icons/ai";
 import { AiFillCaretUp } from "react-icons/ai";
 
-import React, { useCallback } from "react";
+import React, { FormEvent, useCallback } from "react";
 import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef } from "react";
@@ -38,6 +38,13 @@ import { useState, useRef } from "react";
 type EditModeState = {
   [key: string]: boolean;
 };
+
+interface Product {
+  id: number;
+  name: string;
+}
+
+let idCounter = 0; // Counter for generating unique IDs
 
 const validationSchema = yup.object({
   businessName: yup.string().required("Business name is required"),
@@ -187,7 +194,7 @@ const Profile = () => {
     detailedDescription: string;
     primaryCategory: string;
     secondaryCategory: string[];
-    products: string[];
+    products: Product[];
     photos: any[]; // Assuming photos can be of any type, adjust accordingly
     socialMedia: {
       facebook: string;
@@ -204,7 +211,7 @@ const Profile = () => {
     businessName: string;
   };
 
-  const [editInfoState, setEditInfoState] = useState({
+  const [editInfoState, setEditInfoState] = useState<EditInfoStateType>({
     businessName: "",
     streetAddress: "",
     city: "",
@@ -266,6 +273,7 @@ const Profile = () => {
       }));
     }
   };
+  console.log(editInfoState.products);
 
   // SECTION FUNCTIONS
   const verifyBusinessName = () => {
@@ -284,6 +292,24 @@ const Profile = () => {
     // POST API
     handleToggleEditMode("about");
     console.log("verified about");
+  };
+
+  const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget);
+  const value = formData.get('product-0') as string;
+
+    setEditInfoState((prevState) => {
+      const lastIndex = editInfoState.products.length - 1;
+      const id = lastIndex + 1;
+      const updatedProducts: Product[] = [...prevState.products];
+      updatedProducts[id] = { id, name: value };
+
+      return {
+        ...prevState,
+        products: updatedProducts,
+      };
+    });
   };
 
   return (
@@ -1169,7 +1195,10 @@ const Profile = () => {
                 {`1`}
                 {`/30 Items Listed`}
               </div>
-              <form name="editProductForm">
+              <form
+                name="editProductForm"
+                onSubmit={(e) => handleProductAdd(e)}
+              >
                 <div className="flex">
                   <input
                     type="text"
