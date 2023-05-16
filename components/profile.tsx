@@ -49,6 +49,7 @@ const Profile = () => {
     socialMedia: false,
     contact: false,
     photos: false,
+    detailedInformation: false
   };
   const [editModeState, setEditModeState] =
     useState<EditModeState>(initialEditModeState);
@@ -1482,6 +1483,60 @@ const Profile = () => {
           {/* edited */}
         </div>
         {/* CONTACT👆 */}
+        {/* \\\\\\\\\\\ */}
+        
+        
+        {/* \\\\\\\\\\\ */}
+        {/* DETAILED INFORMATION👇 */}
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <h3 className="text-2xl font-medium font-lora text-black title">Detailed Information</h3>
+              {!editModeState.detailedInformation ? (
+                <button
+                  className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
+                  onClick={() => handleToggleEditMode("socialMedia")}
+                >
+                  Edit
+                </button>
+              ) : (
+                <div className="flex items-start flex-wrap gap-2">
+                  <button
+                    className="bg-skeleton py-1 px-3  rounded "
+                    onClick={() => handleToggleEditMode("socialMedia")}
+                  >
+                    Cancel
+                  </button>
+                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                    Verify
+                  </button>
+                </div>
+              )}
+            </div>
+            <p className="text-lg text-gray-700">
+            Additional business information to set your apart from your competitors. <br />This is unique information and increases the legitimacy of your business
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 text-gray-700">
+            <div className="flex border-b border-gray-200 py-2">
+              <p className="w-64">Location Type</p>
+              <p>headquarters</p>
+            </div>
+            <div className="flex border-b border-gray-200 py-2">
+              <p className="w-64">Year Established</p>
+              <p>2015</p>
+            </div>
+            <div className="flex border-b border-gray-200 py-2">
+              <p className="w-64">Annual Revenue Estimate</p>
+              <p>more than 1M</p>
+            </div>
+            <div className="flex py-2">
+              <p className="w-64">Employees</p>
+              <p>5 to 9</p>
+            </div>
+          </div>
+        </div>
+        {/* DETAILED INFORMATION👆 */}
         {/* \\\\\\\\\\\ */}
       </div>
     </div>
