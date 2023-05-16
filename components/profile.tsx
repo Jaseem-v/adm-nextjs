@@ -31,12 +31,18 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { AiFillCaretUp } from "react-icons/ai";
 
 import React, { useCallback } from "react";
+import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef } from "react";
 
 type EditModeState = {
   [key: string]: boolean;
 };
+
+const validationSchema = yup.object({
+  businessName: yup.string().required("Business name is required"),
+  product: yup.string().min(2, "too short"),
+});
 
 const Profile = () => {
   const initialEditModeState: EditModeState = {
@@ -71,6 +77,46 @@ const Profile = () => {
       return newState;
     });
   };
+
+  // FORM VALIDATION
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
+    businessName: "",
+    businessInfo: {
+      streetAddress: "",
+      city: "",
+    },
+  });
+
+  // HANDLE SUBMIT
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   console.log("event", event);
+  //   try {
+  //     // Validate the form data
+  //     await validationSchema.validate(formData, { abortEarly: false });
+
+  //     // Data is valid, proceed with submission
+  //     // Make your API POST request here
+  //     // ...
+
+  //     // Clear form or show success message
+  //     // ...
+  //   } catch (validationErrors) {
+  //     // Handle validation errors
+  //     const errors = {};
+
+  //     (validationErrors as yup.ValidationError).inner.forEach(
+  //       (error: yup.ValidationError) => {
+  //         if (error.path) {
+  //           // errors[error.path] = error.message;
+  //         }
+  //       }
+  //     );
+
+  //     setErrors(errors);
+  //   }
+  // };
 
   // SECTION REFS
   const businessInfoRef = useRef<HTMLDivElement>(null);
@@ -154,6 +200,10 @@ const Profile = () => {
     contacts: string;
   };
 
+  type FormType = {
+    businessName: string;
+  };
+
   const [editInfoState, setEditInfoState] = useState({
     businessName: "",
     streetAddress: "",
@@ -182,6 +232,18 @@ const Profile = () => {
     contacts: "",
   });
 
+  // const validateField = async (fieldName: string, value: FormType[keyof FormType]) => {
+  //   try {
+  //     await yup.reach(validationSchema, fieldName).validate(value);
+  //     setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
+  //   } catch (validationError: yup.ValidationError) {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       [fieldName]: validationError.message,
+  //     }));
+  //   }
+  // };
+
   const handleEditInfoStateChange = (
     section: keyof EditInfoStateType,
     value: EditInfoStateType[keyof EditInfoStateType]
@@ -190,6 +252,8 @@ const Profile = () => {
       ...prevState,
       [section]: value,
     }));
+
+    // validateField(section, String(value));
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -1039,31 +1103,65 @@ const Profile = () => {
               Create a list of your products and services for your customers.
             </p>
           </div>
-          {!editModeState.products ? (
-            <div className="border-2 border-black border-dashed p-4">
-              <div className="flex flex-wrap gap-4">
-                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                  <MdMiscellaneousServices className="h-5 w-6" />
+          {editInfoState.products.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <hr className="w-full text-grey-300" />
+              <div className="text-xs">
+                {`1`}
+                {`/30 Items Listed`}
+              </div>
+              <div
+                title="click to edit"
+                className="flex flex-row gap-2 items-center cursor-pointer"
+              >
+                <FaCheckCircle />
+                {/* reordering */}
+                {/* <div className="flex flex-col">
+                <AiFillCaretUp />
+                <AiFillCaretDown />
+              </div> */}
+                {/* reordering */}
+                <span>bottle</span>
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <div className="flex flex-row gap-2 items-center cursor-pointer">
+                  <BsFillPlusCircleFill className="text-success" />
+                  <span>Add a product</span>
                 </div>
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-4">
-                    <p className="text-gray-700">
-                      Attract the right customers by creating a list of up to 30
-                      products or services that you offer.
-                    </p>
-                    <div className="flex items-center font-bold gap-1">
-                      <span
-                        className="cursor-pointer hover:underline"
-                        onClick={() => handleToggleEditMode("products")}
-                      >
-                        Create services list
-                      </span>
-                      <FaChevronRight />
+                <div className="flex flex-row gap-2 items-center cursor-pointer">
+                  <TiArrowUnsorted className="text-orange-700" />
+                  <span>Reorder product</span>
+                </div>
+              </div>
+            </div>
+          )}
+          {!editModeState.products ? (
+            editInfoState.products.length === 0 && (
+              <div className="border-2 border-black border-dashed p-4">
+                <div className="flex flex-wrap gap-4">
+                  <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                    <MdMiscellaneousServices className="h-5 w-6" />
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
+                      <p className="text-gray-700">
+                        Attract the right customers by creating a list of up to
+                        30 products or services that you offer.
+                      </p>
+                      <div className="flex items-center font-bold gap-1">
+                        <span
+                          className="cursor-pointer hover:underline"
+                          onClick={() => handleToggleEditMode("products")}
+                        >
+                          Create services list
+                        </span>
+                        <FaChevronRight />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )
           ) : (
             <div className="flex flex-col gap-2">
               <hr className="w-full text-grey-300" />
@@ -1666,6 +1764,12 @@ const Profile = () => {
           )}
         </div>
         {/* DETAILED INFORMATION👆 */}
+        {/* \\\\\\\\\\\ */}
+
+        {/* \\\\\\\\\\\ */}
+        {/* BUSINESS HOURS👆 */}
+
+        {/* BUSINESS HOURS👆 */}
         {/* \\\\\\\\\\\ */}
       </div>
     </div>
