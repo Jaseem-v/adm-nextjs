@@ -32,7 +32,7 @@ import { AiFillCaretUp } from "react-icons/ai";
 
 import React, { useCallback } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -71,6 +71,20 @@ const Profile = () => {
     });
   };
 
+  // SECTION REFS
+  const businessInfoRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
+
+  const handleProgessBarClick = (ref: React.RefObject<HTMLDivElement>, section: string) => {
+    const navbarHeight = 120;
+    const rect = ref.current?.getBoundingClientRect();
+    const topOffset = rect?.top || 0;
+    window.scrollTo({
+      top: window.pageYOffset + topOffset - navbarHeight,
+      behavior: 'smooth',
+    });
+    handleToggleEditMode(section);
+  };
 
   // DROPZONE
   const onDrop = useCallback(
@@ -230,7 +244,7 @@ const Profile = () => {
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-success">Name, Address & phone</p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleProgessBarClick(businessInfoRef, 'businessInfo')}>
                     <BsPencilSquare />
                     <p>Edit</p>
                   </div>
@@ -238,7 +252,7 @@ const Profile = () => {
                 {/* ITEM 2 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-success">Business Categories</p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2" onClick={() => handleProgessBarClick(categoriesRef, 'businessCategories')}>
                     <BsPencilSquare />
                     <p>Edit</p>
                   </div>
@@ -284,7 +298,7 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* MAIN DETAILS👇 */}
-        <div className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6">
+        <div className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6" ref={businessInfoRef}>
           <div className="relative w-48 h-48  rounded overflow-hidden">
             {/* image */}
             <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
@@ -753,7 +767,7 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* BUSINESS CATEGORIES👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={categoriesRef}>
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
