@@ -171,18 +171,39 @@ const Profile = () => {
       }));
     };
 
+    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const input = event.target.value.trim();
+  
+      if (input === '' || /^\d+$/.test(input)) {
+        setEditInfoState(prevState => ({
+          ...prevState,
+          phone: input
+        }));
+      }
+    };
+
     // SECTION FUNCTIONS
     const verifyBusinessName = () => {
-      console.log('verified business name')
       // POST API
       handleToggleEditMode('businessName')
+      console.log('verified business name')
     };
 
     const verifyBusinessInfo = () => {
-      console.log('verified business info')
       // POST API
       handleToggleEditMode('businessInfo')
+      console.log('verified business info')
     }
+
+    const verifyAbout = () => {
+      // POST API
+      handleToggleEditMode('about')
+      console.log('verified about')
+    }
+
+    
+  
+
   return (
     <div className="bg-[#F5F2F0]">
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
@@ -502,7 +523,7 @@ const Profile = () => {
                             <FaEye className="h-3" />
                           </span>
                         </p>
-                        <p className="text-lg text-gray-700">+971 123 4567</p>
+                        <p className="text-lg text-gray-700">{editInfoState.phone.length > 0 ? editInfoState.phone : '+971 123 4567'}</p>
                       </div>
                     </div>
                   ) : (
@@ -521,6 +542,8 @@ const Profile = () => {
                             id="phone"
                             placeholder="1112223333"
                             className="md:w-1/2"
+                            value={editInfoState.phone}
+                            onChange={handlePhoneChange}
                           />
                         </div>
                         <div className="flex flex-grow gap-2 items-center">
@@ -623,7 +646,7 @@ const Profile = () => {
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyAbout}>
                     Verify
                   </button>
                 </div>
@@ -635,68 +658,82 @@ const Profile = () => {
             </p>
           </div>
           {!editModeState.about ? (
-            <div className="border-2 border-black border-dashed p-4">
-              <div className="flex flex-wrap gap-4">
-                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                  <FaRegNewspaper className="h-5 w-6" />
-                </div>
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-4">
-                    <p className="text-gray-700">
-                      Tell your customers more about your business! What makes
-                      your business unique? Introduce your company name and
-                      explain what your business does, where youoperate (or the
-                      markets you serve), and tell us how long you’ve been doing
-                      it for.
-                    </p>
-                    <div className="flex items-center font-bold gap-1">
-                      <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode("about")}>
-                        Add business description
-                      </span>
-                      <FaChevronRight />
-                    </div>
-                  </div>
-                </div>
-              </div>
+  editInfoState.shortDescription.length > 0 || editInfoState.detailedDescription.length > 0 ? (
+    <div className="flex flex-col gap-4 leading-relaxed">
+      <div className="lg:w-3/4">
+        <p className="font-semibold">Short Description:</p>
+        <p>{editInfoState.shortDescription}</p>
+      </div>
+      <div className="lg:w-3/4">
+        <p className="font-semibold">Detailed Description:</p>
+        <p>{editInfoState.detailedDescription}</p>
+      </div>
+    </div>
+  ) : (
+    <div className="border-2 border-black border-dashed p-4">
+      <div className="flex flex-wrap gap-4">
+        <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+          <FaRegNewspaper className="h-5 w-6" />
+        </div>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <p className="text-gray-700">
+              Tell your customers more about your business! What makes your business unique? Introduce your company name and explain what your business does, where you operate (or the markets you serve), and tell us how long you’ve been doing it for.
+            </p>
+            <div className="flex items-center font-bold gap-1">
+              <span className="cursor-pointer hover:underline" onClick={() => handleToggleEditMode("about")}>
+                Add business description
+              </span>
+              <FaChevronRight />
             </div>
-          ) : (
-            <div className="w-full">
-              <div className="flex flex-col gap-4 lg:w-3/4">
-                <p className="font-semibold">Short Description:</p>
-                <div className="flex flex-col">
-                  <div className="flex">
-                    <textarea
-                      name="shortDescription"
-                      id="shortDescription"
-                      rows={3}
-                      maxLength={150}
-                      className="border border-[#b7babf] w-full py-2 px-3 text-sm"
-                      placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
-                    ></textarea>
-                  </div>
-                  <div className="self-end">
-                    <span>0/150</span>
-                  </div>
-                </div>
-                <p className="font-semibold">Detailed Description:</p>
-                <div className="flex flex-col">
-                  <div className="flex">
-                    <textarea
-                      name="detailedDescription"
-                      id="detailedDescription"
-                      rows={10}
-                      maxLength={2500}
-                      className="border border-[#b7babf] w-full py-2 px-3 text-sm"
-                      placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."
-                    ></textarea>
-                  </div>
-                  <div className="self-end">
-                    <span>0/2500</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+) : (
+  <div className="w-full">
+    <div className="flex flex-col gap-4 lg:w-3/4">
+      <p className="font-semibold">Short Description:</p>
+      <div className="flex flex-col">
+        <div className="flex">
+          <textarea
+            name="shortDescription"
+            id="shortDescription"
+            rows={3}
+            maxLength={150}
+            className="border border-[#b7babf] w-full py-2 px-3 text-sm"
+            placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
+            value={editInfoState.shortDescription}
+            onChange={(e) => handleEditInfoStateChange('shortDescription', e.target.value)}
+          ></textarea>
+        </div>
+        <div className="self-end">
+          <span>0/150</span>
+        </div>
+      </div>
+      <p className="font-semibold">Detailed Description:</p>
+      <div className="flex flex-col">
+        <div className="flex">
+          <textarea
+            name="detailedDescription"
+            id="detailedDescription"
+            rows={10}
+            maxLength={2500}
+            className="border border-[#b7babf] w-full py-2 px-3 text-sm"
+            placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."
+            value={editInfoState.detailedDescription}
+            onChange={(e) => handleEditInfoStateChange('detailedDescription', e.target.value)}
+          ></textarea>
+        </div>
+        <div className="self-end">
+          <span>0/2500</span>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
           {/* edited */}
           {/* <div className="flex flex-col gap-4 leading-relaxed">
