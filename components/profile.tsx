@@ -255,7 +255,6 @@ const Profile = () => {
         reader.onload = () => {
           // Do whatever you want with the file contents
           const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
-          console.log(binaryStr);
           const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
           setUploadedPhotos(newPhotos);
           handlePhotoAdd(URL.createObjectURL(file))
@@ -273,9 +272,9 @@ const Profile = () => {
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
     useDropzone({ onDrop });
 
-  const removePhoto = (index: number) => {
-    const newPhotos = uploadedPhotos.filter((_, i) => i !== index);
-    setUploadedPhotos(newPhotos);
+  const removePhoto = (id: number) => {
+    const newPhotos = editInfoState.photos.filter(photo => photo.id !== id);
+    setEditInfoState((prevState) => ({...prevState, photos: newPhotos}));
     if (newPhotos.length === 0) {
       setIsAddedPhoto(false);
     }
@@ -373,8 +372,6 @@ const Profile = () => {
               </form>
   )
 
-  console.log('edit info photos', editInfoState.photos)
-  console.log('uploaded photos', uploadedPhotos)
 
   return (
     <div className="bg-[#F5F2F0]">
@@ -1364,20 +1361,20 @@ const Profile = () => {
           ) : (
             <div className="flex flex-row flex-wrap gap-4">
               {/* if photo is added */}
-              {uploadedPhotos.length > 0 &&
-                uploadedPhotos.map((photo, index) => (
-                  <div key={index}>
+              {editInfoState.photos.length > 0 &&
+                editInfoState.photos.map((photo) => (
+                  <div key={photo.id}>
                     <div className="relative">
                       <div
                         className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
-                        onClick={() => removePhoto(index)}
+                        onClick={() => removePhoto(photo.id)}
                       >
                         <IoClose color="white" />
                       </div>
                       <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
                         <div
                           className="h-48 w-48 bg-cover bg-no-repeat bg-center"
-                          style={{ backgroundImage: `url('${photo}')` }}
+                          style={{ backgroundImage: `url('${photo.name}')` }}
                         ></div>
                       </div>
                     </div>
