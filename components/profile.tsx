@@ -273,7 +273,6 @@ const Profile = () => {
       }));
     }
   };
-  console.log(editInfoState.products);
 
   // SECTION FUNCTIONS
   const verifyBusinessName = () => {
@@ -310,7 +309,48 @@ const Profile = () => {
         products: updatedProducts,
       };
     });
+
+    handleToggleEditMode("products")
   };
+
+
+  const addProductForm = (
+    <form
+                name="editProductForm"
+                onSubmit={(e) => handleProductAdd(e)}
+              >
+                <div className="flex">
+                  <input
+                    type="text"
+                    name="product-0"
+                    className="form-input rounded-r-0"
+                  />
+                  <button
+                    type="submit"
+                    className="py-2 px-4 bg-success text-white"
+                    title="save"
+                  >
+                    <FaCheck />
+                  </button>
+                  <button
+                    type="submit"
+                    className="py-2 px-4 bg-error text-white"
+                    title="save"
+                  >
+                    <FaTrashAlt />
+                  </button>
+                  <div className="flex items-center justify-center px-2">
+                    <IoClose
+                      className="text-error w-6 h-6 stroke-3 cursor-pointer"
+                      onClick={() => handleToggleEditMode("products")}
+                    />
+                  </div>
+                </div>
+              </form>
+  )
+
+  console.log('edit info photos', editInfoState.photos)
+  console.log('uploaded photos', uploadedPhotos)
 
   return (
     <div className="bg-[#F5F2F0]">
@@ -1133,7 +1173,7 @@ const Profile = () => {
             <div className="flex flex-col gap-2">
               <hr className="w-full text-grey-300" />
               <div className="text-xs">
-                {`1`}
+                {editInfoState.products.length}
                 {`/30 Items Listed`}
               </div>
               {editInfoState.products.map(product => (
@@ -1152,8 +1192,8 @@ const Profile = () => {
                 <span>{product.name}</span>
               </div>
               ))}
-              <div className="flex flex-row items-center gap-4">
-                <div className="flex flex-row gap-2 items-center cursor-pointer">
+              {!editModeState.products && <div className="flex flex-row items-center gap-4">
+                <div className="flex flex-row gap-2 items-center cursor-pointer" onClick={() => handleToggleEditMode('products')}>
                   <BsFillPlusCircleFill className="text-success" />
                   <span>Add a product</span>
                 </div>
@@ -1161,7 +1201,8 @@ const Profile = () => {
                   <TiArrowUnsorted className="text-orange-700" />
                   <span>Reorder product</span>
                 </div>
-              </div>
+              </div>}
+              
             </div>
           )}
           {!editModeState.products ? (
@@ -1198,38 +1239,7 @@ const Profile = () => {
                 {`1`}
                 {`/30 Items Listed`}
               </div>
-              <form
-                name="editProductForm"
-                onSubmit={(e) => handleProductAdd(e)}
-              >
-                <div className="flex">
-                  <input
-                    type="text"
-                    name="product-0"
-                    className="form-input rounded-r-0"
-                  />
-                  <button
-                    type="submit"
-                    className="py-2 px-4 bg-success text-white"
-                    title="save"
-                  >
-                    <FaCheck />
-                  </button>
-                  <button
-                    type="submit"
-                    className="py-2 px-4 bg-error text-white"
-                    title="save"
-                  >
-                    <FaTrashAlt />
-                  </button>
-                  <div className="flex items-center justify-center px-2">
-                    <IoClose
-                      className="text-error w-6 h-6 stroke-3 cursor-pointer"
-                      onClick={() => handleToggleEditMode("products")}
-                    />
-                  </div>
-                </div>
-              </form>
+              {addProductForm}
             </div>
           )}
           {/* edit mode */}
