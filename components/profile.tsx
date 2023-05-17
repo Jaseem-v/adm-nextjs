@@ -29,7 +29,6 @@ import { BsFillPlusCircleFill } from "react-icons/bs";
 import { TiArrowUnsorted } from "react-icons/ti";
 import { AiFillCaretDown } from "react-icons/ai";
 import { AiFillCaretUp } from "react-icons/ai";
-import { RiStore3Fill } from "react-icons/ri";
 
 import React, { FormEvent, useCallback } from "react";
 import * as yup from "yup";
@@ -310,6 +309,11 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     }
   };
 
+  const removeLogo = () => {
+    const oldLogo = "https://i.ibb.co/SPJXPcD/store.png";
+    setEditInfoState(prevState => ({...prevState, logo: oldLogo }))
+  }
+
   const handlePhotoAdd = (value: string) => {
     setEditInfoState((prevState) => {
       const updatedProducts: Photo[] = [...prevState.photos];
@@ -325,6 +329,8 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
       };
     });
   };
+
+  const newLogoAdded = editInfoState.logo === "https://i.ibb.co/SPJXPcD/store.png" ? false : true;
 
   // SECTION FUNCTIONS
   const verifyBusinessName = () => {
@@ -582,7 +588,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
         >
           <div className="relative w-48 h-48  rounded  ">
             {/* close */}
-            <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
+            <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={removeLogo}>
               <IoClose color="white" />
             </div>
             {/* image */}
@@ -591,7 +597,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
             <input type="file" {...getLogoInputProps()} name="logo"/>
             {/* <RiStore3Fill className="block w-full h-full" /> */}
             <div className="absolute bottom-0 inset-x-0 cursor-pointer bg-none py-2 px-12">
-              <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center">Change</div>
+              {!newLogoAdded && <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center">Change</div>}
             </div>
             </div>
           </div>
