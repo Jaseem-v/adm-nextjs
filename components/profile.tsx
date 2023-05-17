@@ -29,6 +29,7 @@ import { BsFillPlusCircleFill } from "react-icons/bs";
 import { TiArrowUnsorted } from "react-icons/ti";
 import { AiFillCaretDown } from "react-icons/ai";
 import { AiFillCaretUp } from "react-icons/ai";
+import { RiStore3Fill } from "react-icons/ri";
 
 import React, { FormEvent, useCallback } from "react";
 import * as yup from "yup";
@@ -132,6 +133,10 @@ const Profile = () => {
   // SECTION REFS
   const businessInfoRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
+  const detailedDescriptionRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const photosRef = useRef<HTMLDivElement>(null);
+  const socialMediaRef = useRef<HTMLDivElement>(null);
 
   const handleProgessBarClick = (
     ref: React.RefObject<HTMLDivElement>,
@@ -147,9 +152,9 @@ const Profile = () => {
     handleToggleEditMode(section);
   };
 
-  
   // INITIAL STATE
   type EditInfoStateType = {
+    logo: string;
     businessName: string;
     streetAddress: string;
     city: string;
@@ -182,6 +187,7 @@ const Profile = () => {
   };
 
   const [editInfoState, setEditInfoState] = useState<EditInfoStateType>({
+    logo: "https://i.ibb.co/SPJXPcD/store.png",
     businessName: "",
     streetAddress: "",
     city: "",
@@ -209,15 +215,19 @@ const Profile = () => {
     contacts: "",
   });
 
-  console.log('social media', editInfoState.socialMedia)
   const isSocialMediaAdded = Object.values(editInfoState.socialMedia).some(
-  (value) => value !== ""
-);
-console.log('isSocialMediaAdded',  isSocialMediaAdded)
-  const handleSocialMediaChange = (name: string, event:React.ChangeEvent<HTMLInputElement> ) => {
-    const { value } = event.target
-    setEditInfoState(prevState => ({...prevState, socialMedia: { ...prevState.socialMedia, [name]: value}}))
-  }
+    (value) => value !== ""
+  );
+  const handleSocialMediaChange = (
+    name: string,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value } = event.target;
+    setEditInfoState((prevState) => ({
+      ...prevState,
+      socialMedia: { ...prevState.socialMedia, [name]: value },
+    }));
+  };
 
   // const validateField = async (fieldName: string, value: FormType[keyof FormType]) => {
   //   try {
@@ -256,7 +266,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
 
   // DROPZONE
   const onDrop = useCallback(
-    (acceptedFiles: FileWithPath[]) => {
+    (acceptedFiles: FileWithPath[], section: string) => {
       acceptedFiles.forEach((file: FileWithPath) => {
         const reader: FileReader = new FileReader();
 
@@ -265,10 +275,16 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
         reader.onload = () => {
           // Do whatever you want with the file contents
           const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
-          const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
-          setUploadedPhotos(newPhotos);
-          handlePhotoAdd(URL.createObjectURL(file))
-          setIsAddedPhoto(true);
+          console.log('file' , file)
+
+          if (section === 'logo') {
+            setEditInfoState(prevState => ({...prevState, logo: URL.createObjectURL(file) }))
+          } else if (section === 'companyImages') {
+            const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
+            setUploadedPhotos(newPhotos);
+            handlePhotoAdd(URL.createObjectURL(file));
+            setIsAddedPhoto(true);
+          }
         };
 
         reader.readAsArrayBuffer(file);
@@ -279,12 +295,16 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
     [uploadedPhotos]
   );
 
-  const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
-    useDropzone({ onDrop });
+
+    const { getRootProps: getCompanyImagesRootProps, getInputProps: getCompanyImagesInputProps, isDragActive } =
+  useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, 'companyImages') });
+
+const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
+  useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, 'logo') });
 
   const removePhoto = (id: number) => {
-    const newPhotos = editInfoState.photos.filter(photo => photo.id !== id);
-    setEditInfoState((prevState) => ({...prevState, photos: newPhotos}));
+    const newPhotos = editInfoState.photos.filter((photo) => photo.id !== id);
+    setEditInfoState((prevState) => ({ ...prevState, photos: newPhotos }));
     if (newPhotos.length === 0) {
       setIsAddedPhoto(false);
     }
@@ -296,16 +316,15 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
 
       const lastIndex = updatedProducts.length - 1;
       const id = lastIndex >= 0 ? updatedProducts[lastIndex].id + 1 : 0;
-    
+
       updatedProducts.push({ id, name: value });
-    
+
       return {
         ...prevState,
         photos: updatedProducts,
       };
     });
-  }
-
+  };
 
   // SECTION FUNCTIONS
   const verifyBusinessName = () => {
@@ -326,16 +345,22 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
     console.log("verified about");
   };
 
-  const verifySocialMedia = () => {
+  const verifyBusinessCategories = () => {
     // POST API
-    handleToggleEditMode('socialMedia')
-    console.log('verified social media')
+    handleToggleEditMode('businessCategories')
+    console.log('verified business categories')
   }
 
+  const verifySocialMedia = () => {
+    // POST API
+    handleToggleEditMode("socialMedia");
+    console.log("verified social media");
+  };
+
   const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     const formData = new FormData(event.currentTarget);
-  const value = formData.get('product-0') as string;
+    const value = formData.get("product-0") as string;
 
     setEditInfoState((prevState) => {
       const lastIndex = editInfoState.products.length - 1;
@@ -349,118 +374,111 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
       };
     });
 
-    handleToggleEditMode("products")
+    handleToggleEditMode("products");
   };
 
-
   const addProductForm = (
-    <form
-                name="editProductForm"
-                onSubmit={(e) => handleProductAdd(e)}
-              >
-                <div className="flex">
-                  <input
-                    type="text"
-                    name="product-0"
-                    className="form-input rounded-r-0"
-                  />
-                  <button
-                    type="submit"
-                    className="py-2 px-4 bg-success text-white"
-                    title="save"
-                  >
-                    <FaCheck />
-                  </button>
-                  <button
-                    type="submit"
-                    className="py-2 px-4 bg-error text-white"
-                    title="save"
-                  >
-                    <FaTrashAlt />
-                  </button>
-                  <div className="flex items-center justify-center px-2">
-                    <IoClose
-                      className="text-error w-6 h-6 stroke-3 cursor-pointer"
-                      onClick={() => handleToggleEditMode("products")}
-                    />
-                  </div>
-                </div>
-              </form>
-  )
+    <form name="editProductForm" onSubmit={(e) => handleProductAdd(e)}>
+      <div className="flex">
+        <input
+          type="text"
+          name="product-0"
+          className="form-input rounded-r-0"
+        />
+        <button
+          type="submit"
+          className="py-2 px-4 bg-success text-white"
+          title="save"
+        >
+          <FaCheck />
+        </button>
+        <button
+          type="submit"
+          className="py-2 px-4 bg-error text-white"
+          title="save"
+        >
+          <FaTrashAlt />
+        </button>
+        <div className="flex items-center justify-center px-2">
+          <IoClose
+            className="text-error w-6 h-6 stroke-3 cursor-pointer"
+            onClick={() => handleToggleEditMode("products")}
+          />
+        </div>
+      </div>
+    </form>
+  );
 
-  const socialMediaEdited = (
-    isSocialMediaAdded &&
+  const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
-    {editInfoState.socialMedia.facebook.length > 0 && (
-      <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsFacebook className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>{editInfoState.socialMedia.facebook}</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-    )}
-    {editInfoState.socialMedia.instagram.length > 0 && (
-      <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsInstagram className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>{editInfoState.socialMedia.instagram}</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-    )}
-    {editInfoState.socialMedia.twitter.length > 0 && (
-      <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsTwitter className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>{editInfoState.socialMedia.twitter}</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-    )}
-    {editInfoState.socialMedia.linkedin.length > 0 && (
-      <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsLinkedin className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>{editInfoState.socialMedia.linkedin}</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-    )}
-    {editInfoState.socialMedia.youtube.length > 0 && (
-      <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsYoutube className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>{editInfoState.socialMedia.youtube}</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-    )}
-    {editInfoState.socialMedia.pinterest.length > 0 && (
-      <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsPinterest className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>{editInfoState.socialMedia.pinterest}</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-    )}
+      {editInfoState.socialMedia.facebook.length > 0 && (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8">
+            <BsFacebook className="w-full h-full" />
+          </div>
+          <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+            <span>{editInfoState.socialMedia.facebook}</span>
+            <HiOutlineExternalLink className="w-5 h-5" />
+          </div>
+        </div>
+      )}
+      {editInfoState.socialMedia.instagram.length > 0 && (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8">
+            <BsInstagram className="w-full h-full" />
+          </div>
+          <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+            <span>{editInfoState.socialMedia.instagram}</span>
+            <HiOutlineExternalLink className="w-5 h-5" />
+          </div>
+        </div>
+      )}
+      {editInfoState.socialMedia.twitter.length > 0 && (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8">
+            <BsTwitter className="w-full h-full" />
+          </div>
+          <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+            <span>{editInfoState.socialMedia.twitter}</span>
+            <HiOutlineExternalLink className="w-5 h-5" />
+          </div>
+        </div>
+      )}
+      {editInfoState.socialMedia.linkedin.length > 0 && (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8">
+            <BsLinkedin className="w-full h-full" />
+          </div>
+          <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+            <span>{editInfoState.socialMedia.linkedin}</span>
+            <HiOutlineExternalLink className="w-5 h-5" />
+          </div>
+        </div>
+      )}
+      {editInfoState.socialMedia.youtube.length > 0 && (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8">
+            <BsYoutube className="w-full h-full" />
+          </div>
+          <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+            <span>{editInfoState.socialMedia.youtube}</span>
+            <HiOutlineExternalLink className="w-5 h-5" />
+          </div>
+        </div>
+      )}
+      {editInfoState.socialMedia.pinterest.length > 0 && (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8">
+            <BsPinterest className="w-full h-full" />
+          </div>
+          <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+            <span>{editInfoState.socialMedia.pinterest}</span>
+            <HiOutlineExternalLink className="w-5 h-5" />
+          </div>
+        </div>
+      )}
     </div>
-    
-  )
-
+  );
 
   return (
     <div className="bg-[#F5F2F0]">
@@ -502,7 +520,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-success">Business Categories</p>
                   <div
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 cursor-pointer"
                     onClick={() =>
                       handleProgessBarClick(categoriesRef, "businessCategories")
                     }
@@ -514,7 +532,9 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-success">Detailed Description</p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
+                      handleProgessBarClick(detailedDescriptionRef, "about")
+                    }>
                     <BsPencilSquare />
                     <p>Edit</p>
                   </div>
@@ -530,15 +550,19 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-error">Services</p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
+                      handleProgessBarClick(servicesRef, "products")
+                    }>
                     <HiPlus />
                     <p>Add</p>
                   </div>
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className="text-error">Business Hours</p>
-                  <div className="flex items-center gap-2">
+                  <p className="text-error">Social Media</p>
+                  <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
+                      handleProgessBarClick(socialMediaRef, "socialMedia")
+                    }>
                     <HiPlus />
                     <p>Add</p>
                   </div>
@@ -556,13 +580,20 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
           className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6"
           ref={businessInfoRef}
         >
-          <div className="relative w-48 h-48  rounded overflow-hidden">
-            {/* image */}
+          <div className="relative w-48 h-48  rounded  ">
+            {/* close */}
             <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer">
               <IoClose color="white" />
             </div>
-            {/* close */}
-            <div className="h-48 w-48 bg-cover bg-no-repeat bg-center bg-slate-200"></div>
+            {/* image */}
+            
+            <div className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded" style={{ backgroundImage: `url(${editInfoState.logo})` }} {...getLogoRootProps()}>
+            <input type="file" {...getLogoInputProps()} name="logo"/>
+            {/* <RiStore3Fill className="block w-full h-full" /> */}
+            <div className="absolute bottom-0 inset-x-0 cursor-pointer bg-none py-2 px-12">
+              <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center">Change</div>
+            </div>
+            </div>
           </div>
           <div className="flex flex-col gap-4 w-full lg:pl-4">
             {/* name */}
@@ -576,7 +607,6 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                         ? editInfoState.businessName
                         : "Business name"}
                     </span>
-                    <span className="flex-1"></span>
                     <button
                       className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
                       onClick={() => handleToggleEditMode("businessName")}
@@ -623,7 +653,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
             <div className="flex flex-col gap-6 text-gray-800">
               <form className="flex flex-col gap-2">
                 <div className="flex flex-row gap-4">
-                  <span className="text-2xl font-lora font-medium text-black">
+                  <span className="text-2xl font-lora font-medium">
                     Business Info
                   </span>
                   <span className="flex-1"></span>
@@ -881,7 +911,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
             <div className="flex flex-col gap-4 text-gray-800">
               <div className="flex flex-col">
                 <div className="flex flex-row justify-between">
-                  <p className="text-2xl font-lora font-medium title">
+                  <p className="text-2xl font-lora font-medium title text-black">
                     Website
                   </p>
                   {!editModeState.website ? (
@@ -936,7 +966,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* ABOUT👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={detailedDescriptionRef}>
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -1286,33 +1316,37 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                 {editInfoState.products.length}
                 {`/30 Items Listed`}
               </div>
-              {editInfoState.products.map(product => (
-              <div
-              key={product.id}
-                title="click to edit"
-                className="flex flex-row gap-2 items-center cursor-pointer"
-              >
-                <FaCheckCircle />
-                {/* reordering */}
-                {/* <div className="flex flex-col">
+              {editInfoState.products.map((product) => (
+                <div
+                  key={product.id}
+                  title="click to edit"
+                  className="flex flex-row gap-2 items-center cursor-pointer"
+                >
+                  <FaCheckCircle />
+                  {/* reordering */}
+                  {/* <div className="flex flex-col">
                 <AiFillCaretUp />
                 <AiFillCaretDown />
               </div> */}
-                {/* reordering */}
-                <span>{product.name}</span>
-              </div>
+                  {/* reordering */}
+                  <span>{product.name}</span>
+                </div>
               ))}
-              {!editModeState.products && <div className="flex flex-row items-center gap-4">
-                <div className="flex flex-row gap-2 items-center cursor-pointer" onClick={() => handleToggleEditMode('products')}>
-                  <BsFillPlusCircleFill className="text-success" />
-                  <span>Add a product</span>
+              {!editModeState.products && (
+                <div className="flex flex-row items-center gap-4">
+                  <div
+                    className="flex flex-row gap-2 items-center cursor-pointer"
+                    onClick={() => handleToggleEditMode("products")}
+                  >
+                    <BsFillPlusCircleFill className="text-success" />
+                    <span>Add a product</span>
+                  </div>
+                  <div className="flex flex-row gap-2 items-center cursor-pointer">
+                    <TiArrowUnsorted className="text-orange-700" />
+                    <span>Reorder product</span>
+                  </div>
                 </div>
-                <div className="flex flex-row gap-2 items-center cursor-pointer">
-                  <TiArrowUnsorted className="text-orange-700" />
-                  <span>Reorder product</span>
-                </div>
-              </div>}
-              
+              )}
             </div>
           )}
           {!editModeState.products ? (
@@ -1470,8 +1504,8 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                   </div>
                 ))}
 
-              <div {...getRootProps()}>
-                <input type="file" {...getInputProps()} />
+              <div {...getCompanyImagesRootProps()}>
+                <input type="file" {...getCompanyImagesInputProps()} />
                 <div
                   className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
                     isDragActive ? "border-blue-500" : "border-black"
@@ -1489,7 +1523,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
 
         {/* \\\\\\\\\\\ */}
         {/* SOCAIL MEDIA LINKS👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={socialMediaRef}>
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -1510,7 +1544,10 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifySocialMedia}>
+                  <button
+                    className="bg-orange text-white py-1 px-3 rounded "
+                    onClick={verifySocialMedia}
+                  >
                     Verify
                   </button>
                 </div>
@@ -1521,28 +1558,34 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
             </p>
           </div>
           {!editModeState.socialMedia ? (
-            isSocialMediaAdded ? socialMediaEdited : 
-            <div className="border-2 border-black border-dashed p-4">
-              <div className="flex flex-wrap lg:flex-col gap-4">
-                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                  <FaShareAlt className="h-5 w-6" />
-                </div>
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-4">
-                    <p className="text-gray-700">
-                      Stay connected with your customers. Add links to your
-                      business social networks.
-                    </p>
-                    <div className="flex items-center font-bold gap-1">
-                      <span className="cursor-pointer hover:underline"  onClick={() => handleToggleEditMode("socialMedia")}>
-                        Add social links
-                      </span>
-                      <FaChevronRight />
+            isSocialMediaAdded ? (
+              socialMediaEdited
+            ) : (
+              <div className="border-2 border-black border-dashed p-4">
+                <div className="flex flex-wrap lg:flex-col gap-4">
+                  <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                    <FaShareAlt className="h-5 w-6" />
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
+                      <p className="text-gray-700">
+                        Stay connected with your customers. Add links to your
+                        business social networks.
+                      </p>
+                      <div className="flex items-center font-bold gap-1">
+                        <span
+                          className="cursor-pointer hover:underline"
+                          onClick={() => handleToggleEditMode("socialMedia")}
+                        >
+                          Add social links
+                        </span>
+                        <FaChevronRight />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )
           ) : (
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
@@ -1558,7 +1601,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                     className="form-input w-full"
                     placeholder="e.g. www.facebook.com/companyProfile"
                     value={editInfoState.socialMedia.facebook}
-                    onChange={e => handleSocialMediaChange('facebook', e)}
+                    onChange={(e) => handleSocialMediaChange("facebook", e)}
                   />
                 </div>
               </div>
@@ -1576,7 +1619,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                     className="form-input w-full"
                     placeholder="e.g. @instagramProfile"
                     value={editInfoState.socialMedia.instagram}
-                    onChange={e => handleSocialMediaChange('instagram', e)}
+                    onChange={(e) => handleSocialMediaChange("instagram", e)}
                   />
                 </div>
               </div>
@@ -1594,7 +1637,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                     className="form-input w-full"
                     placeholder="e.g. @twitterProfile"
                     value={editInfoState.socialMedia.twitter}
-                    onChange={e => handleSocialMediaChange('twitter', e)}
+                    onChange={(e) => handleSocialMediaChange("twitter", e)}
                   />
                 </div>
               </div>
@@ -1612,7 +1655,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                     className="form-input w-full"
                     placeholder="e.g. www.linkedin.com/companyProfile"
                     value={editInfoState.socialMedia.linkedin}
-                    onChange={e => handleSocialMediaChange('linkedin', e)}
+                    onChange={(e) => handleSocialMediaChange("linkedin", e)}
                   />
                 </div>
               </div>
@@ -1630,7 +1673,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                     className="form-input w-full"
                     placeholder="e.g. www.youtube.com/profile"
                     value={editInfoState.socialMedia.youtube}
-                    onChange={e => handleSocialMediaChange('youtube', e)}
+                    onChange={(e) => handleSocialMediaChange("youtube", e)}
                   />
                 </div>
               </div>
@@ -1648,7 +1691,7 @@ console.log('isSocialMediaAdded',  isSocialMediaAdded)
                     className="form-input w-full"
                     placeholder="e.g. www.pinterest.com/profile"
                     value={editInfoState.socialMedia.pinterest}
-                    onChange={e => handleSocialMediaChange('pinterest', e)}
+                    onChange={(e) => handleSocialMediaChange("pinterest", e)}
                   />
                 </div>
               </div>
