@@ -209,6 +209,16 @@ const Profile = () => {
     contacts: "",
   });
 
+  console.log('social media', editInfoState.socialMedia)
+  const isSocialMediaAdded = Object.values(editInfoState.socialMedia).some(
+  (value) => value !== ""
+);
+console.log('isSocialMediaAdded',  isSocialMediaAdded)
+  const handleSocialMediaChange = (name: string, event:React.ChangeEvent<HTMLInputElement> ) => {
+    const { value } = event.target
+    setEditInfoState(prevState => ({...prevState, socialMedia: { ...prevState.socialMedia, [name]: value}}))
+  }
+
   // const validateField = async (fieldName: string, value: FormType[keyof FormType]) => {
   //   try {
   //     await yup.reach(validationSchema, fieldName).validate(value);
@@ -316,6 +326,12 @@ const Profile = () => {
     console.log("verified about");
   };
 
+  const verifySocialMedia = () => {
+    // POST API
+    handleToggleEditMode('socialMedia')
+    console.log('verified social media')
+  }
+
   const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget);
@@ -370,6 +386,79 @@ const Profile = () => {
                   </div>
                 </div>
               </form>
+  )
+
+  const socialMediaEdited = (
+    isSocialMediaAdded &&
+    <div className="flex flex-col gap-6">
+    {editInfoState.socialMedia.facebook.length > 0 && (
+      <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsFacebook className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>{editInfoState.socialMedia.facebook}</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+    )}
+    {editInfoState.socialMedia.instagram.length > 0 && (
+      <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsInstagram className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>{editInfoState.socialMedia.instagram}</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+    )}
+    {editInfoState.socialMedia.twitter.length > 0 && (
+      <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsTwitter className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>{editInfoState.socialMedia.twitter}</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+    )}
+    {editInfoState.socialMedia.linkedin.length > 0 && (
+      <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsLinkedin className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>{editInfoState.socialMedia.linkedin}</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+    )}
+    {editInfoState.socialMedia.youtube.length > 0 && (
+      <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsYoutube className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>{editInfoState.socialMedia.youtube}</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+    )}
+    {editInfoState.socialMedia.pinterest.length > 0 && (
+      <div className="flex flex-row items-center gap-4">
+              <div className="w-8">
+                <BsPinterest className="w-full h-full"/>
+              </div>
+              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
+                <span>{editInfoState.socialMedia.pinterest}</span>
+                <HiOutlineExternalLink className="w-5 h-5"/>
+              </div>
+            </div>
+    )}
+    </div>
+    
   )
 
 
@@ -1328,7 +1417,7 @@ const Profile = () => {
             </p>
             <hr className="w-full text-gray-300" />
             <div className="text-xs pb-4">
-              {`0`}
+              {editInfoState.photos.length}
               {`/30 photos added`}
             </div>
           </div>
@@ -1421,7 +1510,7 @@ const Profile = () => {
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifySocialMedia}>
                     Verify
                   </button>
                 </div>
@@ -1432,6 +1521,7 @@ const Profile = () => {
             </p>
           </div>
           {!editModeState.socialMedia ? (
+            isSocialMediaAdded ? socialMediaEdited : 
             <div className="border-2 border-black border-dashed p-4">
               <div className="flex flex-wrap lg:flex-col gap-4">
                 <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
@@ -1444,7 +1534,7 @@ const Profile = () => {
                       business social networks.
                     </p>
                     <div className="flex items-center font-bold gap-1">
-                      <span className="cursor-pointer hover:underline">
+                      <span className="cursor-pointer hover:underline"  onClick={() => handleToggleEditMode("socialMedia")}>
                         Add social links
                       </span>
                       <FaChevronRight />
@@ -1467,6 +1557,8 @@ const Profile = () => {
                     id="facebook"
                     className="form-input w-full"
                     placeholder="e.g. www.facebook.com/companyProfile"
+                    value={editInfoState.socialMedia.facebook}
+                    onChange={e => handleSocialMediaChange('facebook', e)}
                   />
                 </div>
               </div>
@@ -1483,6 +1575,8 @@ const Profile = () => {
                     id="instagram"
                     className="form-input w-full"
                     placeholder="e.g. @instagramProfile"
+                    value={editInfoState.socialMedia.instagram}
+                    onChange={e => handleSocialMediaChange('instagram', e)}
                   />
                 </div>
               </div>
@@ -1499,6 +1593,8 @@ const Profile = () => {
                     id="twitter"
                     className="form-input w-full"
                     placeholder="e.g. @twitterProfile"
+                    value={editInfoState.socialMedia.twitter}
+                    onChange={e => handleSocialMediaChange('twitter', e)}
                   />
                 </div>
               </div>
@@ -1515,6 +1611,8 @@ const Profile = () => {
                     id="linkedin"
                     className="form-input w-full"
                     placeholder="e.g. www.linkedin.com/companyProfile"
+                    value={editInfoState.socialMedia.linkedin}
+                    onChange={e => handleSocialMediaChange('linkedin', e)}
                   />
                 </div>
               </div>
@@ -1531,6 +1629,8 @@ const Profile = () => {
                     id="youtube"
                     className="form-input w-full"
                     placeholder="e.g. www.youtube.com/profile"
+                    value={editInfoState.socialMedia.youtube}
+                    onChange={e => handleSocialMediaChange('youtube', e)}
                   />
                 </div>
               </div>
@@ -1547,6 +1647,8 @@ const Profile = () => {
                     id="pinterest"
                     className="form-input w-full"
                     placeholder="e.g. www.pinterest.com/profile"
+                    value={editInfoState.socialMedia.pinterest}
+                    onChange={e => handleSocialMediaChange('pinterest', e)}
                   />
                 </div>
               </div>
