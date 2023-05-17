@@ -43,6 +43,10 @@ interface Product {
   id: number;
   name: string;
 }
+interface Photo {
+  id: number;
+  name: string;
+}
 
 let idCounter = 0; // Counter for generating unique IDs
 
@@ -143,41 +147,7 @@ const Profile = () => {
     handleToggleEditMode(section);
   };
 
-  // DROPZONE
-  const onDrop = useCallback(
-    (acceptedFiles: FileWithPath[]) => {
-      acceptedFiles.forEach((file: FileWithPath) => {
-        const reader: FileReader = new FileReader();
-
-        reader.onabort = () => console.log("File reading was aborted");
-        reader.onerror = () => console.log("File reading has failed");
-        reader.onload = () => {
-          // Do whatever you want with the file contents
-          const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
-          console.log(binaryStr);
-          const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
-          setUploadedPhotos(newPhotos);
-          setIsAddedPhoto(true);
-        };
-
-        reader.readAsArrayBuffer(file);
-      });
-      console.log(acceptedFiles);
-    },
-    [uploadedPhotos]
-  );
-
-  const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
-    useDropzone({ onDrop });
-
-  const removePhoto = (index: number) => {
-    const newPhotos = uploadedPhotos.filter((_, i) => i !== index);
-    setUploadedPhotos(newPhotos);
-    if (newPhotos.length === 0) {
-      setIsAddedPhoto(false);
-    }
-  };
-
+  
   // INITIAL STATE
   type EditInfoStateType = {
     businessName: string;
@@ -195,7 +165,7 @@ const Profile = () => {
     primaryCategory: string;
     secondaryCategory: string[];
     products: Product[];
-    photos: any[]; // Assuming photos can be of any type, adjust accordingly
+    photos: Photo[]; // Assuming photos can be of any type, adjust accordingly
     socialMedia: {
       facebook: string;
       instagram: string;
@@ -273,6 +243,60 @@ const Profile = () => {
       }));
     }
   };
+
+  // DROPZONE
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[]) => {
+      acceptedFiles.forEach((file: FileWithPath) => {
+        const reader: FileReader = new FileReader();
+
+        reader.onabort = () => console.log("File reading was aborted");
+        reader.onerror = () => console.log("File reading has failed");
+        reader.onload = () => {
+          // Do whatever you want with the file contents
+          const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
+          console.log(binaryStr);
+          const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
+          setUploadedPhotos(newPhotos);
+          handlePhotoAdd(URL.createObjectURL(file))
+          setIsAddedPhoto(true);
+        };
+
+        reader.readAsArrayBuffer(file);
+      });
+      console.log(acceptedFiles);
+    },
+
+    [uploadedPhotos]
+  );
+
+  const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
+    useDropzone({ onDrop });
+
+  const removePhoto = (index: number) => {
+    const newPhotos = uploadedPhotos.filter((_, i) => i !== index);
+    setUploadedPhotos(newPhotos);
+    if (newPhotos.length === 0) {
+      setIsAddedPhoto(false);
+    }
+  };
+
+  const handlePhotoAdd = (value: string) => {
+    setEditInfoState((prevState) => {
+      const updatedProducts: Photo[] = [...prevState.photos];
+
+      const lastIndex = updatedProducts.length - 1;
+      const id = lastIndex >= 0 ? updatedProducts[lastIndex].id + 1 : 0;
+    
+      updatedProducts.push({ id, name: value });
+    
+      return {
+        ...prevState,
+        photos: updatedProducts,
+      };
+    });
+  }
+
 
   // SECTION FUNCTIONS
   const verifyBusinessName = () => {
