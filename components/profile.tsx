@@ -131,28 +131,7 @@ const Profile = () => {
   // };
 
   // SECTION REFS
-  const businessInfoRef = useRef<HTMLDivElement>(null);
-  const categoriesRef = useRef<HTMLDivElement>(null);
-  const detailedDescriptionRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
-  const logoRef =  useRef<HTMLDivElement>(null);
-  const photosRef = useRef<HTMLDivElement>(null);
-  const socialMediaRef = useRef<HTMLDivElement>(null);
-
-  const handleProgessBarClick = (
-    ref: React.RefObject<HTMLDivElement>,
-    section: string
-  ) => {
-    const navbarHeight = 120;
-    const rect = ref.current?.getBoundingClientRect();
-    const topOffset = rect?.top || 0;
-    window.scrollTo({
-      top: window.pageYOffset + topOffset - navbarHeight,
-      behavior: "smooth",
-    });
-    handleToggleEditMode(section);
-  };
-
+  
   // INITIAL STATE
   type EditInfoStateType = {
     logo: string;
@@ -230,6 +209,44 @@ const Profile = () => {
       socialMedia: { ...prevState.socialMedia, [name]: value },
     }));
   };
+
+  // SECTION REFS
+  const businessInfoRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  const detailedDescriptionRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const logoRef =  useRef<HTMLDivElement>(null);
+  const photosRef = useRef<HTMLDivElement>(null);
+  const socialMediaRef = useRef<HTMLDivElement>(null);
+
+
+  // PROGRESS BAR
+  const handleProgessBarClick = (
+    ref: React.RefObject<HTMLDivElement>,
+    section: string
+  ) => {
+    const navbarHeight = 120;
+    const rect = ref.current?.getBoundingClientRect();
+    const topOffset = rect?.top || 0;
+    window.scrollTo({
+      top: window.pageYOffset + topOffset - navbarHeight,
+      behavior: "smooth",
+    });
+    handleToggleEditMode(section);
+  };
+
+  const isAddressCompleted = editInfoState.streetAddress.length > 0 && editInfoState.phone.length > 0;
+  const isCategoriesCompleted = editInfoState.primaryCategory.length > 0 || editInfoState.secondaryCategory.length > 0;
+  const isDetailedDescriptionCompleted = editInfoState.detailedDescription.length > 0 ;
+  const isPhotoCompleted = (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" && editInfoState.logo.length > 0 ) || editInfoState.photos.length > 0;
+  const isServicesCompleted = editInfoState.products.length > 0 ;
+  const isSocialMediaCompleted = Object.values(editInfoState.socialMedia).some((value) => value !== "");
+  const handleProgress = () => {
+
+    return { isAddressCompleted, isCategoriesCompleted, isDetailedDescriptionCompleted, isPhotoCompleted, isServicesCompleted, isSocialMediaCompleted}
+  }
+  handleProgress()
+
 
   // const validateField = async (fieldName: string, value: FormType[keyof FormType]) => {
   //   try {
@@ -535,7 +552,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-x-12 font-regular">
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className="text-success">Name, Address & phone</p>
+                  <p className={`${isAddressCompleted ? 'text-success' : 'text-error'}`}>Name, Address & phone</p>
                   <div
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={() =>
@@ -548,7 +565,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 2 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className="text-success">Business Categories</p>
+                  <p className={`${isCategoriesCompleted ? 'text-success' : 'text-error'}`}>Business Categories</p>
                   <div
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={() =>
@@ -561,7 +578,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className="text-success">Detailed Description</p>
+                  <p className={`${isDetailedDescriptionCompleted ? 'text-success' : 'text-error'}`}>Detailed Description</p>
                   <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
                       handleProgessBarClick(detailedDescriptionRef, "about")
                     }>
@@ -571,7 +588,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className="text-error">Logo or Image</p>
+                  <p className={`${isPhotoCompleted ? 'text-success' : 'text-error'}`}>Logo or Image</p>
                   <div className="flex items-center gap-2 cursor-pointer" onClick={() => newLogoAdded ? handleProgessBarClick(photosRef, 'photos') : handleProgessBarClick(logoRef, '')}>
                     <HiPlus />
                     <p>Add</p>
@@ -579,7 +596,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className="text-error">Services</p>
+                  <p className={`${isServicesCompleted ? 'text-success' : 'text-error'}`}>Services</p>
                   <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
                       handleProgessBarClick(servicesRef, "products")
                     }>
@@ -589,7 +606,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className="text-error">Social Media</p>
+                  <p className={`${isSocialMediaCompleted ? 'text-success' : 'text-error'}`}>Social Media</p>
                   <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
                       handleProgessBarClick(socialMediaRef, "socialMedia")
                     }>
@@ -1469,7 +1486,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\\\\\\ */}
         {/* PHOTOS */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={photosRef}>
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 " ref={photosRef}>
           <div className="flex flex-col gap-4">
             <p className="text-2xl font-medium font-lora text-black title">
               Photos
