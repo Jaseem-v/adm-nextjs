@@ -314,6 +314,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
   const removeLogo = () => {
     const oldLogo = "https://i.ibb.co/SPJXPcD/store.png";
     setEditInfoState(prevState => ({...prevState, logo: oldLogo }))
+    setShowDeleteModel(false)
   }
 
   const handlePhotoAdd = (value: string) => {
@@ -610,9 +611,9 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
         >
           <div className="relative w-48 h-48  rounded  ">
             {/* close */}
-            <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={() => setShowDeleteModel(true)}>
+            {newLogoAdded && <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={() => setShowDeleteModel(true)}>
               <IoClose color="white" />
-            </div>
+            </div>}
             {/* image */}
             
             <div className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded" style={{ backgroundImage: `url(${editInfoState.logo})` }} {...(!newLogoAdded && getLogoRootProps())}>
