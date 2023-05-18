@@ -217,6 +217,7 @@ const Profile = () => {
   const isSocialMediaAdded = Object.values(editInfoState.socialMedia).some(
     (value) => value !== ""
   );
+
   const handleSocialMediaChange = (
     name: string,
     event: React.ChangeEvent<HTMLInputElement>
@@ -593,8 +594,8 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
             </div>
             {/* image */}
             
-            <div className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded" style={{ backgroundImage: `url(${editInfoState.logo})` }} {...getLogoRootProps()}>
-            <input type="file" {...getLogoInputProps()} name="logo"/>
+            <div className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded" style={{ backgroundImage: `url(${editInfoState.logo})` }} {...(!newLogoAdded && getLogoRootProps())}>
+            {!newLogoAdded && <input type="file" {...getLogoInputProps()} name="logo"/>}
             {/* <RiStore3Fill className="block w-full h-full" /> */}
             <div className="absolute bottom-0 inset-x-0 cursor-pointer bg-none py-2 px-12">
               {!newLogoAdded && <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center">Change</div>}
