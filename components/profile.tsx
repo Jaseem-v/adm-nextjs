@@ -571,7 +571,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-error">Logo or Image</p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 cursor-pointer" onClick={() => !newLogoAdded && handleProgessBarClick(photosRef, 'about')}>
                     <HiPlus />
                     <p>Add</p>
                   </div>
@@ -609,7 +609,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
           className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6"
           ref={businessInfoRef}
         >
-          <div className="relative w-48 h-48  rounded  ">
+          <div className="relative w-48 h-48  rounded  " ref={!newLogoAdded ? photosRef: ''}>
             {/* close */}
             {newLogoAdded && <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={() => setShowDeleteModel(true)}>
               <IoClose color="white" />
@@ -1327,7 +1327,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* PRODUCTS AND SERVICES👆 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={servicesRef}>
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">

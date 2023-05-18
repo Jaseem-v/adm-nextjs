@@ -1,6 +1,30 @@
+"use client";
+
 import SectionHeader from "@/components/SectionHeader";
+import { getAccessToken, saveAccessToken } from "@/services/authService";
+import httpClient from "@/services/axiosInstance";
+import { useState } from 'react';
+
 
 const CompanyDetails = () => {
+  const [data, setData] = useState()
+
+  const getCategory = async () => {
+    try {
+      const response = await httpClient().get('/category');
+      if (response.status === 200) {
+        const categoryData = response.data;
+        console.log(categoryData);
+      } else {
+        console.log('Failed to fetch category data.');
+      }
+      return response;
+    } catch (error) {
+      console.log('An error occurred while fetching category data:', error);
+    }
+  };
+  console.log(getCategory())
+  getCategory()
   return (
     <>
       <div

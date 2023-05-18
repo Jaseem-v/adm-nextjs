@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const firms = [
   {
     id: 1,
@@ -151,7 +153,7 @@ const Business = () => {
                 gap-x-10 md:gap-x-11 lg:gap-x-12 gap-y-6 md:gap-y-7 lg:gap-8"
           >
             {firms.map((firm) => (
-              <a href="businessFirmDetails.html" key={firm.id}>
+              <Link href="/business/details" key={firm.id}>
                 <div
                   className="flex flex-col items-center justify-between shadow-eventCard
                         pt-12 md:pt-14 lg:pt-16 px-14 md:px-16 lg:px-20
@@ -168,7 +170,7 @@ const Business = () => {
                   </p>
                   <p className="text-sm">{firm.link}</p>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
