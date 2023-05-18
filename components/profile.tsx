@@ -526,6 +526,20 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
       </div>
   )
 
+  const editOrAdd = (condition: boolean) => {
+    return condition ? (
+      <div className="flex items-center gap-2 cursor-pointer">
+        <BsPencilSquare />
+        <p>Edit</p>
+      </div>
+    ) : (
+      <div className="flex items-center gap-2 cursor-pointer">
+        <HiPlus />
+        <p>Add</p>
+      </div>
+    );
+  };
+
   return (
     <div className="bg-[#F5F2F0]">
         {logoDeleteModel}
@@ -554,64 +568,56 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 <div className="flex justify-between items-center gap-2">
                   <p className={`${isAddressCompleted ? 'text-success' : 'text-error'}`}>Name, Address & phone</p>
                   <div
-                    className="flex items-center gap-2 cursor-pointer"
                     onClick={() =>
                       handleProgessBarClick(businessInfoRef, "businessInfo")
                     }
                   >
-                    <BsPencilSquare />
-                    <p>Edit</p>
+                    {editOrAdd(isAddressCompleted)}
                   </div>
                 </div>
                 {/* ITEM 2 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className={`${isCategoriesCompleted ? 'text-success' : 'text-error'}`}>Business Categories</p>
                   <div
-                    className="flex items-center gap-2 cursor-pointer"
                     onClick={() =>
                       handleProgessBarClick(categoriesRef, "businessCategories")
                     }
                   >
-                    <BsPencilSquare />
-                    <p>Edit</p>
+                    {editOrAdd(isCategoriesCompleted)}
                   </div>
                 </div>
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className={`${isDetailedDescriptionCompleted ? 'text-success' : 'text-error'}`}>Detailed Description</p>
-                  <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
+                  <div onClick={() =>
                       handleProgessBarClick(detailedDescriptionRef, "about")
                     }>
-                    <BsPencilSquare />
-                    <p>Edit</p>
+                    {editOrAdd(isDetailedDescriptionCompleted)}
                   </div>
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className={`${isPhotoCompleted ? 'text-success' : 'text-error'}`}>Logo or Image</p>
-                  <div className="flex items-center gap-2 cursor-pointer" onClick={() => newLogoAdded ? handleProgessBarClick(photosRef, 'photos') : handleProgessBarClick(logoRef, '')}>
-                    <HiPlus />
-                    <p>Add</p>
+                  <div onClick={() => newLogoAdded ? handleProgessBarClick(photosRef, 'photos') : handleProgessBarClick(logoRef, '')}>
+                  {editOrAdd(isPhotoCompleted)}
                   </div>
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className={`${isServicesCompleted ? 'text-success' : 'text-error'}`}>Services</p>
-                  <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
+                  <div onClick={() =>
                       handleProgessBarClick(servicesRef, "products")
                     }>
-                    <HiPlus />
-                    <p>Add</p>
+                    {editOrAdd(isServicesCompleted)}
                   </div>
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className={`${isSocialMediaCompleted ? 'text-success' : 'text-error'}`}>Social Media</p>
-                  <div className="flex items-center gap-2 cursor-pointer" onClick={() =>
+                  <div onClick={() =>
                       handleProgessBarClick(socialMediaRef, "socialMedia")
                     }>
-                    <HiPlus />
-                    <p>Add</p>
+                    {editOrAdd(isSocialMediaCompleted)}
                   </div>
                 </div>
               </div>
