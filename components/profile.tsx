@@ -135,6 +135,7 @@ const Profile = () => {
   const categoriesRef = useRef<HTMLDivElement>(null);
   const detailedDescriptionRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
+  const logoRef =  useRef<HTMLDivElement>(null);
   const photosRef = useRef<HTMLDivElement>(null);
   const socialMediaRef = useRef<HTMLDivElement>(null);
 
@@ -571,7 +572,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p className="text-error">Logo or Image</p>
-                  <div className="flex items-center gap-2 cursor-pointer" onClick={() => !newLogoAdded && handleProgessBarClick(photosRef, 'about')}>
+                  <div className="flex items-center gap-2 cursor-pointer" onClick={() => newLogoAdded ? handleProgessBarClick(photosRef, 'photos') : handleProgessBarClick(logoRef, '')}>
                     <HiPlus />
                     <p>Add</p>
                   </div>
@@ -609,7 +610,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
           className="flex flex-col lg:flex-row gap-4 bg-white text-gray-800 p-6"
           ref={businessInfoRef}
         >
-          <div className="relative w-48 h-48  rounded  " ref={!newLogoAdded ? photosRef: ''}>
+          <div className="relative w-48 h-48  rounded  " ref={logoRef}>
             {/* close */}
             {newLogoAdded && <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={() => setShowDeleteModel(true)}>
               <IoClose color="white" />
@@ -1468,7 +1469,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\\\\\\ */}
         {/* PHOTOS */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={photosRef}>
           <div className="flex flex-col gap-4">
             <p className="text-2xl font-medium font-lora text-black title">
               Photos
