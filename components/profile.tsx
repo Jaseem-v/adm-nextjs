@@ -76,6 +76,7 @@ const Profile = () => {
     useState(false);
   const [isAddedPhoto, setIsAddedPhoto] = useState(false);
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
+  const [showDeleteModel, setShowDeleteModel] = useState(false)
 
   const handleToggleEditMode = (section: string) => {
     setEditModeState((prevState) => {
@@ -487,8 +488,28 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     </div>
   );
 
+  const logoDeleteModel = (
+    showDeleteModel && 
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="relative rounded p-5 bg-white">
+          <div className="flex flex-col gap-4">
+            <p>Are you sure you want to delete this image?</p>
+            <div className="h-48 w-48 flex justify-center items-center rounded overflow-hidden mx-auto">
+              <div className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded" style={{ backgroundImage: `url(${editInfoState.logo})` }} />
+            </div>
+            <div className="flex flex-row gap-2 self-end">
+              <button className="px-6 py-2 rounded cursor-pointer text-center" onClick={() => setShowDeleteModel(false)}>Cancel</button>
+              <button className="px-6 py-2 rounded cursor-pointer text-center bg-[#e15249] text-white" onClick={removeLogo}>Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  )
+
   return (
     <div className="bg-[#F5F2F0]">
+        {logoDeleteModel}
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* PROGRESS👇 */}
@@ -589,7 +610,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
         >
           <div className="relative w-48 h-48  rounded  ">
             {/* close */}
-            <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={removeLogo}>
+            <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={() => setShowDeleteModel(true)}>
               <IoClose color="white" />
             </div>
             {/* image */}
