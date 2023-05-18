@@ -241,11 +241,24 @@ const Profile = () => {
   const isPhotoCompleted = (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" && editInfoState.logo.length > 0 ) || editInfoState.photos.length > 0;
   const isServicesCompleted = editInfoState.products.length > 0 ;
   const isSocialMediaCompleted = Object.values(editInfoState.socialMedia).some((value) => value !== "");
-  const handleProgress = () => {
 
-    return { isAddressCompleted, isCategoriesCompleted, isDetailedDescriptionCompleted, isPhotoCompleted, isServicesCompleted, isSocialMediaCompleted}
-  }
-  handleProgress()
+    const progressSections = [
+      isAddressCompleted,
+      isCategoriesCompleted,
+      isDetailedDescriptionCompleted,
+      isPhotoCompleted,
+      isServicesCompleted,
+      isSocialMediaCompleted,
+    ];
+  
+    // Calculate the completion percentage
+    const completedSections = progressSections.filter((section) => section);
+    const completionPercentage = Math.floor((completedSections.length / progressSections.length) * 100);
+    const overallCompletionPercentage = completedSections.length === progressSections.length ? 100 : Math.min(completedSections.length * 15, 100);
+    console.log('progress ' , overallCompletionPercentage)
+  
+
+
 
 
   // const validateField = async (fieldName: string, value: FormType[keyof FormType]) => {
@@ -556,8 +569,8 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
             </div>
             <div className="flex flex-col gap-4 lg:py-6 w-full xl:w-min">
               <div className="w-full xl:w-[800px] h-8 bg-skeleton rounded-full overflow-hidden">
-                <div className="h-full w-1/2 bg-gold flex items-center justify-center font-semibold text-white">
-                  50%
+                <div className="h-full bg-gold flex items-center justify-center font-semibold text-white" style={{ width: `${overallCompletionPercentage}%` }}>
+                  {overallCompletionPercentage}%
                 </div>
               </div>
               <p className="text-lg md:text-xl font-medium">
