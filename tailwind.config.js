@@ -28,7 +28,8 @@ module.exports = {
         inter: ["Inter", "Poppins", "sans-serif"],
         lexend: ["Lexend", "sans-serif"],
         lora: ["Lora", "serif"],
-        albra: ['Albra', 'serif']
+        albra: ['Albra', 'serif'],
+        joane: ['Joane', 'serif']
       },
       colors: {
         lightGrey: "#ADADAD",

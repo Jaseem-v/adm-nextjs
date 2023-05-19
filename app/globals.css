@@ -19,6 +19,11 @@ body {
   src: url(/public/fonts/AlbraBookTRIAL-Semi.otf);
   font-weight: 600;
 }
+@font-face {
+  font-family: 'Joane';
+  src: url(/public/fonts/Joane-Black.ttf);
+  font-weight: 700;
+}
 
 .about-us-header {
   background-image: url(/images/aboutUsHeader.png);
@@ -37,5 +42,10 @@ body {
 
 .businessFirms-header {
   background-image: url(/images/businessFirms.png);
+  background-size: cover;
+}
+
+.sectionHeader {
+  background-image: url(/images/sectionHeader.png);
   background-size: cover;
 }

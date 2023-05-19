@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SectionHeader from '@/components/SectionHeader';
 
 const AboutUs = () => {
   return (
@@ -6,7 +7,7 @@ const AboutUs = () => {
       {/* \\\\\\\\\\\\ */}
       {/* HEADER */}
       {/* \\\\\\\\\\\\ */}
-
+{/* 
       <div
         className="about-us-header text-white py-16 md:py-20 lg:py-24 xl:py-28
             flex flex-col items-center justify-center
@@ -26,7 +27,7 @@ const AboutUs = () => {
           consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
           labore et dolore
         </p>
-      </div>
+      </div> */}
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
@@ -195,6 +196,12 @@ const AboutUs = () => {
           </div>
         </div>
       </section> */}
+
+      {/* \\\\\\\\\\\\ */}
+      {/* HEADER */}
+      {/* \\\\\\\\\\\\ */}
+      <SectionHeader title="About Us" page="About"/>
+
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
