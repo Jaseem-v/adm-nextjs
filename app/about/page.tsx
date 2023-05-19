@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const AboutUs = () => {
   return (
     <>
@@ -30,7 +32,7 @@ const AboutUs = () => {
       {/* SECTION */}
       {/* \\\\\\\\\\\\ */}
 
-      <section>
+      {/* <section>
         <div className="py-14 md:py-20 lg:py-32 bg-white text-black text-center  ">
           <div className="max-w-screen-xl mx-auto px-5 xl:px-0">
             <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0">
@@ -127,13 +129,13 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
       {/* \\\\\\\\\\\\ */}
 
-      <section>
+      {/* <section>
         <div
           className="max-w-screen-xl mx-auto px-5 xl:px-0
             font-bold text-xl md:text-2xl lg:text-3xl
@@ -192,6 +194,35 @@ const AboutUs = () => {
             />
           </div>
         </div>
+      </section> */}
+
+      {/* \\\\\\\\\\\\ */}
+      {/* SECTION */}
+      {/* \\\\\\\\\\\\ */}
+      <section>
+        <div className="mt-20 text-center text-black max-w-screen-xl mx-auto px-5 xl:px-0">
+          <h1 className="font-albra text-5xl font-bold text-[#333]">We believe community grow businesses</h1>
+          <h6 className="font-inter text-xl font-normal text-opacity-70 mt-4">Connecting Malayalee Entrepreneurs for Collective Success</h6>
+          <div className="mt-[100px] flex items-start justify-center gap-32 text-left ">
+            <img src="/images/aboutNewImage.png" alt="community image" className="w-[530px]"/>
+            <div className="flex flex-col font-inter lg:pt-12">
+              <h2 className="font-bold text-5xl">Get to Know Us: <br />
+                  Discover Our Story <br />
+                  and Mission</h2>
+                  <p className="pt-8 lg:pt-16 font-medium text-xl leading-[1.5]">Abu Dhabi Malayalees is a vibrant and thriving business community of Malayalees in Abu Dhabi, United Arab Emirates. We are a group of like-minded individuals who come together to foster a strong sense of community, promote business opportunities, and support each other in both personal and professional endeavors.</p>
+                  <p className="pt-2 lg:pt-4 font-medium text-xl leading-[1.5]">We aim to provide a platform for our members to network, share ideas, and explore new business opportunities.</p>
+                  <Link href="/register" >
+                  <button
+            className="mt-9 font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
+          >
+            Register Now
+            <img src="/images/arrow-right.svg" alt="right arrow" />
+          </button>
+          </Link>
+            </div>
+          </div>
+        </div>
+
       </section>
     </>
   );
