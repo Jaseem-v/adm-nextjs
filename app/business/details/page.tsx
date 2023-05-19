@@ -9,6 +9,21 @@ import { useState } from 'react';
 const CompanyDetails = () => {
   const [data, setData] = useState()
 
+  const addCategory = async () => {
+    const data = {'name': 'mobile', 'status': 'Active', 'visibility': 'Show', 'image': {
+      uri: 'https://i.ibb.co/SPJXPcD/store.png',
+      type: 'image/png',
+      name: 'store.png',
+    }}
+    try {
+      await httpClient().post('category', data)
+      .then(res => console.log(res))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  addCategory()
+
   const getCategory = async () => {
     try {
       const response = await httpClient().get('/category');

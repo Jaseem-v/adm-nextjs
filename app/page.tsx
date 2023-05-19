@@ -247,10 +247,10 @@ export default function Index() {
                   />
                 </div>
                 <div className="mt-2">
-                  <p className="font-semibold text-lg md:text-xl lg:text-2xl">
+                  <p className="font-inter font-semibold text-lg md:text-xl lg:text-2xl">
                     {member.name}
                   </p>
-                  <p className="font-kaisei font-bold text-base md:text-lg">
+                  <p className="font-poppins text-base md:text-lg">
                     {member.position}
                   </p>
                 </div>

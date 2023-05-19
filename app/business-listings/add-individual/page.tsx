@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./../../../components/enlist/form.css";
 import { IndividualPreviewSkeleton } from "@/components/enlist/individualPreviewSkeleton";
+import httpClient from './../../../services/axiosInstance';
 
 const EnlistIndividual = () => {
   const [data, setData] = useState({
@@ -19,6 +20,9 @@ const EnlistIndividual = () => {
     password: "",
     place: "",
   });
+
+  // API
+  
 
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -67,8 +71,17 @@ const EnlistIndividual = () => {
   const { register, handleSubmit, formState, trigger, watch, setValue } = form;
   const { errors } = formState;
 
-  const onSubmit = (d: FormValues) => {
-    setData((prevData) => ({ ...prevData, ...d }));
+  const onSubmit = async ({ firstname, lastname, email, phone, username, password}: FormValues) => {
+    const formData = { fname: firstname, lname: lastname, email, phone, username, password}
+    await setData((prevData) => ({ ...prevData, formData}));
+
+    try {
+      await httpClient().post('user/personal/signup', formData)
+      .then(res => console.log(res))
+
+    } catch (error) {
+      console.log(error)
+    }
     console.log("userdata", data);
   };
 
