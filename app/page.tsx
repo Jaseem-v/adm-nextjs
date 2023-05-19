@@ -8,6 +8,7 @@ import {
 import React from "react";
 import "./home/home.css";
 import ContactForm from "@/components/contactForm";
+import Link from "next/link";
 
 export default function Index() {
   return (
@@ -79,7 +80,40 @@ export default function Index() {
       {/* ABOUT US */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className="bg-white py-16">
+      <section>
+        <div className="mt-20 text-center text-black max-w-screen-xl mx-auto px-5 xl:px-0">
+        <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
+              <div className="bg-lightOrange w-full h-[1px]"></div>
+              <h3 className="font-albra text-[#333] font-semibold tracking-wide uppercase text-2xl md:text-3xl lg:text-4xl">
+                About us
+              </h3>
+              <div className="bg-lightOrange w-full h-[1px]"></div>
+            </div>
+          <h1 className="mt-10 font-albra text-5xl font-bold text-[#333]">We believe community grows businesses</h1>
+          <h6 className="font-inter text-xl font-normal text-opacity-70 mt-4">Connecting Malayalee Entrepreneurs for Collective Success</h6>
+          <div className="mt-[100px] flex items-start justify-center gap-32 text-left ">
+            <img src="/images/aboutNewImage.png" alt="community image" className="w-[530px]"/>
+            <div className="flex flex-col font-inter lg:pt-12">
+              <h2 className="font-bold text-5xl font-poppins text-[#333]">Get to Know Us: <br />
+                  Discover Our Story <br />
+                  and Mission</h2>
+                  <p className="pt-8 lg:pt-16 font-medium text-xl leading-[1.5]">Abu Dhabi Malayalees is a vibrant and thriving business community of Malayalees in Abu Dhabi, United Arab Emirates. We are a group of like-minded individuals who come together to foster a strong sense of community, promote business opportunities, and support each other in both personal and professional endeavors.</p>
+                  <p className="pt-2 lg:pt-4 font-medium text-xl leading-[1.5]">We aim to provide a platform for our members to network, share ideas, and explore new business opportunities.</p>
+                  <Link href="/register" >
+                  <button
+            className="mt-9 font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
+          >
+            Register Now
+            <img src="/images/arrow-right.svg" alt="right arrow" />
+          </button>
+          </Link>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      {/* <section className="bg-white py-16">
         <div className="max-w-screen-xl mx-auto px-5 xl:px-0">
           <div className="lg:text-center">
             <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
@@ -90,7 +124,6 @@ export default function Index() {
               <div className="bg-lightOrange w-full h-[1px]"></div>
             </div>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
               We're a leading provider of innovative solutions
             </p>
             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
@@ -194,7 +227,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* NUMBERS */}

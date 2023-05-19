@@ -1,7 +1,9 @@
+import SectionHeader from "@/components/SectionHeader";
+
 const Gallery = () => {
   return (
     <>
-      <div
+      {/* <div
         className="gallery-header text-white py-16 md:py-20 lg:py-24 xl:py-28
             flex flex-col items-center justify-center
             px-4 xl:px-0"
@@ -20,7 +22,8 @@ const Gallery = () => {
           consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
           labore et dolore
         </p>
-      </div>
+      </div> */}
+      <SectionHeader title="Gallery" page="Gallery" />
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
