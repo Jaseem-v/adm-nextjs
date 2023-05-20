@@ -9,8 +9,7 @@ const BusinessPersons = () => {
       {/* \\\\\\\\\\\\ */}
       <SectionHeader
         title="Business Persons"
-        classname="businessFirms-header"
-        description="consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"
+        page="Business Persons"
       />
 
       {/* \\\\\\\\\\\\ */}
