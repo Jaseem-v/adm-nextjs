@@ -276,14 +276,14 @@ export default function Index() {
                   <img
                     src={member.image}
                     alt="team-member-1"
-                    className="rounded"
+                    className="rounded-md"
                   />
                 </div>
                 <div className="mt-2">
-                  <p className="font-inter font-semibold text-lg md:text-xl lg:text-2xl">
+                  <p className=" font-semibold text-lg md:text-xl lg:text-2xl">
                     {member.name}
                   </p>
-                  <p className="font-poppins text-base md:text-lg">
+                  <p className=" text-base md:text-lg">
                     {member.position}
                   </p>
                 </div>

@@ -51,7 +51,7 @@ export const socialMedia = [
 export const members = [
   {
     id: 1,
-    name: "John wook",
+    name: "Daniel Sams",
     position: "CEO of Amazon",
     image: "/images/team1.png",
   },
