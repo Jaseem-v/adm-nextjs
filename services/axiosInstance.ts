@@ -6,11 +6,11 @@ const httpClient = (contentType?: string) => {
 
   // Create instance
   const instance: AxiosInstance = axios.create({
-    baseURL: 'https://www.server.ecommerce.gokulsreejith.com/api/v1',
+    baseURL: 'https://abudhabi-malayalees.onrender.com/api/v1',
     headers: {
-      'Content-Type': contentType ? contentType : 'application/json',
       'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGQ2ZWY5YmFjMmVmMDczZDY0MmZhYyIsInJvbGUiOiJTdXBlckFkbWluIiwiaWF0IjoxNjc4ODA4NTM0LCJleHAiOjE3MTAzNjYxMzQsImF1ZCI6IlNSRUVKSVRIIiwiaXNzIjoiZS1jb21tZXJjZS5nb2t1bHNyZWVqaXRoLmNvbSJ9.PK7X8_j400yYsjMgjPhTPZJ5XZOA2yPR3wkxVS5bprQ'
     },
+    withCredentials: true,
     validateStatus: function (status) {
       return status < 500;
     },

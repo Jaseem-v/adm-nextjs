@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./../../../components/enlist/form.css";
+import { FirstStepSchema } from "@/app/schema/signUpSchema";
 
 type FormData = {
   companyName: string;
@@ -43,30 +44,6 @@ const EnlistCompany = () => {
   const [page, setPage] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const FirstStepSchema = yup.object({
-    companyName: yup.string().required("Company name is required"),
-    streetAddress: yup.string().required("streetAddress is required"),
-    building: yup.string(),
-    city: yup.string().required("City is required"),
-    zip: yup
-      .string()
-      .matches(/^[0-9]*$/, "Zip must be a number")
-      .matches(/^\d{6}$/, "Zip code must be 6 digits")
-      .required("Zip is required"),
-    hideAddress: yup.boolean(),
-    hasServiceArea: yup.boolean(),
-    phoneNumber: yup
-      .string()
-      .required("Phone number is required")
-      .max(10)
-      .min(10),
-    websiteUrl: yup.string(),
-    // .matches(
-    //   /^(?:https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/,
-    //   "Please enter a valid website URL"
-    // ),
-    categories: yup.string().required("This field is required"),
-  });
 
   type FormValues = {
     companyName: string;
@@ -92,10 +69,8 @@ const EnlistCompany = () => {
       zip: "",
       hideAddress: true,
       hasServiceArea: false,
-
       phoneNumber: "",
       websiteUrl: "",
-
       categories: "",
     },
     resolver: yupResolver(FirstStepSchema),

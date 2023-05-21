@@ -4,8 +4,6 @@ import { useState } from "react";
 import BusinessDropdown from "./BusinessDropdown";
 import Link from "next/link";
 import "./Navbar.css";
-import EnlistModel from "./enlistModel";
-import { Toaster } from "react-hot-toast";
 
 const navItems = [
   { id: 1, title: "Home", animation: "nav1", link: "" },
@@ -20,27 +18,22 @@ const Navbar = () => {
   const [isMobileNav, setIsMobileNav] = useState(false);
   const [isBusinessDropdown, setIsBusinessDropdown] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-  const [showEnlistModel, setShowEnlistModel] = useState(false);
 
   const selectedStyle =
     "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400 ";
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400";
   return (
-    // need to implement proper sticky navbar
     <header
-      className="font-inter z-20 bg-black text-white sticky top-0 left-0"
+      className="font-inter relative z-20 bg-black text-white"
       id="navbar"
     >
-
-      <Toaster position="top-right"
-        reverseOrder={false} />
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-5 xl:px-0">
         {/* logo👇 */}
-        <Link href="/" className="logo flex items-center gap-2 py-5">
+        <Link href="/" className="logo flex items-center gap-2 py-7">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo.png" alt="logo" className="h-9 lg:h-11" />
-          <p className="text-lg lg:text-xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
+          <img src="/images/logo.png" alt="logo" className="h-10 lg:h-12" />
+          <p className="text-lg lg:text-2xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
             Abu Dhabi
             <br />
             Malayalees
@@ -49,17 +42,18 @@ const Navbar = () => {
         {/* \\\\\\\\\\\\\\\\\\\\\\ */}
         {/*  menu items */}
         {!isMobileNav && (
-          <div className="hidden lg:grid items-center px-16">
-            <ul className="flex gap-10" id="navbar-cta">
+          <div className="hidden lg:grid h-[120px] items-center border-x px-16">
+            <ul className="flex gap-14" id="navbar-cta">
               {navItems.map((item) => (
                 <li
-                  className={`py-10 hidden lg:block ${item.title === "Business" ? "relative" : ""
-                    } `}
+                  className={`py-12 hidden lg:block ${
+                    item.title === "Business" ? "relative" : ""
+                  } `}
                   key={item.id}
                 >
                   <Link
                     href={`/${item.link}`}
-                    className={`${item.animation} text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                    className={`${item.animation} text-base hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
                     aria-current="page"
                   >
                     {item.title}
@@ -83,23 +77,14 @@ const Navbar = () => {
           </div>
         )}
         {/* login */}
-        <div className="hidden lg:flex items-center gap-5 text-sm">
-          <button
-            className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-            onClick={() => setShowEnlistModel(true)}
-          >
-            Claim my Listing
-          </button>
+        <div className="hidden lg:block">
           <Link href="/login">
-            <button className="navBtn font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+            <button className="navBtn font-regular bg-white text-black py-3 px-12 text-base rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
               Login
             </button>
           </Link>
         </div>
 
-        {showEnlistModel && (
-          <EnlistModel setShowEnlistModel={setShowEnlistModel} />
-        )}
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* mobile menu */}
         <div className="-mr-2 flex lg:hidden z-30">
@@ -122,9 +107,9 @@ const Navbar = () => {
                 aria-hidden="true"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               </svg>
@@ -139,9 +124,9 @@ const Navbar = () => {
                 aria-hidden="true"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
@@ -149,7 +134,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      {/* <div className="w-full h-[1px] bg-white navLine"></div> */}
+      <div className="w-full h-[1px] bg-white navLine"></div>
       {/* Mobile menu, toggle classNamees based on menu state */}
       {isMobileNavOpen && (
         <div className=" lg:hidden z-50" id="myLinks">

@@ -3,12 +3,20 @@
 import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import "./../../../components/enlist/form.css";
 import { IndividualPreviewSkeleton } from "@/components/enlist/individualPreviewSkeleton";
 import httpClient from './../../../services/axiosInstance';
+// import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { SecondStepSchema } from "@/app/schema/signUpSchema";
+
+
+
+
+
+
 
 const EnlistIndividual = () => {
   const [data, setData] = useState({
@@ -21,29 +29,13 @@ const EnlistIndividual = () => {
     place: "",
   });
 
-  // API
-  
 
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-  const SecondStepSchema = yup.object({
-    firstname: yup.string().required("Firstname is required"),
-    lastname: yup.string().required("Lastname is required"),
-    phone: yup
-      .string()
-      .required("Phone number is required")
-      .matches(phoneRegExp, "Phone number is not valid"),
-    email: yup
-      .string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    username: yup.string().required("Username is required").min(4),
-    password: yup
-      .string()
-      .required("Password is required")
-      .min(8, "Password must be atleast 8 charecters"),
-    place: yup.string().required("Place is required").min(3),
-  });
+  const navigate = useRouter();
+
+
+
+  // API
+
 
   type FormValues = {
     firstname: string;
@@ -71,17 +63,27 @@ const EnlistIndividual = () => {
   const { register, handleSubmit, formState, trigger, watch, setValue } = form;
   const { errors } = formState;
 
-  const onSubmit = async ({ firstname, lastname, email, phone, username, password}: FormValues) => {
-    const formData = { fname: firstname, lname: lastname, email, phone, username, password}
-    await setData((prevData) => ({ ...prevData, formData}));
+  const onSubmit = async ({ firstname, lastname, email, phone, username, password }: FormValues) => {
+    const formData = { fname: firstname, lname: lastname, email, phone, username, password }
+    await setData((prevData) => ({ ...prevData, formData }));
 
     try {
       await httpClient().post('user/personal/signup', formData)
-      .then(res => console.log(res))
+        .then(res => {
+          toast.success('Account Created Succeffully', {
+            icon: '👏',
+          })
+          navigate.push("/login")
+        }
+
+        )
 
     } catch (error) {
       console.log(error)
     }
+
+
+
     console.log("userdata", data);
   };
 
@@ -187,9 +189,8 @@ const EnlistIndividual = () => {
           <p className="error">{errors.place?.message}</p>
         </div>
         <button
-          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
-            isError ? "bg-opacity-50" : ""
-          }`}
+          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${isError ? "bg-opacity-50" : ""
+            }`}
           type="submit"
         >
           Finish
