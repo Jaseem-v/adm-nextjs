@@ -54,7 +54,7 @@ export default function Index() {
       <section className="z-10 lg:-mt-32">
         <div className="social-media-section flex flex-col gap-12 p-12 max-w-screen-lg mx-auto rounded-sm shadow-lg">
           <div className="flex items-center justify-center w-full">
-            <p className="font-kaisei font-bold text-xl text-black text-center">
+            <p className="font-kaisei  font-bold text-xl  text-center">
               Follow us
             </p>
           </div>
@@ -82,35 +82,51 @@ export default function Index() {
 
       <section>
         <div className="my-20 text-center text-black max-w-screen-xl mx-auto px-5 xl:px-0">
-        <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
-              <div className="bg-lightOrange w-full h-[1px]"></div>
-              <h3 className="font-kaisei text-black font-semibold tracking-wide uppercase text-2xl md:text-3xl lg:text-4xl">
-                About us
-              </h3>
-              <div className="bg-lightOrange w-full h-[1px]"></div>
-            </div>
-          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333]">We believe community grows businesses</h1>
-          <h6 className="font-inter text-base md:text-lg lg:text-xl font-normal text-opacity-70 mt-4">Connecting Malayalee Entrepreneurs for Collective Success</h6>
+          <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
+            <div className="bg-lightOrange w-full h-[1px]"></div>
+            <h3 className="font-kaisei text-black font-semibold tracking-wide uppercase text-2xl md:text-3xl lg:text-4xl">
+              About us
+            </h3>
+            <div className="bg-lightOrange w-full h-[1px]"></div>
+          </div>
+          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333]">
+            We believe community grows businesses
+          </h1>
+          <h6 className="font-inter text-base md:text-lg lg:text-xl font-normal text-opacity-70 mt-4">
+            Connecting Malayalee Entrepreneurs for Collective Success
+          </h6>
           <div className="mt-[50px] xl:mt-[100px] flex items-center justify-center gap-32 text-left ">
-            <img src="/images/about3.png" alt="community image" className="w-[530px] hidden lg:block"/>
+            <img
+              src="/images/about3.png"
+              alt="community image"
+              className="w-[530px] hidden lg:block"
+            />
             <div className="flex flex-col font-inter ">
               <h2 className="font-bold text-3xl md:text-4xl xl:text-5xl">
-                  Discover Our Story <br />
-                  and Mission</h2>
-                  <p className="pt-8 lg:pt-16 font-medium text-lg lg:text-xl leading-[1.5]">Abu Dhabi Malayalees is a vibrant and thriving business community of Malayalees in Abu Dhabi, United Arab Emirates. We are a group of like-minded individuals who come together to foster a strong sense of community, promote business opportunities, and support each other in both personal and professional endeavors.</p>
-                  <p className="pt-2 lg:pt-4 font-medium text-lg lg:text-xl leading-[1.5]">We aim to provide a platform for our members to network, share ideas, and explore new business opportunities.</p>
-                  <Link href="/about" >
-                  <button
-            className="mt-9 font-medium bg-black text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
-          >
-            Learn more
-            <img src="/images/arrow-right.svg" alt="right arrow" />
-          </button>
-          </Link>
+                Discover Our Story <br />
+                and Mission
+              </h2>
+              <p className="pt-8 lg:pt-16 font-medium text-lg lg:text-xl leading-[1.5]">
+                Abu Dhabi Malayalees is a vibrant and thriving business
+                community of Malayalees in Abu Dhabi, United Arab Emirates. We
+                are a group of like-minded individuals who come together to
+                foster a strong sense of community, promote business
+                opportunities, and support each other in both personal and
+                professional endeavors.
+              </p>
+              <p className="pt-2 lg:pt-4 font-medium text-lg lg:text-xl leading-[1.5]">
+                We aim to provide a platform for our members to network, share
+                ideas, and explore new business opportunities.
+              </p>
+              <Link href="/about">
+                <button className="mt-9 font-medium bg-black text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2">
+                  Learn more
+                  <img src="/images/arrow-right.svg" alt="right arrow" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>
-
       </section>
 
       {/* <section className="bg-white py-16">

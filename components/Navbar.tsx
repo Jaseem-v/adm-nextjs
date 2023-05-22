@@ -6,6 +6,7 @@ import Link from "next/link";
 import "./Navbar.css";
 import EnlistModel from "./enlistModel";
 import { Toaster } from "react-hot-toast";
+import EnlistDropdown from "./enlistDropdown";
 
 const navItems = [
   { id: 1, title: "Home", animation: "nav1", link: "" },
@@ -19,6 +20,7 @@ const navItems = [
 const Navbar = () => {
   const [isMobileNav, setIsMobileNav] = useState(false);
   const [isBusinessDropdown, setIsBusinessDropdown] = useState(false);
+  const [isEnlistDropdown, setIsEnlistDropdown] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showEnlistModel, setShowEnlistModel] = useState(false);
 
@@ -26,15 +28,26 @@ const Navbar = () => {
     "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400 ";
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400";
+
+  let autoCloseTimeout: NodeJS.Timeout;
+
+  const handleMouseLeave = () => {
+    // Automatically close the dropdown after 4 seconds unless the dropdown component is hovered
+    setTimeout(() => {
+      if (!isBusinessDropdown) {
+        autoCloseTimeout = setTimeout(() => {
+          setIsBusinessDropdown(false);
+        }, 1000);
+      }
+    }, 1000);
+  };
   return (
     // need to implement proper sticky navbar
     <header
       className="font-inter z-20 bg-black text-white sticky top-0 left-0"
       id="navbar"
     >
-
-      <Toaster position="top-right"
-        reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-5 xl:px-0">
         {/* logo👇 */}
         <Link href="/" className="logo flex items-center gap-2 py-5">
@@ -53,8 +66,9 @@ const Navbar = () => {
             <ul className="flex gap-10" id="navbar-cta">
               {navItems.map((item) => (
                 <li
-                  className={`py-10 hidden lg:block ${item.title === "Business" ? "relative" : ""
-                    } `}
+                  className={`py-10 hidden lg:block ${
+                    item.title === "Business" ? "relative" : ""
+                  } `}
                   key={item.id}
                 >
                   <Link
@@ -64,12 +78,26 @@ const Navbar = () => {
                   >
                     {item.title}
                     {item.title === "Business" && (
-                      <img
-                        src="/images/expand.svg"
-                        alt="expand"
-                        className="mt-1"
-                        onMouseEnter={() => setIsBusinessDropdown(true)}
-                      />
+                      <div
+                        className="relative"
+                        onMouseEnter={() => {
+                          setIsBusinessDropdown(true);
+                          clearTimeout(autoCloseTimeout);
+                        }}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <img
+                          src="/images/expand.svg"
+                          alt="expand"
+                          className="mt-1 cursor-pointer"
+                        />
+                        {/* {isBusinessDropdown && (
+                          <BusinessDropdown
+                            setIsBusinessDropdown={setIsBusinessDropdown}
+                            setIsDropdownHovered={setIsDropdownHovered}
+                          />
+                        )} */}
+                      </div>
                     )}
                   </Link>
                   {item.title === "Business" && isBusinessDropdown && (
@@ -84,12 +112,17 @@ const Navbar = () => {
         )}
         {/* login */}
         <div className="hidden lg:flex items-center gap-5 text-sm">
-          <button
-            className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-            onClick={() => setShowEnlistModel(true)}
-          >
-            Claim my Listing
-          </button>
+          <div className="relative">
+            <button
+              className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+              onClick={() => setIsEnlistDropdown(true)}
+            >
+              Claim my Listing
+            </button>
+            {isEnlistDropdown && (
+              <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
+            )}
+          </div>
           <Link href="/login">
             <button className="navBtn font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
               Login
