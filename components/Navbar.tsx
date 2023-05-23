@@ -115,7 +115,7 @@ const Navbar = () => {
           <div className="relative">
             <button
               className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-              onClick={() => setIsEnlistDropdown(true)}
+              onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
             >
               Claim my Listing
             </button>
