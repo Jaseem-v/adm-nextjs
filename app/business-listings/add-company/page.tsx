@@ -87,7 +87,7 @@ const EnlistCompany = () => {
       building: "",
       city: "",
       zip: "",
-      hideAddress: true,
+      hideAddress: false,
       hasServiceArea: false,
       phoneNumber: "",
       websiteUrl: "",
@@ -291,7 +291,7 @@ console.log('stepone errors', errorsOne)
             />
             <span className="ml-1">Don{`'`}t dispaly my address publicly</span>
           </label>
-          <label htmlFor="hasServiceArea" className="col-span-6 text-sm">
+          {/* <label htmlFor="hasServiceArea" className="col-span-6 text-sm">
             <input
               type="checkbox"
               id="hasServiceArea"
@@ -301,7 +301,9 @@ console.log('stepone errors', errorsOne)
             <span className="ml-1">
               We deliver or provide service at customer locations
             </span>
-          </label>
+          </label> */}
+
+          
           <button
             className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
               isStepOneError ? "bg-opacity-50" : ""

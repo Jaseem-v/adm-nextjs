@@ -2,6 +2,22 @@ import React from "react";
 import "./home.css";
 import ContactForm from "@/components/contactForm";
 import Index from "../page";
+import { BsWhatsapp } from "react-icons/bs";
+import { BsInstagram } from "react-icons/bs";
+import { FaFacebookF } from "react-icons/fa";
+import { FaTelegramPlane } from "react-icons/fa";
+
+type socialMediaProps = {
+  id: number;
+  title: string;
+  type: string;
+  link: string;
+  icon: string
+}
+
+// color="#3b5998"
+// color="#0088cc"
+// color="#25D366"
 
 export const socialMedia = [
   {
@@ -9,43 +25,44 @@ export const socialMedia = [
     title: "Facebook",
     type: "Group",
     link: "https://www.facebook.com/groups/abudhabimalayalees",
-    icon: "fab fa-facebook",
-  },
-  {
-    id: 2,
-    title: "Facebook",
-    type: "Profile",
-    link: "https://www.facebook.com/abudhabimalayalee",
-    icon: "fab fa-facebook",
-  },
-  {
-    id: 3,
-    title: "Facebook",
-    type: "Page",
-    link: "https://www.facebook.com/abudhabimalayalees",
-    icon: "fab fa-facebook",
+    icon: <FaFacebookF className="w-7 h-7" />,
   },
   {
     id: 4,
     title: "Telegram",
     type: "Group",
     link: "https://t.me/abudhabimalayali",
-    icon: "fab fa-telegram",
+    icon: <FaTelegramPlane className="w-7 h-7"  />
   },
   {
     id: 5,
     title: "Whatsapp",
     type: "Group",
     link: "https://chat.whatsapp.com/LtrgXq9UdbBCOc82H958uU",
-    icon: "fab fa-whatsapp",
+    icon: <BsWhatsapp className="w-7 h-7" />,
   },
   {
     id: 6,
     title: "Instagram",
     type: "",
     link: "https://www.instagram.com/abudhabimalayalee",
-    icon: "fab fa-instagram",
+    icon: <BsInstagram className="w-7 h-7"/>,
   },
+  {
+    id: 2,
+    title: "Facebook",
+    type: "Profile",
+    link: "https://www.facebook.com/abudhabimalayalee",
+    icon: <FaFacebookF className="w-7 h-7" />,
+  },
+  {
+    id: 3,
+    title: "Facebook",
+    type: "Page",
+    link: "https://www.facebook.com/abudhabimalayalees",
+    icon: <FaFacebookF className="w-7 h-7" />,
+  },
+
 ];
 
 export const members = [

@@ -54,8 +54,8 @@ export default function Index() {
       <section className="z-10 lg:-mt-32">
         <div className="social-media-section flex flex-col gap-12 p-12 max-w-screen-lg mx-auto rounded-sm shadow-lg">
           <div className="flex items-center justify-center w-full">
-            <p className="font-kaisei  font-bold text-xl  text-center">
-              Follow us
+            <p className="font-kaisei  font-bold text-xl  text-center ">
+              Connect with us
             </p>
           </div>
           <div className="pb-12 flex  items-start justify-between gap-x-0 gap-y-12 lg:gap-0 flex-wrap">
@@ -64,8 +64,8 @@ export default function Index() {
                 className="social-media-item flex flex-col items-center gap-5 text-center mx-0"
                 key={item.id}
               >
-                <a href={item.link} target="_blank">
-                  <i className={item.icon}></i>
+                <a href={item.link} target="_blank" >
+                  {item.icon}
                 </a>
                 <h5>
                   {item.title} <br /> {item.type}
