@@ -5,7 +5,7 @@ const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 
-export const SecondStepSchema = yup.object({
+export const businessIndividualSchema = yup.object({
     firstname: yup.string().required("Firstname is required"),
     lastname: yup.string().required("Lastname is required"),
     phone: yup
@@ -26,7 +26,7 @@ export const SecondStepSchema = yup.object({
 
 
 
-export const FirstStepSchema = yup.object({
+export const businessFirstStepSchema = yup.object({
     companyName: yup.string().required("Company name is required"),
     streetAddress: yup.string().required("streetAddress is required"),
     building: yup.string(),

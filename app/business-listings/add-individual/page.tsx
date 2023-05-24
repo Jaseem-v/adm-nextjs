@@ -10,7 +10,7 @@ import httpClient from './../../../services/axiosInstance';
 // import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { SecondStepSchema } from "@/app/schema/signUpSchema";
+import { businessIndividualSchema } from "@/app/schema/signUpSchema";
 
 
 
@@ -57,7 +57,7 @@ const EnlistIndividual = () => {
       password: "",
       place: "",
     },
-    resolver: yupResolver(SecondStepSchema),
+    resolver: yupResolver(businessIndividualSchema),
   });
 
   const { register, handleSubmit, formState, trigger, watch, setValue } = form;

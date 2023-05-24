@@ -11,7 +11,6 @@ import { signInSchema } from "../schema/signUpSchema";
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import { TailSpin } from 'react-loader-spinner'
-import RootLayout from "../layout";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +38,7 @@ const Login = () => {
 
 
   const onSubmit = async (data: FormValues) => {
-
+console.log(data)
     setIsLoading(true)
 
     try {

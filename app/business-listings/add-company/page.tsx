@@ -5,9 +5,11 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import "./../../../components/enlist/form.css";
-import { FirstStepSchema } from "@/app/schema/signUpSchema";
+import { businessFirstStepSchema, businessIndividualSchema } from "@/app/schema/signUpSchema";
+import httpClient from "@/services/axiosInstance";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   companyName: string;
@@ -22,6 +24,14 @@ type FormData = {
   websiteUrl: string;
 
   categories: string;
+
+  firstname: string;
+  lastname: string;
+  phone: string;
+  email: string;
+  username: string;
+  password: string;
+  place: string;
 };
 
 const INITIAL_DATA: FormData = {
@@ -37,6 +47,14 @@ const INITIAL_DATA: FormData = {
   websiteUrl: "",
 
   categories: "",
+
+  firstname: "",
+  lastname: "",
+  phone: "",
+  email: "",
+  username: "",
+  password: "",
+  place: ""
 };
 
 const EnlistCompany = () => {
@@ -45,7 +63,7 @@ const EnlistCompany = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
 
-  type FormValues = {
+  type FirstFormValues = {
     companyName: string;
     streetAddress: string;
     building: string;
@@ -60,7 +78,7 @@ const EnlistCompany = () => {
     categories: string;
   };
 
-  const form = useForm<FormValues>({
+  const form = useForm<FirstFormValues>({
     defaultValues: {
       companyName: "",
       streetAddress: "",
@@ -72,12 +90,13 @@ const EnlistCompany = () => {
       phoneNumber: "",
       websiteUrl: "",
       categories: "",
+      
     },
-    resolver: yupResolver(FirstStepSchema),
+    resolver: yupResolver(businessFirstStepSchema),
   });
 
-  const { register, handleSubmit, formState, trigger, watch } = form;
-  const { errors } = formState;
+  const { register, handleSubmit: handleSubmitOne, formState, trigger, watch } = form;
+  const { errors: errorsOne } = formState;
 
   // WATCH
   const companyNameValue = watch("companyName");
@@ -88,11 +107,20 @@ const EnlistCompany = () => {
   const websiteUrlValue = watch("websiteUrl");
 
   // FUNCTIONS
+//   const stepOneErrors: Record<string, string | boolean> = {};
+
+// Object.keys(errors).forEach(key => {
+//   if (['companyName', 'streetAddress', 'building', 'city', 'zip', 'hideAddress', 'hasServiceArea', 'phoneNumber', 'websiteUrl', 'categories'].includes(key)) {
+//     stepOneErrors[key] = errors[key];
+//   }
+// });
+const isStepOneError = Object.keys(errorsOne).length !== 0;
+console.log('stepone errors', errorsOne)
+
   async function next() {
     setIsSubmitted(true);
-    handleSubmit(onSubmit)();
     if (page === 0) {
-      if (((await trigger()) && Object.keys(errors).length) === 0) {
+      if (((await trigger()) && Object.keys(errorsOne).length) === 0) {
         setPage((i) => {
           if (i >= 2) return i;
           return i + 1;
@@ -110,12 +138,13 @@ const EnlistCompany = () => {
   }
 
   // ONSUBMIT
-  const onSubmit = (d: FormValues) => {
-    setData((prevData) => ({ ...prevData, ...d }));
-    setIsSubmitted(true);
-  };
+  const navigate = useRouter();
+  const onSubmitOne = (d: FirstFormValues) => {
+    console.log('step one submitted')
+    setData(prevState => ({...prevState, ...d  }))
+    next();
+  }
 
-  const isError = Object.keys(errors).length !== 0;
   const isCompany = true;
 
   const Step1 = (
@@ -128,7 +157,7 @@ const EnlistCompany = () => {
         where you can connect and engage with like-minded individuals. Register
         now and experience a seamless onboarding process.
       </p>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmitOne(onSubmitOne)} noValidate>
         <div className="grid grid-cols-6 gap-x-5">
           <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
             What is the name of your company?
@@ -143,8 +172,8 @@ const EnlistCompany = () => {
               onBlur={() => trigger("companyName")}
             />
             <p className="error">
-              {(isSubmitted || errors.companyName) &&
-                errors.companyName?.message}
+              {(isSubmitted || errorsOne.companyName) &&
+                errorsOne.companyName?.message}
             </p>
           </div>
           <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
@@ -160,7 +189,7 @@ const EnlistCompany = () => {
               {...register("streetAddress")}
               onBlur={() => trigger("streetAddress")}
             />
-            <p className="error">{errors.streetAddress?.message}</p>
+            <p className="error">{errorsOne.streetAddress?.message}</p>
           </div>
           <div className="form-control col-span-2 mt-4">
             <label htmlFor="building">Apt/Suite (optional)</label>
@@ -171,7 +200,7 @@ const EnlistCompany = () => {
               {...register("building")}
               onBlur={() => trigger("building")}
             />
-            <p className="error">{errors.building?.message}</p>
+            <p className="error">{errorsOne.building?.message}</p>
           </div>
           <div className="form-control col-span-2 mt-4">
             <label htmlFor="city">City</label>
@@ -182,7 +211,7 @@ const EnlistCompany = () => {
               {...register("city")}
               onBlur={() => trigger("city")}
             />
-            <p className="error">{errors.city?.message}</p>
+            <p className="error">{errorsOne.city?.message}</p>
           </div>
           <div className="form-control col-span-2 mt-4">
             <label htmlFor="zip">Zip</label>
@@ -195,7 +224,7 @@ const EnlistCompany = () => {
               {...register("zip")}
               onBlur={() => trigger("zip")}
             />
-            <p className="error">{errors.zip?.message}</p>
+            <p className="error">{errorsOne.zip?.message}</p>
           </div>
 
           {/* contact  */}
@@ -212,7 +241,7 @@ const EnlistCompany = () => {
               {...register("phoneNumber")}
               onBlur={() => trigger("phoneNumber")}
             />
-            <p className="error">{errors.phoneNumber?.message}</p>
+            <p className="error">{errorsOne.phoneNumber?.message}</p>
           </div>
 
           <div className="form-control col-span-6 mt-4">
@@ -224,7 +253,7 @@ const EnlistCompany = () => {
               {...register("websiteUrl")}
               onBlur={() => trigger("websiteUrl")}
             />
-            <p className="error">{errors.websiteUrl?.message}</p>
+            <p className="error">{errorsOne.websiteUrl?.message}</p>
           </div>
 
           {/* categories */}
@@ -240,7 +269,7 @@ const EnlistCompany = () => {
               {...register("categories")}
               onBlur={() => trigger("categories")}
             />
-            <p className="error">{errors.categories?.message}</p>
+            <p className="error">{errorsOne.categories?.message}</p>
           </div>
 
           {/* checkboxes */}
@@ -266,10 +295,8 @@ const EnlistCompany = () => {
           </label>
           <button
             className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
-              isError ? "bg-opacity-50" : ""
+              isStepOneError ? "bg-opacity-50" : ""
             }`}
-            type="button"
-            onClick={next}
           >
             Add my company
           </button>
@@ -285,69 +312,64 @@ const EnlistCompany = () => {
   // STEP 2
   // \\\\\\\\\\\\\\\\\\\
 
-  interface Step2Props {
-    setData: React.Dispatch<React.SetStateAction<FormValues>>;
-    isSubmitted: boolean;
-    setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
-  }
+  // interface Step2Props {
+  //   setData: React.Dispatch<React.SetStateAction<FormValues>>;
+  //   isSubmitted: boolean;
+  //   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
+  // }
 
-  const Step2 = ({ setData, isSubmitted, setIsSubmitted }: Step2Props) => {
-    const phoneRegExp =
-      /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-    const SecondStepSchema = yup.object({
-      firstname: yup.string().required("Firstname is required"),
-      lastname: yup.string().required("Lastname is required"),
-      phone: yup
-        .string()
-        .required("Phone number is required")
-        .matches(phoneRegExp, "Phone number is not valid"),
-      email: yup
-        .string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      username: yup.string().required("Username is required").min(4),
-      password: yup
-        .string()
-        .required("Password is required")
-        .min(8, "Password must be atleast 8 charecters"),
-      place: yup.string().required("Place is required").min(3),
-    });
+  type SecondFormValues = {
+    firstname: string;
+    lastname: string;
+    phone: string;
+    email: string;
+    username: string;
+    password: string;
+    place: string;
+  };
 
-    type FormValues = {
-      firstname: string;
-      lastname: string;
-      phone: string;
-      email: string;
-      username: string;
-      password: string;
-      place: string;
-    };
+  const formTwo = useForm<SecondFormValues>({
+    defaultValues: {
+      firstname: "",
+      lastname: "",
+      phone: "",
+      email: "",
+      username: "",
+      password: "",
+      place: ""
+      
+    },
+    resolver: yupResolver(businessIndividualSchema),
+  });
 
-    const form = useForm<FormValues>({
-      defaultValues: {
-        firstname: "",
-        lastname: "",
-        phone: "",
-        email: "",
-        username: "",
-        password: "",
-        place: "",
-      },
-      resolver: yupResolver(SecondStepSchema),
-    });
+  const { register: registerTwo, handleSubmit: handleSubmitTwo , formState: formStateTwo, trigger: triggerTwo, watch: watchTwo } = formTwo;
+  const { errors: errorsTwo } = formStateTwo;
 
-    const { register, handleSubmit, formState, trigger } = form;
-    const { errors } = formState;
-
-    const onSubmit = (d: FormValues) => {
-      console.log("errors", errors);
+    const onSubmit = (d: SecondFormValues) => {
+      console.log('submitted data', {...d})
       setData((prevData) => ({ ...prevData, ...d }));
+      const formData = {...d}
+console.log('final data', data)
+      // try {
+      //   httpClient().post('/user/business/signup', formData)
+      //   .then(res => {
+      //     console.log(res)
+      //     toast.success('Account Created Succeffully', {
+      //       icon: '👏',
+      //     })
+      //     navigate.push("/login")
+      //   }
+      //   )
+      // } catch (err) {
+      //   console.log(err)
+      // }
       setIsSubmitted(true);
     };
-    console.log(errors);
+    console.log('errors two', errorsTwo);
 
-    const isError = Object.keys(errors).length !== 0;
-    return (
+    const isStepTwoError = Object.keys(errorsTwo).length !== 0;
+
+  const Step2 = (
       <div className="userForm">
         <h1 className="font-semibold font-lora text-xl md:text-2xl xl:text-3xl">
           Congratulations! Your company page is ready.
@@ -356,7 +378,7 @@ const EnlistCompany = () => {
           Register to save your updates and publish your company page
         </p>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmitTwo(onSubmit)}
           noValidate
           className="my-5 grid grid-cols-2 gap-x-5 gap-y-3"
         >
@@ -366,10 +388,10 @@ const EnlistCompany = () => {
               type="text"
               id="firstname"
               placeholder="e.g. Harry"
-              {...register("firstname")}
-              onBlur={() => trigger("firstname")}
+              {...registerTwo("firstname")}
+              onBlur={() => triggerTwo("firstname")}
             />
-            <p className="error">{errors.firstname?.message}</p>
+            <p className="error">{errorsTwo.firstname?.message}</p>
           </div>
           <div className="form-control">
             <label htmlFor="lastname">Last Name</label>
@@ -377,10 +399,10 @@ const EnlistCompany = () => {
               type="text"
               id="lastname"
               placeholder="e.g. Brook"
-              {...register("lastname")}
-              onBlur={() => trigger("lastname")}
+              {...registerTwo("lastname")}
+              onBlur={() => triggerTwo("lastname")}
             />
-            <p className="error">{errors.lastname?.message}</p>
+            <p className="error">{errorsTwo.lastname?.message}</p>
           </div>
           <div className="form-control col-span-2">
             <label htmlFor="phone">Phone number</label>
@@ -388,10 +410,10 @@ const EnlistCompany = () => {
               type="text"
               id="phone"
               placeholder="e.g. Google"
-              {...register("phone")}
-              onBlur={() => trigger("phone")}
+              {...registerTwo("phone")}
+              onBlur={() => triggerTwo("phone")}
             />
-            <p className="error">{errors.phone?.message}</p>
+            <p className="error">{errorsTwo.phone?.message}</p>
           </div>
           <div className="form-control col-span-2">
             <label htmlFor="email">Email</label>
@@ -399,54 +421,52 @@ const EnlistCompany = () => {
               type="text"
               id="email"
               placeholder="e.g. harrybrook@business.com"
-              {...register("email")}
-              onBlur={() => trigger("email")}
+              {...registerTwo("email")}
+              onBlur={() => triggerTwo("email")}
             />
-            <p className="error">{errors.email?.message}</p>
+            <p className="error">{errorsTwo.email?.message}</p>
           </div>
           <div className="form-control">
             <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
-              {...register("username")}
-              onBlur={() => trigger("username")}
+              {...registerTwo("username")}
+              onBlur={() => triggerTwo("username")}
             />
-            <p className="error">{errors.username?.message}</p>
+            <p className="error">{errorsTwo.username?.message}</p>
           </div>
           <div className="form-control">
             <label htmlFor="password">Password</label>
             <input
               type="text"
               id="password"
-              {...register("password")}
-              onBlur={() => trigger("password")}
+              {...registerTwo("password")}
+              onBlur={() => triggerTwo("password")}
             />
-            <p className="error">{errors.password?.message}</p>
+            <p className="error">{errorsTwo.password?.message}</p>
           </div>
           <div className="form-control col-span-2">
             <label htmlFor="place">Place</label>
             <input
               type="text"
               id="place"
-              placeholder="e.g. Google"
-              {...register("place")}
-              onBlur={() => trigger("place")}
+              placeholder="e.g. abu dhabi"
+              {...registerTwo("place")}
+              onBlur={() => triggerTwo("place")}
             />
-            <p className="error">{errors.place?.message}</p>
+            <p className="error">{errorsTwo.place?.message}</p>
           </div>
           <button
             className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
-              isError ? "bg-opacity-50" : ""
+              isStepTwoError ? "bg-opacity-50" : ""
             }`}
-            type="submit"
           >
             Finish
           </button>
         </form>
       </div>
     );
-  };
 
   return (
     <div className="container grid justify-items-center pt-14 w-full mx-auto lg:grid-cols-2">
@@ -457,13 +477,7 @@ const EnlistCompany = () => {
           </div>
         )}
         {page === 0 && Step1}
-        {page === 1 && (
-          <Step2
-            setData={setData}
-            isSubmitted={isSubmitted}
-            setIsSubmitted={setIsSubmitted}
-          />
-        )}
+        {page === 1 && Step2}
       </div>
       <EnlistSkeleton
         companyName={companyNameValue}
