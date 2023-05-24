@@ -18,14 +18,16 @@ const EnlistDropdown: React.FC<EnlistDropdownProps> = ({
       }}
     >
       <Link
-        href="/business-listings/add-company"
+        href="/business-listings/add-individual"
         className="py-1 hover:bg-zinc-800 rounded center text-white"
+        onClick={() => setIsEnlistDropdown(false)}
       >
         Enlist Individual
       </Link>
       <Link
-        href="/business-listings/add-individual"
+        href="/business-listings/add-company"
         className="py-1 hover:bg-zinc-800 rounded center text-white"
+        onClick={() => setIsEnlistDropdown(false)}
       >
         Enlist Company
       </Link>

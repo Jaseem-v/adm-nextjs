@@ -189,7 +189,7 @@ const EnlistIndividual = () => {
           <p className="error">{errors.place?.message}</p>
         </div>
         <button
-          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${isError ? "bg-opacity-50" : ""
+          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange hover:bg-amber-600 active:bg-darkOrange text-white col-span-2 text-[15px] w-fit ${isError ? "bg-opacity-50" : ""
             }`}
           type="submit"
         >
