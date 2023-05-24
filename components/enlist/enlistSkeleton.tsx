@@ -21,6 +21,7 @@ interface Props {
   websiteUrl: string;
 
   isCompany: boolean;
+  hideAddress: boolean;
 }
 
 export const EnlistSkeleton = ({
@@ -31,6 +32,7 @@ export const EnlistSkeleton = ({
   phoneNumber,
   websiteUrl,
   isCompany,
+  hideAddress
 }: Props) => {
   return (
     <div className="w-full">
@@ -82,8 +84,9 @@ export const EnlistSkeleton = ({
               <div className="w-5 h-4 bg-skeleton" />
             </div>
             {/* location */}
-            <div className="flex items-center mr-2 ">
+            {!hideAddress && <div className="flex items-center mr-2 ">
               <CiLocationOn />
+              
               <p className="flex-shrink-0">
                 <span>
                   {streetAddress && streetAddress.length > 0
@@ -94,7 +97,8 @@ export const EnlistSkeleton = ({
                 <span>Abu dhabi</span>,{" "}
                 <span>{zip && zip.length > 0 ? zip : "500001"}</span>
               </p>
-            </div>
+            </div> }
+            
             {/* phone */}
             <div className="flex items-center mr-2 gap-1">
               <RiPhoneFill />

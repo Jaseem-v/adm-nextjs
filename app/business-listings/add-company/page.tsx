@@ -110,6 +110,9 @@ const EnlistCompany = () => {
   
   const buildingValue = watch("building")
   const categoryValue = watch("categories")
+  const hideAddressValue = watch("hideAddress")
+
+  console.log('hide address', hideAddressValue)
 
   // FUNCTIONS
 //   const stepOneErrors: Record<string, string | boolean> = {};
@@ -311,9 +314,6 @@ console.log('stepone errors', errorsOne)
     </div>
   );
 
-  console.log("data", data);
-  console.log('hello')
-
   // \\\\\\\\\\\\\\\\\\\
   // STEP 2
   // \\\\\\\\\\\\\\\\\\\
@@ -506,6 +506,7 @@ console.log('final data', finalData)
         phoneNumber={phoneNumberValue}
         websiteUrl={websiteUrlValue}
         isCompany={isCompany}
+        hideAddress={hideAddressValue}
       />
     </div>
   );
