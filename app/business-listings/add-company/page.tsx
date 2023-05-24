@@ -62,6 +62,8 @@ const EnlistCompany = () => {
   const [page, setPage] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const navigate = useRouter();
+
 
   type FirstFormValues = {
     companyName: string;
@@ -105,6 +107,9 @@ const EnlistCompany = () => {
   const zipValue = watch("zip");
   const phoneNumberValue = watch("phoneNumber");
   const websiteUrlValue = watch("websiteUrl");
+  
+  const buildingValue = watch("building")
+  const categoryValue = watch("categories")
 
   // FUNCTIONS
 //   const stepOneErrors: Record<string, string | boolean> = {};
@@ -121,6 +126,7 @@ console.log('stepone errors', errorsOne)
     setIsSubmitted(true);
     if (page === 0) {
       if (((await trigger()) && Object.keys(errorsOne).length) === 0) {
+        setData(prevState => ({...prevState, companyName: companyNameValue, streetAddress: streetAddressValue, city: cityValue, zip: zipValue, phoneNumber: phoneNumberValue, websiteUrl: websiteUrlValue, building: buildingValue, categories: categoryValue}))
         setPage((i) => {
           if (i >= 2) return i;
           return i + 1;
@@ -138,7 +144,7 @@ console.log('stepone errors', errorsOne)
   }
 
   // ONSUBMIT
-  const navigate = useRouter();
+
   const onSubmitOne = (d: FirstFormValues) => {
     console.log('step one submitted')
     setData(prevState => ({...prevState, ...d  }))
@@ -312,11 +318,6 @@ console.log('stepone errors', errorsOne)
   // STEP 2
   // \\\\\\\\\\\\\\\\\\\
 
-  // interface Step2Props {
-  //   setData: React.Dispatch<React.SetStateAction<FormValues>>;
-  //   isSubmitted: boolean;
-  //   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
-  // }
 
   type SecondFormValues = {
     firstname: string;
@@ -345,24 +346,42 @@ console.log('stepone errors', errorsOne)
   const { register: registerTwo, handleSubmit: handleSubmitTwo , formState: formStateTwo, trigger: triggerTwo, watch: watchTwo } = formTwo;
   const { errors: errorsTwo } = formStateTwo;
 
-    const onSubmit = (d: SecondFormValues) => {
-      console.log('submitted data', {...d})
-      setData((prevData) => ({ ...prevData, ...d }));
-      const formData = {...d}
-console.log('final data', data)
-      // try {
-      //   httpClient().post('/user/business/signup', formData)
-      //   .then(res => {
-      //     console.log(res)
-      //     toast.success('Account Created Succeffully', {
-      //       icon: '👏',
-      //     })
-      //     navigate.push("/login")
-      //   }
-      //   )
-      // } catch (err) {
-      //   console.log(err)
-      // }
+    const onSubmit = async ({firstname, lastname, phone,email, username, password , place }: SecondFormValues) => {
+      setData((prevData) => ({ ...prevData, firstname, lastname, phone,email, username, password , place }));
+      const { companyName, phoneNumber, streetAddress, city , categories, websiteUrl,} = data;
+      const finalData = {
+        "name": companyName,
+        "username": username,
+        "phone": phoneNumber,
+        "email": email,
+        "password": password,
+        "category": "64684fd43e84f3ea2dd8acad",
+        "website": websiteUrl,
+        "location": city,
+        "state": "abu dhabi",
+        "city": city,
+        "address": streetAddress,
+        "contactDetails": {
+            "fname": firstname,
+            "lname": lastname,
+            "email": email,
+            "phone": phone
+        }
+    }
+console.log('final data', finalData)
+      try {
+        await httpClient().post('/user/business/signup', finalData)
+        .then(res => {
+          console.log(res)
+          toast.success('Account Created Succeffully', {
+            icon: '👏',
+          })
+          navigate.push("/login")
+        }
+        )
+      } catch (err) {
+        console.log(err)
+      }
       setIsSubmitted(true);
     };
     console.log('errors two', errorsTwo);
