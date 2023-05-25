@@ -25,9 +25,9 @@ const Navbar = () => {
   const [showEnlistModel, setShowEnlistModel] = useState(false);
 
   const selectedStyle =
-    "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400 ";
+    "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400  px-2";
   const nonSelectedStyle =
-    "text-base  text-gray-300 hover:text-white active:text-slate-400";
+    "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
 
   let autoCloseTimeout: NodeJS.Timeout;
 
@@ -186,7 +186,7 @@ const Navbar = () => {
       {/* Mobile menu, toggle classNamees based on menu state */}
       {isMobileNavOpen && (
         <div className=" lg:hidden z-50" id="myLinks">
-          <div className="flex items-center justify-center px-2 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
+          <div className="flex flex-col gap-10 items-center justify-center px-2 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
             {/* Your navigation links here */}
             <ul
               className="flex flex-col items-center justify-center gap-10"
@@ -257,9 +257,128 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
+            <div className="flex flex-col gap-5 text-center ">
+            <div className="relative">
+              <button
+                className="w-full font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
+              >
+                Claim my Listing
+              </button>
+              {isEnlistDropdown && (
+                <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
+              )}
+            </div>
+            <Link href="/login">
+              <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                Login
+              </button>
+            </Link>
           </div>
+          </div>
+          
         </div>
       )}
+      {/* {isMobileNavOpen && (
+        <div className=" lg:hidden z-50" id="myLinks">
+          <div className="flex flex-col gap-16 items-start justify-center px-6 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
+            <div
+              className="flex flex-col items-start justify-center gap-4 w-full"
+              id="navbar-cta"
+            >
+              
+              <div>
+                <Link
+                  href="/about"
+                  className={selectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  Home
+                </Link>
+              </div>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div>
+                <Link
+                  href="/about"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  About Us
+                </Link>
+              </div>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div>
+                <Link
+                  href="/gallery"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  Gallery
+                </Link>
+              </div>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div>
+                <Link
+                  href="/business"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  Business Firms
+                </Link>
+              </div>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div>
+                <Link
+                  href="/business/persons"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  Business Persons
+                </Link>
+              </div>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div>
+                <Link
+                  href="/events"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  Events
+                </Link>
+              </div>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div>
+                <Link
+                  href="/contact"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                   Contact Us
+                </Link>
+              </div>
+            </div>
+            <div className="w-full flex items-start justify-center gap-5 text-center ">
+            <div className="relative flex-1">
+              <button
+                className=" w-full font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
+              >
+                Enlist
+              </button>
+              {isEnlistDropdown && (
+                <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
+              )}
+            </div>
+            <Link href="/login" className="flex-1">
+              <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                Login
+              </button>
+            </Link>
+          </div>
+          </div>
+          
+        </div>
+      )} */}
     </header>
   );
 };
