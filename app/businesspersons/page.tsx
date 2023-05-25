@@ -64,9 +64,14 @@ const BusinessPersons = () => {
             {/* business person card */}
             <Link href="/businesspersons/details">
               <div
-                className="py-8 md:py-9 lg:py-10  pl-12 md:pl-14 lg:pl-16 pr-44 rounded-[20px]
-                    border border-black relative"
+                className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
+                    border border-black flex gap-4 items-center justify-center"
               >
+                <img
+                  src="/images/testimonialImg.png"
+                  alt="person"
+                  className=""
+                />
                 <div className="flex flex-col gap-1 items-start">
                   <p className="font-semibold text-lg md:text-xl">
                     John Lormmy
@@ -74,11 +79,6 @@ const BusinessPersons = () => {
                   <p className="font-light text-sm">CEO Amazon</p>
                   <p className="font-light text-sm">www.amazon.com</p>
                 </div>
-                <img
-                  src="/images/p.png"
-                  alt="person"
-                  className="absolute bottom-0 right-6"
-                />
               </div>
             </Link>
             {/* business person card */}
