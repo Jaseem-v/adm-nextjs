@@ -1,7 +1,41 @@
+"use client"
+
 import SectionHeader from "@/components/SectionHeader";
 import Link from "next/link";
+import httpClient from "@/services/axiosInstance";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { Data } from "../schema/stateType";
 
 const BusinessPersons = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [data, setData] = useState<Data[]>([]);
+
+  // const fullname = data.fname + " " + data.lname;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await httpClient().get(`/user/personal`)
+        .then(res => {    
+          if (res.status === 400) {
+            toast.error(res.data.message, {
+              icon: '👏',
+            });
+          }
+          if (res.status === 200) {
+            setData(res.data.data);
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+  
+    fetchData();
+  }, []);
+
   return (
     <>
       {/* \\\\\\\\\\\\ */}
@@ -29,17 +63,13 @@ const BusinessPersons = () => {
             className="font-semibold text-3xl md:text-4xl lg:text-5xl
                 mt-3 md:mt-4 lg:mt-5"
           >
-            Lorem ipsum <br />
-            dolor tempor incididunt
+            Connect with a Network of <br /> Business Professionals
           </p>
           <p
             className="text-sm md:text-base max-w-4xl text-start
                 mt-3 md:mt-4 lg:mt-5 font-semibold text-desc"
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.Duis aute irure dolor in
+            Welcome to our Business Profiles section, where you can explore a diverse collection of professionals, entrepreneurs, and business leaders from various industries. Discover their stories, expertise, and achievements, and connect with like-minded individuals who share your passion for success.
           </p>
           {/* search div  */}
           <div
@@ -49,7 +79,7 @@ const BusinessPersons = () => {
           >
             <input
               type="text"
-              placeholder="Search companies"
+              placeholder="Search persons"
               className="focus:outline-none"
             />
             <a href="">
@@ -60,12 +90,13 @@ const BusinessPersons = () => {
           </div>
 
           {/* business persons div */}
-          <div className="grid place-items-center justify-items-center w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-14 md:mb-16 lg:mb-20 mt-40">
+          <div className="grid place-items-center justify-items-center w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10 md:mb-14 xl:mb-20 mt-14 md:mt-16 xl:mt-20">
             {/* business person card */}
-            <Link href="/businesspersons/details">
+            {data.map(person => (
+            <Link href="/businesspersons/details" key={person._id} className="w-full">
               <div
                 className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
-                    border border-black flex gap-4 items-center justify-center"
+                    border border-black flex gap-4 items-center justify-center w-full"
               >
                 <img
                   src="/images/testimonialImg.png"
@@ -74,13 +105,15 @@ const BusinessPersons = () => {
                 />
                 <div className="flex flex-col gap-1 items-start">
                   <p className="font-semibold text-lg md:text-xl">
-                    John Lormmy
+                    {`${person.fname} ${person.lname}`}
                   </p>
                   <p className="font-light text-sm">CEO Amazon</p>
                   <p className="font-light text-sm">www.amazon.com</p>
                 </div>
               </div>
             </Link>
+
+            ))}
             {/* business person card */}
           </div>
         </div>
