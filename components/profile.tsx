@@ -160,6 +160,12 @@ const Profile = () => {
       pinterest: string;
     };
     contacts: string;
+    detailedInformation: {
+      locationType: string;
+      yearEstablished: string;
+      annualRevenueEstimate: string;
+      employees: string;
+    }
   };
 
   type FormType = {
@@ -193,6 +199,12 @@ const Profile = () => {
       pinterest: "",
     },
     contacts: "",
+    detailedInformation: {
+      locationType: "",
+      yearEstablished: "",
+      annualRevenueEstimate: "",
+      employees: ""
+    }
   });
 
   const isSocialMediaAdded = Object.values(editInfoState.socialMedia).some(
@@ -207,6 +219,17 @@ const Profile = () => {
     setEditInfoState((prevState) => ({
       ...prevState,
       socialMedia: { ...prevState.socialMedia, [name]: value },
+    }));
+  };
+
+  const handleDetailedInformationChange = (
+    name: string,
+    event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setEditInfoState((prevState) => ({
+      ...prevState,
+      detailedInformation: { ...prevState.detailedInformation, [name]: value },
     }));
   };
 
@@ -255,7 +278,6 @@ const Profile = () => {
     const completedSections = progressSections.filter((section) => section);
     const completionPercentage = Math.floor((completedSections.length / progressSections.length) * 100);
     const overallCompletionPercentage = completedSections.length === progressSections.length ? 100 : Math.min(completedSections.length * 15, 100);
-    console.log('progress ' , overallCompletionPercentage)
   
 
 
@@ -378,6 +400,12 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     handleToggleEditMode("businessInfo");
     console.log("verified business info");
   };
+  
+  const verifyWebsite = () => {
+    // POST API
+    handleToggleEditMode("website");
+    console.log("verified website url");
+  };
 
   const verifyAbout = () => {
     // POST API
@@ -395,6 +423,12 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     // POST API
     handleToggleEditMode("socialMedia");
     console.log("verified social media");
+  };
+  
+  const verifyDetailedInformation = () => {
+    // POST API
+    handleToggleEditMode("detailedInformation");
+    console.log("verified detailed information");
   };
 
   const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
@@ -562,7 +596,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
         <div className=" lg:m-0 flex flex-col gap-1 p-5 rounded-md border-2 border-primary-v1 text-gray-800 bg-white">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
             <div className="flex flex-col gap-2 text-inter">
-              <p className="text-4xl lg:text-7xl font-semibold">50%</p>
+              <p className="text-4xl lg:text-7xl font-semibold">{overallCompletionPercentage}%</p>
               <p className="font-semibold text-lg md:text-xl lg:max-w-[194px]">
                 of your profile is complete
               </p>
@@ -995,7 +1029,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                       >
                         Cancel
                       </button>
-                      <button className="bg-orange text-white py-1 px-3 rounded ">
+                      <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyWebsite}>
                         Verify
                       </button>
                     </div>
@@ -1006,7 +1040,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 <div className="flex flex-row items-center gap-2">
                   <VscGlobe />
                   <a className="hover:underline" target="_blank" href="#">
-                    userwebsite.com
+                    {editInfoState.website}
                   </a>
                 </div>
               ) : (
@@ -1020,6 +1054,8 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                       id="websiteUrl"
                       placeholder="www.yourwebsite.com"
                       className="border border-[#b7babf] py-2 px-3 w-full border-l-0 rounded-sm text-sm"
+                      value={editInfoState.website}
+                      onChange={(e) => setEditInfoState(prevState => ({...prevState, website: e.target.value}))}
                     />
                   </div>
                 </div>
@@ -1959,7 +1995,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyDetailedInformation}>
                     Verify
                   </button>
                 </div>
@@ -1976,19 +2012,19 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
             <div className="flex flex-col gap-2 text-gray-700">
               <div className="flex border-b border-gray-200 py-2">
                 <p className="w-64">Location Type</p>
-                <p>headquarters</p>
+                <p>{editInfoState.detailedInformation.locationType} </p>
               </div>
               <div className="flex border-b border-gray-200 py-2">
                 <p className="w-64">Year Established</p>
-                <p>2015</p>
+                <p>{editInfoState.detailedInformation.yearEstablished}</p>
               </div>
               <div className="flex border-b border-gray-200 py-2">
                 <p className="w-64">Annual Revenue Estimate</p>
-                <p>more than 1M</p>
+                <p>{editInfoState.detailedInformation.annualRevenueEstimate}</p>
               </div>
               <div className="flex py-2">
                 <p className="w-64">Employees</p>
-                <p>5 to 9</p>
+                <p>{editInfoState.detailedInformation.employees}</p>
               </div>
             </div>
           ) : (
@@ -1996,21 +2032,29 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
               <div className="flex items-center gap-4">
                 <p>Location Type</p>
                 <div>
-                  <input
-                    type="text"
+                  <select
                     id="locationType"
                     className="w-48 form-input"
-                  />
+                    value={editInfoState.detailedInformation.locationType}
+                    onChange={(e) => handleDetailedInformationChange("locationType", e)}
+                  >
+                    <option value=""></option>
+                    <option value="Headquarters">Headquarters</option>
+                    <option value="Office">Office</option>
+                  </select>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <p>Year Established</p>
                 <div>
                   <input
-                    type="text"
+                    type="number"
+                    max="4"
                     id="yearEstablished"
                     className="w-48 form-input"
                     maxLength={4}
+                    value={editInfoState.detailedInformation.yearEstablished}
+                    onChange={(e) => handleDetailedInformationChange("yearEstablished", e)}
                   />
                 </div>
               </div>
@@ -2021,17 +2065,27 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     type="text"
                     id="annualRevenueEstimate"
                     className="w-48 form-input"
+                    value={editInfoState.detailedInformation.annualRevenueEstimate}
+                    onChange={(e) => handleDetailedInformationChange("annualRevenueEstimate", e)}
                   />
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <p>Employees</p>
                 <div>
-                  <input
-                    type="text"
+                  <select
                     id="employees"
                     className="w-48 form-input"
-                  />
+                    value={editInfoState.detailedInformation.employees}
+                    onChange={(e) => handleDetailedInformationChange("employees", e)}
+                  >
+                    <option value="0"></option>
+                    <option value="0 - 4">0 - 4</option>
+                    <option value="5 - 9">5 - 9</option>
+                    <option value="10 - 19">10 - 19</option>
+                    <option value="20 - 49">20 - 49</option>
+                    <option value="50+">50+</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -2041,7 +2095,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
         {/* \\\\\\\\\\\ */}
 
         {/* \\\\\\\\\\\ */}
-        {/* BUSINESS HOURS👆 */}
+        {/* BUSINESS HOUR👇 */}
 
         {/* BUSINESS HOURS👆 */}
         {/* \\\\\\\\\\\ */}

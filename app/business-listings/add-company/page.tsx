@@ -271,13 +271,17 @@ console.log('stepone errors', errorsOne)
           </p>
           <div className="form-control col-span-6">
             <label htmlFor="categories">Business Categories</label>
-            <input
-              type="text"
+            <select
               id="categories"
               placeholder="e.g. Marketing, consultent, design"
               {...register("categories")}
               onBlur={() => trigger("categories")}
-            />
+            >
+              <option value="Business">Business</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Design">Design</option>
+              <option value="Architecture">Architecture</option>
+            </select>
             <p className="error">{errorsOne.categories?.message}</p>
           </div>
 

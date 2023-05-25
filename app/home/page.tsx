@@ -1,6 +1,5 @@
 import React from "react";
 import "./home.css";
-import ContactForm from "@/components/contactForm";
 import Index from "../page";
 import { BsWhatsapp } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
@@ -12,14 +11,14 @@ type socialMediaProps = {
   title: string;
   type: string;
   link: string;
-  icon: string
+  icon: JSX.Element;
 }
 
 // color="#3b5998"
 // color="#0088cc"
 // color="#25D366"
 
-export const socialMedia = [
+const socialMedia: socialMediaProps[] = [
   {
     id: 1,
     title: "Facebook",
@@ -65,7 +64,7 @@ export const socialMedia = [
 
 ];
 
-export const members = [
+const members = [
   {
     id: 1,
     name: "Daniel Sams",
@@ -116,7 +115,7 @@ export const members = [
   },
 ];
 
-export const popularCompanies = [
+const popularCompanies = [
   {
     id: 1,
     image: "/images/fbImage.png",
@@ -151,7 +150,7 @@ export const popularCompanies = [
   },
 ];
 
-export const newsFeed = [
+const newsFeed = [
   {
     id: 1,
     image: "/images/news1.png",
@@ -175,7 +174,7 @@ export const newsFeed = [
   },
 ];
 
-export const numbers = [
+const numbers = [
   { id: 1, title: "Happy Clients", number: 100 },
   { id: 2, title: "Awards Won", number: 70 },
   { id: 3, title: "Projects Completed", number: 200 },
@@ -185,4 +184,4 @@ const Home = () => {
   return <Index />;
 };
 
-export default Home;
+export {socialMedia , members, popularCompanies, newsFeed , numbers};
