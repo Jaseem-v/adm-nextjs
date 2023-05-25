@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import { TailSpin } from 'react-loader-spinner'
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -20,7 +20,7 @@ const Login = () => {
 
 
   type FormValues = {
-    email: string;
+    username: string;
     // username: string;
     password: string;
   };
@@ -115,10 +115,10 @@ console.log(data)
                     <input
                       // name="email"
                       type="text"
-                      placeholder="Email"
+                      placeholder="Username"
                       className="w-full border-b border-black border-opacity-40
                                 py-4 focus:outline-none mb-9"
-                      {...register("email")}
+                      {...register("username")}
                     // onBlur={() => trigger("email")}
                     />
                   </div>
