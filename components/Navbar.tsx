@@ -186,101 +186,6 @@ const Navbar = () => {
       {/* Mobile menu, toggle classNamees based on menu state */}
       {isMobileNavOpen && (
         <div className=" lg:hidden z-50" id="myLinks">
-          <div className="flex flex-col gap-10 items-center justify-center px-2 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
-            {/* Your navigation links here */}
-            <ul
-              className="flex flex-col items-center justify-center gap-10"
-              id="navbar-cta"
-            >
-              <li>
-                <Link
-                  href="/"
-                  className={selectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  HOME
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className={nonSelectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  ABOUT US
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/gallery"
-                  className={nonSelectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  GALERY
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/business"
-                  className={nonSelectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  BUSINESS FIRMS
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/business/persons"
-                  className={nonSelectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  BUSINESS PERSONS
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/events"
-                  className={nonSelectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  EVENTS
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className={nonSelectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  CONTACT US
-                </Link>
-              </li>
-            </ul>
-            <div className="flex flex-col gap-5 text-center ">
-            <div className="relative">
-              <button
-                className="w-full font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-                onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
-              >
-                Claim my Listing
-              </button>
-              {isEnlistDropdown && (
-                <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
-              )}
-            </div>
-            <Link href="/login">
-              <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
-                Login
-              </button>
-            </Link>
-          </div>
-          </div>
-          
-        </div>
-      )}
-      {/* {isMobileNavOpen && (
-        <div className=" lg:hidden z-50" id="myLinks">
           <div className="flex flex-col gap-16 items-start justify-center px-6 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
             <div
               className="flex flex-col items-start justify-center gap-4 w-full"
@@ -370,6 +275,100 @@ const Navbar = () => {
               )}
             </div>
             <Link href="/login" className="flex-1">
+              <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                Login
+              </button>
+            </Link>
+          </div>
+          </div>
+          
+        </div>
+      )}
+      {/* {isMobileNavOpen && (
+        <div className=" lg:hidden z-50" id="myLinks">
+          <div className="flex flex-col gap-10 items-center justify-center px-2 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
+            <ul
+              className="flex flex-col items-center justify-center gap-10"
+              id="navbar-cta"
+            >
+              <li>
+                <Link
+                  href="/"
+                  className={selectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  HOME
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  ABOUT US
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/gallery"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  GALERY
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/business"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  BUSINESS FIRMS
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/business/persons"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  BUSINESS PERSONS
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/events"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  EVENTS
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  CONTACT US
+                </Link>
+              </li>
+            </ul>
+            <div className="flex flex-col gap-5 text-center ">
+            <div className="relative">
+              <button
+                className="w-full font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
+              >
+                Claim my Listing
+              </button>
+              {isEnlistDropdown && (
+                <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
+              )}
+            </div>
+            <Link href="/login">
               <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                 Login
               </button>
