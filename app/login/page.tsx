@@ -88,7 +88,7 @@ console.log(data)
               <img
                 src="/images/back-icon.png"
                 alt="back icon"
-                className="absolute top-7 left-0 w-10 h-10"
+                className="absolute top-7 left-5 lg:left-0 w-8 lg:w-10 h-8 lg:h-10"
               />
             </Link>
           </div>

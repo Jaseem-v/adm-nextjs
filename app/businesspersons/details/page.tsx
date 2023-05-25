@@ -1,4 +1,56 @@
+"use client"
+
+import httpClient from "@/services/axiosInstance";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+
 const BusinessPersonDetails = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [data, setData] = useState({
+    _id: "",
+    fname: "",
+    lname: "",
+    username: "",
+    phone: '',
+    email: '',
+    about: '',
+    socialMediaLinks: [],
+    status: '',
+    lastSync: '',
+    isDeleted: false,
+    createdAt: '',
+    updatedAt: '',
+    __v: 0
+  })
+
+  const id = "64699180fb028a79b7284578"
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await httpClient().get(`/user/personal/${id}`)
+        .then(res => {    
+          if (res.status === 400) {
+            toast.error(res.data.message, {
+              icon: '👏',
+            });
+          }
+          if (res.status === 200) {
+            setData(res.data.data);
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+  
+    fetchData();
+  }, []);
+
+  console.log('data', data)
+  
+
   return (
     <>
       {/* \\\\\\\\\\\\ */}
@@ -34,7 +86,7 @@ const BusinessPersonDetails = () => {
       {/* \\\\\\\\\\\\ */}
 
       <section className="bg-[#F5F5F5] py-20">
-        <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row lg:gap-7 gap-5 px-5 xl:px-0 ">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:gap-7 gap-5 px-5 xl:px-0 ">
           <div className="flex flex-col lg:gap-7 gap-5">
             {/* business man card  */}
             <div className="max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 xl:row-span-2 text-left">
@@ -46,7 +98,7 @@ const BusinessPersonDetails = () => {
                 />
               </div>
               <p className="business-name font-semibold text-2xl md:text-3xl lg:text-[32px] pt-7">
-                Business Man
+                {`${data.fname} ${data.lname}`}
               </p>
               <p className="business-name font-semibold text-base md:text-lg lg:text-xl font-kaisei">
                 CEO of Amazon
