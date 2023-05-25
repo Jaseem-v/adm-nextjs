@@ -23,6 +23,8 @@ const BusinessPersonDetails = () => {
     __v: 0
   })
 
+  const fullname = data.fname + " " + data.lname;
+
   const id = "64699180fb028a79b7284578"
 
   useEffect(() => {
@@ -98,10 +100,10 @@ const BusinessPersonDetails = () => {
                 />
               </div>
               <p className="business-name font-semibold text-2xl md:text-3xl lg:text-[32px] pt-7">
-                {`${data.fname} ${data.lname}`}
+                {fullname}
               </p>
-              <p className="business-name font-semibold text-base md:text-lg lg:text-xl font-kaisei">
-                CEO of Amazon
+              <p className="business-name font-semibold text-base lg:text-lg font-lora lg:pt-1">
+                CEO & Founder
               </p>
               <p className="font-medium text-base text-desc mt-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -114,11 +116,11 @@ const BusinessPersonDetails = () => {
                 </div>
                 <div className="flex items-center justify-start gap-2">
                   <img src="/images/mail.svg" alt="mail" />
-                  <p>businesscompany@gmail.com</p>
+                  <p>{data.email}</p>
                 </div>
                 <div className="flex items-center justify-start gap-2">
                   <img src="/images/phone.svg" alt="phone" />
-                  <p>980328793</p>
+                  <p>{data.phone}</p>
                 </div>
               </div>
               <div className="flex items-center justify-start gap-2">
@@ -196,7 +198,7 @@ const BusinessPersonDetails = () => {
                 <div className="flex flex-col gap-4 text-desc text-lg md:text-xl">
                   <p className="font-semibold">
                     Full Name :{" "}
-                    <span className="font-medium">Business Man</span>
+                    <span className="font-medium">{fullname}</span>
                   </p>
                   <p className="font-semibold">
                     Language :{" "}
