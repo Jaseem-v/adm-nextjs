@@ -1240,7 +1240,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded ">
+                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyBusinessCategories}>
                     Verify
                   </button>
                 </div>
