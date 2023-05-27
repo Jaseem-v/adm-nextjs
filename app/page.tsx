@@ -28,12 +28,12 @@ export default function Index() {
               Abudhabi Malayalees community today!
             </p>
             <div className="flex gap-2 md:gap-4 mt-8 items-center justify-center">
-              <a href="/signup.html">
+              <Link href="/login">
                 <button className="py-3 md:py-4 px-8 md:px-12 bg-white text-black font-medium text-base md:text-lg lg:text-xl rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                   Register Now
                 </button>
-              </a>
-              <a href="/aboutUs.html">
+              </Link>
+              <Link href="/about">
                 <button
                   className="py-[11px] md:py-[15px] px-6 md:px-10 bg-black bg-opacity-30 text-white hover:bg-gray-900 font-medium text-base md:text-lg lg:text-xl rounded-lg border border-white
                     flex items-center justify-center gap-2 hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
@@ -41,7 +41,7 @@ export default function Index() {
                   <p>Learn more</p>
                   <img src="/images/arrow-right.svg" alt="right arrow" />
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

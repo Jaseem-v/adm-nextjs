@@ -1,6 +1,6 @@
 "use client";
 
-import "./enlist/form.css";
+import "./../../components/enlist/form.css";
 
 import { BsPencilSquare } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
