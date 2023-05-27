@@ -386,7 +386,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     });
   };
 
-  const newLogoAdded = editInfoState.logo === " " ? false : true;
+  const newLogoAdded = editInfoState.logo === "https://i.ibb.co/SPJXPcD/store.png" ? false : true;
 
   // SECTION FUNCTIONS
   const verifyBusinessName = () => {
