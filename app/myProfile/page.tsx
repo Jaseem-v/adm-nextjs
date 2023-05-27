@@ -1173,25 +1173,12 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     ></textarea>
                   </div>
                   <div className="self-end">
-                    <span>0/650</span>
+                    <span>0/1000</span>
                   </div>
                 </div>
               </div>
             </div>
           )}
-
-          {/* edited */}
-          {/* <div className="flex flex-col gap-4 leading-relaxed">
-            <div className="lg:w-3/4">
-              <p className="font-semibold">Short Description:</p>
-              <p>The actual short description text</p>
-            </div>
-            <div className="lg:w-3/4">
-            <p className="font-semibold">Detailed Description:</p>
-              <p>The actual detailed description text</p>
-            </div>
-          </div> */}
-          {/* edited */}
         </div>
         {/* ABOUT👆 */}
         {/* \\\\\\\\\\\\\\\\\ */}
@@ -1235,8 +1222,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
           </div>
           {!editModeState.businessCategories ? (
             <div className="flex flex-col gap-2 mt-2">
-              <p>Marketing</p>
-              <p>Web development</p>
+              <p>{editInfoState.primaryCategory.length > 0 ? editInfoState.primaryCategory : 'Marketing'}</p>
             </div>
           ) : (
             <>
@@ -1251,7 +1237,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
               <div className="flex flex-row gap-4 items-center">
                 {!isPrimaryCategoryChange ? (
                   <div className="w-80 px-4 py-2 bg-skeleton">
-                    <p>Marketing</p>
+                    <p>{editInfoState.primaryCategory.length > 0 ? editInfoState.primaryCategory : 'Marketing'}</p>
                   </div>
                 ) : (
                   <input
@@ -1261,60 +1247,39 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     aria-controls="react-autosuggestion"
                     className="form-input md:w-80"
                     placeholder="Search for a category"
+                    onChange={(e) => setEditInfoState(prevState => ({ ...prevState, primaryCategory: e.target.value}))}
                   />
                 )}
 
-                <div
+{editModeState.businessCategories && isPrimaryCategoryChange ?
+                 <div className="flex items-center gap-4">
+                 <div
+                   className="hover:underline cursor-pointer text-success"
+                   onClick={() =>
+                     setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                   }
+                 >
+                   apply
+                 </div>
+                 <div
+                   className="hover:underline cursor-pointer text-error"
+                   onClick={() =>
+                     setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                   }
+                 >
+                   cancel
+                 </div>
+                 </div> : (<div
                   className="hover:underline cursor-pointer"
                   onClick={() =>
                     setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
                   }
                 >
-                  {editModeState.businessCategories && isPrimaryCategoryChange
-                    ? "cancel"
-                    : "change"}
-                </div>
+                  change
+                </div>) 
+}
               </div>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="primaryCategory">
-                  Secondary Categories (optional)
-                </label>
-                <p className="text-sm text-gray-600">
-                  Secondary categories let people know any additional services
-                  your business provides.
-                </p>
-              </div>
-              <div className="flex flex-row gap-4 items-center">
-                {!isSecondaryCategoryChange ? (
-                  <div className="w-80 px-4 py-2 bg-skeleton">
-                    <p>Web development</p>
-                  </div>
-                ) : (
-                  <input
-                    type="text"
-                    autoComplete="off"
-                    aria-autocomplete="list"
-                    aria-controls="react-autosuggestion"
-                    className="form-input md:w-80"
-                    placeholder="Search for a category"
-                  />
-                )}
-                <div
-                  className="hover:underline cursor-pointer"
-                  onClick={() =>
-                    setIsSecondaryCategoryChange(!isSecondaryCategoryChange)
-                  }
-                >
-                  {editModeState.businessCategories && isSecondaryCategoryChange
-                    ? "cancel"
-                    : "change"}
-                </div>
-                {!isSecondaryCategoryChange && (
-                  <div className="hover:underline cursor-pointer text-error">
-                    remove
-                  </div>
-                )}
-              </div>
+              
               <div className="flex flex-row gap-4">
                 <div
                   role="combobox"
