@@ -404,9 +404,11 @@ console.log('stepone errors', errorsOne)
         "category": "64684fd43e84f3ea2dd8acad",
         "website": websiteUrl,
         "location": city,
-        "state": "abu dhabi",
-        "city": city,
-        "address": streetAddress,
+        "addressDetails": {
+          "state": "abu dhabi",
+          "city": city,
+          "address": streetAddress,
+        },
         "contactDetails": {
             "fname": firstname,
             "lname": lastname,

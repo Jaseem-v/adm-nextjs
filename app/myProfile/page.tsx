@@ -159,8 +159,7 @@ const Profile = () => {
     phone: string;
     hidePhone: boolean;
     website: string;
-    shortDescription: string;
-    detailedDescription: string;
+    about: string;
     primaryCategory: string;
     secondaryCategory: string[];
     products: Product[];
@@ -177,7 +176,6 @@ const Profile = () => {
     detailedInformation: {
       locationType: string;
       yearEstablished: string;
-      annualRevenueEstimate: string;
       employees: string;
     }
   };
@@ -198,8 +196,7 @@ const Profile = () => {
     phone: "",
     hidePhone: true,
     website: "",
-    shortDescription: "",
-    detailedDescription: "",
+    about: "",
     primaryCategory: "",
     secondaryCategory: [],
     products: [],
@@ -216,7 +213,6 @@ const Profile = () => {
     detailedInformation: {
       locationType: "",
       yearEstablished: "",
-      annualRevenueEstimate: "",
       employees: ""
     }
   });
@@ -250,7 +246,7 @@ const Profile = () => {
   // SECTION REFS
   const businessInfoRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
-  const detailedDescriptionRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const logoRef =  useRef<HTMLDivElement>(null);
   const photosRef = useRef<HTMLDivElement>(null);
@@ -274,7 +270,7 @@ const Profile = () => {
 
   const isAddressCompleted = editInfoState.streetAddress.length > 0 && editInfoState.phone.length > 0;
   const isCategoriesCompleted = editInfoState.primaryCategory.length > 0 || editInfoState.secondaryCategory.length > 0;
-  const isDetailedDescriptionCompleted = editInfoState.detailedDescription.length > 0 ;
+  const isDetailedDescriptionCompleted = editInfoState.about.length > 0 ;
   const isPhotoCompleted = (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" && editInfoState.logo.length > 0 ) || editInfoState.photos.length > 0;
   const isServicesCompleted = editInfoState.products.length > 0 ;
   const isSocialMediaCompleted = Object.values(editInfoState.socialMedia).some((value) => value !== "");
@@ -651,7 +647,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 <div className="flex justify-between items-center gap-2">
                   <p className={`${isDetailedDescriptionCompleted ? 'text-success' : 'text-error'}`}>Detailed Description</p>
                   <div onClick={() =>
-                      handleProgessBarClick(detailedDescriptionRef, "about")
+                      handleProgessBarClick(aboutRef, "about")
                     }>
                     {editOrAdd(isDetailedDescriptionCompleted)}
                   </div>
@@ -1082,7 +1078,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* ABOUT👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={detailedDescriptionRef}>
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={aboutRef}>
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -1118,16 +1114,11 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
             </p>
           </div>
           {!editModeState.about ? (
-            editInfoState.shortDescription.length > 0 ||
-            editInfoState.detailedDescription.length > 0 ? (
+            editInfoState.about.length > 0 ? (
               <div className="flex flex-col gap-4 leading-relaxed">
                 <div className="lg:w-3/4">
-                  <p className="font-semibold">Short Description:</p>
-                  <p>{editInfoState.shortDescription}</p>
-                </div>
-                <div className="lg:w-3/4">
-                  <p className="font-semibold">Detailed Description:</p>
-                  <p>{editInfoState.detailedDescription}</p>
+                  <p className="font-semibold">Description:</p>
+                  <p>{editInfoState.about}</p>
                 </div>
               </div>
             ) : (
@@ -1162,50 +1153,27 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
           ) : (
             <div className="w-full">
               <div className="flex flex-col gap-4 lg:w-3/4">
-                <p className="font-semibold">Short Description:</p>
+                <p className="font-semibold">Description:</p>
                 <div className="flex flex-col">
                   <div className="flex">
                     <textarea
                       name="shortDescription"
                       id="shortDescription"
-                      rows={3}
+                      rows={10}
                       maxLength={150}
                       className="border border-[#b7babf] w-full py-2 px-3 text-sm"
-                      placeholder="This should be a simple statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
-                      value={editInfoState.shortDescription}
+                      placeholder="This should be a statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
+                      value={editInfoState.about}
                       onChange={(e) =>
                         handleEditInfoStateChange(
-                          "shortDescription",
+                          "about",
                           e.target.value
                         )
                       }
                     ></textarea>
                   </div>
                   <div className="self-end">
-                    <span>0/150</span>
-                  </div>
-                </div>
-                <p className="font-semibold">Detailed Description:</p>
-                <div className="flex flex-col">
-                  <div className="flex">
-                    <textarea
-                      name="detailedDescription"
-                      id="detailedDescription"
-                      rows={10}
-                      maxLength={2500}
-                      className="border border-[#b7babf] w-full py-2 px-3 text-sm"
-                      placeholder="What do you do exceptionally well? Let your customers know what your business is all about. This can include how long you've been in business, the story of how it all started, or anything else you want your customers to know."
-                      value={editInfoState.detailedDescription}
-                      onChange={(e) =>
-                        handleEditInfoStateChange(
-                          "detailedDescription",
-                          e.target.value
-                        )
-                      }
-                    ></textarea>
-                  </div>
-                  <div className="self-end">
-                    <span>0/2500</span>
+                    <span>0/650</span>
                   </div>
                 </div>
               </div>
@@ -2032,10 +2000,6 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 <p className="w-64">Year Established</p>
                 <p>{editInfoState.detailedInformation.yearEstablished}</p>
               </div>
-              <div className="flex border-b border-gray-200 py-2">
-                <p className="w-64">Annual Revenue Estimate</p>
-                <p>{editInfoState.detailedInformation.annualRevenueEstimate}</p>
-              </div>
               <div className="flex py-2">
                 <p className="w-64">Employees</p>
                 <p>{editInfoState.detailedInformation.employees}</p>
@@ -2069,18 +2033,6 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     maxLength={4}
                     value={editInfoState.detailedInformation.yearEstablished}
                     onChange={(e) => handleDetailedInformationChange("yearEstablished", e)}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <p>Annual Revenue Estimate</p>
-                <div>
-                  <input
-                    type="text"
-                    id="annualRevenueEstimate"
-                    className="w-48 form-input"
-                    value={editInfoState.detailedInformation.annualRevenueEstimate}
-                    onChange={(e) => handleDetailedInformationChange("annualRevenueEstimate", e)}
                   />
                 </div>
               </div>
