@@ -78,6 +78,10 @@ const EnlistCompany = () => {
     websiteUrl: string;
 
     categories: string;
+
+    email: string;
+    username: string;
+    password: string;
   };
 
   const form = useForm<FirstFormValues>({
@@ -92,7 +96,10 @@ const EnlistCompany = () => {
       phoneNumber: "",
       websiteUrl: "",
       categories: "",
-      
+
+      email: "",
+      username: "",
+      password: ""
     },
     resolver: yupResolver(businessFirstStepSchema),
   });
@@ -112,6 +119,10 @@ const EnlistCompany = () => {
   const categoryValue = watch("categories")
   const hideAddressValue = watch("hideAddress")
 
+  const emailValue = watch("email")
+  const usernameValue = watch("username")
+  const passwordValue = watch("password")
+
   console.log('hide address', hideAddressValue)
 
   // FUNCTIONS
@@ -129,7 +140,7 @@ console.log('stepone errors', errorsOne)
     setIsSubmitted(true);
     if (page === 0) {
       if (((await trigger()) && Object.keys(errorsOne).length) === 0) {
-        setData(prevState => ({...prevState, companyName: companyNameValue, streetAddress: streetAddressValue, city: cityValue, zip: zipValue, phoneNumber: phoneNumberValue, websiteUrl: websiteUrlValue, building: buildingValue, categories: categoryValue}))
+        setData(prevState => ({...prevState, companyName: companyNameValue, streetAddress: streetAddressValue, city: cityValue, zip: zipValue, phoneNumber: phoneNumberValue, websiteUrl: websiteUrlValue, building: buildingValue, categories: categoryValue, email: emailValue, username: usernameValue, password: passwordValue}))
         setPage((i) => {
           if (i >= 2) return i;
           return i + 1;
@@ -295,6 +306,41 @@ console.log('stepone errors', errorsOne)
             />
             <span className="ml-1">Don{`'`}t dispaly my address publicly</span>
           </label>
+
+          <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
+          Company Account Details
+          </p>
+          <div className="form-control col-span-6">
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              id="email"
+              placeholder="e.g. harrybrook@business.com"
+              {...register("email")}
+              onBlur={() => trigger("email")}
+            />
+            <p className="error">{errorsOne.email?.message}</p>
+          </div>
+          <div className="form-control col-span-3 mt-4">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              {...register("username")}
+              onBlur={() => trigger("username")}
+            />
+            <p className="error">{errorsOne.username?.message}</p>
+          </div>
+          <div className="form-control col-span-3 mt-4">
+            <label htmlFor="password">Password</label>
+            <input
+              type="text"
+              id="password"
+              {...register("password")}
+              onBlur={() => trigger("password")}
+            />
+            <p className="error">{errorsOne.password?.message}</p>
+          </div>
           {/* <label htmlFor="hasServiceArea" className="col-span-6 text-sm">
             <input
               type="checkbox"
@@ -329,9 +375,6 @@ console.log('stepone errors', errorsOne)
     firstname: string;
     lastname: string;
     phone: string;
-    email: string;
-    username: string;
-    password: string;
     place: string;
   };
 
@@ -340,9 +383,6 @@ console.log('stepone errors', errorsOne)
       firstname: "",
       lastname: "",
       phone: "",
-      email: "",
-      username: "",
-      password: "",
       place: ""
       
     },
@@ -352,9 +392,9 @@ console.log('stepone errors', errorsOne)
   const { register: registerTwo, handleSubmit: handleSubmitTwo , formState: formStateTwo, trigger: triggerTwo, watch: watchTwo } = formTwo;
   const { errors: errorsTwo } = formStateTwo;
 
-    const onSubmit = async ({firstname, lastname, phone,email, username, password , place }: SecondFormValues) => {
-      setData((prevData) => ({ ...prevData, firstname, lastname, phone,email, username, password , place }));
-      const { companyName, phoneNumber, streetAddress, city , categories, websiteUrl,} = data;
+    const onSubmit = async ({firstname, lastname, phone, place }: SecondFormValues) => {
+      setData((prevData) => ({ ...prevData, firstname, lastname, phone, place }));
+      const { companyName, phoneNumber, streetAddress, city , categories, websiteUrl, email, username, password} = data;
       const finalData = {
         "name": companyName,
         "username": username,
@@ -439,37 +479,6 @@ console.log('final data', finalData)
               onBlur={() => triggerTwo("phone")}
             />
             <p className="error">{errorsTwo.phone?.message}</p>
-          </div>
-          <div className="form-control col-span-2">
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              id="email"
-              placeholder="e.g. harrybrook@business.com"
-              {...registerTwo("email")}
-              onBlur={() => triggerTwo("email")}
-            />
-            <p className="error">{errorsTwo.email?.message}</p>
-          </div>
-          <div className="form-control">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              {...registerTwo("username")}
-              onBlur={() => triggerTwo("username")}
-            />
-            <p className="error">{errorsTwo.username?.message}</p>
-          </div>
-          <div className="form-control">
-            <label htmlFor="password">Password</label>
-            <input
-              type="text"
-              id="password"
-              {...registerTwo("password")}
-              onBlur={() => triggerTwo("password")}
-            />
-            <p className="error">{errorsTwo.password?.message}</p>
           </div>
           <div className="form-control col-span-2">
             <label htmlFor="place">Place</label>

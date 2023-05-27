@@ -12,15 +12,6 @@ export const businessIndividualSchema = yup.object({
         .string()
         .required("Phone number is required")
         .matches(phoneRegExp, "Phone number is not valid"),
-    email: yup
-        .string()
-        .email("Invalid email address")
-        .required("Email is required"),
-    username: yup.string().required("Username is required").min(4),
-    password: yup
-        .string()
-        .required("Password is required")
-        .min(8, "Password must be atleast 8 charecters"),
     place: yup.string().required("Place is required").min(3),
 });
 
@@ -49,6 +40,15 @@ export const businessFirstStepSchema = yup.object({
     //   "Please enter a valid website URL"
     // ),
     categories: yup.string().required("This field is required"),
+    email: yup
+        .string()
+        .email("Invalid email address")
+        .required("Email is required"),
+    username: yup.string().required("Username is required").min(4),
+    password: yup
+        .string()
+        .required("Password is required")
+        .min(8, "Password must be atleast 8 charecters"),
 });
 
 export const signInSchema = yup.object({
