@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SectionHeader from '@/components/SectionHeader';
-import { numbers } from './../home/page';
+import { numbers } from '../../utils/content';
 
 const features = [
   {

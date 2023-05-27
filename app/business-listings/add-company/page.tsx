@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./../../../components/enlist/form.css";
-import { businessFirstStepSchema, businessIndividualSchema } from "@/app/schema/signUpSchema";
+import { businessFirstStepSchema, businessIndividualSchema } from "@/utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";

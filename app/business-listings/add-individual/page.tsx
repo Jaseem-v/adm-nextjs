@@ -10,7 +10,7 @@ import httpClient from './../../../services/axiosInstance';
 // import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { businessIndividualSchema } from "@/app/schema/signUpSchema";
+import { businessIndividualSchema } from "@/utils/schema/signUpSchema";
 
 
 

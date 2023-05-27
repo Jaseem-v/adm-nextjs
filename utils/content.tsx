@@ -1,6 +1,6 @@
 import React from "react";
-import "./home.css";
-import Index from "../page";
+import "./../components/global/home.css";
+import Index from "../app/page";
 import { BsWhatsapp } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";

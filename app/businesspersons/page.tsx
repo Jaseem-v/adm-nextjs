@@ -5,7 +5,7 @@ import Link from "next/link";
 import httpClient from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Data } from "../schema/stateType";
+import { Data } from "../../utils/schema/stateType";
 
 const BusinessPersons = () => {
   const [isLoading, setIsLoading] = useState(false)

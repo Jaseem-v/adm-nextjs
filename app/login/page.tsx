@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { signInSchema } from "../schema/signUpSchema";
+import { signInSchema } from "../../utils/schema/signUpSchema";
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import { TailSpin } from 'react-loader-spinner'

@@ -34,6 +34,9 @@ import React, { FormEvent, useCallback } from "react";
 import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef } from "react";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { businessInfoSchema } from "../../utils/schema/signUpSchema";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -49,11 +52,6 @@ interface Photo {
 }
 
 let idCounter = 0; // Counter for generating unique IDs
-
-const validationSchema = yup.object({
-  businessName: yup.string().required("Business name is required"),
-  product: yup.string().min(2, "too short"),
-});
 
 const Profile = () => {
   const initialEditModeState: EditModeState = {
@@ -99,6 +97,22 @@ const Profile = () => {
       city: "",
     },
   });
+
+  type BusinessInfoFormValues = {
+    streetAddress: string;
+    building: string;
+    city: string;
+    zip: string;
+    hideAddress: boolean;
+    phone: string;
+    hidePhone: boolean
+  }
+
+  const businessInfoForm = useForm<BusinessInfoFormValues>({
+    defaultValues: {},
+    resolver: yupResolver(businessInfoSchema),
+  });
+  
 
   // HANDLE SUBMIT
   // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

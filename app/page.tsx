@@ -4,9 +4,9 @@ import {
   popularCompanies,
   newsFeed,
   numbers,
-} from "./home/page";
+} from "../utils/content";
 import React from "react";
-import "./home/home.css";
+import "./../components/global/home.css";
 import ContactForm from "@/components/contactForm";
 import Link from "next/link";
 
