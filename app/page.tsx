@@ -64,7 +64,7 @@ export default function Index() {
                 className="social-media-item flex flex-col items-center gap-5 text-center mx-0"
                 key={item.id}
               >
-                <a href={item.link} target="_blank" >
+                <a href={item.link} target="_blank" className="w-7 h-7">
                   {item.icon}
                 </a>
                 <h5>
