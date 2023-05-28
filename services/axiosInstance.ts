@@ -3,10 +3,13 @@ import axios, { AxiosInstance } from 'axios';
 
 const httpClient = (contentType?: string) => {
   // Create instance
+  const token = localStorage.getItem('clerk-db-jwt'); // Retrieve the token from localStorage
+
   const instance: AxiosInstance = axios.create({
     baseURL: 'https://abudhabi-malayalees.onrender.com/api/v1',
     headers: {
       'Content-Type': contentType || 'application/json', // Set the Content-Type header
+      'Authorization': `Bearer ${token}`
     },
     withCredentials: true,
     validateStatus: function (status) {

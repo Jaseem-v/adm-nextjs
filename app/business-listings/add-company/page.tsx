@@ -394,37 +394,43 @@ console.log('stepone errors', errorsOne)
 
     const onSubmit = async ({firstname, lastname, phone, place }: SecondFormValues) => {
       setData((prevData) => ({ ...prevData, firstname, lastname, phone, place }));
-      const { companyName, phoneNumber, streetAddress, city , categories, websiteUrl, email, username, password} = data;
+      const { companyName, phoneNumber, streetAddress, city , categories, websiteUrl, email, username, password, zip} = data;
       const finalData = {
         "name": companyName,
-        "username": username,
+        "username": `ba-${username}`,
         "phone": phoneNumber,
         "email": email,
         "password": password,
         "category": "64684fd43e84f3ea2dd8acad",
         "website": websiteUrl,
-        "location": city,
         "addressDetails": {
-          "state": "abu dhabi",
-          "city": city,
-          "address": streetAddress,
+            "streetNumber": "12",
+            "state": "abu dhabi",
+            "city": city,
+            "address": streetAddress,
+            "place": streetAddress,
+            "pincode": zip,
+            "landmark": "mosque"
         },
         "contactDetails": {
             "fname": firstname,
             "lname": lastname,
-            "email": email,
+            "email": "",
             "phone": phone
-        }
-    }
+        }
+      }
 console.log('final data', finalData)
       try {
         await httpClient().post('/user/business/signup', finalData)
         .then(res => {
           console.log(res)
-          toast.success('Account Created Succeffully', {
-            icon: '👏',
-          })
-          navigate.push("/login")
+
+          if (res.status === 200) {
+            toast.success('Account Created Succeffully', {
+              icon: '👏',
+            })
+            navigate.push("/login")
+        }
         }
         )
       } catch (err) {

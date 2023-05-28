@@ -64,27 +64,29 @@ const EnlistIndividual = () => {
   const { errors } = formState;
 
   const onSubmit = async ({ firstname, lastname, email, phone, username, password }: FormValues) => {
-    const formData = { fname: firstname, lname: lastname, email, phone, username, password }
+    const formData = { fname: firstname, lname: lastname, email, phone, username: `pa-${username}`, password }
     await setData((prevData) => ({ ...prevData, formData }));
 
     try {
-      await httpClient().post('user/personal/signup', formData)
-        .then(res => {
-          toast.success('Account Created Succeffully', {
-            icon: '👏',
-          })
-          navigate.push("/login")
-        }
-
-        )
+      await httpClient()
+  .post('user/personal/signup', formData)
+  .then(res => {
+    console.log(res)
+    if (res.status === 200) {
+      toast.success('Account Created Successfully', {
+        icon: '👏',
+      });
+      navigate.push("/login");
+    } else {
+      // Handle error case here
+      toast.error('An error occurred during signup');
+    }
+  })
 
     } catch (error) {
       console.log(error)
     }
-
-
-
-    console.log("userdata", data);
+    console.log("userdata", formData);
   };
 
   const isError = Object.keys(errors).length !== 0;
