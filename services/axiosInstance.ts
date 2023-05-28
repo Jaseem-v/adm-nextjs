@@ -2,13 +2,11 @@
 import axios, { AxiosInstance } from 'axios';
 
 const httpClient = (contentType?: string) => {
-  const token = localStorage.getItem('accessToken');
-
   // Create instance
   const instance: AxiosInstance = axios.create({
     baseURL: 'https://abudhabi-malayalees.onrender.com/api/v1',
     headers: {
-      'Content-Type': contentType || 'application/json',
+      'Content-Type': contentType || 'application/json', // Set the Content-Type header
     },
     withCredentials: true,
     validateStatus: function (status) {
@@ -18,9 +16,9 @@ const httpClient = (contentType?: string) => {
 
   // Set the AUTH token for any request
   instance.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('clerk-db-jwt'); // Retrieve the token from localStorage
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`; // Set the Authorization header with the token
     }
     return config;
   });

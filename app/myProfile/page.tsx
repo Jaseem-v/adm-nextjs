@@ -30,13 +30,15 @@ import { TiArrowUnsorted } from "react-icons/ti";
 import { AiFillCaretDown } from "react-icons/ai";
 import { AiFillCaretUp } from "react-icons/ai";
 
-import React, { FormEvent, useCallback } from "react";
+import React, { FormEvent, useCallback, useEffect } from "react";
 import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef } from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { businessInfoSchema } from "../../utils/schema/signUpSchema";
+import httpClient from "@/services/axiosInstance";
+import { toast } from "react-hot-toast";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -75,6 +77,7 @@ const Profile = () => {
   const [isAddedPhoto, setIsAddedPhoto] = useState(false);
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [showDeleteModel, setShowDeleteModel] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleToggleEditMode = (section: string) => {
     setEditModeState((prevState) => {
@@ -440,6 +443,37 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     handleToggleEditMode("detailedInformation");
     console.log("verified detailed information");
   };
+
+  // USEEFFECT
+  useEffect(() => {
+    const userApiData = async() => {
+      try {
+        await httpClient().get('user/personal/profile')
+          .then(res => {
+
+            console.log(res);
+
+            if (res.status == 400) {
+              toast.error(res.data.message, {
+                icon: '🔴',
+              })
+            }
+
+            if (res.status == 200) {
+              console.log('userapidata', res.data)
+            }
+          }
+          )
+        setIsLoading(false)
+
+      } catch (error) {
+        console.log(error)
+        setIsLoading(false)
+
+      }
+  }
+  userApiData()
+  }, [])
 
   const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1746,30 +1780,6 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
               </div>
             </div>
           )}
-
-          {/* edited */}
-          {/* <div className="flex flex-col gap-6">
-            <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsFacebook className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>http://facebook.com</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-
-            <div className="flex flex-row items-center gap-4">
-              <div className="w-8">
-                <BsInstagram className="w-full h-full"/>
-              </div>
-              <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-                <span>@mkbhd</span>
-                <HiOutlineExternalLink className="w-5 h-5"/>
-              </div>
-            </div>
-          </div> */}
-          {/* edited */}
         </div>
         {/* SOCAIL MEDIA LINKS👆 */}
 
