@@ -3,6 +3,7 @@ const ACCESS_TOKEN_KEY = 'accessToken';
 
 export function saveAccessToken(token: string) {
   localStorage.setItem(ACCESS_TOKEN_KEY, token);
+  console.log('token', token)
 }
 
 export function getAccessToken(): string | null {

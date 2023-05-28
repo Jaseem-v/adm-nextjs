@@ -8,7 +8,7 @@ const httpClient = (contentType?: string) => {
   const instance: AxiosInstance = axios.create({
     baseURL: 'https://abudhabi-malayalees.onrender.com/api/v1',
     headers: {
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGQ2ZWY5YmFjMmVmMDczZDY0MmZhYyIsInJvbGUiOiJTdXBlckFkbWluIiwiaWF0IjoxNjc4ODA4NTM0LCJleHAiOjE3MTAzNjYxMzQsImF1ZCI6IlNSRUVKSVRIIiwiaXNzIjoiZS1jb21tZXJjZS5nb2t1bHNyZWVqaXRoLmNvbSJ9.PK7X8_j400yYsjMgjPhTPZJ5XZOA2yPR3wkxVS5bprQ'
+      'Content-Type': contentType || 'application/json',
     },
     withCredentials: true,
     validateStatus: function (status) {

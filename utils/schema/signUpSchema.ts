@@ -54,7 +54,6 @@ export const businessFirstStepSchema = yup.object({
 export const signInSchema = yup.object({
     username: yup
     .string()
-    .matches(/^[A-Za-z][A-Za-z0-9_]{3,19}$/, 'Invalid username')
     .required('Username is required'),
     // username: yup.string().required("Username is required").min(4),
     password: yup
