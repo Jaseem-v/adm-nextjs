@@ -12,9 +12,6 @@ import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import { TailSpin } from 'react-loader-spinner'
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
@@ -54,6 +51,7 @@ console.log(data)
           }
 
           if (res.status == 200) {
+            localStorage.setItem('accessToken', res.data.token)
             toast.success('Login Successffully')
             navigate.push("/myProfile")
           }

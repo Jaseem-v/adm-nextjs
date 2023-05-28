@@ -9,7 +9,6 @@ const httpClient = (contentType?: string) => {
     baseURL: 'https://abudhabi-malayalees.onrender.com/api/v1',
     headers: {
       'Content-Type': contentType || 'application/json', // Set the Content-Type header
-      'Authorization': `Bearer ${token}`
     },
     withCredentials: true,
     validateStatus: function (status) {
@@ -19,7 +18,7 @@ const httpClient = (contentType?: string) => {
 
   // Set the AUTH token for any request
   instance.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('clerk-db-jwt'); // Retrieve the token from localStorage
+    const token = localStorage.getItem('accessToken'); // Retrieve the token from localStorage
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`; // Set the Authorization header with the token
     }
