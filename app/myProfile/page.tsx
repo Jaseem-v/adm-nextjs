@@ -52,6 +52,11 @@ interface Photo {
   id: number;
   name: string;
 }
+interface SocialMediaLink {
+  id: string;
+  title: string;
+  link: string;
+}
 
 let idCounter = 0; // Counter for generating unique IDs
 
@@ -182,6 +187,53 @@ const Profile = () => {
       employees: string;
     }
   };
+
+  type PersonalAccountDataType = {
+    id: string;
+    fname: string;
+    lname: string;
+    username: string;
+    phone: string;
+    email: string;
+    about: string;
+    socialMediaLinks: SocialMediaLink[],
+    gallery: []
+  }
+
+  const [personalAccountData, setPersonalAccountData] = useState<PersonalAccountDataType>()
+  const [businessAccountData, setBusinessAccountData] = useState<BusinessAccountDataType>()
+
+  type BusinessAccountDataType = {
+    id: string;
+    name: string;
+    username: string;
+    phone: string;
+    email: string;
+    category: string;
+    website: string;
+    about: string;
+    socialMediaLinks: SocialMediaLink[],
+    services: [];
+    gallery: [];
+    addressDetails: {
+      streetNumber: string;
+      state: string;
+      city: string;
+      address: string;
+      pincode: string;
+      place: string;
+      landmark: string;
+    }
+    contactDetails: {
+      fname: string;
+      lname: string;
+      email: string;
+      phone: string;
+      isAddressVisible: string;
+    }
+    status: string;
+    isDeleted: boolean;
+  }
 
   type FormType = {
     businessName: string;
