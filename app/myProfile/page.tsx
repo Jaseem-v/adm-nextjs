@@ -39,6 +39,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { businessInfoSchema } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
+import { BusinessAccountDataType, EditInfoStateType, PersonalAccountDataType } from "@/utils/schema/stateType";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -51,11 +52,6 @@ interface Product {
 interface Photo {
   id: number;
   name: string;
-}
-interface SocialMediaLink {
-  id: string;
-  title: string;
-  link: string;
 }
 
 let idCounter = 0; // Counter for generating unique IDs
@@ -155,85 +151,55 @@ const Profile = () => {
   // SECTION REFS
   
   // INITIAL STATE
-  type EditInfoStateType = {
-    logo: string;
-    businessName: string;
-    streetAddress: string;
-    city: string;
-    state: string;
-    zip: string;
-    hideAddress: boolean;
-    serviceAtCustomerLocation: boolean;
-    phone: string;
-    hidePhone: boolean;
-    website: string;
-    about: string;
-    primaryCategory: string;
-    secondaryCategory: string[];
-    products: Product[];
-    photos: Photo[]; // Assuming photos can be of any type, adjust accordingly
-    socialMedia: {
-      facebook: string;
-      instagram: string;
-      twitter: string;
-      linkedin: string;
-      youtube: string;
-      pinterest: string;
-    };
-    contacts: string;
-    detailedInformation: {
-      locationType: string;
-      yearEstablished: string;
-      employees: string;
-    }
-  };
+  
 
-  type PersonalAccountDataType = {
-    id: string;
-    fname: string;
-    lname: string;
-    username: string;
-    phone: string;
-    email: string;
-    about: string;
-    socialMediaLinks: SocialMediaLink[],
-    gallery: []
-  }
+  
 
-  const [personalAccountData, setPersonalAccountData] = useState<PersonalAccountDataType>()
-  const [businessAccountData, setBusinessAccountData] = useState<BusinessAccountDataType>()
-
-  type BusinessAccountDataType = {
-    id: string;
-    name: string;
-    username: string;
-    phone: string;
-    email: string;
-    category: string;
-    website: string;
-    about: string;
-    socialMediaLinks: SocialMediaLink[],
-    services: [];
-    gallery: [];
+  const [personalAccountData, setPersonalAccountData] = useState<PersonalAccountDataType>({
+    id: "",
+    fname: "",
+    lname: "",
+    username: "",
+    phone: "",
+    email: "",
+    about: "",
+    socialMediaLinks: [],
+    gallery: [],
+})
+  const [businessAccountData, setBusinessAccountData] = useState<BusinessAccountDataType>({
+    id: "",
+    name: "",
+    username: '',
+    phone: '',
+    email: '',
+    category: '',
+    website: '',
+    about: '',
+    socialMediaLinks: [],
+    services: [],
+    gallery: [],
     addressDetails: {
-      streetNumber: string;
-      state: string;
-      city: string;
-      address: string;
-      pincode: string;
-      place: string;
-      landmark: string;
-    }
+      streetNumber: '',
+      state: '',
+      city: '',
+      address: '',
+      pincode: '',
+      place: '',
+      landmark: ''
+    },
     contactDetails: {
-      fname: string;
-      lname: string;
-      email: string;
-      phone: string;
-      isAddressVisible: string;
-    }
-    status: string;
-    isDeleted: boolean;
-  }
+      fname: '',
+      lname: '',
+      email: '',
+      phone: '',
+      isAddressVisible: true,
+    },
+    status: '',
+    isDeleted: false
+  })
+  console.log('business data', businessAccountData)
+
+  
 
   type FormType = {
     businessName: string;
