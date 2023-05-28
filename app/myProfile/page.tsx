@@ -199,12 +199,6 @@ const Profile = () => {
   })
   console.log('business data', businessAccountData)
 
-  
-
-  type FormType = {
-    businessName: string;
-  };
-
   const [editInfoState, setEditInfoState] = useState<EditInfoStateType>({
     logo: "https://i.ibb.co/SPJXPcD/store.png",
     businessName: "",
@@ -237,6 +231,12 @@ const Profile = () => {
       employees: ""
     }
   });
+  
+
+  type FormType = {
+    businessName: string;
+  };
+
 
   const isSocialMediaAdded = Object.values(editInfoState.socialMedia).some(
     (value) => value !== ""
@@ -498,9 +498,25 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
             if (res.status == 200) {
               console.log('userapidata', res.data)
-              const { username, about, email, fname, lname, phone, gallerys, socialMediaLinks } = res.data.data;
-              console.log('about', res.data.data.about)
-              setEditInfoState(prevState => ({...prevState, about}))
+              const prefix = res.data.data.username.slice(0, 3);
+              console.log('prefix', prefix)
+
+              if (prefix === 'pa-') {
+                // Personal account
+                console.log('This is a personal account');
+                const { _id,username, about, email, fname, lname, phone, gallerys, socialMediaLinks } = res.data.data;
+                setPersonalAccountData(prevState => ({...prevState, username, about, email, fname, lname, phone, gallerys, socialMediaLinks}))
+                // setPersonalAccountData(prevState => ({...prevState, ...res.data.data}))
+                console.log('personal account data', personalAccountData)
+              } else if (prefix === 'ba-') {
+                // Business account
+                console.log('This is a business account');
+                // Rest of your logic for business accounts
+              } else {
+                // Unknown account type
+                console.log('Unknown account type');
+              }
+
             }
           }
           )
