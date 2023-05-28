@@ -420,8 +420,27 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     console.log("verified website url");
   };
 
-  const verifyAbout = () => {
+  const verifyAbout = async () => {
     // POST API
+    const data = {
+      "_id": "64733ff46c6f94d46e142101",
+          "fname": "asdfasdf",
+          "lname": "1asdf",
+          "username": "pa-asdfasdf",
+          "phone": "996776556896",
+          "email": "asdfadsf@gmail.com",
+          "about": editInfoState.about,
+          "socialMediaLinks": [{
+              "title": "INSTAGRAM",
+              "link": "instagram.com"
+          }],
+          "gallerys": []
+  }
+    try {
+      await httpClient().patch('user/personal/profile', data)
+    } catch (error) {
+      console.log(error)
+    }
     handleToggleEditMode("about");
     console.log("verified about");
   };
