@@ -272,8 +272,8 @@ const Profile = () => {
   };
 
   const isAddressCompleted = editInfoState.streetAddress.length > 0 && editInfoState.phone.length > 0;
-  const isCategoriesCompleted = editInfoState.primaryCategory.length > 0 || editInfoState.secondaryCategory.length > 0;
-  const isDetailedDescriptionCompleted = editInfoState.about.length > 0 ;
+  const isCategoriesCompleted = editInfoState.primaryCategory.length > 0;
+  const isAboutCompleted = editInfoState.about.length > 0 ;
   const isPhotoCompleted = (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" && editInfoState.logo.length > 0 ) || editInfoState.photos.length > 0;
   const isServicesCompleted = editInfoState.products.length > 0 ;
   const isSocialMediaCompleted = Object.values(editInfoState.socialMedia).some((value) => value !== "");
@@ -281,7 +281,7 @@ const Profile = () => {
     const progressSections = [
       isAddressCompleted,
       isCategoriesCompleted,
-      isDetailedDescriptionCompleted,
+      isAboutCompleted,
       isPhotoCompleted,
       isServicesCompleted,
       isSocialMediaCompleted,
@@ -461,6 +461,9 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
             if (res.status == 200) {
               console.log('userapidata', res.data)
+              const { username, about, email, fname, lname, phone, gallerys, socialMediaLinks } = res.data.data;
+              console.log('about', res.data.data.about)
+              setEditInfoState(prevState => ({...prevState, about}))
             }
           }
           )
@@ -679,11 +682,11 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className={`${isDetailedDescriptionCompleted ? 'text-success' : 'text-error'}`}>Detailed Description</p>
+                  <p className={`${isAboutCompleted ? 'text-success' : 'text-error'}`}>Detailed Description</p>
                   <div onClick={() =>
                       handleProgessBarClick(aboutRef, "about")
                     }>
-                    {editOrAdd(isDetailedDescriptionCompleted)}
+                    {editOrAdd(isAboutCompleted)}
                   </div>
                 </div>
                 {/* ITEM 4 */}
