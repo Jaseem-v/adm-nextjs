@@ -82,6 +82,11 @@ const EnlistIndividual = () => {
       toast.error('An error occurred during signup');
     }
   })
+  .catch(error => {
+    // Handle error case here
+    console.log(error);
+    toast.error('An error occurred during signup');
+  });
 
     } catch (error) {
       console.log(error)

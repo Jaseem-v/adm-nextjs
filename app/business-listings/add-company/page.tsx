@@ -415,27 +415,35 @@ console.log('stepone errors', errorsOne)
         "contactDetails": {
             "fname": firstname,
             "lname": lastname,
-            "email": "",
+            "email": email,
             "phone": phone
         }
       }
 console.log('final data', finalData)
-      try {
-        await httpClient().post('/user/business/signup', finalData)
-        .then(res => {
-          console.log(res)
+try {
+  await httpClient().post('user/business/signup', finalData)
+    .then(res => {
+      console.log(res);
 
-          if (res.status === 200) {
-            toast.success('Account Created Succeffully', {
-              icon: '👏',
-            })
-            navigate.push("/login")
-        }
-        }
-        )
-      } catch (err) {
-        console.log(err)
+      if (res.status === 200) {
+        toast.success('Account Created Successfully', {
+          icon: '👏',
+        });
+        navigate.push("/login");
+      } else {
+        // Handle non-200 status codes
+        toast.error('An error occurred during signup');
       }
+    })
+    .catch(error => {
+      // Handle request errors
+      console.log(error);
+      toast.error('An error occurred during signup');
+    });
+} catch (err) {
+  // Handle exceptions
+  console.log(err);
+}
       setIsSubmitted(true);
     };
     console.log('errors two', errorsTwo);
