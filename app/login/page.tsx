@@ -8,13 +8,11 @@ import Link from "next/link";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signInSchema } from "../../utils/schema/signUpSchema";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { TailSpin } from 'react-loader-spinner'
+import { TailSpin } from "react-loader-spinner";
 const Login = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   type FormValues = {
     accountType: string;
@@ -34,44 +32,50 @@ const Login = () => {
   console.log(errors);
   const navigate = useRouter();
 
-
-// ONSUBMIT
+  // ONSUBMIT
   const onSubmit = async (data: FormValues) => {
-console.log(data)
-    setIsLoading(true)
+    console.log(data);
+    const { accountType, username, password } = data;
+    let loginData;
+    if (accountType === "personal") {
+      loginData = {
+        username: `pa-${username}`,
+        password: password,
+      };
+    } else if (accountType === "business") {
+      loginData = {
+        username: `ba-${username}`,
+        password: password,
+      };
+    }
+    setIsLoading(true);
 
     try {
-      await httpClient().patch('/user/personal/login', data)
-        .then(res => {
-
+      await httpClient()
+        .patch("/user/personal/login", loginData)
+        .then((res) => {
           console.log(res);
 
           if (res.status == 400) {
             toast.error(res.data.message, {
-              icon: '👏',
-            })
+              icon: "👏",
+            });
           }
 
           if (res.status == 200) {
-            localStorage.setItem('accessToken', res.data.token)
-            toast.success('Login Successffully')
-            navigate.push("/myProfile")
+            localStorage.setItem("accessToken", res.data.token);
+            toast.success("Login Successffully");
+            navigate.push("/myProfile");
           }
 
-
           // navigate.push("/profile")
-        }
-        )
-      setIsLoading(false)
-
+        });
+      setIsLoading(false);
     } catch (error) {
-      console.log(error)
-      setIsLoading(false)
-
+      console.log(error);
+      setIsLoading(false);
     }
-
   };
-
 
   return (
     <main className="h-screen font-inter max-w-screen-xl mx-auto flex items-center justify-center relative">
@@ -108,77 +112,81 @@ console.log(data)
                   className="mt-8 md:mt-11 lg:mt-14
                         mb-12 md:mb-16 lg:mb-20"
                 >
-                  <div className="flex items-center justify-start gap-6 mb-4">
-                  <label className="flex gap-2">
-    <input
-      type="radio"
-      value="personal"
-      {...register("accountType")}
-    />
-    Personal
-  </label>
-  <label className="flex gap-2">
-    <input
-      type="radio"
-      value="business"
-      {...register("accountType")}
-    />
-    Business
-  </label>
+                  <div className="flex items-center justify-start gap-6 mb2">
+                    <label className="flex gap-2">
+                      <input
+                        type="radio"
+                        value="personal"
+                        {...register("accountType")}
+                      />
+                      Personal
+                    </label>
+                    <label className="flex gap-2">
+                      <input
+                        type="radio"
+                        value="business"
+                        {...register("accountType")}
+                      />
+                      Business
+                    </label>
                   </div>
-                  <div className="">
-
+                  <p className="text-error text-sm pt-2 mb-4">
+                    {errors.accountType?.message}
+                  </p>
+                  <div className="mb-9">
                     <input
                       // name="email"
                       type="text"
                       placeholder="Username"
                       className="w-full border-b border-black border-opacity-40
-                                py-4 focus:outline-none mb-9"
+                                py-4 focus:outline-none "
                       {...register("username")}
-                    // onBlur={() => trigger("email")}
+                      // onBlur={() => trigger("email")}
                     />
+                    <p className="text-error text-sm pt-2">
+                      {errors.username?.message}
+                    </p>
                   </div>
                   <div className="">
-
-                    < input
+                    <input
                       type="password"
                       placeholder="Password"
                       className="w-full border-b border-black border-opacity-40
-                py-4 focus:outline-none"
-
+                        py-4 focus:outline-none"
                       {...register("password")}
-                    // onBlur={() => trigger("password")}
+                      // onBlur={() => trigger("password")}
                     />
-
+                    <p className="text-error text-sm pt-2">
+                      {errors.password?.message}
+                    </p>
                   </div>
 
                   <button
                     className=" mt-5 font-regular bg-lightOrange py-3 md:py-4 px-12 text-lg md:text-xl rounded-md w-full  hover:bg-amber-500 transition-all duration-200 active:bg-amber-700  flex justify-center  items-center"
-                    type="submit" disabled={isLoading} value={"Login"} >
-
-                    {isLoading ? <TailSpin
-                      height="20"
-                      width="20"
-                      color="#fff"
-                      ariaLabel="tail-spin-loading"
-                      radius="1"
-                      wrapperStyle={{}}
-                      wrapperClass=""
-                      visible={true}
-                    /> :
+                    type="submit"
+                    disabled={isLoading}
+                    value={"Login"}
+                  >
+                    {isLoading ? (
+                      <TailSpin
+                        height="20"
+                        width="20"
+                        color="#fff"
+                        ariaLabel="tail-spin-loading"
+                        radius="1"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                      />
+                    ) : (
                       "Login"
-                    }
+                    )}
                   </button>
                   {/* <button className="mt-4 font-regular bg-white py-3 md:py-4 px-12 text-lg md:text-xl rounded-md w-full border border-black hover:bg-gray-200">
                     Login with google
                   </button> */}
-
                 </form>
               </FormProvider>
-
-
-
-
 
               <div className="mt-5 flex gap-1 justify-center font-bold text-base md:text-lg lg:text-xl">
                 {/* eslint-disable-next-line react/no-unescaped-entities */}

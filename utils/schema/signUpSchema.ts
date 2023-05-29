@@ -52,6 +52,7 @@ export const businessFirstStepSchema = yup.object({
 });
 
 export const signInSchema = yup.object({
+    accountType: yup.string().required('Account type is required'),
     username: yup
     .string()
     .required('Username is required'),
