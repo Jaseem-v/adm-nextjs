@@ -234,7 +234,7 @@ const Profile = () => {
       employees: "",
     },
   });
-  const [accountType, setAccountType] = useState("business");
+  const [accountType, setAccountType] = useState<string | null>();
 
   type FormType = {
     businessName: string;
@@ -521,53 +521,81 @@ const Profile = () => {
   // USEEFFECT
   useEffect(() => {
     const userApiData = async () => {
-      try {
-        await httpClient()
-          .get("user/personal/profile")
-          .then((res) => {
-            console.log(res);
+      const accType = localStorage.getItem("accountType");
+      console.log("acc type", accType);
+      setAccountType(accType);
 
-            if (res.status == 400) {
-              toast.error(res.data.message, {
-                icon: "🔴",
-              });
-            }
+      if (accountType === "personal") {
+        try {
+          await httpClient()
+            .get("user/personal/profile")
+            .then((res) => {
+              if (res.status == 400) {
+                toast.error(res.data.message, {
+                  icon: "🔴",
+                });
+              }
 
-            if (res.status == 200) {
-              console.log("userapidata", res.data);
-              console.log("This is a personal account");
-              setAccountType("personal");
-              const {
-                _id,
-                username,
-                about,
-                email,
-                fname,
-                lname,
-                phone,
-                gallerys,
-                socialMediaLinks,
-              } = res.data.data;
-              setPersonalAccountData((prevState) => ({
-                ...prevState,
-                _id,
-                username,
-                about,
-                email,
-                fname,
-                lname,
-                phone,
-                gallerys,
-                socialMediaLinks,
-              }));
-              // setPersonalAccountData(prevState => ({...prevState, ...res.data.data}))
-              console.log("personal account data", personalAccountData);
-            }
-          });
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
+              if (res.status == 200) {
+                console.log("userapidata", res.data);
+                console.log("This is a personal account");
+                const {
+                  _id,
+                  username,
+                  about,
+                  email,
+                  fname,
+                  lname,
+                  phone,
+                  gallerys,
+                  socialMediaLinks,
+                } = res.data.data;
+                setPersonalAccountData((prevState) => ({
+                  ...prevState,
+                  _id,
+                  username,
+                  about,
+                  email,
+                  fname,
+                  lname,
+                  phone,
+                  gallerys,
+                  socialMediaLinks,
+                }));
+                // setPersonalAccountData(prevState => ({...prevState, ...res.data.data}))
+                console.log("personal account data", personalAccountData);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
+        }
+      } else if (accountType === "business") {
+        try {
+          await httpClient()
+            .get("user/business/profile")
+            .then((res) => {
+              if (res.status == 400) {
+                toast.error(res.data.message, {
+                  icon: "🔴",
+                });
+              }
+
+              if (res.status === 200) {
+                console.log("business api data", res.data);
+                setBusinessAccountData({ ...res.data.data });
+              }
+            })
+            .catch(err => console.log(err))
+
+            console.log('businessAccountData', businessAccountData)
+        } catch (error) {
+          console.log("main error", error);
+        }
       }
     };
     userApiData();
