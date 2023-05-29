@@ -34,47 +34,67 @@ const Login = () => {
 
   // ONSUBMIT
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
     const { accountType, username, password } = data;
-    let loginData;
     if (accountType === "personal") {
-      loginData = {
+      const loginData = {
         username: `pa-${username}`,
         password: password,
       };
+      console.log("personal logindata", loginData);
+      try {
+        await httpClient()
+          .patch("/user/personal/login", loginData) // Use the modified loginData object here
+          .then((res) => {
+            console.log(res);
+
+            if (res.status == 400) {
+              toast.error(res.data.message, {
+                icon: "👏",
+              });
+            }
+
+            if (res.status == 200) {
+              localStorage.setItem("accessToken", res.data.token);
+              toast.success("Login Successfully");
+              navigate.push("/myProfile");
+            }
+          });
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
     } else if (accountType === "business") {
-      loginData = {
+      const loginData = {
         username: `ba-${username}`,
         password: password,
       };
+      console.log("business logindata", loginData);
+      try {
+        await httpClient()
+          .patch("/user/business/login", loginData) // Use the modified loginData object here
+          .then((res) => {
+            console.log(res);
+
+            if (res.status == 400) {
+              toast.error(res.data.message, {
+                icon: "👏",
+              });
+            }
+
+            if (res.status == 200) {
+              localStorage.setItem("accessToken", res.data.token);
+              toast.success("Login Successfully");
+              navigate.push("/myProfile");
+            }
+          });
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
     }
     setIsLoading(true);
-
-    try {
-      await httpClient()
-        .patch("/user/personal/login", loginData)
-        .then((res) => {
-          console.log(res);
-
-          if (res.status == 400) {
-            toast.error(res.data.message, {
-              icon: "👏",
-            });
-          }
-
-          if (res.status == 200) {
-            localStorage.setItem("accessToken", res.data.token);
-            toast.success("Login Successffully");
-            navigate.push("/myProfile");
-          }
-
-          // navigate.push("/profile")
-        });
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
   };
 
   return (
