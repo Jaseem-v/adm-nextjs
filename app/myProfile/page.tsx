@@ -34,12 +34,16 @@ import React, { FormEvent, useCallback, useEffect } from "react";
 import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef } from "react";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { businessInfoSchema } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
-import { BusinessAccountDataType, EditInfoStateType, PersonalAccountDataType } from "@/utils/schema/stateType";
+import {
+  BusinessAccountDataType,
+  EditInfoStateType,
+  PersonalAccountDataType,
+} from "@/utils/schema/stateType";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -77,8 +81,9 @@ const Profile = () => {
     useState(false);
   const [isAddedPhoto, setIsAddedPhoto] = useState(false);
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
-  const [showDeleteModel, setShowDeleteModel] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [showDeleteModel, setShowDeleteModel] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [updateCount, setUpdateCount] = useState(0);
 
   const handleToggleEditMode = (section: string) => {
     setEditModeState((prevState) => {
@@ -109,14 +114,13 @@ const Profile = () => {
     zip: string;
     hideAddress: boolean;
     phone: string;
-    hidePhone: boolean
-  }
+    hidePhone: boolean;
+  };
 
   const businessInfoForm = useForm<BusinessInfoFormValues>({
     defaultValues: {},
     resolver: yupResolver(businessInfoSchema),
   });
-  
 
   // HANDLE SUBMIT
   // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -149,55 +153,54 @@ const Profile = () => {
   // };
 
   // SECTION REFS
-  
+
   // INITIAL STATE
-  
 
-  
-
-  const [personalAccountData, setPersonalAccountData] = useState<PersonalAccountDataType>({
-    id: "",
-    fname: "",
-    lname: "",
-    username: "",
-    phone: "",
-    email: "",
-    about: "",
-    socialMediaLinks: [],
-    gallery: [],
-})
-  const [businessAccountData, setBusinessAccountData] = useState<BusinessAccountDataType>({
-    id: "",
-    name: "",
-    username: '',
-    phone: '',
-    email: '',
-    category: '',
-    website: '',
-    about: '',
-    socialMediaLinks: [],
-    services: [],
-    gallery: [],
-    addressDetails: {
-      streetNumber: '',
-      state: '',
-      city: '',
-      address: '',
-      pincode: '',
-      place: '',
-      landmark: ''
-    },
-    contactDetails: {
-      fname: '',
-      lname: '',
-      email: '',
-      phone: '',
-      isAddressVisible: true,
-    },
-    status: '',
-    isDeleted: false
-  })
-  console.log('business data', businessAccountData)
+  const [personalAccountData, setPersonalAccountData] =
+    useState<PersonalAccountDataType>({
+      _id: "",
+      fname: "",
+      lname: "",
+      username: "",
+      phone: "",
+      email: "",
+      about: "",
+      socialMediaLinks: [],
+      gallery: [],
+    });
+  const [businessAccountData, setBusinessAccountData] =
+    useState<BusinessAccountDataType>({
+      _id: "",
+      name: "",
+      username: "",
+      phone: "",
+      email: "",
+      category: "",
+      website: "",
+      about: "",
+      socialMediaLinks: [],
+      services: [],
+      gallery: [],
+      addressDetails: {
+        streetNumber: "",
+        state: "",
+        city: "",
+        address: "",
+        pincode: "",
+        place: "",
+        landmark: "",
+      },
+      contactDetails: {
+        fname: "",
+        lname: "",
+        email: "",
+        phone: "",
+        isAddressVisible: true,
+      },
+      status: "",
+      isDeleted: false,
+    });
+  console.log("business data", businessAccountData);
 
   const [editInfoState, setEditInfoState] = useState<EditInfoStateType>({
     logo: "https://i.ibb.co/SPJXPcD/store.png",
@@ -228,15 +231,14 @@ const Profile = () => {
     detailedInformation: {
       locationType: "",
       yearEstablished: "",
-      employees: ""
-    }
+      employees: "",
+    },
   });
-  
+  const [accountType, setAccountType] = useState("business");
 
   type FormType = {
     businessName: string;
   };
-
 
   const isSocialMediaAdded = Object.values(editInfoState.socialMedia).some(
     (value) => value !== ""
@@ -255,7 +257,9 @@ const Profile = () => {
 
   const handleDetailedInformationChange = (
     name: string,
-    event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
     setEditInfoState((prevState) => ({
@@ -269,10 +273,9 @@ const Profile = () => {
   const categoriesRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
-  const logoRef =  useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
   const photosRef = useRef<HTMLDivElement>(null);
   const socialMediaRef = useRef<HTMLDivElement>(null);
-
 
   // PROGRESS BAR
   const handleProgessBarClick = (
@@ -289,30 +292,40 @@ const Profile = () => {
     handleToggleEditMode(section);
   };
 
-  const isAddressCompleted = editInfoState.streetAddress.length > 0 && editInfoState.phone.length > 0;
+  const isAddressCompleted =
+    editInfoState.streetAddress.length > 0 && editInfoState.phone.length > 0;
   const isCategoriesCompleted = editInfoState.primaryCategory.length > 0;
-  const isAboutCompleted = editInfoState.about.length > 0 ;
-  const isPhotoCompleted = (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" && editInfoState.logo.length > 0 ) || editInfoState.photos.length > 0;
-  const isServicesCompleted = editInfoState.products.length > 0 ;
-  const isSocialMediaCompleted = Object.values(editInfoState.socialMedia).some((value) => value !== "");
+  const isAboutCompleted =
+    accountType === "personal"
+      ? personalAccountData.about.length > 0
+      : businessAccountData.about.length > 0;
+  const isPhotoCompleted =
+    (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" &&
+      editInfoState.logo.length > 0) ||
+    editInfoState.photos.length > 0;
+  const isServicesCompleted = editInfoState.products.length > 0;
+  const isSocialMediaCompleted = Object.values(editInfoState.socialMedia).some(
+    (value) => value !== ""
+  );
 
-    const progressSections = [
-      isAddressCompleted,
-      isCategoriesCompleted,
-      isAboutCompleted,
-      isPhotoCompleted,
-      isServicesCompleted,
-      isSocialMediaCompleted,
-    ];
-  
-    // Calculate the completion percentage
-    const completedSections = progressSections.filter((section) => section);
-    const completionPercentage = Math.floor((completedSections.length / progressSections.length) * 100);
-    const overallCompletionPercentage = completedSections.length === progressSections.length ? 100 : Math.min(completedSections.length * 15, 100);
-  
+  const progressSections = [
+    isAddressCompleted,
+    isCategoriesCompleted,
+    isAboutCompleted,
+    isPhotoCompleted,
+    isServicesCompleted,
+    isSocialMediaCompleted,
+  ];
 
-
-
+  // Calculate the completion percentage
+  const completedSections = progressSections.filter((section) => section);
+  const completionPercentage = Math.floor(
+    (completedSections.length / progressSections.length) * 100
+  );
+  const overallCompletionPercentage =
+    completedSections.length === progressSections.length
+      ? 100
+      : Math.min(completedSections.length * 15, 100);
 
   // const validateField = async (fieldName: string, value: FormType[keyof FormType]) => {
   //   try {
@@ -360,11 +373,14 @@ const Profile = () => {
         reader.onload = () => {
           // Do whatever you want with the file contents
           const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
-          console.log('file' , file)
+          console.log("file", file);
 
-          if (section === 'logo') {
-            setEditInfoState(prevState => ({...prevState, logo: URL.createObjectURL(file) }))
-          } else if (section === 'companyImages') {
+          if (section === "logo") {
+            setEditInfoState((prevState) => ({
+              ...prevState,
+              logo: URL.createObjectURL(file),
+            }));
+          } else if (section === "companyImages") {
             const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
             setUploadedPhotos(newPhotos);
             handlePhotoAdd(URL.createObjectURL(file));
@@ -380,12 +396,16 @@ const Profile = () => {
     [uploadedPhotos]
   );
 
+  const {
+    getRootProps: getCompanyImagesRootProps,
+    getInputProps: getCompanyImagesInputProps,
+    isDragActive,
+  } = useDropzone({
+    onDrop: (acceptedFiles) => onDrop(acceptedFiles, "companyImages"),
+  });
 
-    const { getRootProps: getCompanyImagesRootProps, getInputProps: getCompanyImagesInputProps, isDragActive } =
-  useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, 'companyImages') });
-
-const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
-  useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, 'logo') });
+  const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
+    useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, "logo") });
 
   const removePhoto = (id: number) => {
     const newPhotos = editInfoState.photos.filter((photo) => photo.id !== id);
@@ -397,9 +417,9 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
   const removeLogo = () => {
     const oldLogo = "https://i.ibb.co/SPJXPcD/store.png";
-    setEditInfoState(prevState => ({...prevState, logo: oldLogo }))
-    setShowDeleteModel(false)
-  }
+    setEditInfoState((prevState) => ({ ...prevState, logo: oldLogo }));
+    setShowDeleteModel(false);
+  };
 
   const handlePhotoAdd = (value: string) => {
     setEditInfoState((prevState) => {
@@ -417,7 +437,8 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     });
   };
 
-  const newLogoAdded = editInfoState.logo === "https://i.ibb.co/SPJXPcD/store.png" ? false : true;
+  const newLogoAdded =
+    editInfoState.logo === "https://i.ibb.co/SPJXPcD/store.png" ? false : true;
 
   // SECTION FUNCTIONS
   const verifyBusinessName = () => {
@@ -431,7 +452,7 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     handleToggleEditMode("businessInfo");
     console.log("verified business info");
   };
-  
+
   const verifyWebsite = () => {
     // POST API
     handleToggleEditMode("website");
@@ -439,42 +460,41 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
   };
 
   const verifyAbout = async () => {
-    // POST API
-    const data = {
-      "_id": "64733ff46c6f94d46e142101",
-          "fname": "asdfasdf",
-          "lname": "1asdf",
-          "username": "pa-asdfasdf",
-          "phone": "996776556896",
-          "email": "asdfadsf@gmail.com",
-          "about": editInfoState.about,
-          "socialMediaLinks": [{
-              "title": "INSTAGRAM",
-              "link": "instagram.com"
-          }],
-          "gallerys": []
-  }
     try {
-      await httpClient().patch('user/personal/profile', data)
+      console.log("account type", accountType);
+
+      if (accountType === "personal") {
+        const updatedPersonalAccountData = {
+          ...personalAccountData,
+          about: personalAccountData.about,
+        };
+
+        await httpClient().patch(
+          "user/personal/profile",
+          updatedPersonalAccountData
+        );
+
+        console.log("Personal account data updated successfully");
+      }
+      handleToggleEditMode("about");
+      console.log("Verified about");
     } catch (error) {
-      console.log(error)
+      console.error("Failed to update account data:", error);
     }
-    handleToggleEditMode("about");
-    console.log("verified about");
   };
 
   const verifyBusinessCategories = () => {
     // POST API
-    handleToggleEditMode('businessCategories')
-    console.log('verified business categories')
-  }
+    handleToggleEditMode("businessCategories");
+    console.log("verified business categories");
+  };
 
   const verifySocialMedia = () => {
     // POST API
     handleToggleEditMode("socialMedia");
     console.log("verified social media");
   };
-  
+
   const verifyDetailedInformation = () => {
     // POST API
     handleToggleEditMode("detailedInformation");
@@ -483,53 +503,73 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
   // USEEFFECT
   useEffect(() => {
-    const userApiData = async() => {
+    const userApiData = async () => {
       try {
-        await httpClient().get('user/personal/profile')
-          .then(res => {
-
+        await httpClient()
+          .get("user/personal/profile")
+          .then((res) => {
             console.log(res);
 
             if (res.status == 400) {
               toast.error(res.data.message, {
-                icon: '🔴',
-              })
+                icon: "🔴",
+              });
             }
 
             if (res.status == 200) {
-              console.log('userapidata', res.data)
+              console.log("userapidata", res.data);
               const prefix = res.data.data.username.slice(0, 3);
-              console.log('prefix', prefix)
+              console.log("prefix", prefix);
 
-              if (prefix === 'pa-') {
+              if (prefix === "pa-") {
                 // Personal account
-                console.log('This is a personal account');
-                const { _id,username, about, email, fname, lname, phone, gallerys, socialMediaLinks } = res.data.data;
-                setPersonalAccountData(prevState => ({...prevState, username, about, email, fname, lname, phone, gallerys, socialMediaLinks}))
+                console.log("This is a personal account");
+                setAccountType("personal");
+                const {
+                  _id,
+                  username,
+                  about,
+                  email,
+                  fname,
+                  lname,
+                  phone,
+                  gallerys,
+                  socialMediaLinks,
+                } = res.data.data;
+                setPersonalAccountData((prevState) => ({
+                  ...prevState,
+                  _id,
+                  username,
+                  about,
+                  email,
+                  fname,
+                  lname,
+                  phone,
+                  gallerys,
+                  socialMediaLinks,
+                }));
                 // setPersonalAccountData(prevState => ({...prevState, ...res.data.data}))
-                console.log('personal account data', personalAccountData)
-              } else if (prefix === 'ba-') {
+                console.log("personal account data", personalAccountData);
+              } else if (prefix === "ba-") {
                 // Business account
-                console.log('This is a business account');
+                console.log("This is a business account");
+                setAccountType("business");
+                setBusinessAccountData({ ...res.data.data });
                 // Rest of your logic for business accounts
               } else {
                 // Unknown account type
-                console.log('Unknown account type');
+                console.log("Unknown account type");
               }
-
             }
-          }
-          )
-        setIsLoading(false)
-
+          });
+        setIsLoading(false);
       } catch (error) {
-        console.log(error)
-        setIsLoading(false)
-
+        console.log(error);
+        setIsLoading(false);
       }
-  }
-  userApiData()
-  }, [])
+    };
+    userApiData();
+  }, []);
 
   const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -654,24 +694,36 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     </div>
   );
 
-  const logoDeleteModel = (
-    showDeleteModel && 
-      <div className="fixed inset-0 flex items-center justify-center z-50">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative rounded p-5 bg-white">
-          <div className="flex flex-col gap-4">
-            <p>Are you sure you want to delete this image?</p>
-            <div className="h-48 w-48 flex justify-center items-center rounded overflow-hidden mx-auto">
-              <div className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded" style={{ backgroundImage: `url(${editInfoState.logo})` }} />
-            </div>
-            <div className="flex flex-row gap-2 self-end">
-              <button className="px-6 py-2 rounded cursor-pointer text-center" onClick={() => setShowDeleteModel(false)}>Cancel</button>
-              <button className="px-6 py-2 rounded cursor-pointer text-center bg-[#e15249] text-white" onClick={removeLogo}>Delete</button>
-            </div>
+  const logoDeleteModel = showDeleteModel && (
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="relative rounded p-5 bg-white">
+        <div className="flex flex-col gap-4">
+          <p>Are you sure you want to delete this image?</p>
+          <div className="h-48 w-48 flex justify-center items-center rounded overflow-hidden mx-auto">
+            <div
+              className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded"
+              style={{ backgroundImage: `url(${editInfoState.logo})` }}
+            />
+          </div>
+          <div className="flex flex-row gap-2 self-end">
+            <button
+              className="px-6 py-2 rounded cursor-pointer text-center"
+              onClick={() => setShowDeleteModel(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="px-6 py-2 rounded cursor-pointer text-center bg-[#e15249] text-white"
+              onClick={removeLogo}
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
-  )
+    </div>
+  );
 
   const editOrAdd = (condition: boolean) => {
     return condition ? (
@@ -687,23 +739,35 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     );
   };
 
+  let isAboutPresent;
+  if (accountType === "personal") {
+    isAboutPresent = personalAccountData.about.length > 0;
+  } else if (accountType === "business") {
+    isAboutPresent = businessAccountData.about.length > 0;
+  }
+
   return (
     <div className="bg-[#F5F2F0]">
-        {logoDeleteModel}
+      {logoDeleteModel}
       <div className="lg:p-8 w-screen lg:w-page flex flex-col gap-8 max-w-7xl mx-auto font-inter ">
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* PROGRESS👇 */}
         <div className=" lg:m-0 flex flex-col gap-1 p-5 rounded-md border-2 border-primary-v1 text-gray-800 bg-white">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
             <div className="flex flex-col gap-2 text-inter">
-              <p className="text-4xl lg:text-7xl font-semibold">{overallCompletionPercentage}%</p>
+              <p className="text-4xl lg:text-7xl font-semibold">
+                {overallCompletionPercentage}%
+              </p>
               <p className="font-semibold text-lg md:text-xl lg:max-w-[194px]">
                 of your profile is complete
               </p>
             </div>
             <div className="flex flex-col gap-4 lg:py-6 w-full xl:w-min">
               <div className="w-full xl:w-[800px] h-8 bg-skeleton rounded-full overflow-hidden">
-                <div className="h-full bg-gold flex items-center justify-center font-semibold text-white" style={{ width: `${overallCompletionPercentage}%` }}>
+                <div
+                  className="h-full bg-gold flex items-center justify-center font-semibold text-white"
+                  style={{ width: `${overallCompletionPercentage}%` }}
+                >
                   {overallCompletionPercentage}%
                 </div>
               </div>
@@ -713,7 +777,13 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-x-12 font-regular">
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className={`${isAddressCompleted ? 'text-success' : 'text-error'}`}>Name, Address & phone</p>
+                  <p
+                    className={`${
+                      isAddressCompleted ? "text-success" : "text-error"
+                    }`}
+                  >
+                    Name, Address & phone
+                  </p>
                   <div
                     onClick={() =>
                       handleProgessBarClick(businessInfoRef, "businessInfo")
@@ -724,7 +794,13 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 2 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className={`${isCategoriesCompleted ? 'text-success' : 'text-error'}`}>Business Categories</p>
+                  <p
+                    className={`${
+                      isCategoriesCompleted ? "text-success" : "text-error"
+                    }`}
+                  >
+                    Business Categories
+                  </p>
                   <div
                     onClick={() =>
                       handleProgessBarClick(categoriesRef, "businessCategories")
@@ -735,35 +811,67 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 </div>
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className={`${isAboutCompleted ? 'text-success' : 'text-error'}`}>Detailed Description</p>
-                  <div onClick={() =>
-                      handleProgessBarClick(aboutRef, "about")
-                    }>
+                  <p
+                    className={`${
+                      isAboutCompleted ? "text-success" : "text-error"
+                    }`}
+                  >
+                    Detailed Description
+                  </p>
+                  <div onClick={() => handleProgessBarClick(aboutRef, "about")}>
                     {editOrAdd(isAboutCompleted)}
                   </div>
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className={`${isPhotoCompleted ? 'text-success' : 'text-error'}`}>Logo or Image</p>
-                  <div onClick={() => newLogoAdded ? handleProgessBarClick(photosRef, 'photos') : handleProgessBarClick(logoRef, '')}>
-                  {editOrAdd(isPhotoCompleted)}
+                  <p
+                    className={`${
+                      isPhotoCompleted ? "text-success" : "text-error"
+                    }`}
+                  >
+                    Logo or Image
+                  </p>
+                  <div
+                    onClick={() =>
+                      newLogoAdded
+                        ? handleProgessBarClick(photosRef, "photos")
+                        : handleProgessBarClick(logoRef, "")
+                    }
+                  >
+                    {editOrAdd(isPhotoCompleted)}
                   </div>
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className={`${isServicesCompleted ? 'text-success' : 'text-error'}`}>Services</p>
-                  <div onClick={() =>
+                  <p
+                    className={`${
+                      isServicesCompleted ? "text-success" : "text-error"
+                    }`}
+                  >
+                    Services
+                  </p>
+                  <div
+                    onClick={() =>
                       handleProgessBarClick(servicesRef, "products")
-                    }>
+                    }
+                  >
                     {editOrAdd(isServicesCompleted)}
                   </div>
                 </div>
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
-                  <p className={`${isSocialMediaCompleted ? 'text-success' : 'text-error'}`}>Social Media</p>
-                  <div onClick={() =>
+                  <p
+                    className={`${
+                      isSocialMediaCompleted ? "text-success" : "text-error"
+                    }`}
+                  >
+                    Social Media
+                  </p>
+                  <div
+                    onClick={() =>
                       handleProgessBarClick(socialMediaRef, "socialMedia")
-                    }>
+                    }
+                  >
                     {editOrAdd(isSocialMediaCompleted)}
                   </div>
                 </div>
@@ -782,17 +890,32 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
         >
           <div className="relative w-48 h-48  rounded  " ref={logoRef}>
             {/* close */}
-            {newLogoAdded && <div className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer" onClick={() => setShowDeleteModel(true)}>
-              <IoClose color="white" />
-            </div>}
+            {newLogoAdded && (
+              <div
+                className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
+                onClick={() => setShowDeleteModel(true)}
+              >
+                <IoClose color="white" />
+              </div>
+            )}
             {/* image */}
-            
-            <div className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded" style={{ backgroundImage: `url(${editInfoState.logo})` }} {...(!newLogoAdded && getLogoRootProps())}>
-            {!newLogoAdded && <input type="file" {...getLogoInputProps()} name="logo"/>}
-            {/* <RiStore3Fill className="block w-full h-full" /> */}
-            <div className="absolute bottom-0 inset-x-0 cursor-pointer bg-none py-2 px-12">
-              {!newLogoAdded && <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center">Change</div>}
-            </div>
+
+            <div
+              className="h-48 w-48 bg-cover bg-no-repeat bg-center rounded"
+              style={{ backgroundImage: `url(${editInfoState.logo})` }}
+              {...(!newLogoAdded && getLogoRootProps())}
+            >
+              {!newLogoAdded && (
+                <input type="file" {...getLogoInputProps()} name="logo" />
+              )}
+              {/* <RiStore3Fill className="block w-full h-full" /> */}
+              <div className="absolute bottom-0 inset-x-0 cursor-pointer bg-none py-2 px-12">
+                {!newLogoAdded && (
+                  <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center">
+                    Change
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-4 w-full lg:pl-4">
@@ -1129,7 +1252,10 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                       >
                         Cancel
                       </button>
-                      <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyWebsite}>
+                      <button
+                        className="bg-orange text-white py-1 px-3 rounded "
+                        onClick={verifyWebsite}
+                      >
                         Verify
                       </button>
                     </div>
@@ -1140,7 +1266,9 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                 <div className="flex flex-row items-center gap-2">
                   <VscGlobe />
                   <a className="hover:underline" target="_blank" href="#">
-                    {editInfoState.website.length === 0 ? 'www.yourwebsite.com' : editInfoState.website}
+                    {editInfoState.website.length === 0
+                      ? "www.yourwebsite.com"
+                      : editInfoState.website}
                   </a>
                 </div>
               ) : (
@@ -1155,7 +1283,12 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                       placeholder="www.yourwebsite.com"
                       className="border border-[#b7babf] py-2 px-3 w-full border-l-0 rounded-sm text-sm"
                       value={editInfoState.website}
-                      onChange={(e) => setEditInfoState(prevState => ({...prevState, website: e.target.value}))}
+                      onChange={(e) =>
+                        setEditInfoState((prevState) => ({
+                          ...prevState,
+                          website: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -1168,7 +1301,10 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* ABOUT👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={aboutRef}>
+        <div
+          className="flex flex-col gap-4 bg-white text-gray-800 p-6"
+          ref={aboutRef}
+        >
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -1204,11 +1340,15 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
             </p>
           </div>
           {!editModeState.about ? (
-            editInfoState.about.length > 0 ? (
+            isAboutPresent ? (
               <div className="flex flex-col gap-4 leading-relaxed">
                 <div className="lg:w-3/4">
                   <p className="font-semibold">Description:</p>
-                  <p>{editInfoState.about}</p>
+                  <p>
+                    {accountType === "personal"
+                      ? personalAccountData.about
+                      : businessAccountData.about}
+                  </p>
                 </div>
               </div>
             ) : (
@@ -1253,12 +1393,16 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                       maxLength={150}
                       className="border border-[#b7babf] w-full py-2 px-3 text-sm"
                       placeholder="This should be a statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
-                      value={editInfoState.about}
+                      value={
+                        accountType === "personal"
+                          ? personalAccountData.about
+                          : businessAccountData.about
+                      }
                       onChange={(e) =>
-                        handleEditInfoStateChange(
-                          "about",
-                          e.target.value
-                        )
+                        setPersonalAccountData((prevState) => ({
+                          ...prevState,
+                          about: e.target.value,
+                        }))
                       }
                     ></textarea>
                   </div>
@@ -1299,7 +1443,10 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyBusinessCategories}>
+                  <button
+                    className="bg-orange text-white py-1 px-3 rounded "
+                    onClick={verifyBusinessCategories}
+                  >
                     Verify
                   </button>
                 </div>
@@ -1312,7 +1459,11 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
           </div>
           {!editModeState.businessCategories ? (
             <div className="flex flex-col gap-2 mt-2">
-              <p>{editInfoState.primaryCategory.length > 0 ? editInfoState.primaryCategory : 'Marketing'}</p>
+              <p>
+                {editInfoState.primaryCategory.length > 0
+                  ? editInfoState.primaryCategory
+                  : "Marketing"}
+              </p>
             </div>
           ) : (
             <>
@@ -1327,7 +1478,11 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
               <div className="flex flex-row gap-4 items-center">
                 {!isPrimaryCategoryChange ? (
                   <div className="w-80 px-4 py-2 bg-skeleton">
-                    <p>{editInfoState.primaryCategory.length > 0 ? editInfoState.primaryCategory : 'Marketing'}</p>
+                    <p>
+                      {editInfoState.primaryCategory.length > 0
+                        ? editInfoState.primaryCategory
+                        : "Marketing"}
+                    </p>
                   </div>
                 ) : (
                   <input
@@ -1337,39 +1492,46 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     aria-controls="react-autosuggestion"
                     className="form-input md:w-80"
                     placeholder="Search for a category"
-                    onChange={(e) => setEditInfoState(prevState => ({ ...prevState, primaryCategory: e.target.value}))}
+                    onChange={(e) =>
+                      setEditInfoState((prevState) => ({
+                        ...prevState,
+                        primaryCategory: e.target.value,
+                      }))
+                    }
                   />
                 )}
 
-{editModeState.businessCategories && isPrimaryCategoryChange ?
-                 <div className="flex items-center gap-4">
-                 <div
-                   className="hover:underline cursor-pointer text-success"
-                   onClick={() =>
-                     setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-                   }
-                 >
-                   apply
-                 </div>
-                 <div
-                   className="hover:underline cursor-pointer text-error"
-                   onClick={() =>
-                     setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-                   }
-                 >
-                   cancel
-                 </div>
-                 </div> : (<div
-                  className="hover:underline cursor-pointer"
-                  onClick={() =>
-                    setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-                  }
-                >
-                  change
-                </div>) 
-}
+                {editModeState.businessCategories && isPrimaryCategoryChange ? (
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="hover:underline cursor-pointer text-success"
+                      onClick={() =>
+                        setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                      }
+                    >
+                      apply
+                    </div>
+                    <div
+                      className="hover:underline cursor-pointer text-error"
+                      onClick={() =>
+                        setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                      }
+                    >
+                      cancel
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className="hover:underline cursor-pointer"
+                    onClick={() =>
+                      setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                    }
+                  >
+                    change
+                  </div>
+                )}
               </div>
-              
+
               <div className="flex flex-row gap-4">
                 <div
                   role="combobox"
@@ -1437,7 +1599,10 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* PRODUCTS AND SERVICES👆 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={servicesRef}>
+        <div
+          className="flex flex-col gap-4 bg-white text-gray-800 p-6"
+          ref={servicesRef}
+        >
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -1578,7 +1743,10 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\\\\\\ */}
         {/* PHOTOS */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 " ref={photosRef}>
+        <div
+          className="flex flex-col gap-4 bg-white text-gray-800 p-6 "
+          ref={photosRef}
+        >
           <div className="flex flex-col gap-4">
             <p className="text-2xl font-medium font-lora text-black title">
               Photos
@@ -1662,7 +1830,10 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
 
         {/* \\\\\\\\\\\ */}
         {/* SOCAIL MEDIA LINKS👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6" ref={socialMediaRef}>
+        <div
+          className="flex flex-col gap-4 bg-white text-gray-800 p-6"
+          ref={socialMediaRef}
+        >
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -2008,7 +2179,10 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                   >
                     Cancel
                   </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded " onClick={verifyDetailedInformation}>
+                  <button
+                    className="bg-orange text-white py-1 px-3 rounded "
+                    onClick={verifyDetailedInformation}
+                  >
                     Verify
                   </button>
                 </div>
@@ -2045,7 +2219,9 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     id="locationType"
                     className="w-48 form-input"
                     value={editInfoState.detailedInformation.locationType}
-                    onChange={(e) => handleDetailedInformationChange("locationType", e)}
+                    onChange={(e) =>
+                      handleDetailedInformationChange("locationType", e)
+                    }
                   >
                     <option value=""></option>
                     <option value="Headquarters">Headquarters</option>
@@ -2063,7 +2239,9 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     className="w-48 form-input"
                     maxLength={4}
                     value={editInfoState.detailedInformation.yearEstablished}
-                    onChange={(e) => handleDetailedInformationChange("yearEstablished", e)}
+                    onChange={(e) =>
+                      handleDetailedInformationChange("yearEstablished", e)
+                    }
                   />
                 </div>
               </div>
@@ -2074,7 +2252,9 @@ const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
                     id="employees"
                     className="w-48 form-input"
                     value={editInfoState.detailedInformation.employees}
-                    onChange={(e) => handleDetailedInformationChange("employees", e)}
+                    onChange={(e) =>
+                      handleDetailedInformationChange("employees", e)
+                    }
                   >
                     <option value="0"></option>
                     <option value="0 - 4">0 - 4</option>
