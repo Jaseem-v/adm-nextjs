@@ -484,10 +484,9 @@ const Profile = () => {
           about: personalAccountData.about,
         };
 
-        await httpClient().patch(
-          "user/personal/profile",
-          updatedPersonalAccountData
-        );
+        await httpClient()
+          .patch("user/personal/profile", updatedPersonalAccountData)
+          .catch((err) => console.log(err));
 
         console.log("Personal account data updated successfully");
       }
