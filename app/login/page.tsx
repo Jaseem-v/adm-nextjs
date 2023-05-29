@@ -17,6 +17,7 @@ const Login = () => {
 
 
   type FormValues = {
+    accountType: string;
     username: string;
     // username: string;
     password: string;
@@ -34,6 +35,7 @@ const Login = () => {
   const navigate = useRouter();
 
 
+// ONSUBMIT
   const onSubmit = async (data: FormValues) => {
 console.log(data)
     setIsLoading(true)
@@ -106,6 +108,24 @@ console.log(data)
                   className="mt-8 md:mt-11 lg:mt-14
                         mb-12 md:mb-16 lg:mb-20"
                 >
+                  <div className="flex items-center justify-start gap-6 mb-4">
+                  <label className="flex gap-2">
+    <input
+      type="radio"
+      value="personal"
+      {...register("accountType")}
+    />
+    Personal
+  </label>
+  <label className="flex gap-2">
+    <input
+      type="radio"
+      value="business"
+      {...register("accountType")}
+    />
+    Business
+  </label>
+                  </div>
                   <div className="">
 
                     <input
