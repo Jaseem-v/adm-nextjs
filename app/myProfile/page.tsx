@@ -200,7 +200,6 @@ const Profile = () => {
       status: "",
       isDeleted: false,
     });
-  console.log("business data", businessAccountData);
 
   const [editInfoState, setEditInfoState] = useState<EditInfoStateType>({
     logo: "https://i.ibb.co/SPJXPcD/store.png",
@@ -453,8 +452,24 @@ const Profile = () => {
     console.log("verified business info");
   };
 
-  const verifyWebsite = () => {
+  const verifyWebsite = async () => {
     // POST API
+    if (accountType === "business") {
+      const updatedBusinessAccountData = {
+        ...businessAccountData,
+        website: businessAccountData.website,
+      };
+      try {
+        await httpClient()
+          .patch("user/business/profile", updatedBusinessAccountData)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => console.log("error updating", err));
+      } catch (error) {
+        console.log(error);
+      }
+    }
     handleToggleEditMode("website");
     console.log("verified website url");
   };
@@ -587,12 +602,46 @@ const Profile = () => {
 
               if (res.status === 200) {
                 console.log("business api data", res.data);
-                setBusinessAccountData({ ...res.data.data });
+                const {
+                  _id,
+                  name,
+                  username,
+                  phone,
+                  email,
+                  category,
+                  website,
+                  about,
+                  socialMediaLinks,
+                  services,
+                  gallery,
+                  addressDetails,
+                  contactDetails,
+                  status,
+                  isDeleted,
+                } = res.data.data;
+                setBusinessAccountData((prevState) => ({
+                  ...prevState,
+                  _id,
+                  name,
+                  username,
+                  phone,
+                  email,
+                  category,
+                  website,
+                  about,
+                  socialMediaLinks,
+                  services,
+                  gallery,
+                  addressDetails,
+                  contactDetails,
+                  status,
+                  isDeleted,
+                }));
               }
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err));
 
-            console.log('businessAccountData', businessAccountData)
+          console.log("businessAccountData", businessAccountData);
         } catch (error) {
           console.log("main error", error);
         }
@@ -1296,9 +1345,9 @@ const Profile = () => {
                 <div className="flex flex-row items-center gap-2">
                   <VscGlobe />
                   <a className="hover:underline" target="_blank" href="#">
-                    {editInfoState.website.length === 0
+                    {businessAccountData.website.length === 0
                       ? "www.yourwebsite.com"
-                      : editInfoState.website}
+                      : businessAccountData.website}
                   </a>
                 </div>
               ) : (
@@ -1312,9 +1361,9 @@ const Profile = () => {
                       id="websiteUrl"
                       placeholder="www.yourwebsite.com"
                       className="border border-[#b7babf] py-2 px-3 w-full border-l-0 rounded-sm text-sm"
-                      value={editInfoState.website}
+                      value={businessAccountData.website}
                       onChange={(e) =>
-                        setEditInfoState((prevState) => ({
+                        setBusinessAccountData((prevState) => ({
                           ...prevState,
                           website: e.target.value,
                         }))
