@@ -55,6 +55,7 @@ const Login = () => {
 
             if (res.status == 200) {
               localStorage.setItem("accessToken", res.data.token);
+              localStorage.setItem("accountType", "personal");
               toast.success("Login Successfully");
               navigate.push("/myProfile");
             }
@@ -84,6 +85,7 @@ const Login = () => {
 
             if (res.status == 200) {
               localStorage.setItem("accessToken", res.data.token);
+              localStorage.setItem("accountType", "business");
               toast.success("Login Successfully");
               navigate.push("/myProfile");
             }

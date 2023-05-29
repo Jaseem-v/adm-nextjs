@@ -476,11 +476,28 @@ const Profile = () => {
 
         console.log("Personal account data updated successfully");
       }
-      handleToggleEditMode("about");
-      console.log("Verified about");
     } catch (error) {
       console.error("Failed to update account data:", error);
     }
+    if (accountType === "business") {
+      try {
+        const updatedBusinessAccountData = {
+          ...businessAccountData,
+          about: businessAccountData.about,
+        };
+
+        await httpClient().patch(
+          "user/business/profile",
+          updatedBusinessAccountData
+        );
+
+        console.log("Business account data updated successfully");
+      } catch (error) {
+        console.error("Failed to update account data:", error);
+      }
+    }
+    handleToggleEditMode("about");
+    console.log("Verified about");
   };
 
   const verifyBusinessCategories = () => {
@@ -518,48 +535,33 @@ const Profile = () => {
 
             if (res.status == 200) {
               console.log("userapidata", res.data);
-              const prefix = res.data.data.username.slice(0, 3);
-              console.log("prefix", prefix);
-
-              if (prefix === "pa-") {
-                // Personal account
-                console.log("This is a personal account");
-                setAccountType("personal");
-                const {
-                  _id,
-                  username,
-                  about,
-                  email,
-                  fname,
-                  lname,
-                  phone,
-                  gallerys,
-                  socialMediaLinks,
-                } = res.data.data;
-                setPersonalAccountData((prevState) => ({
-                  ...prevState,
-                  _id,
-                  username,
-                  about,
-                  email,
-                  fname,
-                  lname,
-                  phone,
-                  gallerys,
-                  socialMediaLinks,
-                }));
-                // setPersonalAccountData(prevState => ({...prevState, ...res.data.data}))
-                console.log("personal account data", personalAccountData);
-              } else if (prefix === "ba-") {
-                // Business account
-                console.log("This is a business account");
-                setAccountType("business");
-                setBusinessAccountData({ ...res.data.data });
-                // Rest of your logic for business accounts
-              } else {
-                // Unknown account type
-                console.log("Unknown account type");
-              }
+              console.log("This is a personal account");
+              setAccountType("personal");
+              const {
+                _id,
+                username,
+                about,
+                email,
+                fname,
+                lname,
+                phone,
+                gallerys,
+                socialMediaLinks,
+              } = res.data.data;
+              setPersonalAccountData((prevState) => ({
+                ...prevState,
+                _id,
+                username,
+                about,
+                email,
+                fname,
+                lname,
+                phone,
+                gallerys,
+                socialMediaLinks,
+              }));
+              // setPersonalAccountData(prevState => ({...prevState, ...res.data.data}))
+              console.log("personal account data", personalAccountData);
             }
           });
         setIsLoading(false);
@@ -1398,12 +1400,17 @@ const Profile = () => {
                           ? personalAccountData.about
                           : businessAccountData.about
                       }
-                      onChange={(e) =>
-                        setPersonalAccountData((prevState) => ({
-                          ...prevState,
-                          about: e.target.value,
-                        }))
-                      }
+                      onChange={(e) => {
+                        accountType === "personal"
+                          ? setPersonalAccountData((prevState) => ({
+                              ...prevState,
+                              about: e.target.value,
+                            }))
+                          : setBusinessAccountData((prevState) => ({
+                              ...prevState,
+                              about: e.target.value,
+                            }));
+                      }}
                     ></textarea>
                   </div>
                   <div className="self-end">
