@@ -191,17 +191,16 @@ const Navbar = () => {
               className="flex flex-col items-start justify-center gap-4 w-full"
               id="navbar-cta"
             >
-              
               <div>
                 <Link
-                  href="/about"
+                  href="/"
                   className={selectedStyle}
                   onClick={() => setIsMobileNavOpen(false)}
                 >
                   Home
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
                   href="/about"
@@ -211,7 +210,7 @@ const Navbar = () => {
                   About Us
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
                   href="/gallery"
@@ -221,7 +220,7 @@ const Navbar = () => {
                   Gallery
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
                   href="/business"
@@ -231,7 +230,7 @@ const Navbar = () => {
                   Business Firms
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
                   href="/business/persons"
@@ -241,7 +240,7 @@ const Navbar = () => {
                   Business Persons
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
                   href="/events"
@@ -251,37 +250,36 @@ const Navbar = () => {
                   Events
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine"/>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
                   href="/contact"
                   className={nonSelectedStyle}
                   onClick={() => setIsMobileNavOpen(false)}
                 >
-                   Contact Us
+                  Contact Us
                 </Link>
               </div>
             </div>
             <div className="w-full flex items-start justify-center gap-5 text-center ">
-            <div className="relative flex-1">
-              <button
-                className=" w-full font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-                onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
-              >
-                Enlist
-              </button>
-              {isEnlistDropdown && (
-                <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
-              )}
+              <div className="relative flex-1">
+                <button
+                  className=" w-full font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                  onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
+                >
+                  Enlist
+                </button>
+                {isEnlistDropdown && (
+                  <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
+                )}
+              </div>
+              <Link href="/login" className="flex-1">
+                <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                  Login
+                </button>
+              </Link>
             </div>
-            <Link href="/login" className="flex-1">
-              <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
-                Login
-              </button>
-            </Link>
           </div>
-          </div>
-          
         </div>
       )}
       {/* {isMobileNavOpen && (
