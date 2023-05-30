@@ -92,7 +92,7 @@ const BusinessPersons = () => {
           {/* business persons div */}
           <div className="grid place-items-center justify-items-center w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10 md:mb-14 xl:mb-20 mt-14 md:mt-16 xl:mt-20">
             {/* business person card */}
-            {data.map(person => (
+            {/* {data.map(person => (
             <Link href="/businesspersons/details" key={person._id} className="w-full">
               <div
                 className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
@@ -113,7 +113,26 @@ const BusinessPersons = () => {
               </div>
             </Link>
 
-            ))}
+            ))} */}
+            <Link href="/businesspersons/details" className="w-full">
+              <div
+                className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
+                    border border-black flex gap-4 items-center justify-center w-full"
+              >
+                <img
+                  src="/images/testimonialImg.png"
+                  alt="person"
+                  className=""
+                />
+                <div className="flex flex-col gap-1 items-start">
+                  <p className="font-semibold text-lg md:text-xl">
+                    Business man
+                  </p>
+                  <p className="font-light text-sm">CTO Amazon</p>
+                  <p className="font-light text-sm">www.amazon.com</p>
+                </div>
+              </div>
+            </Link>
             {/* business person card */}
           </div>
         </div>
