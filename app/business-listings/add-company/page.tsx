@@ -1,12 +1,15 @@
 "use client";
 
 import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./../../../components/enlist/form.css";
-import { businessFirstStepSchema, businessIndividualSchema } from "@/utils/schema/signUpSchema";
+import {
+  businessFirstStepSchema,
+  businessIndividualSchema,
+} from "@/utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -54,7 +57,7 @@ const INITIAL_DATA: FormData = {
   email: "",
   username: "",
   password: "",
-  place: ""
+  place: "",
 };
 
 const EnlistCompany = () => {
@@ -63,7 +66,6 @@ const EnlistCompany = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const navigate = useRouter();
-
 
   type FirstFormValues = {
     companyName: string;
@@ -99,12 +101,18 @@ const EnlistCompany = () => {
 
       email: "",
       username: "",
-      password: ""
+      password: "",
     },
     resolver: yupResolver(businessFirstStepSchema),
   });
 
-  const { register, handleSubmit: handleSubmitOne, formState, trigger, watch } = form;
+  const {
+    register,
+    handleSubmit: handleSubmitOne,
+    formState,
+    trigger,
+    watch,
+  } = form;
   const { errors: errorsOne } = formState;
 
   // WATCH
@@ -114,33 +122,46 @@ const EnlistCompany = () => {
   const zipValue = watch("zip");
   const phoneNumberValue = watch("phoneNumber");
   const websiteUrlValue = watch("websiteUrl");
-  
-  const buildingValue = watch("building")
-  const categoryValue = watch("categories")
-  const hideAddressValue = watch("hideAddress")
 
-  const emailValue = watch("email")
-  const usernameValue = watch("username")
-  const passwordValue = watch("password")
+  const buildingValue = watch("building");
+  const categoryValue = watch("categories");
+  const hideAddressValue = watch("hideAddress");
 
-  console.log('hide address', hideAddressValue)
+  const emailValue = watch("email");
+  const usernameValue = watch("username");
+  const passwordValue = watch("password");
+
+  console.log("hide address", hideAddressValue);
 
   // FUNCTIONS
-//   const stepOneErrors: Record<string, string | boolean> = {};
+  //   const stepOneErrors: Record<string, string | boolean> = {};
 
-// Object.keys(errors).forEach(key => {
-//   if (['companyName', 'streetAddress', 'building', 'city', 'zip', 'hideAddress', 'hasServiceArea', 'phoneNumber', 'websiteUrl', 'categories'].includes(key)) {
-//     stepOneErrors[key] = errors[key];
-//   }
-// });
-const isStepOneError = Object.keys(errorsOne).length !== 0;
-console.log('stepone errors', errorsOne)
+  // Object.keys(errors).forEach(key => {
+  //   if (['companyName', 'streetAddress', 'building', 'city', 'zip', 'hideAddress', 'hasServiceArea', 'phoneNumber', 'websiteUrl', 'categories'].includes(key)) {
+  //     stepOneErrors[key] = errors[key];
+  //   }
+  // });
+  const isStepOneError = Object.keys(errorsOne).length !== 0;
+  console.log("stepone errors", errorsOne);
 
   async function next() {
     setIsSubmitted(true);
     if (page === 0) {
       if (((await trigger()) && Object.keys(errorsOne).length) === 0) {
-        setData(prevState => ({...prevState, companyName: companyNameValue, streetAddress: streetAddressValue, city: cityValue, zip: zipValue, phoneNumber: phoneNumberValue, websiteUrl: websiteUrlValue, building: buildingValue, categories: categoryValue, email: emailValue, username: usernameValue, password: passwordValue}))
+        setData((prevState) => ({
+          ...prevState,
+          companyName: companyNameValue,
+          streetAddress: streetAddressValue,
+          city: cityValue,
+          zip: zipValue,
+          phoneNumber: phoneNumberValue,
+          websiteUrl: websiteUrlValue,
+          building: buildingValue,
+          categories: categoryValue,
+          email: emailValue,
+          username: usernameValue,
+          password: passwordValue,
+        }));
         setPage((i) => {
           if (i >= 2) return i;
           return i + 1;
@@ -160,10 +181,10 @@ console.log('stepone errors', errorsOne)
   // ONSUBMIT
 
   const onSubmitOne = (d: FirstFormValues) => {
-    console.log('step one submitted')
-    setData(prevState => ({...prevState, ...d  }))
+    console.log("step one submitted");
+    setData((prevState) => ({ ...prevState, ...d }));
     next();
-  }
+  };
 
   const isCompany = true;
 
@@ -308,7 +329,7 @@ console.log('stepone errors', errorsOne)
           </label>
 
           <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
-          Company Account Details
+            Company Account Details
           </p>
           <div className="form-control col-span-6">
             <label htmlFor="email">Email</label>
@@ -353,7 +374,6 @@ console.log('stepone errors', errorsOne)
             </span>
           </label> */}
 
-          
           <button
             className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
               isStepOneError ? "bg-opacity-50" : ""
@@ -370,7 +390,6 @@ console.log('stepone errors', errorsOne)
   // STEP 2
   // \\\\\\\\\\\\\\\\\\\
 
-
   type SecondFormValues = {
     firstname: string;
     lastname: string;
@@ -383,140 +402,162 @@ console.log('stepone errors', errorsOne)
       firstname: "",
       lastname: "",
       phone: "",
-      place: ""
-      
+      place: "",
     },
     resolver: yupResolver(businessIndividualSchema),
   });
 
-  const { register: registerTwo, handleSubmit: handleSubmitTwo , formState: formStateTwo, trigger: triggerTwo, watch: watchTwo } = formTwo;
+  const {
+    register: registerTwo,
+    handleSubmit: handleSubmitTwo,
+    formState: formStateTwo,
+    trigger: triggerTwo,
+    watch: watchTwo,
+  } = formTwo;
   const { errors: errorsTwo } = formStateTwo;
 
-    const onSubmit = async ({firstname, lastname, phone, place }: SecondFormValues) => {
-      setData((prevData) => ({ ...prevData, firstname, lastname, phone, place }));
-      const { companyName, phoneNumber, streetAddress, city , categories, websiteUrl, email, username, password, zip} = data;
-      const finalData = {
-        "name": companyName,
-        "username": `ba-${username}`,
-        "phone": phoneNumber,
-        "email": email,
-        "password": password,
-        "category": "64684fd43e84f3ea2dd8acad",
-        "website": websiteUrl,
-        "addressDetails": {
-            "streetNumber": "12",
-            "state": "abu dhabi",
-            "city": city,
-            "address": streetAddress,
-            "place": streetAddress,
-            "pincode": zip,
-            "landmark": "mosque"
-        },
-        "contactDetails": {
-            "fname": firstname,
-            "lname": lastname,
-            "email": email,
-            "phone": phone
-        }
-      }
-console.log('final data', finalData)
-try {
-  await httpClient().post('user/business/signup', finalData)
-    .then(res => {
-      console.log(res);
-
-      if (res.status === 200) {
-        toast.success('Account Created Successfully', {
-          icon: '👏',
-        });
-        navigate.push("/login");
-      } else {
-        // Handle non-200 status codes
-        toast.error('An error occurred during signup');
-      }
-    })
-    .catch(error => {
-      // Handle request errors
-      console.log(error);
-      toast.error('An error occurred during signup');
-    });
-} catch (err) {
-  // Handle exceptions
-  console.log(err);
-}
-      setIsSubmitted(true);
+  const onSubmit = async ({
+    firstname,
+    lastname,
+    phone,
+    place,
+  }: SecondFormValues) => {
+    setData((prevData) => ({ ...prevData, firstname, lastname, phone, place }));
+    const {
+      companyName,
+      phoneNumber,
+      streetAddress,
+      city,
+      categories,
+      websiteUrl,
+      email,
+      username,
+      password,
+      zip,
+    } = data;
+    const finalData = {
+      name: companyName,
+      username: `ba-${username}`,
+      phone: phoneNumber,
+      email: email,
+      password: password,
+      category: "64684fd43e84f3ea2dd8acad",
+      website: websiteUrl,
+      addressDetails: {
+        streetNumber: "12",
+        state: "abu dhabi",
+        city: city,
+        address: streetAddress,
+        place: streetAddress,
+        pincode: zip,
+        landmark: "mosque",
+      },
+      contactDetails: {
+        fname: firstname,
+        lname: lastname,
+        email: email,
+        phone: phone,
+      },
     };
-    console.log('errors two', errorsTwo);
+    console.log("final data", finalData);
+    try {
+      await httpClient()
+        .post("user/business/signup", finalData)
+        .then((res) => {
+          console.log(res);
 
-    const isStepTwoError = Object.keys(errorsTwo).length !== 0;
+          if (res.status === 200) {
+            toast.success("Account Created Successfully", {
+              icon: "👏",
+            });
+            navigate.push("/login");
+          } else {
+            // Handle non-200 status codes
+            toast.error("An error occurred during signup");
+          }
+        })
+        .catch((error) => {
+          // Handle request errors
+          console.log(error);
+          toast.error("An error occurred during signup");
+        });
+    } catch (err) {
+      // Handle exceptions
+      console.log(err);
+    }
+    setIsSubmitted(true);
+  };
+  console.log("errors two", errorsTwo);
+
+  const isStepTwoError = Object.keys(errorsTwo).length !== 0;
 
   const Step2 = (
-      <div className="userForm">
-        <h1 className="font-semibold font-lora text-xl md:text-2xl xl:text-3xl">
-          Congratulations! Your company page is ready.
-        </h1>
-        <p className=" mt-4">
-          Register to save your updates and publish your company page
-        </p>
-        <form
-          onSubmit={handleSubmitTwo(onSubmit)}
-          noValidate
-          className="my-5 grid grid-cols-2 gap-x-5 gap-y-3"
+    <div className="userForm">
+      <h1 className="font-semibold font-lora text-xl md:text-2xl xl:text-3xl">
+        Congratulations! Your company page is ready.
+      </h1>
+      <p className=" mt-4">
+        Register to save your updates and publish your company page
+      </p>
+      <form
+        onSubmit={handleSubmitTwo(onSubmit)}
+        noValidate
+        className="my-5 grid grid-cols-2 gap-x-5 gap-y-3"
+      >
+        <div className="form-control">
+          <label htmlFor="firstname">First Name</label>
+          <input
+            type="text"
+            id="firstname"
+            placeholder="e.g. Harry"
+            {...registerTwo("firstname")}
+            onBlur={() => triggerTwo("firstname")}
+          />
+          <p className="error">{errorsTwo.firstname?.message}</p>
+        </div>
+        <div className="form-control">
+          <label htmlFor="lastname">Last Name</label>
+          <input
+            type="text"
+            id="lastname"
+            placeholder="e.g. Brook"
+            {...registerTwo("lastname")}
+            onBlur={() => triggerTwo("lastname")}
+          />
+          <p className="error">{errorsTwo.lastname?.message}</p>
+        </div>
+        <div className="form-control col-span-2">
+          <label htmlFor="phone">Phone number</label>
+          <input
+            type="text"
+            id="phone"
+            placeholder="e.g. Google"
+            {...registerTwo("phone")}
+            onBlur={() => triggerTwo("phone")}
+          />
+          <p className="error">{errorsTwo.phone?.message}</p>
+        </div>
+        <div className="form-control col-span-2">
+          <label htmlFor="place">Place</label>
+          <input
+            type="text"
+            id="place"
+            placeholder="e.g. abu dhabi"
+            {...registerTwo("place")}
+            onBlur={() => triggerTwo("place")}
+          />
+          <p className="error">{errorsTwo.place?.message}</p>
+        </div>
+        <button
+          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
+            isStepTwoError ? "bg-opacity-50" : ""
+          }`}
         >
-          <div className="form-control">
-            <label htmlFor="firstname">First Name</label>
-            <input
-              type="text"
-              id="firstname"
-              placeholder="e.g. Harry"
-              {...registerTwo("firstname")}
-              onBlur={() => triggerTwo("firstname")}
-            />
-            <p className="error">{errorsTwo.firstname?.message}</p>
-          </div>
-          <div className="form-control">
-            <label htmlFor="lastname">Last Name</label>
-            <input
-              type="text"
-              id="lastname"
-              placeholder="e.g. Brook"
-              {...registerTwo("lastname")}
-              onBlur={() => triggerTwo("lastname")}
-            />
-            <p className="error">{errorsTwo.lastname?.message}</p>
-          </div>
-          <div className="form-control col-span-2">
-            <label htmlFor="phone">Phone number</label>
-            <input
-              type="text"
-              id="phone"
-              placeholder="e.g. Google"
-              {...registerTwo("phone")}
-              onBlur={() => triggerTwo("phone")}
-            />
-            <p className="error">{errorsTwo.phone?.message}</p>
-          </div>
-          <div className="form-control col-span-2">
-            <label htmlFor="place">Place</label>
-            <input
-              type="text"
-              id="place"
-              placeholder="e.g. abu dhabi"
-              {...registerTwo("place")}
-              onBlur={() => triggerTwo("place")}
-            />
-            <p className="error">{errorsTwo.place?.message}</p>
-          </div>
-          <button
-            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
-              isStepTwoError ? "bg-opacity-50" : ""
-            }`}
-          >
-            Finish
-          </button>
-        </form>
-      </div>
-    );
+          Finish
+        </button>
+      </form>
+    </div>
+  );
 
   return (
     <div className="container grid justify-items-center pt-14 w-full mx-auto lg:grid-cols-2">
@@ -544,4 +585,3 @@ try {
 };
 
 export default EnlistCompany;
-

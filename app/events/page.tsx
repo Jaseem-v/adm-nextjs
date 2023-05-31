@@ -78,10 +78,7 @@ const Events = () => {
                     grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10 lg:gap-12"
             >
               {events.map((event) => (
-                <div
-                  className="event-card rounded-xl max-w-sm shadow-eventCard"
-                  key={event.id}
-                >
+                <div key={event.id}>
                   <img src={event.image} alt="event image" />
                   <div
                     className="px-7 md:px-8 lg:px-9
