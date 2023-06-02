@@ -516,7 +516,7 @@ const Profile = () => {
     console.log("verified business categories");
   };
 
-  const verifySocialMedia = async (data: socialMediaFormValues) => {
+  const verifySocialMedia = async (data: SocialMediaFormValues) => {
 
     console.log('form data', data)
       handleToggleEditMode("socialMedia");
