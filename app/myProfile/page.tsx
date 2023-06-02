@@ -1526,7 +1526,7 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* BUSINESS CATEGORIES👇 */}
-        <div
+        {accountType === 'business' && <div
           className="flex flex-col gap-4 bg-white text-gray-800 p-6"
           ref={categoriesRef}
         >
@@ -1700,13 +1700,13 @@ const Profile = () => {
             </div>
           </div> */}
           {/* edit mode */}
-        </div>
+        </div>}
         {/* BUSINESS CATEGORIES👆 */}
         {/* \\\\\\\\\\\\\\\\\ */}
 
         {/* \\\\\\\\\\\\\\\\\ */}
-        {/* PRODUCTS AND SERVICES👆 */}
-        <div
+        {/* PRODUCTS AND SERVICES👇 */}
+        {accountType === 'business' && <div
           className="flex flex-col gap-4 bg-white text-gray-800 p-6"
           ref={servicesRef}
         >
@@ -1844,7 +1844,7 @@ const Profile = () => {
             </form>
           </div> */}
           {/* edit mode */}
-        </div>
+        </div>}
         {/* PRODUCTS AND SERVICES👆 */}
         {/* \\\\\\\\\\\ */}
 
@@ -2119,7 +2119,7 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\ */}
         {/* CONTACT */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+        {accountType === 'business' && <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-2xl font-medium font-lora text-black title">
@@ -2259,13 +2259,13 @@ const Profile = () => {
             </div>
           </div> */}
           {/* edited */}
-        </div>
+        </div>}
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
 
         {/* \\\\\\\\\\\ */}
         {/* DETAILED INFORMATION👇 */}
-        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+        {accountType === 'business' && <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
               <h3 className="text-2xl font-medium font-lora text-black title">
@@ -2374,7 +2374,7 @@ const Profile = () => {
               </div>
             </div>
           )}
-        </div>
+        </div>}
         {/* DETAILED INFORMATION👆 */}
         {/* \\\\\\\\\\\ */}
 
