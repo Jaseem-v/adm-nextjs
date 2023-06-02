@@ -34,9 +34,9 @@ import React, { FormEvent, useCallback, useEffect } from "react";
 import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { businessInfoSchema } from "../../utils/schema/signUpSchema";
+import { SocialMediaSchema, businessInfoSchema } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
 import {
@@ -238,10 +238,6 @@ const Profile = () => {
   type FormType = {
     businessName: string;
   };
-
-  const isSocialMediaAdded = Object.values(personalAccountData.socialMediaLinks).some(
-    (value) => value !== ""
-  );
 
   const handleSocialMediaChange = (
     name: string,
@@ -520,10 +516,12 @@ const Profile = () => {
     console.log("verified business categories");
   };
 
-  const verifySocialMedia = () => {
-    // POST API
-    handleToggleEditMode("socialMedia");
-    console.log("verified social media");
+  const verifySocialMedia = async (data: socialMediaFormValues) => {
+
+    console.log('form data', data)
+      handleToggleEditMode("socialMedia");
+      console.log("verified social media");
+
   };
 
   const verifyDetailedInformation = () => {
@@ -683,12 +681,33 @@ const Profile = () => {
     </form>
   );
 
-  const sm = {...personalAccountData.socialMediaLinks};
+  type SocialMediaFormValues = {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    linkedin: string;
+    youtube: string;
+  }
+
+  const socialMediaForm = useForm<SocialMediaFormValues>({
+    defaultValues: {},
+    resolver: yupResolver(SocialMediaSchema)
+  })
+
+  const { register: registerSocialMedia, handleSubmit: handleSubmitSocialMedia, formState: formStateSocialMedia } = socialMediaForm;
+  const { errors: errorsSocialMedia } = formStateSocialMedia;
+
+
+  const isSocialMediaAdded = Object.values(personalAccountData.socialMediaLinks).some(
+    (value) => value !== undefined
+  );
+
+  const sm = accountType === 'personal' && {...personalAccountData.socialMediaLinks};
   const instagramObj = Object.values(sm).find(obj => obj.title === 'INSTAGRAM');
-const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
-const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
-const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
-const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
+  const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
+  const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
+  const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
+  const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
 
 
   const socialMediaEdited = isSocialMediaAdded && (
@@ -1946,12 +1965,12 @@ const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
         {/* \\\\\\\\\\\ */}
         {/* SOCAIL MEDIA LINKS👇 */}
         <div
-          className="flex flex-col gap-4 bg-white text-gray-800 p-6"
+          className="flex flex-col gap-4 bg-white text-gray-800 p-6 relative"
           ref={socialMediaRef}
         >
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <p className="text-2xl font-medium font-lora text-black title">
+              <p className="w-[160px] md:w-full text-2xl font-medium font-lora text-black title">
                 Social Media Links
               </p>
               {!editModeState.socialMedia ? (
@@ -1962,8 +1981,8 @@ const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
                   Edit
                 </button>
               ) : (
-                <div className="flex items-start flex-wrap gap-2">
-                  <button
+                <div className="flex items-start flex-wrap w-min-content gap-2">
+                  {/* <button
                     className="bg-skeleton py-1 px-3  rounded "
                     onClick={() => handleToggleEditMode("socialMedia")}
                   >
@@ -1974,7 +1993,7 @@ const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
                     onClick={verifySocialMedia}
                   >
                     Verify
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>
@@ -2012,6 +2031,8 @@ const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
               </div>
             )
           ) : (
+            <FormProvider {...socialMediaForm}>
+              <form onSubmit={handleSubmitSocialMedia(verifySocialMedia)}>
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="facebook">Facebook URL</label>
@@ -2025,8 +2046,7 @@ const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
                     id="facebook"
                     className="form-input w-full"
                     placeholder="e.g. www.facebook.com/companyProfile"
-                    value={editInfoState.socialMedia.facebook}
-                    onChange={(e) => handleSocialMediaChange("facebook", e)}
+                    {...registerSocialMedia('facebook')}
                   />
                 </div>
               </div>
@@ -2121,6 +2141,22 @@ const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
                 </div>
               </div> */}
             </div>
+            <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
+                  <button
+                    className="bg-skeleton py-1 px-3  rounded "
+                    onClick={() => handleToggleEditMode("socialMedia")}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-orange text-white py-1 px-3 rounded "
+                    type="submit"
+                  >
+                    Verify
+                  </button>
+                </div>
+            </form>
+            </FormProvider>
           )}
         </div>
         {/* SOCAIL MEDIA LINKS👆 */}

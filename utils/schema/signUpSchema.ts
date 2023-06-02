@@ -81,3 +81,36 @@ export const businessInfoSchema = yup.object({
         .min(10),
     hidePhone: yup.boolean()    
 })
+
+export const SocialMediaSchema = yup.object({
+    facebookUrl: yup
+    .string()
+    .matches(
+      /^(https?:\/\/)?(www\.)?facebook\.com\/(pages\/[A-Za-z0-9\-]+\/\d+|[^/]+\/)?$/,
+      'Invalid Facebook URL'
+    ),
+    instagramUsername: yup
+    .string()
+    .matches(
+      /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
+      'Invalid Instagram username'
+    ),
+  twitterUsername: yup
+    .string()
+    .matches(
+      /^[A-Za-z0-9_]{1,15}$/,
+      'Invalid Twitter username'
+    ),
+  youtubeUsername: yup
+    .string()
+    .matches(
+      /^(?!.*\.\.)(?!.*\.$)[^\W][\w.-]{0,99}$/,
+      'Invalid YouTube username'
+    ),
+  linkedinProfile: yup
+    .string()
+    .matches(
+      /^(https?:\/\/)?(www\.)?linkedin\.com\/(in\/[A-Za-z0-9\-]+\/?|company\/[A-Za-z0-9\-]+\/?)$/,
+      'Invalid LinkedIn profile'
+    )
+})
