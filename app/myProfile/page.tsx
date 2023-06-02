@@ -239,7 +239,7 @@ const Profile = () => {
     businessName: string;
   };
 
-  const isSocialMediaAdded = Object.values(editInfoState.socialMedia).some(
+  const isSocialMediaAdded = Object.values(personalAccountData.socialMediaLinks).some(
     (value) => value !== ""
   );
 
@@ -683,64 +683,72 @@ const Profile = () => {
     </form>
   );
 
+  const sm = {...personalAccountData.socialMediaLinks};
+  const instagramObj = Object.values(sm).find(obj => obj.title === 'INSTAGRAM');
+const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
+const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
+const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
+const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
+
+
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
-      {editInfoState.socialMedia.facebook.length > 0 && (
+      {facebookObj &&  (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsFacebook className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-            <span>{editInfoState.socialMedia.facebook}</span>
+          <a href={`https://${facebookObj.link}`} target="_blank">{facebookObj.link}</a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
       )}
-      {editInfoState.socialMedia.instagram.length > 0 && (
+      {instagramObj && (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsInstagram className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-            <span>{editInfoState.socialMedia.instagram}</span>
+          <a href={`https://${instagramObj.link}`} target="_blank">{instagramObj.link}</a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
       )}
-      {editInfoState.socialMedia.twitter.length > 0 && (
+      {twitterObj && twitterObj.title === 'TWITTER' && (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsTwitter className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-            <span>{editInfoState.socialMedia.twitter}</span>
+          <a href={`https://${twitterObj.link}`} target="_blank">{twitterObj.link}</a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
       )}
-      {editInfoState.socialMedia.linkedin.length > 0 && (
+      {linkedinObj && (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsLinkedin className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-            <span>{editInfoState.socialMedia.linkedin}</span>
+          <a href={`https://${linkedinObj.link}`} target="_blank">{linkedinObj.link}</a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
       )}
-      {editInfoState.socialMedia.youtube.length > 0 && (
+      {youtubeObj && (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsYoutube className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-            <span>{editInfoState.socialMedia.youtube}</span>
+          <a href={`https://${youtubeObj.link}`} target="_blank">{youtubeObj.link}</a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
       )}
-      {editInfoState.socialMedia.pinterest.length > 0 && (
+      {/* {editInfoState.socialMedia.pinterest.length > 0 && (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsPinterest className="w-full h-full" />
@@ -750,7 +758,7 @@ const Profile = () => {
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 
@@ -2095,7 +2103,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1">
+              {/* <div className="flex flex-col gap-1">
                 <label htmlFor="pinterest">Pinterest URL</label>
                 <div className="flex w-full flex-row">
                   <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
@@ -2111,7 +2119,7 @@ const Profile = () => {
                     onChange={(e) => handleSocialMediaChange("pinterest", e)}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
