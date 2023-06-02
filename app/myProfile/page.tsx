@@ -166,7 +166,7 @@ const Profile = () => {
       email: "",
       about: "",
       socialMediaLinks: [],
-      gallery: [],
+      gallerys: [],
     });
   const [businessAccountData, setBusinessAccountData] =
     useState<BusinessAccountDataType>({
@@ -539,113 +539,93 @@ const Profile = () => {
       console.log("acc type", accType);
       setAccountType(accType);
 
-      if (accountType === "personal") {
+      if (accType === "personal") {
         try {
-          await httpClient()
-            .get("user/personal/profile")
-            .then((res) => {
-              if (res.status == 400) {
-                toast.error(res.data.message, {
-                  icon: "🔴",
-                });
-              }
-
-              if (res.status == 200) {
-                console.log("userapidata", res.data);
-                console.log("This is a personal account");
-                const {
-                  _id,
-                  username,
-                  about,
-                  email,
-                  fname,
-                  lname,
-                  phone,
-                  gallerys,
-                  socialMediaLinks,
-                } = res.data.data;
-                setPersonalAccountData((prevState) => ({
-                  ...prevState,
-                  _id,
-                  username,
-                  about,
-                  email,
-                  fname,
-                  lname,
-                  phone,
-                  gallerys,
-                  socialMediaLinks,
-                }));
-                // setPersonalAccountData(prevState => ({...prevState, ...res.data.data}))
-                console.log("personal account data", personalAccountData);
-              }
-            })
-            .catch((error) => {
-              console.log(error);
+          const response = await httpClient().get("user/personal/profile");
+          if (response.status === 200) {
+            console.log("userapidata", response.data);
+            console.log("This is a personal account");
+            const {
+              _id,
+              username,
+              about,
+              email,
+              fname,
+              lname,
+              phone,
+              gallerys,
+              socialMediaLinks,
+            } = response.data.data;
+            setPersonalAccountData({
+              _id,
+              username,
+              about,
+              email,
+              fname,
+              lname,
+              phone,
+              gallerys,
+              socialMediaLinks,
             });
-          setIsLoading(false);
+          } else if (response.status === 400) {
+            toast.error(response.data.message, {
+              icon: "🔴",
+            });
+          }
         } catch (error) {
           console.log(error);
-          setIsLoading(false);
         }
-      } else if (accountType === "business") {
+      } else if (accType === "business") {
         try {
-          await httpClient()
-            .get("user/business/profile")
-            .then((res) => {
-              if (res.status == 400) {
-                toast.error(res.data.message, {
-                  icon: "🔴",
-                });
-              }
-
-              if (res.status === 200) {
-                console.log("business api data", res.data);
-                const {
-                  _id,
-                  name,
-                  username,
-                  phone,
-                  email,
-                  category,
-                  website,
-                  about,
-                  socialMediaLinks,
-                  services,
-                  gallery,
-                  addressDetails,
-                  contactDetails,
-                  status,
-                  isDeleted,
-                } = res.data.data;
-                setBusinessAccountData((prevState) => ({
-                  ...prevState,
-                  _id,
-                  name,
-                  username,
-                  phone,
-                  email,
-                  category,
-                  website,
-                  about,
-                  socialMediaLinks,
-                  services,
-                  gallery,
-                  addressDetails,
-                  contactDetails,
-                  status,
-                  isDeleted,
-                }));
-              }
-            })
-            .catch((err) => console.log(err));
-
-          console.log("businessAccountData", businessAccountData);
+          const response = await httpClient().get("user/business/profile");
+          if (response.status === 200) {
+            console.log("business api data", response.data);
+            const {
+              _id,
+              name,
+              username,
+              phone,
+              email,
+              category,
+              website,
+              about,
+              socialMediaLinks,
+              services,
+              gallery,
+              addressDetails,
+              contactDetails,
+              status,
+              isDeleted,
+            } = response.data.data;
+            setBusinessAccountData({
+              _id,
+              name,
+              username,
+              phone,
+              email,
+              category,
+              website,
+              about,
+              socialMediaLinks,
+              services,
+              gallery,
+              addressDetails,
+              contactDetails,
+              status,
+              isDeleted,
+            });
+          } else if (response.status === 400) {
+            toast.error(response.data.message, {
+              icon: "🔴",
+            });
+          }
         } catch (error) {
-          console.log("main error", error);
+          console.log(error);
         }
       }
+      setIsLoading(false);
     };
+
     userApiData();
   }, []);
 
@@ -817,7 +797,7 @@ const Profile = () => {
     );
   };
 
-  let isAboutPresent;
+  let isAboutPresent = false;
   if (accountType === "personal") {
     isAboutPresent = personalAccountData.about.length > 0;
   } else if (accountType === "business") {
@@ -989,7 +969,7 @@ const Profile = () => {
               {/* <RiStore3Fill className="block w-full h-full" /> */}
               <div className="absolute bottom-0 inset-x-0 cursor-pointer bg-none py-2 px-12">
                 {!newLogoAdded && (
-                  <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center">
+                  <div className="flex flex-row items-center rounded bg-black py-2 px-6 text-white justify-center hover:bg-zinc-800">
                     Change
                   </div>
                 )}
@@ -1004,9 +984,9 @@ const Profile = () => {
                   <div className="flex gap-4 items-center justify-between">
                     {/* normal */}
                     <span className="text-4xl font-extrabold text-gray-900 font-lora w-2/3">
-                      {editInfoState.businessName.length > 0
-                        ? editInfoState.businessName
-                        : "Business name"}
+                      {accountType === 'personal'
+                        ? `${personalAccountData.fname} ${personalAccountData.lname}`
+                        : businessAccountData.name}
                     </span>
                     <button
                       className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"

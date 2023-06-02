@@ -104,5 +104,5 @@ export type PersonalAccountDataType = {
   email: string;
   about: string;
   socialMediaLinks: SocialMediaLink[];
-  gallery: [];
+  gallerys: [];
 };
