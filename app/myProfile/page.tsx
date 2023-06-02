@@ -629,6 +629,8 @@ const Profile = () => {
     userApiData();
   }, []);
 
+  accountType === 'personal' ? console.log('personal account data', personalAccountData) : console.log('business account data', businessAccountData)
+
   const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -1031,7 +1033,9 @@ const Profile = () => {
               </div>
             </div>
             {/* info */}
-            <div className="flex flex-col gap-6 text-gray-800">
+
+            {/* business form */}
+            {accountType === 'business' && <div className="flex flex-col gap-6 text-gray-800">
               <form className="flex flex-col gap-2">
                 <div className="flex flex-row gap-4">
                   <span className="text-2xl font-lora font-medium">
@@ -1284,12 +1288,52 @@ const Profile = () => {
                   )}
                 </div>
               </form>
-            </div>
+            </div>}
+
+            {/* PERSONAL FORM */}
+            {accountType === 'personal' && <div className="flex flex-col gap-6 text-gray-800">
+              <form className="flex flex-col gap-2">
+                <div className="flex flex-row gap-4">
+                  <span className="text-2xl font-lora font-medium">
+                    Personal Info
+                  </span>
+                  <span className="flex-1"></span>
+                </div>
+                <div className="flex flex-col gap-6">
+                    <div className="flex flex-row items-start gap-2">
+                      <CiLocationOn className="mt-1" />
+                      <div className="flex flex-col gap-1">
+                        <p className="text-lg font-medium flex items-center gap-1">
+                          Email
+                        </p>
+                        <p className="text-lg text-gray-700">
+                          {personalAccountData.email}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                      <RiPhoneFill className="mt-1" />
+                      <div className="flex flex-col gap-1">
+                        <p className="text-lg font-medium flex items-center gap-1">
+                          Phone{" "}
+                          <span>
+                            <FaEye className="h-3" />
+                          </span>
+                        </p>
+                        <p className="text-lg text-gray-700">
+                          {personalAccountData.phone}
+                        </p>
+                      </div>
+                    </div>
+                  
+                </div>
+              </form>
+            </div>}
 
             {/* \\\\\\\\ */}
             {/* website */}
 
-            <div className="flex flex-col gap-4 text-gray-800">
+            {accountType === 'business' && <div className="flex flex-col gap-4 text-gray-800">
               <div className="flex flex-col">
                 <div className="flex flex-row justify-between">
                   <p className="text-2xl font-lora font-medium title text-black">
@@ -1351,7 +1395,7 @@ const Profile = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </div>}
           </div>
         </div>
         {/* MAIN DETAILS👆 */}
