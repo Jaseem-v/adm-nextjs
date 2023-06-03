@@ -517,12 +517,46 @@ const Profile = () => {
   };
 
   const verifySocialMedia = async (data: SocialMediaFormValues) => {
+    handleToggleEditMode("socialMedia");
+  
+    const transformedData = Object.entries(data).reduce((result: { title: string; link: string; }[], [platform, value]) => {
+      if (value) {
+        const title = platform.toUpperCase();
+        let link = ''
+        if (title === 'INSTAGRAM' || title === 'TWITTER') {
+          link = getFormattedLink(platform, value);
+        } else {
+          link = value;
+        }
+        result.push({ title, link });
+      }
+      return result;
+    }, []);
 
-    console.log('form data', data)
-      handleToggleEditMode("socialMedia");
-      console.log("verified social media");
-
+    const updatedPersonalAccountData = {...personalAccountData, socialMediaLinks: transformedData}
+    await httpClient()
+          .patch("user/personal/profile", updatedPersonalAccountData)
+          .catch((err) => console.log(err));
+  
+    console.log('verified social media');
   };
+  
+  const getFormattedLink = (platform: string, value: string) => {
+    let link = '';
+    switch (platform) {
+      case 'instagram':
+        link = `instagram.com/${value}`;
+        break;
+      case 'twitter':
+        link = `twitter.com/${value}`;
+        break;
+      default:
+        break;
+    }
+    return link;
+  };
+  
+  
 
   const verifyDetailedInformation = () => {
     // POST API
@@ -2063,6 +2097,7 @@ const Profile = () => {
                     id="instagram"
                     className="form-input w-full"
                     placeholder="e.g. @instagramProfile"
+                    {...registerSocialMedia('instagram')}
                     value={editInfoState.socialMedia.instagram}
                     onChange={(e) => handleSocialMediaChange("instagram", e)}
                   />
@@ -2081,6 +2116,7 @@ const Profile = () => {
                     id="twitter"
                     className="form-input w-full"
                     placeholder="e.g. @twitterProfile"
+                    {...registerSocialMedia('twitter')}
                     value={editInfoState.socialMedia.twitter}
                     onChange={(e) => handleSocialMediaChange("twitter", e)}
                   />
@@ -2099,6 +2135,7 @@ const Profile = () => {
                     id="linkedin"
                     className="form-input w-full"
                     placeholder="e.g. www.linkedin.com/companyProfile"
+                    {...registerSocialMedia('linkedin')}
                     value={editInfoState.socialMedia.linkedin}
                     onChange={(e) => handleSocialMediaChange("linkedin", e)}
                   />
@@ -2117,6 +2154,7 @@ const Profile = () => {
                     id="youtube"
                     className="form-input w-full"
                     placeholder="e.g. www.youtube.com/profile"
+                    {...registerSocialMedia('youtube')}
                     value={editInfoState.socialMedia.youtube}
                     onChange={(e) => handleSocialMediaChange("youtube", e)}
                   />
