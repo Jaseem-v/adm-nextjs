@@ -44,6 +44,24 @@ const items: MenuProps['items'] = [
     ),
   },
 ];
+const businessItems: MenuProps['items'] = [
+  {
+    key: '1',
+    label: (
+      <a rel="noopener noreferrer" href="/business" >
+        Business Company
+      </a>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <a rel="noopener noreferrer" href="/businesspersons" >
+        Business Persons
+      </a>
+    ),
+  }
+];
 
 const navItems = [
   { id: 1, title: "Home", animation: "nav1", link: "" },
@@ -82,6 +100,8 @@ const Navbar = () => {
 
   const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
 const isLoggedin = token !== null;
+
+console.log('isLoggedin', isLoggedin)
 
   
   useEffect(() => {
@@ -137,49 +157,78 @@ const isLoggedin = token !== null;
         {!isMobileNav && (
           <div className="hidden lg:grid items-center px-16">
             <ul className="flex gap-10" id="navbar-cta">
-              {navItems.map((item) => (
                 <li
-                  className={`py-10 hidden lg:block ${
-                    item.title === "Business" ? "relative" : ""
-                  } `}
-                  key={item.id}
+                  className="py-10 hidden lg:block"
                 >
                   <Link
-                    href={`/${item.link}`}
-                    className={`${item.animation} text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                    href='/'
+                    className={`nav1 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
                     aria-current="page"
                   >
-                    {item.title}
-                    {item.title === "Business" && (
-                      <div
-                        className="relative"
-                        onMouseEnter={() => {
-                          setIsBusinessDropdown(true);
-                          clearTimeout(autoCloseTimeout);
-                        }}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <img
+                    Home
+                  </Link>
+                </li>
+                <li
+                  className="py-10 hidden lg:block"
+                >
+                  <Link
+                    href='/about'
+                    className={`nav2 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                    aria-current="page"
+                  >
+                    About Us
+                  </Link>
+                </li>
+                <li
+                  className="py-10 hidden lg:block"
+                >
+                  <Link
+                    href='/gallery'
+                    className={`nav3 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                    aria-current="page"
+                  >
+                    Gallery
+                  </Link>
+                </li>
+                <li
+                  className="py-10 hidden lg:block h-[17px]"
+                >
+                  <Dropdown menu={{ items: businessItems }} placement="bottomRight" arrow className="bg-black cursor-pointer">
+                  <div
+                    className='nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                    aria-current="page"
+                  >
+                    Business
+                    <img
                           src="/images/expand.svg"
                           alt="expand"
                           className="mt-1 cursor-pointer"
                         />
-                        {/* {isBusinessDropdown && (
-                          <BusinessDropdown
-                            setIsBusinessDropdown={setIsBusinessDropdown}
-                            setIsDropdownHovered={setIsDropdownHovered}
-                          />
-                        )} */}
-                      </div>
-                    )}
-                  </Link>
-                  {item.title === "Business" && isBusinessDropdown && (
-                    <BusinessDropdown
-                      setIsBusinessDropdown={setIsBusinessDropdown}
-                    />
-                  )}
+                  </div>
+                  </Dropdown>
                 </li>
-              ))}
+                <li
+                  className="py-10 hidden lg:block"
+                >
+                  <Link
+                    href='/events'
+                    className='nav5 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                    aria-current="page"
+                  >
+                    Events
+                  </Link>
+                </li>
+                <li
+                  className="py-10 hidden lg:block"
+                >
+                  <Link
+                    href='/contact'
+                    className='nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                    aria-current="page"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
             </ul>
           </div>
         )}
