@@ -148,8 +148,15 @@ const Navbar = () => {
         )}
         {/* login */}
         {isLoggedin ? <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
-          <p>{username}</p>
           <div className="h-9 w-9 bg-skeleton rounded-full"></div>
+          <div className="flex items-center gap-2">
+            <p>{username}</p>
+            <img
+              src="/images/expand.svg"
+              alt="expand"
+              className="mt-1 cursor-pointer w-[11px] h-2"
+            />
+          </div>
         </div> :
         <div className="hidden lg:flex items-center gap-5 text-sm">
           <div className="relative">
