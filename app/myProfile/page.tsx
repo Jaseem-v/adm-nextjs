@@ -33,7 +33,7 @@ import { AiFillCaretUp } from "react-icons/ai";
 import React, { FormEvent, useCallback, useEffect } from "react";
 import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SocialMediaSchema, businessInfoSchema } from "../../utils/schema/signUpSchema";
@@ -121,36 +121,6 @@ const Profile = () => {
     defaultValues: {},
     resolver: yupResolver(businessInfoSchema),
   });
-
-  // HANDLE SUBMIT
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   console.log("event", event);
-  //   try {
-  //     // Validate the form data
-  //     await validationSchema.validate(formData, { abortEarly: false });
-
-  //     // Data is valid, proceed with submission
-  //     // Make your API POST request here
-  //     // ...
-
-  //     // Clear form or show success message
-  //     // ...
-  //   } catch (validationErrors) {
-  //     // Handle validation errors
-  //     const errors = {};
-
-  //     (validationErrors as yup.ValidationError).inner.forEach(
-  //       (error: yup.ValidationError) => {
-  //         if (error.path) {
-  //           // errors[error.path] = error.message;
-  //         }
-  //       }
-  //     );
-
-  //     setErrors(errors);
-  //   }
-  // };
 
   // SECTION REFS
 
@@ -516,18 +486,14 @@ const Profile = () => {
     console.log("verified business categories");
   };
 
+  
   const verifySocialMedia = async (data: SocialMediaFormValues) => {
     handleToggleEditMode("socialMedia");
   
     const transformedData = Object.entries(data).reduce((result: { title: string; link: string; }[], [platform, value]) => {
       if (value) {
         const title = platform.toUpperCase();
-        let link = ''
-        if (title === 'INSTAGRAM' || title === 'TWITTER') {
-          link = getFormattedLink(platform, value);
-        } else {
-          link = value;
-        }
+        const link = value
         result.push({ title, link });
       }
       return result;
@@ -537,24 +503,52 @@ const Profile = () => {
     await httpClient()
           .patch("user/personal/profile", updatedPersonalAccountData)
           .catch((err) => console.log(err));
-  
     console.log('verified social media');
   };
   
-  const getFormattedLink = (platform: string, value: string) => {
-    let link = '';
-    switch (platform) {
-      case 'instagram':
-        link = `instagram.com/${value}`;
-        break;
-      case 'twitter':
-        link = `twitter.com/${value}`;
-        break;
-      default:
-        break;
-    }
-    return link;
-  };
+  // const getFormattedLink = (platform: string, value: string) => {
+  //   let link = '';
+  //   switch (platform) {
+  //     case 'instagram':
+  //       link = `instagram.com/${value}`;
+  //       break;
+  //     case 'twitter':
+  //       link = `twitter.com/${value}`;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   return link;
+  // };
+
+  type SocialMediaFormValues = {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    linkedin: string;
+    youtube: string;
+  }
+
+  const socialMediaForm = useForm<SocialMediaFormValues>({
+    defaultValues: {},
+    resolver: yupResolver(SocialMediaSchema)
+  })
+
+  const { register: registerSocialMedia, handleSubmit: handleSubmitSocialMedia, formState: formStateSocialMedia } = socialMediaForm;
+  const { errors: errorsSocialMedia } = formStateSocialMedia;
+
+
+  const isSocialMediaAdded = Object.values(personalAccountData.socialMediaLinks).some(
+    (value) => value !== undefined
+  );
+
+  const sm = accountType === 'personal' && {...personalAccountData.socialMediaLinks};
+  const instagramObj = Object.values(sm).find(obj => obj.title === 'INSTAGRAM');
+  const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
+  const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
+  const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
+  const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
+
   
   
 
@@ -563,6 +557,21 @@ const Profile = () => {
     handleToggleEditMode("detailedInformation");
     console.log("verified detailed information");
   };
+
+  // const updatedSocialMedia = useMemo(() => {
+  //   return {
+  //     ...editInfoState.socialMedia,
+  //     instagram: instagramObj ? instagramObj.link : "",
+  //     facebook: facebookObj ? facebookObj.link : "",
+  //     linkedin: linkedinObj ? linkedinObj.link : "",
+  //     twitter: twitterObj ? twitterObj.link : "",
+  //     youtube: youtubeObj ? youtubeObj.link : "",
+  //   };
+  //   setEditInfoState((prevState) => ({
+  //     ...prevState,
+  //     socialMedia: updatedSocialMedia,
+  //   }));
+  // }, [instagramObj, facebookObj, linkedinObj, twitterObj, youtubeObj]);
 
   // USEEFFECT
   useEffect(() => {
@@ -577,28 +586,8 @@ const Profile = () => {
           if (response.status === 200) {
             console.log("userapidata", response.data);
             console.log("This is a personal account");
-            const {
-              _id,
-              username,
-              about,
-              email,
-              fname,
-              lname,
-              phone,
-              gallerys,
-              socialMediaLinks,
-            } = response.data.data;
-            setPersonalAccountData({
-              _id,
-              username,
-              about,
-              email,
-              fname,
-              lname,
-              phone,
-              gallerys,
-              socialMediaLinks,
-            });
+            const res = response.data.data;
+            setPersonalAccountData(res);
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -659,6 +648,7 @@ const Profile = () => {
     };
 
     userApiData();
+    
   }, []);
 
   accountType === 'personal' ? console.log('personal account data', personalAccountData) : console.log('business account data', businessAccountData)
@@ -714,35 +704,7 @@ const Profile = () => {
       </div>
     </form>
   );
-
-  type SocialMediaFormValues = {
-    facebook: string;
-    instagram: string;
-    twitter: string;
-    linkedin: string;
-    youtube: string;
-  }
-
-  const socialMediaForm = useForm<SocialMediaFormValues>({
-    defaultValues: {},
-    resolver: yupResolver(SocialMediaSchema)
-  })
-
-  const { register: registerSocialMedia, handleSubmit: handleSubmitSocialMedia, formState: formStateSocialMedia } = socialMediaForm;
-  const { errors: errorsSocialMedia } = formStateSocialMedia;
-
-
-  const isSocialMediaAdded = Object.values(personalAccountData.socialMediaLinks).some(
-    (value) => value !== undefined
-  );
-
-  const sm = accountType === 'personal' && {...personalAccountData.socialMediaLinks};
-  const instagramObj = Object.values(sm).find(obj => obj.title === 'INSTAGRAM');
-  const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
-  const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
-  const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
-  const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
-
+  
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -763,7 +725,7 @@ const Profile = () => {
             <BsInstagram className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-          <a href={`https://${instagramObj.link}`} target="_blank">{instagramObj.link}</a>
+          <a href={`https://instagram.com/${instagramObj.link}`} target="_blank">{instagramObj.link}</a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
@@ -774,7 +736,7 @@ const Profile = () => {
             <BsTwitter className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-          <a href={`https://${twitterObj.link}`} target="_blank">{twitterObj.link}</a>
+          <a href={`https://twitter.com/${twitterObj.link}`} target="_blank">{twitterObj.link}</a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
@@ -2081,6 +2043,8 @@ const Profile = () => {
                     className="form-input w-full"
                     placeholder="e.g. www.facebook.com/companyProfile"
                     {...registerSocialMedia('facebook')}
+                    value={editInfoState.socialMedia.facebook}
+                    onChange={(e) => handleSocialMediaChange('facebook',e)}
                   />
                 </div>
               </div>
@@ -2098,7 +2062,7 @@ const Profile = () => {
                     className="form-input w-full"
                     placeholder="e.g. @instagramProfile"
                     {...registerSocialMedia('instagram')}
-                    value={editInfoState.socialMedia.instagram}
+                    value={instagramObj && instagramObj.link}
                     onChange={(e) => handleSocialMediaChange("instagram", e)}
                   />
                 </div>
@@ -2117,7 +2081,7 @@ const Profile = () => {
                     className="form-input w-full"
                     placeholder="e.g. @twitterProfile"
                     {...registerSocialMedia('twitter')}
-                    value={editInfoState.socialMedia.twitter}
+                    value={twitterObj && twitterObj.link}
                     onChange={(e) => handleSocialMediaChange("twitter", e)}
                   />
                 </div>
@@ -2136,7 +2100,7 @@ const Profile = () => {
                     className="form-input w-full"
                     placeholder="e.g. www.linkedin.com/companyProfile"
                     {...registerSocialMedia('linkedin')}
-                    value={editInfoState.socialMedia.linkedin}
+                    value={linkedinObj && linkedinObj.link}
                     onChange={(e) => handleSocialMediaChange("linkedin", e)}
                   />
                 </div>
@@ -2155,7 +2119,7 @@ const Profile = () => {
                     className="form-input w-full"
                     placeholder="e.g. www.youtube.com/profile"
                     {...registerSocialMedia('youtube')}
-                    value={editInfoState.socialMedia.youtube}
+                    value={youtubeObj && youtubeObj.link}
                     onChange={(e) => handleSocialMediaChange("youtube", e)}
                   />
                 </div>
