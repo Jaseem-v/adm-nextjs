@@ -62,6 +62,24 @@ const businessItems: MenuProps['items'] = [
     ),
   }
 ];
+const enlistItems: MenuProps['items'] = [
+  {
+    key: '1',
+    label: (
+      <a rel="noopener noreferrer" href="/business-listings/add-individual" >
+        Enlist Individual
+      </a>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <a rel="noopener noreferrer" href="/business-listings/add-company" >
+        Enlist Company
+      </a>
+    ),
+  }
+];
 
 const navItems = [
   { id: 1, title: "Home", animation: "nav1", link: "" },
@@ -85,18 +103,6 @@ const Navbar = () => {
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
 
-  let autoCloseTimeout: NodeJS.Timeout;
-
-  const handleMouseLeave = () => {
-    // Automatically close the dropdown after 4 seconds unless the dropdown component is hovered
-    setTimeout(() => {
-      if (!isBusinessDropdown) {
-        autoCloseTimeout = setTimeout(() => {
-          setIsBusinessDropdown(false);
-        }, 1000);
-      }
-    }, 1000);
-  };
 
   const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
 const isLoggedin = token !== null;
@@ -193,16 +199,16 @@ console.log('isLoggedin', isLoggedin)
                 <li
                   className="py-10 hidden lg:block h-[17px]"
                 >
-                  <Dropdown menu={{ items: businessItems }} placement="bottomRight" arrow className="bg-black cursor-pointer">
+                  <Dropdown menu={{ items: businessItems }} placement="bottomRight" arrow>
                   <div
-                    className='nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                    className='nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2 cursor-pointer'
                     aria-current="page"
                   >
                     Business
                     <img
                           src="/images/expand.svg"
                           alt="expand"
-                          className="mt-1 cursor-pointer"
+                          className="mt-1cursor-pointer"
                         />
                   </div>
                   </Dropdown>
@@ -248,15 +254,13 @@ console.log('isLoggedin', isLoggedin)
     </Dropdown> :
         <div className="hidden lg:flex items-center gap-5 text-sm">
           <div className="relative">
+          <Dropdown menu={{ items: enlistItems }} placement="bottomRight" arrow>
             <button
               className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-              onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
             >
               Claim my Listing
             </button>
-            {isEnlistDropdown && (
-              <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
-            )}
+            </Dropdown>
           </div>
           <Link href="/login">
             <button className="navBtn font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
