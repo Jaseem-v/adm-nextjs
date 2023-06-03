@@ -8,6 +8,42 @@ import EnlistModel from "./enlistModel";
 import { Toaster } from "react-hot-toast";
 import EnlistDropdown from "./enlistDropdown";
 import httpClient from "@/services/axiosInstance";
+import type { MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
+
+import { FaHome } from "react-icons/fa"
+import { IoPersonSharp } from "react-icons/io5"
+import { MdLogout } from "react-icons/md"
+
+const items: MenuProps['items'] = [
+  {
+    key: '1',
+    label: (
+      <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
+        <FaHome />
+        Dashboard
+      </a>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <a rel="noopener noreferrer" href="/dashboard" className="flex gap-2 items-center">
+        <IoPersonSharp />
+        My profile
+      </a>
+    ),
+  },
+  {
+    key: '3',
+    label: (
+      <a rel="noopener noreferrer" href="#" className="flex gap-2 items-center border-none">
+        <MdLogout/>
+        Logout
+      </a>
+    ),
+  },
+];
 
 const navItems = [
   { id: 1, title: "Home", animation: "nav1", link: "" },
@@ -44,8 +80,9 @@ const Navbar = () => {
     }, 1000);
   };
 
-  const token = localStorage.getItem('accessToken')
-  const isLoggedin = token !== null;
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
+const isLoggedin = token !== null;
+
   
   useEffect(() => {
     const fetchUser = async() => {
@@ -147,7 +184,8 @@ const Navbar = () => {
           </div>
         )}
         {/* login */}
-        {isLoggedin ? <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
+        {isLoggedin ? <Dropdown menu={{ items }} placement="bottomRight" arrow>
+<div className="flex items-center justify-end gap-3 hover:cursor-pointer">
           <div className="h-9 w-9 bg-skeleton rounded-full"></div>
           <div className="flex items-center gap-2">
             <p>{username}</p>
@@ -157,7 +195,8 @@ const Navbar = () => {
               className="mt-1 cursor-pointer w-[11px] h-2"
             />
           </div>
-        </div> :
+        </div>
+    </Dropdown> :
         <div className="hidden lg:flex items-center gap-5 text-sm">
           <div className="relative">
             <button
