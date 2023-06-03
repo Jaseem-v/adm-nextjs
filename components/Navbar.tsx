@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BusinessDropdown from "./BusinessDropdown";
 import Link from "next/link";
 import "./Navbar.css";
 import EnlistModel from "./enlistModel";
 import { Toaster } from "react-hot-toast";
 import EnlistDropdown from "./enlistDropdown";
+import httpClient from "@/services/axiosInstance";
 
 const navItems = [
   { id: 1, title: "Home", animation: "nav1", link: "" },
@@ -23,6 +24,7 @@ const Navbar = () => {
   const [isEnlistDropdown, setIsEnlistDropdown] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showEnlistModel, setShowEnlistModel] = useState(false);
+  const [username, setUsername] = useState('')
 
   const selectedStyle =
     "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400  px-2";
@@ -44,7 +46,36 @@ const Navbar = () => {
 
   const token = localStorage.getItem('accessToken')
   const isLoggedin = token !== null;
-  console.log('isLoggedin', isLoggedin)
+  
+  useEffect(() => {
+    const fetchUser = async() => {
+      const accountType = localStorage.getItem('accountType')
+
+      if (accountType === 'personal') {
+        try {
+          const response = await httpClient().get("user/personal/profile")
+          if (response.status === 200) {
+            const { username } = response.data.data
+            const editedUsername = username.slice(3)
+            setUsername(editedUsername)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      } else if (accountType === 'business') {
+        try {
+          const response = await httpClient().get("user/business/profile")
+          if (response.status === 200) {
+            const { username } = response.data.data
+            setUsername(username)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    fetchUser()
+  }, [])
 
   return (
     // need to implement proper sticky navbar
@@ -116,6 +147,10 @@ const Navbar = () => {
           </div>
         )}
         {/* login */}
+        {isLoggedin ? <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
+          <p>{username}</p>
+          <div className="h-9 w-9 bg-skeleton rounded-full"></div>
+        </div> :
         <div className="hidden lg:flex items-center gap-5 text-sm">
           <div className="relative">
             <button
@@ -133,7 +168,7 @@ const Navbar = () => {
               Login
             </button>
           </Link>
-        </div>
+        </div>}
 
         {showEnlistModel && (
           <EnlistModel setShowEnlistModel={setShowEnlistModel} />
