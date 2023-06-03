@@ -41,6 +41,11 @@ const Navbar = () => {
       }
     }, 1000);
   };
+
+  const token = localStorage.getItem('accessToken')
+  const isLoggedin = token !== null;
+  console.log('isLoggedin', isLoggedin)
+
   return (
     // need to implement proper sticky navbar
     <header

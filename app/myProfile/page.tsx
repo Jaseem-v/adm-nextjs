@@ -269,8 +269,9 @@ const Profile = () => {
       editInfoState.logo.length > 0) ||
     editInfoState.photos.length > 0;
   const isServicesCompleted = editInfoState.products.length > 0;
-  const isSocialMediaCompleted = Object.values(editInfoState.socialMedia).some(
-    (value) => value !== ""
+
+  const isSocialMediaCompleted = personalAccountData.socialMediaLinks.some(
+    (link) => link.link !== ""
   );
 
   const progressSections = [
@@ -528,6 +529,14 @@ const Profile = () => {
     linkedin: string;
     youtube: string;
   }
+
+  // const defaultValues: SocialMediaFormValues = useMemo({
+  //   instagram: '',
+  //   facebook: '',
+  //   twitter: '',
+  //   linkedin: '',
+  //   youtube: ''
+  // }, [])
 
   const socialMediaForm = useForm<SocialMediaFormValues>({
     defaultValues: {},
