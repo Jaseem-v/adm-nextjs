@@ -138,6 +138,7 @@ const Profile = () => {
       socialMediaLinks: [],
       gallerys: [],
     });
+    const [personalFullname, setPersonalFullname] = useState('')
   const [businessAccountData, setBusinessAccountData] =
     useState<BusinessAccountDataType>({
       _id: "",
@@ -597,6 +598,7 @@ const Profile = () => {
             console.log("This is a personal account");
             const res = response.data.data;
             setPersonalAccountData(res);
+            setPersonalFullname(`${res.fname} ${res.lname}`)
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -659,6 +661,7 @@ const Profile = () => {
     userApiData();
     
   }, []);
+  console.log('full name', personalFullname)
 
   accountType === 'personal' ? console.log('personal account data', personalAccountData) : console.log('business account data', businessAccountData)
 
@@ -1034,15 +1037,9 @@ const Profile = () => {
                     <div className="flex items-center form-control">
                       <input
                         type="text"
-                        placeholder="edit mode"
                         className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
-                        value={editInfoState.businessName}
-                        onChange={(e) =>
-                          handleEditInfoStateChange(
-                            "businessName",
-                            e.target.value
-                          )
-                        }
+                        value={accountType === 'personal' ? personalFullname : 'business'}
+                        onChange={(e) => setPersonalFullname(e.target.value)}
                       />
                     </div>
                     <span className="flex-1"></span>

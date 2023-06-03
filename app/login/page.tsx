@@ -9,7 +9,7 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signInSchema } from "../../utils/schema/signUpSchema";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { TailSpin } from "react-loader-spinner";
 const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

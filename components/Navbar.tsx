@@ -14,6 +14,7 @@ import { Button, Dropdown } from 'antd';
 import { FaHome } from "react-icons/fa"
 import { IoPersonSharp } from "react-icons/io5"
 import { MdLogout } from "react-icons/md"
+import { useRouter } from 'next/router';
 
 const logout = async () => {
   await localStorage.removeItem('accessToken')
@@ -101,20 +102,22 @@ const Navbar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showEnlistModel, setShowEnlistModel] = useState(false);
   const [username, setUsername] = useState('')
+  // const [isLoggedin, setIsLoggedin] = useState(false)
 
   const selectedStyle =
     "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400  px-2";
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
 
-
-  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
-const isLoggedin = token !== null;
-
-console.log('isLoggedin', isLoggedin)
-
-  
-  useEffect(() => {
+    // const router = useRouter();
+    
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    // const loginStatus = token !== null
+    const isLoggedin = token !== null;
+    
+    useEffect(() => {
+    //    const { loginStatus} = router.query;
+    // setIsLoggedin(loginStatus === 'success');
     const fetchUser = async() => {
       const accountType = localStorage.getItem('accountType')
 
@@ -142,7 +145,7 @@ console.log('isLoggedin', isLoggedin)
       }
     }
     fetchUser()
-    
+
   }, [])
 
 
