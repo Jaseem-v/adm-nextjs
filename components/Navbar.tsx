@@ -15,6 +15,10 @@ import { FaHome } from "react-icons/fa"
 import { IoPersonSharp } from "react-icons/io5"
 import { MdLogout } from "react-icons/md"
 
+const logout = async () => {
+  await localStorage.removeItem('accessToken')
+}
+
 const items: MenuProps['items'] = [
   {
     key: '1',
@@ -37,10 +41,10 @@ const items: MenuProps['items'] = [
   {
     key: '3',
     label: (
-      <a rel="noopener noreferrer" href="#" className="flex gap-2 items-center border-none">
+      <div rel="noopener noreferrer" className="flex gap-2 items-center border-none" onClick={logout}>
         <MdLogout/>
         Logout
-      </a>
+      </div>
     ),
   },
 ];
@@ -138,7 +142,10 @@ console.log('isLoggedin', isLoggedin)
       }
     }
     fetchUser()
+    
   }, [])
+
+
 
   return (
     // need to implement proper sticky navbar
