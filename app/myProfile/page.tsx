@@ -38,7 +38,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   SocialMediaSchema,
-  businessInfoSchema,
+  updateBusinessInfoSchema,
   fullnameSchema,
   businessNameSchema,
 } from "../../utils/schema/signUpSchema";
@@ -117,7 +117,7 @@ const Profile = () => {
 
   const businessInfoForm = useForm<BusinessInfoFormValues>({
     defaultValues: {},
-    resolver: yupResolver(businessInfoSchema),
+    resolver: yupResolver(updateBusinessInfoSchema),
   });
 
   const {
@@ -154,7 +154,6 @@ const Profile = () => {
     place: '',
     state: '',
     streetNumber: '',
-    phone: ''
   })
   const [businessAccountData, setBusinessAccountData] =
     useState<BusinessAccountDataType>({
@@ -223,10 +222,6 @@ const Profile = () => {
   });
   const [accountType, setAccountType] = useState<string | null>();
 
-  type FormType = {
-    businessName: string;
-  };
-
   const handleSocialMediaChange = (
     name: string,
     event: React.ChangeEvent<HTMLInputElement>
@@ -276,7 +271,7 @@ const Profile = () => {
   };
 
   const isAddressCompleted =
-    editInfoState.streetAddress.length > 0 && editInfoState.phone.length > 0;
+    businessAddress.address.length > 0 && businessAccountData.phone.length > 0;
   const isCategoriesCompleted = editInfoState.primaryCategory.length > 0;
   const isAboutCompleted =
     accountType === "personal"
@@ -287,10 +282,11 @@ const Profile = () => {
       editInfoState.logo.length > 0) ||
     editInfoState.photos.length > 0;
   const isServicesCompleted = editInfoState.products.length > 0;
+  const isSocialMediaCompleted =
+  accountType === 'personal'
+    ? personalAccountData.socialMediaLinks.some((link) => link.link !== "")
+    : businessAccountData.socialMediaLinks.some((link) => link.link !== "");
 
-  const isSocialMediaCompleted = personalAccountData.socialMediaLinks.some(
-    (link) => link.link !== ""
-  );
 
   const progressSections = [
     isAddressCompleted,
@@ -439,7 +435,7 @@ const Profile = () => {
       place: businessAddress.place
     }
 
-    const updatedBusinessAccountData = {...businessAccountData, addressDetails: {...info}, phone: data.phone}
+    const updatedBusinessAccountData = {...businessAccountData, addressDetails: {...info}}
     try {
       await httpClient()
         .patch("user/business/profile", updatedBusinessAccountData)
@@ -778,6 +774,14 @@ const Profile = () => {
           }
         } catch (error) {
           console.log(error);
+        }
+
+        try {
+          const response = await httpClient().get('/category/customer')
+          const res = response.data
+          console.log(res)
+        } catch (error) {
+          console.log(error)
         }
       }
       setIsLoading(false);
@@ -1475,7 +1479,6 @@ const Profile = () => {
                       </div>
                     )}
 
-                    {!editModeState.businessInfo ? (
                       <div className="flex flex-row gap-2">
                         <RiPhoneFill className="mt-1" />
                         <div className="flex flex-col gap-1">
@@ -1490,41 +1493,7 @@ const Profile = () => {
                           </p>
                         </div>
                       </div>
-                    ) : (
-                      <div className="flex flex-col w-full gap-2">
-                        <div className="flex flex-row items-center gap-2">
-                          <RiPhoneFill />
-                          <p className="text-lg font-semibold">Phone</p>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <div className="flex flex-col gap-1 form-control">
-                            <label htmlFor="phone">Phone</label>
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              pattern="[0-9]"
-                              id="phone"
-                              placeholder="1112223333"
-                              className="md:w-1/2"
-                              {...registerBusinessInfo('phone')}
-                              value={businessAddress.phone}
-                              onChange={e => setBusinessAddress(prevState => ({...prevState, phone: e.target.value}))}
-                            />
-                          </div>
-                          <div className="flex flex-grow gap-2 items-center">
-                            <label
-                              htmlFor="hidePhone"
-                              className="cursor-pointer flex items-center "
-                            >
-                              <input type="checkbox" id="hidePhone" />
-                              <span className="ml-1 text-sm">
-                                Don{`'`}t display my phone publicly
-                              </span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+
                   </div>
                 </form>
                 </FormProvider >

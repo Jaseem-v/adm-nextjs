@@ -64,6 +64,25 @@ export const signInSchema = yup.object({
 });
 
 export const businessInfoSchema = yup.object({
+    streetAddress: yup.string().required("streetAddress is required"),
+    building: yup.string(),
+    city: yup.string().required("City is required"),
+    zip: yup
+        .string()
+        .matches(/^[0-9]*$/, "Zip must be a number")
+        .matches(/^\d{6}$/, "Zip code must be 6 digits")
+        .required("Zip is required"),
+    hideAddress: yup.boolean(),
+    hasServiceArea: yup.boolean(),
+    phoneNumber: yup
+        .string()
+        .required("Phone number is required")
+        .max(10)
+        .min(10),
+    hidePhone: yup.boolean()    
+})
+
+export const updateBusinessInfoSchema = yup.object({
     address: yup.string().required("streetAddress is required"),
     landmark: yup.string(),
     city: yup.string().required("City is required"),
@@ -72,14 +91,7 @@ export const businessInfoSchema = yup.object({
         .matches(/^[0-9]*$/, "Zip must be a number")
         .matches(/^\d{6}$/, "Zip code must be 6 digits")
         .required("Zip is required"),
-    // hideAddress: yup.boolean(),
-    // hasServiceArea: yup.boolean(),
-    phone: yup
-        .string()
-        .required("Phone number is required")
-        .max(10)
-        .min(10),
-    // hidePhone: yup.boolean()    
+
 })
 
 export const SocialMediaSchema = yup.object({

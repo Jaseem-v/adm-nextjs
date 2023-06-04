@@ -141,7 +141,8 @@ const Navbar = () => {
           const response = await httpClient().get("user/business/profile")
           if (response.status === 200) {
             const { username } = response.data.data
-            setUsername(username)
+            const editedUsername = username.slice(3)
+            setUsername(editedUsername)
           }
         } catch (error) {
           console.log(error)
