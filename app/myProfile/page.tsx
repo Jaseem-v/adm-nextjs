@@ -560,17 +560,32 @@ const Profile = () => {
     linkedin: string;
     youtube: string;
   }
+  const [personalSocialMediaLinks , setPersonalSocialMediaLinks] = useState({
+    facebook: '',
+    instagram: '',
+    linkedin: '',
+    twitter: '',
+    youtube: ''
+  })
+  const sm = accountType === 'personal' && {...personalAccountData.socialMediaLinks};
+  const instagramObj = Object.values(sm).find(obj => obj.title === 'INSTAGRAM');
+  const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
+  const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
+  const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
+  const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
 
-  // const defaultValues: SocialMediaFormValues = useMemo({
-  //   instagram: '',
-  //   facebook: '',
-  //   twitter: '',
-  //   linkedin: '',
-  //   youtube: ''
-  // }, [])
+  
+  
+  const defaultValues: SocialMediaFormValues = useMemo(() => ({
+    instagram: instagramObj?.link || '',
+    facebook: facebookObj?.link ||  '',
+    twitter: '',
+    linkedin: '',
+    youtube: ''
+  }), []);
 
   const socialMediaForm = useForm<SocialMediaFormValues>({
-    defaultValues: {},
+    defaultValues,
     resolver: yupResolver(SocialMediaSchema)
   })
 
@@ -582,12 +597,6 @@ const Profile = () => {
     (value) => value !== undefined
   );
 
-  const sm = accountType === 'personal' && {...personalAccountData.socialMediaLinks};
-  const instagramObj = Object.values(sm).find(obj => obj.title === 'INSTAGRAM');
-  const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
-  const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
-  const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
-  const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
 
   
   
@@ -2101,8 +2110,8 @@ const Profile = () => {
                     className="form-input w-full"
                     placeholder="e.g. www.facebook.com/companyProfile"
                     {...registerSocialMedia('facebook')}
-                    value={editInfoState.socialMedia.facebook}
-                    onChange={(e) => handleSocialMediaChange('facebook',e)}
+                    value={personalSocialMediaLinks.facebook}
+                    onChange={(e) => setPersonalSocialMediaLinks(prevState => ({...prevState, facebook: e.target.value}))}
                   />
                 </div>
               </div>

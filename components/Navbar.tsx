@@ -10,45 +10,13 @@ import EnlistDropdown from "./enlistDropdown";
 import httpClient from "@/services/axiosInstance";
 import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
+import { getLoginStatus } from './../services/loginStatus';
 
 import { FaHome } from "react-icons/fa"
 import { IoPersonSharp } from "react-icons/io5"
 import { MdLogout } from "react-icons/md"
-import { useRouter } from 'next/router';
 
-const logout = async () => {
-  await localStorage.removeItem('accessToken')
-}
 
-const items: MenuProps['items'] = [
-  {
-    key: '1',
-    label: (
-      <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
-        <FaHome />
-        Dashboard
-      </a>
-    ),
-  },
-  {
-    key: '2',
-    label: (
-      <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
-        <IoPersonSharp />
-        My profile
-      </a>
-    ),
-  },
-  {
-    key: '3',
-    label: (
-      <div rel="noopener noreferrer" className="flex gap-2 items-center border-none" onClick={logout}>
-        <MdLogout/>
-        Logout
-      </div>
-    ),
-  },
-];
 const businessItems: MenuProps['items'] = [
   {
     key: '1',
@@ -102,6 +70,42 @@ const Navbar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showEnlistModel, setShowEnlistModel] = useState(false);
   const [username, setUsername] = useState('')
+  const [loggedOut, setLoggedOut] = useState(false)
+
+  const logout = async () => {
+    await localStorage.removeItem('accessToken')
+    setLoggedOut(true)
+  }
+  
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
+          <FaHome />
+          Dashboard
+        </a>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
+          <IoPersonSharp />
+          My profile
+        </a>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <div rel="noopener noreferrer" className="flex gap-2 items-center border-none" onClick={logout}>
+          <MdLogout/>
+          Logout
+        </div>
+      ),
+    },
+  ];
   // const [isLoggedin, setIsLoggedin] = useState(false)
 
   const selectedStyle =
@@ -109,7 +113,6 @@ const Navbar = () => {
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
 
-    // const router = useRouter();
     
     const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
     // const loginStatus = token !== null
@@ -118,6 +121,7 @@ const Navbar = () => {
     useEffect(() => {
     //    const { loginStatus} = router.query;
     // setIsLoggedin(loginStatus === 'success');
+    
     const fetchUser = async() => {
       const accountType = localStorage.getItem('accountType')
 
@@ -145,8 +149,7 @@ const Navbar = () => {
       }
     }
     fetchUser()
-
-  }, [])
+  }, [loggedOut])
 
 
 

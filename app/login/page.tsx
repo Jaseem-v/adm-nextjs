@@ -9,8 +9,10 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signInSchema } from "../../utils/schema/signUpSchema";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
+import { setLoginStatus } from './../../services/loginStatus';
+
 const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -54,6 +56,7 @@ const Login = () => {
             }
 
             if (res.status == 200) {
+              localStorage.removeItem('accessToken')
               localStorage.setItem("accessToken", res.data.token);
               localStorage.setItem("accountType", "personal");
               toast.success("Login Successfully");
