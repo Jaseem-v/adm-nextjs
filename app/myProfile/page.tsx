@@ -577,14 +577,28 @@ const Profile = () => {
       []
     );
 
-    const updatedPersonalAccountData = {
-      ...personalAccountData,
-      socialMediaLinks: transformedData,
-    };
-    await httpClient()
+    if (accountType === 'personal') {
+
+      const updatedPersonalAccountData = {
+        ...personalAccountData,
+        socialMediaLinks: transformedData,
+      };
+      await httpClient()
       .patch("user/personal/profile", updatedPersonalAccountData)
       .catch((err) => console.log(err));
-    console.log("verified social media");
+      console.log("verified social media");
+
+    } else if (accountType === 'business') {
+      const updatedBusinessAccountData = {
+        ...businessAccountData,
+        socialMediaLinks: transformedData,
+      };
+      console.log(updatedBusinessAccountData)
+      await httpClient()
+      .patch("user/business/profile", updatedBusinessAccountData)
+      .catch((err) => console.log(err));
+      console.log("verified social media");
+    }
   };
 
   // const getFormattedLink = (platform: string, value: string) => {
@@ -616,9 +630,20 @@ const Profile = () => {
     twitter: "",
     youtube: "",
   });
-  const sm = accountType === "personal" && {
-    ...personalAccountData.socialMediaLinks,
-  };
+  const [businessSocialMediaLinks, setBusinessSocialMediaLinks] = useState({
+    facebook: "",
+    instagram: "",
+    linkedin: "",
+    twitter: "",
+    youtube: "",
+  });
+
+  const sm =
+    accountType === "personal"
+      ? personalAccountData.socialMediaLinks
+      : businessAccountData.socialMediaLinks;
+
+  console.log(sm);
   const instagramObj = Object.values(sm).find(
     (obj) => obj.title === "INSTAGRAM"
   );
@@ -650,9 +675,11 @@ const Profile = () => {
   } = socialMediaForm;
   const { errors: errorsSocialMedia } = formStateSocialMedia;
 
-  const isSocialMediaAdded = Object.values(
+  const isSocialMediaAdded = accountType === 'personal' ? Object.values(
     personalAccountData.socialMediaLinks
-  ).some((value) => value !== undefined);
+  ).some((value) => value !== undefined) : Object.values(
+    businessAccountData.socialMediaLinks
+  ).some((value) => value !== undefined)
 
   const verifyDetailedInformation = () => {
     // POST API
@@ -778,6 +805,8 @@ const Profile = () => {
       </div>
     </form>
   );
+
+  console.log('facebookobj', facebookObj)
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -2202,8 +2231,11 @@ const Profile = () => {
               </div>
             )
           ) : (
+
             <FormProvider {...socialMediaForm}>
               <form onSubmit={handleSubmitSocialMedia(verifySocialMedia)}>
+                {/* Personal Account Social Media Links */}
+                {accountType === "personal" && (
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col gap-1">
                     <label htmlFor="facebook">Facebook URL</label>
@@ -2306,25 +2338,130 @@ const Profile = () => {
                       />
                     </div>
                   </div>
-
-                  {/* <div className="flex flex-col gap-1">
-                <label htmlFor="pinterest">Pinterest URL</label>
-                <div className="flex w-full flex-row">
-                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                    <BsPinterest />
-                    <p className="text-sm">https://</p>
+                </div>)}
+                {/* Business Account Social Media Links */}
+                {accountType === "business" && (
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="facebook">Facebook URL</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <BsFacebook />
+                        <p className="text-sm">https://</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="facebook"
+                        className="form-input w-full"
+                        placeholder="e.g. www.facebook.com/companyProfile"
+                        {...registerSocialMedia("facebook")}
+                        value={businessSocialMediaLinks.facebook}
+                        onChange={(e) =>
+                          setBusinessSocialMediaLinks((prevState) => ({
+                            ...prevState,
+                            facebook: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    id="pinterest"
-                    className="form-input w-full"
-                    placeholder="e.g. www.pinterest.com/profile"
-                    value={editInfoState.socialMedia.pinterest}
-                    onChange={(e) => handleSocialMediaChange("pinterest", e)}
-                  />
-                </div>
-              </div> */}
-                </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="instagram">Instagram</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <BsInstagram />
+                        <p className="text-sm">@</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="instagram"
+                        className="form-input w-full"
+                        placeholder="e.g. @instagramProfile"
+                        {...registerSocialMedia("instagram")}
+                        value={businessSocialMediaLinks.instagram}
+                        onChange={(e) =>
+                          setBusinessSocialMediaLinks((prevState) => ({
+                            ...prevState,
+                            instagram: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="twitter">Twitter</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <BsTwitter />
+                        <p className="text-sm">@</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="twitter"
+                        className="form-input w-full"
+                        placeholder="e.g. @twitterProfile"
+                        {...registerSocialMedia("twitter")}
+                        value={businessSocialMediaLinks.twitter}
+                        onChange={(e) =>
+                          setBusinessSocialMediaLinks((prevState) => ({
+                            ...prevState,
+                            twitter: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="linkedin">LinkedIn URL</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <BsLinkedin />
+                        <p className="text-sm">https://</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="linkedin"
+                        className="form-input w-full"
+                        placeholder="e.g. www.linkedin.com/companyProfile"
+                        {...registerSocialMedia("linkedin")}
+                        value={businessSocialMediaLinks.linkedin}
+                        onChange={(e) =>
+                          setBusinessSocialMediaLinks((prevState) => ({
+                            ...prevState,
+                            linkedin: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="youtube">Youtube Channel</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <BsYoutube />
+                        <p className="text-sm">https://</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="youtube"
+                        className="form-input w-full"
+                        placeholder="e.g. www.youtube.com/profile"
+                        {...registerSocialMedia("youtube")}
+                        value={businessSocialMediaLinks.youtube}
+                        onChange={(e) =>
+                          setBusinessSocialMediaLinks((prevState) => ({
+                            ...prevState,
+                            youtube: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>)}
                 <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
                   <button
                     className="bg-skeleton py-1 px-3  rounded "
