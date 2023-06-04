@@ -102,30 +102,30 @@ const Profile = () => {
     });
   };
 
-  // FORM VALIDATION
-  const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({
-    businessName: "",
-    businessInfo: {
-      streetAddress: "",
-      city: "",
-    },
-  });
+  // BUSINESS INFO FORM
 
   type BusinessInfoFormValues = {
-    streetAddress: string;
+    address: string;
     building: string;
     city: string;
     zip: string;
     hideAddress: boolean;
     phone: string;
     hidePhone: boolean;
+    landmark: string
   };
 
   const businessInfoForm = useForm<BusinessInfoFormValues>({
     defaultValues: {},
     resolver: yupResolver(businessInfoSchema),
   });
+
+  const {
+    register: registerBusinessInfo,
+    handleSubmit: handleSubmitBusinessInfo,
+    formState: formStateBusinessInfo,
+  } = businessInfoForm;
+  const { errors: errorsBusinessInfo } = formStateBusinessInfo;
 
   // SECTION REFS
 
@@ -146,6 +146,16 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [businessAddress, setBusinessAddress] = useState({
+    address: '',
+    city: '',
+    landmark: '',
+    pincode: '',
+    place: '',
+    state: '',
+    streetNumber: '',
+    phone: ''
+  })
   const [businessAccountData, setBusinessAccountData] =
     useState<BusinessAccountDataType>({
       _id: "",
@@ -416,11 +426,36 @@ const Profile = () => {
 
   // SECTION FUNCTIONS
 
-  const verifyBusinessInfo = () => {
+  const verifyBusinessInfo = async(data: BusinessInfoFormValues) => {
     // POST API
+    console.log(data)
+    const info = {
+      address: data.address,
+      city: data.city,
+      landmark: data.landmark,
+      pincode: data.zip,
+      state: businessAddress.state,
+      streetNumber: businessAddress.streetNumber,
+      place: businessAddress.place
+    }
+
+    const updatedBusinessAccountData = {...businessAccountData, addressDetails: {...info}, phone: data.phone}
+    try {
+      await httpClient()
+        .patch("user/business/profile", updatedBusinessAccountData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log("error updating", err));
+    } catch (error) {
+      console.log(error);
+    }
+
     handleToggleEditMode("businessInfo");
     console.log("verified business info");
   };
+
+  console.log('error', errorsBusinessInfo)
 
   const verifyWebsite = async () => {
     // POST API
@@ -677,7 +712,7 @@ const Profile = () => {
 
   const isSocialMediaAdded = accountType === 'personal' ? Object.values(
     personalAccountData.socialMediaLinks
-  ).some((value) => value !== undefined) : Object.values(
+  ).some((value) => value !== undefined) : Object.values( 
     businessAccountData.socialMediaLinks
   ).some((value) => value !== undefined)
 
@@ -735,6 +770,7 @@ const Profile = () => {
             const res = response.data.data;
             setBusinessAccountData(res);
             setBusinessName(res.name);
+            setBusinessAddress({...res.addressDetails, phone: res.phone})
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -806,8 +842,8 @@ const Profile = () => {
     </form>
   );
 
-  console.log('facebookobj', facebookObj)
 
+  console.log('uploded photos', uploadedPhotos)
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
       {facebookObj && (
@@ -1249,7 +1285,8 @@ const Profile = () => {
             {/* business form */}
             {accountType === "business" && (
               <div className="flex flex-col gap-6 text-gray-800">
-                <form className="flex flex-col gap-2">
+                <FormProvider {...businessInfoForm}>
+                <form className="flex flex-col gap-2" onSubmit={handleSubmitBusinessInfo(verifyBusinessInfo)} noValidate>
                   <div className="flex flex-row gap-4">
                     <span className="text-2xl font-lora font-medium">
                       Business Info
@@ -1274,7 +1311,7 @@ const Profile = () => {
                           </button>
                           <button
                             className="bg-orange text-white py-1 px-3 rounded "
-                            onClick={verifyBusinessInfo}
+                            type="submit"
                           >
                             Verify
                           </button>
@@ -1294,19 +1331,13 @@ const Profile = () => {
                             </span>
                           </p>
                           <p className="text-lg text-gray-700">
-                            {editInfoState.streetAddress.length > 0
-                              ? editInfoState.streetAddress
-                              : "Brooklyn"}
+                            {businessAddress.address}
                             {`, `}
-                            {editInfoState.city.length > 0
-                              ? editInfoState.city
-                              : "city"}
+                            {businessAddress.city}
                             {`, `}
-                            {editInfoState.state}
+                            {businessAddress.place}
                             {`, `}
-                            {editInfoState.zip.length > 0
-                              ? editInfoState.zip
-                              : "123456"}
+                            {businessAddress.pincode}
                           </p>
                         </div>
                       </div>
@@ -1334,19 +1365,15 @@ const Profile = () => {
                           </div>
                           <div className="flex flex-col gap-1 form-control">
                             <label htmlFor="streetAddress">
-                              Street Address
+                              Address
                             </label>
                             <input
                               type="text"
                               id="streetAddress"
                               placeholder="e.g. Sheikh Zayed St"
-                              value={editInfoState.streetAddress}
-                              onChange={(e) =>
-                                handleEditInfoStateChange(
-                                  "streetAddress",
-                                  e.target.value
-                                )
-                              }
+                              {...registerBusinessInfo('address')}
+                              value={businessAddress.address}
+                              onChange={(e) => setBusinessAddress(prevState => ({...prevState, address: e.target.value}))}
                             />
                           </div>
                           <div className="flex flex-col gap-1"></div>{" "}
@@ -1354,12 +1381,15 @@ const Profile = () => {
                           <div className="grid md:grid-cols-3 md:gap-x-10 gap-y-3">
                             <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
                               <label htmlFor="building">
-                                Apt/Suite (optional)
+                                Landmark
                               </label>
                               <input
                                 type="text"
                                 id="building"
-                                placeholder="#200"
+                                placeholder="Louvre Abu Dhabi"
+                                {...registerBusinessInfo('landmark')}
+                                value={businessAddress.landmark}
+                                onChange={(e) => setBusinessAddress(prevState => ({...prevState, landmark: e.target.value}))}
                               />
                             </div>
                             <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
@@ -1368,13 +1398,9 @@ const Profile = () => {
                                 type="text"
                                 id="city"
                                 placeholder="e.g. Al Ain"
-                                value={editInfoState.city}
-                                onChange={(e) =>
-                                  handleEditInfoStateChange(
-                                    "city",
-                                    e.target.value
-                                  )
-                                }
+                                {...registerBusinessInfo("city")}
+                                value={businessAddress.city}
+                                onChange={(e) => setBusinessAddress(prevState => ({...prevState, city: e.target.value}))}
                               />
                             </div>
                             <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
@@ -1385,13 +1411,9 @@ const Profile = () => {
                                 pattern="[0-9]"
                                 id="zip"
                                 placeholder="126452"
-                                value={editInfoState.zip}
-                                onChange={(e) =>
-                                  handleEditInfoStateChange(
-                                    "zip",
-                                    e.target.value
-                                  )
-                                }
+                                {...registerBusinessInfo('zip')}
+                                value={businessAddress.pincode}
+                                onChange={(e) => setBusinessAddress(prevState => ({...prevState, pincode: e.target.value}))}
                               />
                             </div>
                           </div>
@@ -1464,9 +1486,7 @@ const Profile = () => {
                             </span>
                           </p>
                           <p className="text-lg text-gray-700">
-                            {editInfoState.phone.length > 0
-                              ? editInfoState.phone
-                              : "+971 123 4567"}
+                            {businessAccountData.phone}
                           </p>
                         </div>
                       </div>
@@ -1486,8 +1506,9 @@ const Profile = () => {
                               id="phone"
                               placeholder="1112223333"
                               className="md:w-1/2"
-                              value={editInfoState.phone}
-                              onChange={handlePhoneChange}
+                              {...registerBusinessInfo('phone')}
+                              value={businessAddress.phone}
+                              onChange={e => setBusinessAddress(prevState => ({...prevState, phone: e.target.value}))}
                             />
                           </div>
                           <div className="flex flex-grow gap-2 items-center">
@@ -1506,6 +1527,7 @@ const Profile = () => {
                     )}
                   </div>
                 </form>
+                </FormProvider >
               </div>
             )}
 
