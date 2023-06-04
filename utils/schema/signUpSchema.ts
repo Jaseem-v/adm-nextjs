@@ -114,3 +114,8 @@ export const SocialMediaSchema = yup.object({
       'Invalid LinkedIn profile'
     )
 })
+
+export const fullnameSchema = yup.object({
+  firstname: yup.string().required('This field is required').min(2),
+  lastname: yup.string().required('This field is required').min(2)
+})

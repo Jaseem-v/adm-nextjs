@@ -33,7 +33,7 @@ const items: MenuProps['items'] = [
   {
     key: '2',
     label: (
-      <a rel="noopener noreferrer" href="/dashboard" className="flex gap-2 items-center">
+      <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
         <IoPersonSharp />
         My profile
       </a>

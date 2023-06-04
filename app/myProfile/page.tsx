@@ -36,7 +36,7 @@ import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SocialMediaSchema, businessInfoSchema } from "../../utils/schema/signUpSchema";
+import { SocialMediaSchema, businessInfoSchema, fullnameSchema } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
 import {
@@ -138,7 +138,8 @@ const Profile = () => {
       socialMediaLinks: [],
       gallerys: [],
     });
-    const [personalFullname, setPersonalFullname] = useState('')
+    const [personalFirstname, setPersonalFirstname] = useState('')
+    const [personalLastname, setPersonalLastname] = useState('')
   const [businessAccountData, setBusinessAccountData] =
     useState<BusinessAccountDataType>({
       _id: "",
@@ -488,6 +489,35 @@ const Profile = () => {
     console.log("verified business categories");
   };
 
+  // FULL NAME
+  type FullnameFormValue = {
+    firstname: string;
+    lastname: string
+  }
+  const fullnameForm = useForm<FullnameFormValue>({
+    defaultValues: {},
+    resolver: yupResolver(fullnameSchema)
+  })
+
+  const { register: registerFullname, handleSubmit: handleSubmitFullname, formState: formStateFullname } = fullnameForm;
+  const { errors: errorsFullname } = formStateFullname;
+
+  const verifyFullname = async (data: FullnameFormValue) => {
+    if (accountType === 'personal') {
+      handleToggleEditMode('businessName')
+      const { firstname, lastname } = data;
+      const updatedPersonalAccountData = {...personalAccountData, fname: firstname, lname: lastname}
+      setPersonalAccountData(updatedPersonalAccountData)
+      try {
+        await httpClient().patch('user/personal/profile', updatedPersonalAccountData)
+        .catch(err => console.log(err))
+      } catch(error) {
+        console.log(error)
+      }
+    }
+
+  }
+
   
   const verifySocialMedia = async (data: SocialMediaFormValues) => {
     handleToggleEditMode("socialMedia");
@@ -598,7 +628,8 @@ const Profile = () => {
             console.log("This is a personal account");
             const res = response.data.data;
             setPersonalAccountData(res);
-            setPersonalFullname(`${res.fname} ${res.lname}`)
+            setPersonalFirstname(res.fname)
+            setPersonalLastname(res.lname)
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -661,7 +692,6 @@ const Profile = () => {
     userApiData();
     
   }, []);
-  console.log('full name', personalFullname)
 
   accountType === 'personal' ? console.log('personal account data', personalAccountData) : console.log('business account data', businessAccountData)
 
@@ -1033,31 +1063,53 @@ const Profile = () => {
                     </button>
                   </div>
                 ) : (
+                  <FormProvider {...fullnameForm}>
+                    <form action="submit" onSubmit={handleSubmitFullname(verifyFullname)}>
                   <div className="flex gap-4 items-center justify-between">
                     <div className="flex items-center form-control">
+                      <div className="flex flex-col gap-1">
+                      <label>First name</label>
                       <input
                         type="text"
                         className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
-                        value={accountType === 'personal' ? personalFullname : 'business'}
-                        onChange={(e) => setPersonalFullname(e.target.value)}
+                        value={accountType === 'personal' ? personalFirstname : 'business'}
+                        {...registerFullname('firstname')}
+                        onChange={(e) => setPersonalFirstname(e.target.value)}
                       />
+                      <p className="text-sm text-error">{errorsFullname?.firstname?.message}</p>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                      <label>Last name</label>
+                      <input
+                        type="text"
+                        className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
+                        value={accountType === 'personal' ? personalLastname : 'business'}
+                        {...registerFullname('lastname')}
+                        onChange={(e) => setPersonalLastname(e.target.value)}
+                      />
+                      <p className="text-sm text-error">{errorsFullname?.lastname?.message}</p>
+                      </div>
+                      
                     </div>
                     <span className="flex-1"></span>
                     <div className="flex items-start flex-wrap gap-2">
                       <button
                         className="bg-skeleton py-1 px-3  rounded "
+                        type="button"
                         onClick={() => handleToggleEditMode("businessName")}
                       >
                         Cancel
                       </button>
                       <button
                         className="bg-orange text-white py-1 px-3 rounded "
-                        onClick={verifyBusinessName}
+                        type="submit"
                       >
                         Verify
                       </button>
                     </div>
                   </div>
+                  </form>
+                  </FormProvider>
                 )}
               </div>
             </div>

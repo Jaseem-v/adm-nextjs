@@ -100,36 +100,6 @@ const Profile = () => {
     },
   });
 
-  // HANDLE SUBMIT
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   console.log("event", event);
-  //   try {
-  //     // Validate the form data
-  //     await validationSchema.validate(formData, { abortEarly: false });
-
-  //     // Data is valid, proceed with submission
-  //     // Make your API POST request here
-  //     // ...
-
-  //     // Clear form or show success message
-  //     // ...
-  //   } catch (validationErrors) {
-  //     // Handle validation errors
-  //     const errors = {};
-
-  //     (validationErrors as yup.ValidationError).inner.forEach(
-  //       (error: yup.ValidationError) => {
-  //         if (error.path) {
-  //           // errors[error.path] = error.message;
-  //         }
-  //       }
-  //     );
-
-  //     setErrors(errors);
-  //   }
-  // };
-
   // SECTION REFS
   
   // INITIAL STATE
