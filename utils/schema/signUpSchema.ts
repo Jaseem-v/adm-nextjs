@@ -119,3 +119,7 @@ export const fullnameSchema = yup.object({
   firstname: yup.string().required('This field is required').min(2),
   lastname: yup.string().required('This field is required').min(2)
 })
+
+export const businessNameSchema = yup.object({
+  name: yup.string().required('This field is required').min(3)
+})

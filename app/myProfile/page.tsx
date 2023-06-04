@@ -36,7 +36,12 @@ import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SocialMediaSchema, businessInfoSchema, fullnameSchema } from "../../utils/schema/signUpSchema";
+import {
+  SocialMediaSchema,
+  businessInfoSchema,
+  fullnameSchema,
+  businessNameSchema,
+} from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
 import {
@@ -138,8 +143,9 @@ const Profile = () => {
       socialMediaLinks: [],
       gallerys: [],
     });
-    const [personalFirstname, setPersonalFirstname] = useState('')
-    const [personalLastname, setPersonalLastname] = useState('')
+  const [personalFirstname, setPersonalFirstname] = useState("");
+  const [personalLastname, setPersonalLastname] = useState("");
+  const [businessName, setBusinessName] = useState("");
   const [businessAccountData, setBusinessAccountData] =
     useState<BusinessAccountDataType>({
       _id: "",
@@ -409,11 +415,6 @@ const Profile = () => {
     editInfoState.logo === "https://i.ibb.co/SPJXPcD/store.png" ? false : true;
 
   // SECTION FUNCTIONS
-  const verifyBusinessName = () => {
-    // POST API
-    handleToggleEditMode("businessName");
-    console.log("verified business name");
-  };
 
   const verifyBusinessInfo = () => {
     // POST API
@@ -492,52 +493,100 @@ const Profile = () => {
   // FULL NAME
   type FullnameFormValue = {
     firstname: string;
-    lastname: string
-  }
+    lastname: string;
+  };
   const fullnameForm = useForm<FullnameFormValue>({
     defaultValues: {},
-    resolver: yupResolver(fullnameSchema)
-  })
+    resolver: yupResolver(fullnameSchema),
+  });
 
-  const { register: registerFullname, handleSubmit: handleSubmitFullname, formState: formStateFullname } = fullnameForm;
+  const {
+    register: registerFullname,
+    handleSubmit: handleSubmitFullname,
+    formState: formStateFullname,
+  } = fullnameForm;
   const { errors: errorsFullname } = formStateFullname;
 
   const verifyFullname = async (data: FullnameFormValue) => {
-    if (accountType === 'personal') {
-      handleToggleEditMode('businessName')
+    if (accountType === "personal") {
+      handleToggleEditMode("businessName");
       const { firstname, lastname } = data;
-      const updatedPersonalAccountData = {...personalAccountData, fname: firstname, lname: lastname}
-      setPersonalAccountData(updatedPersonalAccountData)
+      const updatedPersonalAccountData = {
+        ...personalAccountData,
+        fname: firstname,
+        lname: lastname,
+      };
+      setPersonalAccountData(updatedPersonalAccountData);
       try {
-        await httpClient().patch('user/personal/profile', updatedPersonalAccountData)
-        .catch(err => console.log(err))
-      } catch(error) {
-        console.log(error)
-      }
-    }
-
-  }
-
-  
-  const verifySocialMedia = async (data: SocialMediaFormValues) => {
-    handleToggleEditMode("socialMedia");
-  
-    const transformedData = Object.entries(data).reduce((result: { title: string; link: string; }[], [platform, value]) => {
-      if (value) {
-        const title = platform.toUpperCase();
-        const link = value
-        result.push({ title, link });
-      }
-      return result;
-    }, []);
-
-    const updatedPersonalAccountData = {...personalAccountData, socialMediaLinks: transformedData}
-    await httpClient()
+        await httpClient()
           .patch("user/personal/profile", updatedPersonalAccountData)
           .catch((err) => console.log(err));
-    console.log('verified social media');
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
-  
+
+  // BUSINESS NAME
+  type businessNameFormValue = {
+    name: string;
+  };
+
+  const businessNameForm = useForm<businessNameFormValue>({
+    defaultValues: {},
+    resolver: yupResolver(businessNameSchema),
+  });
+
+  const {
+    register: registerBusinessName,
+    handleSubmit: handleSubmitBusinessName,
+    formState: formStateBusinessName,
+  } = businessNameForm;
+  const { errors: errorsBusinessName } = formStateBusinessName;
+
+  const verifyBusinessName = async (data: businessNameFormValue) => {
+    console.log("data", data);
+    if (accountType === "business") {
+      handleToggleEditMode("businessName");
+      const { name } = data;
+      const updatedBusinessAccountData = { ...businessAccountData, name };
+      setBusinessAccountData(updatedBusinessAccountData);
+      try {
+        await httpClient()
+          .patch("user/business/profile", updatedBusinessAccountData)
+          .catch((err) => console.log(err));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  // SOCIAL MEDIA
+  const verifySocialMedia = async (data: SocialMediaFormValues) => {
+    handleToggleEditMode("socialMedia");
+
+    const transformedData = Object.entries(data).reduce(
+      (result: { title: string; link: string }[], [platform, value]) => {
+        if (value) {
+          const title = platform.toUpperCase();
+          const link = value;
+          result.push({ title, link });
+        }
+        return result;
+      },
+      []
+    );
+
+    const updatedPersonalAccountData = {
+      ...personalAccountData,
+      socialMediaLinks: transformedData,
+    };
+    await httpClient()
+      .patch("user/personal/profile", updatedPersonalAccountData)
+      .catch((err) => console.log(err));
+    console.log("verified social media");
+  };
+
   // const getFormattedLink = (platform: string, value: string) => {
   //   let link = '';
   //   switch (platform) {
@@ -559,47 +608,51 @@ const Profile = () => {
     twitter: string;
     linkedin: string;
     youtube: string;
-  }
-  const [personalSocialMediaLinks , setPersonalSocialMediaLinks] = useState({
-    facebook: '',
-    instagram: '',
-    linkedin: '',
-    twitter: '',
-    youtube: ''
-  })
-  const sm = accountType === 'personal' && {...personalAccountData.socialMediaLinks};
-  const instagramObj = Object.values(sm).find(obj => obj.title === 'INSTAGRAM');
-  const facebookObj = Object.values(sm).find(obj => obj.title === 'FACEBOOK');
-  const linkedinObj = Object.values(sm).find(obj => obj.title === 'LINKEDIN');
-  const twitterObj = Object.values(sm).find(obj => obj.title === 'TWITTER');
-  const youtubeObj = Object.values(sm).find(obj => obj.title === 'YOUTUBE');
+  };
+  const [personalSocialMediaLinks, setPersonalSocialMediaLinks] = useState({
+    facebook: "",
+    instagram: "",
+    linkedin: "",
+    twitter: "",
+    youtube: "",
+  });
+  const sm = accountType === "personal" && {
+    ...personalAccountData.socialMediaLinks,
+  };
+  const instagramObj = Object.values(sm).find(
+    (obj) => obj.title === "INSTAGRAM"
+  );
+  const facebookObj = Object.values(sm).find((obj) => obj.title === "FACEBOOK");
+  const linkedinObj = Object.values(sm).find((obj) => obj.title === "LINKEDIN");
+  const twitterObj = Object.values(sm).find((obj) => obj.title === "TWITTER");
+  const youtubeObj = Object.values(sm).find((obj) => obj.title === "YOUTUBE");
 
-  
-  
-  const defaultValues: SocialMediaFormValues = useMemo(() => ({
-    instagram: instagramObj?.link || '',
-    facebook: facebookObj?.link ||  '',
-    twitter: '',
-    linkedin: '',
-    youtube: ''
-  }), []);
+  const defaultValues: SocialMediaFormValues = useMemo(
+    () => ({
+      instagram: instagramObj?.link || "",
+      facebook: facebookObj?.link || "",
+      twitter: "",
+      linkedin: "",
+      youtube: "",
+    }),
+    []
+  );
 
   const socialMediaForm = useForm<SocialMediaFormValues>({
     defaultValues,
-    resolver: yupResolver(SocialMediaSchema)
-  })
+    resolver: yupResolver(SocialMediaSchema),
+  });
 
-  const { register: registerSocialMedia, handleSubmit: handleSubmitSocialMedia, formState: formStateSocialMedia } = socialMediaForm;
+  const {
+    register: registerSocialMedia,
+    handleSubmit: handleSubmitSocialMedia,
+    formState: formStateSocialMedia,
+  } = socialMediaForm;
   const { errors: errorsSocialMedia } = formStateSocialMedia;
 
-
-  const isSocialMediaAdded = Object.values(personalAccountData.socialMediaLinks).some(
-    (value) => value !== undefined
-  );
-
-
-  
-  
+  const isSocialMediaAdded = Object.values(
+    personalAccountData.socialMediaLinks
+  ).some((value) => value !== undefined);
 
   const verifyDetailedInformation = () => {
     // POST API
@@ -637,8 +690,8 @@ const Profile = () => {
             console.log("This is a personal account");
             const res = response.data.data;
             setPersonalAccountData(res);
-            setPersonalFirstname(res.fname)
-            setPersonalLastname(res.lname)
+            setPersonalFirstname(res.fname);
+            setPersonalLastname(res.lname);
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -652,40 +705,9 @@ const Profile = () => {
           const response = await httpClient().get("user/business/profile");
           if (response.status === 200) {
             console.log("business api data", response.data);
-            const {
-              _id,
-              name,
-              username,
-              phone,
-              email,
-              category,
-              website,
-              about,
-              socialMediaLinks,
-              services,
-              gallery,
-              addressDetails,
-              contactDetails,
-              status,
-              isDeleted,
-            } = response.data.data;
-            setBusinessAccountData({
-              _id,
-              name,
-              username,
-              phone,
-              email,
-              category,
-              website,
-              about,
-              socialMediaLinks,
-              services,
-              gallery,
-              addressDetails,
-              contactDetails,
-              status,
-              isDeleted,
-            });
+            const res = response.data.data;
+            setBusinessAccountData(res);
+            setBusinessName(res.name);
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -699,10 +721,11 @@ const Profile = () => {
     };
 
     userApiData();
-    
   }, []);
 
-  accountType === 'personal' ? console.log('personal account data', personalAccountData) : console.log('business account data', businessAccountData)
+  accountType === "personal"
+    ? console.log("personal account data", personalAccountData)
+    : console.log("business account data", businessAccountData);
 
   const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -755,17 +778,18 @@ const Profile = () => {
       </div>
     </form>
   );
-  
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
-      {facebookObj &&  (
+      {facebookObj && (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsFacebook className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-          <a href={`https://${facebookObj.link}`} target="_blank">{facebookObj.link}</a>
+            <a href={`https://${facebookObj.link}`} target="_blank">
+              {facebookObj.link}
+            </a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
@@ -776,18 +800,25 @@ const Profile = () => {
             <BsInstagram className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-          <a href={`https://instagram.com/${instagramObj.link}`} target="_blank">{instagramObj.link}</a>
+            <a
+              href={`https://instagram.com/${instagramObj.link}`}
+              target="_blank"
+            >
+              {instagramObj.link}
+            </a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
       )}
-      {twitterObj && twitterObj.title === 'TWITTER' && (
+      {twitterObj && twitterObj.title === "TWITTER" && (
         <div className="flex flex-row items-center gap-4">
           <div className="w-8">
             <BsTwitter className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-          <a href={`https://twitter.com/${twitterObj.link}`} target="_blank">{twitterObj.link}</a>
+            <a href={`https://twitter.com/${twitterObj.link}`} target="_blank">
+              {twitterObj.link}
+            </a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
@@ -798,7 +829,9 @@ const Profile = () => {
             <BsLinkedin className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-          <a href={`https://${linkedinObj.link}`} target="_blank">{linkedinObj.link}</a>
+            <a href={`https://${linkedinObj.link}`} target="_blank">
+              {linkedinObj.link}
+            </a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
@@ -809,7 +842,9 @@ const Profile = () => {
             <BsYoutube className="w-full h-full" />
           </div>
           <div className="flex flex-row items-center gap-2 hover:underline cursor-pointer">
-          <a href={`https://${youtubeObj.link}`} target="_blank">{youtubeObj.link}</a>
+            <a href={`https://${youtubeObj.link}`} target="_blank">
+              {youtubeObj.link}
+            </a>
             <HiOutlineExternalLink className="w-5 h-5" />
           </div>
         </div>
@@ -1060,7 +1095,7 @@ const Profile = () => {
                   <div className="flex gap-4 items-center justify-between">
                     {/* normal */}
                     <span className="text-4xl font-extrabold text-gray-900 font-lora w-2/3">
-                      {accountType === 'personal'
+                      {accountType === "personal"
                         ? `${personalAccountData.fname} ${personalAccountData.lname}`
                         : businessAccountData.name}
                     </span>
@@ -1071,53 +1106,111 @@ const Profile = () => {
                       Edit
                     </button>
                   </div>
-                ) : (
+                ) : accountType === "personal" ? (
                   <FormProvider {...fullnameForm}>
-                    <form action="submit" onSubmit={handleSubmitFullname(verifyFullname)}>
-                  <div className="flex gap-4 items-center justify-between">
-                    <div className="flex items-center form-control">
-                      <div className="flex flex-col gap-1">
-                      <label>First name</label>
-                      <input
-                        type="text"
-                        className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
-                        value={accountType === 'personal' ? personalFirstname : 'business'}
-                        {...registerFullname('firstname')}
-                        onChange={(e) => setPersonalFirstname(e.target.value)}
-                      />
-                      <p className="text-sm text-error">{errorsFullname?.firstname?.message}</p>
+                    <form
+                      action="submit"
+                      onSubmit={handleSubmitFullname(verifyFullname)}
+                    >
+                      <div className="flex gap-4 items-center justify-between">
+                        <div className="flex items-center form-control">
+                          <div className="flex flex-col gap-1">
+                            <label>First name</label>
+                            <input
+                              type="text"
+                              className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
+                              value={
+                                accountType === "personal"
+                                  ? personalFirstname
+                                  : "business"
+                              }
+                              {...registerFullname("firstname")}
+                              onChange={(e) =>
+                                setPersonalFirstname(e.target.value)
+                              }
+                            />
+                            <p className="text-sm text-error">
+                              {errorsFullname?.firstname?.message}
+                            </p>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <label>Last name</label>
+                            <input
+                              type="text"
+                              className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
+                              value={
+                                accountType === "personal"
+                                  ? personalLastname
+                                  : "business"
+                              }
+                              {...registerFullname("lastname")}
+                              onChange={(e) =>
+                                setPersonalLastname(e.target.value)
+                              }
+                            />
+                            <p className="text-sm text-error">
+                              {errorsFullname?.lastname?.message}
+                            </p>
+                          </div>
+                        </div>
+                        <span className="flex-1"></span>
+                        <div className="flex items-start flex-wrap gap-2">
+                          <button
+                            className="bg-skeleton py-1 px-3  rounded "
+                            type="button"
+                            onClick={() => handleToggleEditMode("businessName")}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="bg-orange text-white py-1 px-3 rounded "
+                            type="submit"
+                          >
+                            Verify
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex flex-col gap-1">
-                      <label>Last name</label>
-                      <input
-                        type="text"
-                        className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
-                        value={accountType === 'personal' ? personalLastname : 'business'}
-                        {...registerFullname('lastname')}
-                        onChange={(e) => setPersonalLastname(e.target.value)}
-                      />
-                      <p className="text-sm text-error">{errorsFullname?.lastname?.message}</p>
+                    </form>
+                  </FormProvider>
+                ) : (
+                  <FormProvider {...businessNameForm}>
+                    <form
+                      action="submit"
+                      onSubmit={handleSubmitBusinessName(verifyBusinessName)}
+                    >
+                      <div className="flex gap-4 items-center justify-between">
+                        <div className="flex flex-col gap-1 form-control">
+                          <label>First name</label>
+                          <input
+                            type="text"
+                            className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
+                            value={businessName}
+                            {...registerBusinessName("name")}
+                            onChange={(e) => setBusinessName(e.target.value)}
+                          />
+                          <p className="text-sm text-error">
+                            {errorsBusinessName?.name?.message}
+                          </p>
+                        </div>
+
+                        <span className="flex-1"></span>
+                        <div className="flex items-start flex-wrap gap-2">
+                          <button
+                            className="bg-skeleton py-1 px-3  rounded "
+                            type="button"
+                            onClick={() => handleToggleEditMode("businessName")}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="bg-orange text-white py-1 px-3 rounded "
+                            type="submit"
+                          >
+                            Verify
+                          </button>
+                        </div>
                       </div>
-                      
-                    </div>
-                    <span className="flex-1"></span>
-                    <div className="flex items-start flex-wrap gap-2">
-                      <button
-                        className="bg-skeleton py-1 px-3  rounded "
-                        type="button"
-                        onClick={() => handleToggleEditMode("businessName")}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className="bg-orange text-white py-1 px-3 rounded "
-                        type="submit"
-                      >
-                        Verify
-                      </button>
-                    </div>
-                  </div>
-                  </form>
+                    </form>
                   </FormProvider>
                 )}
               </div>
@@ -1125,271 +1218,279 @@ const Profile = () => {
             {/* info */}
 
             {/* business form */}
-            {accountType === 'business' && <div className="flex flex-col gap-6 text-gray-800">
-              <form className="flex flex-col gap-2">
-                <div className="flex flex-row gap-4">
-                  <span className="text-2xl font-lora font-medium">
-                    Business Info
-                  </span>
-                  <span className="flex-1"></span>
-                  {/* optional */}
-                  <div>
-                    {!editModeState.businessInfo ? (
-                      <button
-                        className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                        onClick={() => handleToggleEditMode("businessInfo")}
-                      >
-                        Edit
-                      </button>
-                    ) : (
-                      <div className="flex items-start flex-wrap gap-2">
+            {accountType === "business" && (
+              <div className="flex flex-col gap-6 text-gray-800">
+                <form className="flex flex-col gap-2">
+                  <div className="flex flex-row gap-4">
+                    <span className="text-2xl font-lora font-medium">
+                      Business Info
+                    </span>
+                    <span className="flex-1"></span>
+                    {/* optional */}
+                    <div>
+                      {!editModeState.businessInfo ? (
                         <button
-                          className="bg-skeleton py-1 px-3  rounded "
+                          className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
                           onClick={() => handleToggleEditMode("businessInfo")}
                         >
-                          Cancel
+                          Edit
                         </button>
-                        <button
-                          className="bg-orange text-white py-1 px-3 rounded "
-                          onClick={verifyBusinessInfo}
-                        >
-                          Verify
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-6">
-                  {!editModeState.businessInfo ? (
-                    <div className="flex flex-row items-start gap-2">
-                      <CiLocationOn className="mt-1" />
-                      <div className="flex flex-col gap-1">
-                        <p className="text-lg font-medium flex items-center gap-1">
-                          Address{" "}
-                          <span>
-                            <FaEye className="h-3" />
-                          </span>
-                        </p>
-                        <p className="text-lg text-gray-700">
-                          {editInfoState.streetAddress.length > 0
-                            ? editInfoState.streetAddress
-                            : "Brooklyn"}
-                          {`, `}
-                          {editInfoState.city.length > 0
-                            ? editInfoState.city
-                            : "city"}
-                          {`, `}
-                          {editInfoState.state}
-                          {`, `}
-                          {editInfoState.zip.length > 0
-                            ? editInfoState.zip
-                            : "123456"}
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex flex-row items-center gap-2">
-                        <CiLocationOn />
-                        <p className="text-lg font-medium flex items-center gap-1">
-                          Address{" "}
-                          <span>
-                            <FaEye className="h-3" />
-                          </span>
-                        </p>
-                      </div>
-                      <div className="flex flex-col gap-3">
-                        <div className="flex flex-col gap-1 form-control">
-                          <label htmlFor="state">State</label>
-                          <select
-                            name="state"
-                            id="state"
-                            className="w-1/2 md:w-1/4"
+                      ) : (
+                        <div className="flex items-start flex-wrap gap-2">
+                          <button
+                            className="bg-skeleton py-1 px-3  rounded "
+                            onClick={() => handleToggleEditMode("businessInfo")}
                           >
-                            <option value="Abudhabi">Abudhabi</option>
-                          </select>
+                            Cancel
+                          </button>
+                          <button
+                            className="bg-orange text-white py-1 px-3 rounded "
+                            onClick={verifyBusinessInfo}
+                          >
+                            Verify
+                          </button>
                         </div>
-                        <div className="flex flex-col gap-1 form-control">
-                          <label htmlFor="streetAddress">Street Address</label>
-                          <input
-                            type="text"
-                            id="streetAddress"
-                            placeholder="e.g. Sheikh Zayed St"
-                            value={editInfoState.streetAddress}
-                            onChange={(e) =>
-                              handleEditInfoStateChange(
-                                "streetAddress",
-                                e.target.value
-                              )
-                            }
-                          />
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    {!editModeState.businessInfo ? (
+                      <div className="flex flex-row items-start gap-2">
+                        <CiLocationOn className="mt-1" />
+                        <div className="flex flex-col gap-1">
+                          <p className="text-lg font-medium flex items-center gap-1">
+                            Address{" "}
+                            <span>
+                              <FaEye className="h-3" />
+                            </span>
+                          </p>
+                          <p className="text-lg text-gray-700">
+                            {editInfoState.streetAddress.length > 0
+                              ? editInfoState.streetAddress
+                              : "Brooklyn"}
+                            {`, `}
+                            {editInfoState.city.length > 0
+                              ? editInfoState.city
+                              : "city"}
+                            {`, `}
+                            {editInfoState.state}
+                            {`, `}
+                            {editInfoState.zip.length > 0
+                              ? editInfoState.zip
+                              : "123456"}
+                          </p>
                         </div>
-                        <div className="flex flex-col gap-1"></div>{" "}
-                        {/* ADDRESS LINE 2 optional */}
-                        <div className="grid md:grid-cols-3 md:gap-x-10 gap-y-3">
-                          <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                            <label htmlFor="building">
-                              Apt/Suite (optional)
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-row items-center gap-2">
+                          <CiLocationOn />
+                          <p className="text-lg font-medium flex items-center gap-1">
+                            Address{" "}
+                            <span>
+                              <FaEye className="h-3" />
+                            </span>
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                          <div className="flex flex-col gap-1 form-control">
+                            <label htmlFor="state">State</label>
+                            <select
+                              name="state"
+                              id="state"
+                              className="w-1/2 md:w-1/4"
+                            >
+                              <option value="Abudhabi">Abudhabi</option>
+                            </select>
+                          </div>
+                          <div className="flex flex-col gap-1 form-control">
+                            <label htmlFor="streetAddress">
+                              Street Address
                             </label>
                             <input
                               type="text"
-                              id="building"
-                              placeholder="#200"
-                            />
-                          </div>
-                          <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                            <label htmlFor="city">City</label>
-                            <input
-                              type="text"
-                              id="city"
-                              placeholder="e.g. Al Ain"
-                              value={editInfoState.city}
+                              id="streetAddress"
+                              placeholder="e.g. Sheikh Zayed St"
+                              value={editInfoState.streetAddress}
                               onChange={(e) =>
                                 handleEditInfoStateChange(
-                                  "city",
+                                  "streetAddress",
                                   e.target.value
                                 )
                               }
                             />
                           </div>
-                          <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                            <label htmlFor="zip">Zip</label>
+                          <div className="flex flex-col gap-1"></div>{" "}
+                          {/* ADDRESS LINE 2 optional */}
+                          <div className="grid md:grid-cols-3 md:gap-x-10 gap-y-3">
+                            <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                              <label htmlFor="building">
+                                Apt/Suite (optional)
+                              </label>
+                              <input
+                                type="text"
+                                id="building"
+                                placeholder="#200"
+                              />
+                            </div>
+                            <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                              <label htmlFor="city">City</label>
+                              <input
+                                type="text"
+                                id="city"
+                                placeholder="e.g. Al Ain"
+                                value={editInfoState.city}
+                                onChange={(e) =>
+                                  handleEditInfoStateChange(
+                                    "city",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
+                            <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                              <label htmlFor="zip">Zip</label>
+                              <input
+                                type="text"
+                                inputMode="numeric"
+                                pattern="[0-9]"
+                                id="zip"
+                                placeholder="126452"
+                                value={editInfoState.zip}
+                                onChange={(e) =>
+                                  handleEditInfoStateChange(
+                                    "zip",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div className="flex flex-row gap-2 items-center">
+                            <label
+                              htmlFor="hideAddress"
+                              className="cursor-pointer"
+                            >
+                              <input
+                                type="checkbox"
+                                className="cursor-pointer"
+                                id="hideAddress"
+                                name="hideAddress"
+                              />
+                              <span className="ml-1 text-sm">
+                                Don{`'`}t display my address publicly
+                              </span>
+                            </label>
+                          </div>
+                          <div className="flex flex-row gap-2 items-center">
+                            <label
+                              htmlFor="showServiceArea"
+                              className="cursor-pointer"
+                            >
+                              <input
+                                type="checkbox"
+                                className="cursor-pointer"
+                                id="showServiceArea"
+                                name="showServiceArea"
+                              />
+                              <span className="ml-1 text-sm">
+                                We deliver or provide service at customer
+                                locations
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {editModeState.businessInfo && isServiceArea && (
+                      <div className="flex flex-col w-full gap-2 px-4 items-start">
+                        <div className="flex items-center">
+                          <CiLocationOn />
+                          <p className="text-lg font-medium mr-4">
+                            Service Areas
+                          </p>
+                          <p className="text-sm">2/6 Areas listed</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <FaTrashAlt />
+                          <div className="form-control">
+                            <input type="text" />
+                          </div>
+                        </div>
+                        <p className="font-semibold cursor-pointer text-orange-600 hover:underline">
+                          + Add Service Area
+                        </p>
+                      </div>
+                    )}
+
+                    {!editModeState.businessInfo ? (
+                      <div className="flex flex-row gap-2">
+                        <RiPhoneFill className="mt-1" />
+                        <div className="flex flex-col gap-1">
+                          <p className="text-lg font-medium flex items-center gap-1">
+                            Phone{" "}
+                            <span>
+                              <FaEye className="h-3" />
+                            </span>
+                          </p>
+                          <p className="text-lg text-gray-700">
+                            {editInfoState.phone.length > 0
+                              ? editInfoState.phone
+                              : "+971 123 4567"}
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col w-full gap-2">
+                        <div className="flex flex-row items-center gap-2">
+                          <RiPhoneFill />
+                          <p className="text-lg font-semibold">Phone</p>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex flex-col gap-1 form-control">
+                            <label htmlFor="phone">Phone</label>
                             <input
                               type="text"
                               inputMode="numeric"
                               pattern="[0-9]"
-                              id="zip"
-                              placeholder="126452"
-                              value={editInfoState.zip}
-                              onChange={(e) =>
-                                handleEditInfoStateChange("zip", e.target.value)
-                              }
+                              id="phone"
+                              placeholder="1112223333"
+                              className="md:w-1/2"
+                              value={editInfoState.phone}
+                              onChange={handlePhoneChange}
                             />
                           </div>
-                        </div>
-                        <div className="flex flex-row gap-2 items-center">
-                          <label
-                            htmlFor="hideAddress"
-                            className="cursor-pointer"
-                          >
-                            <input
-                              type="checkbox"
-                              className="cursor-pointer"
-                              id="hideAddress"
-                              name="hideAddress"
-                            />
-                            <span className="ml-1 text-sm">
-                              Don{`'`}t display my address publicly
-                            </span>
-                          </label>
-                        </div>
-                        <div className="flex flex-row gap-2 items-center">
-                          <label
-                            htmlFor="showServiceArea"
-                            className="cursor-pointer"
-                          >
-                            <input
-                              type="checkbox"
-                              className="cursor-pointer"
-                              id="showServiceArea"
-                              name="showServiceArea"
-                            />
-                            <span className="ml-1 text-sm">
-                              We deliver or provide service at customer
-                              locations
-                            </span>
-                          </label>
+                          <div className="flex flex-grow gap-2 items-center">
+                            <label
+                              htmlFor="hidePhone"
+                              className="cursor-pointer flex items-center "
+                            >
+                              <input type="checkbox" id="hidePhone" />
+                              <span className="ml-1 text-sm">
+                                Don{`'`}t display my phone publicly
+                              </span>
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-
-                  {editModeState.businessInfo && isServiceArea && (
-                    <div className="flex flex-col w-full gap-2 px-4 items-start">
-                      <div className="flex items-center">
-                        <CiLocationOn />
-                        <p className="text-lg font-medium mr-4">
-                          Service Areas
-                        </p>
-                        <p className="text-sm">2/6 Areas listed</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <FaTrashAlt />
-                        <div className="form-control">
-                          <input type="text" />
-                        </div>
-                      </div>
-                      <p className="font-semibold cursor-pointer text-orange-600 hover:underline">
-                        + Add Service Area
-                      </p>
-                    </div>
-                  )}
-
-                  {!editModeState.businessInfo ? (
-                    <div className="flex flex-row gap-2">
-                      <RiPhoneFill className="mt-1" />
-                      <div className="flex flex-col gap-1">
-                        <p className="text-lg font-medium flex items-center gap-1">
-                          Phone{" "}
-                          <span>
-                            <FaEye className="h-3" />
-                          </span>
-                        </p>
-                        <p className="text-lg text-gray-700">
-                          {editInfoState.phone.length > 0
-                            ? editInfoState.phone
-                            : "+971 123 4567"}
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col w-full gap-2">
-                      <div className="flex flex-row items-center gap-2">
-                        <RiPhoneFill />
-                        <p className="text-lg font-semibold">Phone</p>
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <div className="flex flex-col gap-1 form-control">
-                          <label htmlFor="phone">Phone</label>
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]"
-                            id="phone"
-                            placeholder="1112223333"
-                            className="md:w-1/2"
-                            value={editInfoState.phone}
-                            onChange={handlePhoneChange}
-                          />
-                        </div>
-                        <div className="flex flex-grow gap-2 items-center">
-                          <label
-                            htmlFor="hidePhone"
-                            className="cursor-pointer flex items-center "
-                          >
-                            <input type="checkbox" id="hidePhone" />
-                            <span className="ml-1 text-sm">
-                              Don{`'`}t display my phone publicly
-                            </span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </form>
-            </div>}
+                    )}
+                  </div>
+                </form>
+              </div>
+            )}
 
             {/* PERSONAL FORM */}
-            {accountType === 'personal' && <div className="flex flex-col gap-6 text-gray-800">
-              <form className="flex flex-col gap-2">
-                <div className="flex flex-row gap-4">
-                  <span className="text-2xl font-lora font-medium">
-                    Personal Info
-                  </span>
-                  <span className="flex-1"></span>
-                </div>
-                <div className="flex flex-col gap-6">
+            {accountType === "personal" && (
+              <div className="flex flex-col gap-6 text-gray-800">
+                <form className="flex flex-col gap-2">
+                  <div className="flex flex-row gap-4">
+                    <span className="text-2xl font-lora font-medium">
+                      Personal Info
+                    </span>
+                    <span className="flex-1"></span>
+                  </div>
+                  <div className="flex flex-col gap-6">
                     <div className="flex flex-row items-start gap-2">
                       <CiLocationOn className="mt-1" />
                       <div className="flex flex-col gap-1">
@@ -1415,77 +1516,79 @@ const Profile = () => {
                         </p>
                       </div>
                     </div>
-                  
-                </div>
-              </form>
-            </div>}
+                  </div>
+                </form>
+              </div>
+            )}
 
             {/* \\\\\\\\ */}
             {/* website */}
 
-            {accountType === 'business' && <div className="flex flex-col gap-4 text-gray-800">
-              <div className="flex flex-col">
-                <div className="flex flex-row justify-between">
-                  <p className="text-2xl font-lora font-medium title text-black">
-                    Website
-                  </p>
-                  {!editModeState.website ? (
-                    <button
-                      className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                      onClick={() => handleToggleEditMode("website")}
-                    >
-                      Edit
-                    </button>
-                  ) : (
-                    <div className="flex items-start flex-wrap gap-2">
+            {accountType === "business" && (
+              <div className="flex flex-col gap-4 text-gray-800">
+                <div className="flex flex-col">
+                  <div className="flex flex-row justify-between">
+                    <p className="text-2xl font-lora font-medium title text-black">
+                      Website
+                    </p>
+                    {!editModeState.website ? (
                       <button
-                        className="bg-skeleton py-1 px-3  rounded "
+                        className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
                         onClick={() => handleToggleEditMode("website")}
                       >
-                        Cancel
+                        Edit
                       </button>
-                      <button
-                        className="bg-orange text-white py-1 px-3 rounded "
-                        onClick={verifyWebsite}
-                      >
-                        Verify
-                      </button>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="flex items-start flex-wrap gap-2">
+                        <button
+                          className="bg-skeleton py-1 px-3  rounded "
+                          onClick={() => handleToggleEditMode("website")}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="bg-orange text-white py-1 px-3 rounded "
+                          onClick={verifyWebsite}
+                        >
+                          Verify
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-              {!editModeState.website ? (
-                <div className="flex flex-row items-center gap-2">
-                  <VscGlobe />
-                  <a className="hover:underline" target="_blank" href="#">
-                    {businessAccountData.website.length === 0
-                      ? "www.yourwebsite.com"
-                      : businessAccountData.website}
-                  </a>
-                </div>
-              ) : (
-                <div className="flex w-full ">
-                  <div className="px-2 py-2 bg-skeleton flex items-center justify-center rounded-l">
+                {!editModeState.website ? (
+                  <div className="flex flex-row items-center gap-2">
                     <VscGlobe />
+                    <a className="hover:underline" target="_blank" href="#">
+                      {businessAccountData.website.length === 0
+                        ? "www.yourwebsite.com"
+                        : businessAccountData.website}
+                    </a>
                   </div>
-                  <div className=" w-full rounded rounded-l-none border-l-0">
-                    <input
-                      type="text"
-                      id="websiteUrl"
-                      placeholder="www.yourwebsite.com"
-                      className="border border-[#b7babf] py-2 px-3 w-full border-l-0 rounded-sm text-sm"
-                      value={businessAccountData.website}
-                      onChange={(e) =>
-                        setBusinessAccountData((prevState) => ({
-                          ...prevState,
-                          website: e.target.value,
-                        }))
-                      }
-                    />
+                ) : (
+                  <div className="flex w-full ">
+                    <div className="px-2 py-2 bg-skeleton flex items-center justify-center rounded-l">
+                      <VscGlobe />
+                    </div>
+                    <div className=" w-full rounded rounded-l-none border-l-0">
+                      <input
+                        type="text"
+                        id="websiteUrl"
+                        placeholder="www.yourwebsite.com"
+                        className="border border-[#b7babf] py-2 px-3 w-full border-l-0 rounded-sm text-sm"
+                        value={businessAccountData.website}
+                        onChange={(e) =>
+                          setBusinessAccountData((prevState) => ({
+                            ...prevState,
+                            website: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>}
+                )}
+              </div>
+            )}
           </div>
         </div>
         {/* MAIN DETAILS👆 */}
@@ -1616,146 +1719,148 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* BUSINESS CATEGORIES👇 */}
-        {accountType === 'business' && <div
-          className="flex flex-col gap-4 bg-white text-gray-800 p-6"
-          ref={categoriesRef}
-        >
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <p className="text-2xl font-medium font-lora text-black title">
-                Business Categories
-              </p>
-              {!editModeState.businessCategories ? (
-                <button
-                  className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                  onClick={() => handleToggleEditMode("businessCategories")}
-                >
-                  Edit
-                </button>
-              ) : (
-                <div className="flex items-start flex-wrap gap-2">
+        {accountType === "business" && (
+          <div
+            className="flex flex-col gap-4 bg-white text-gray-800 p-6"
+            ref={categoriesRef}
+          >
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">
+                  Business Categories
+                </p>
+                {!editModeState.businessCategories ? (
                   <button
-                    className="bg-skeleton py-1 px-3  rounded "
+                    className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
                     onClick={() => handleToggleEditMode("businessCategories")}
                   >
-                    Cancel
+                    Edit
                   </button>
-                  <button
-                    className="bg-orange text-white py-1 px-3 rounded "
-                    onClick={verifyBusinessCategories}
-                  >
-                    Verify
-                  </button>
-                </div>
-              )}
-            </div>
-            <p className="text-lg">
-              Categorizing your business will help customers find your listing
-              among your competitors.
-            </p>
-          </div>
-          {!editModeState.businessCategories ? (
-            <div className="flex flex-col gap-2 mt-2">
-              <p>
-                {editInfoState.primaryCategory.length > 0
-                  ? editInfoState.primaryCategory
-                  : "Marketing"}
+                ) : (
+                  <div className="flex items-start flex-wrap gap-2">
+                    <button
+                      className="bg-skeleton py-1 px-3  rounded "
+                      onClick={() => handleToggleEditMode("businessCategories")}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="bg-orange text-white py-1 px-3 rounded "
+                      onClick={verifyBusinessCategories}
+                    >
+                      Verify
+                    </button>
+                  </div>
+                )}
+              </div>
+              <p className="text-lg">
+                Categorizing your business will help customers find your listing
+                among your competitors.
               </p>
             </div>
-          ) : (
-            <>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="primaryCategory">
-                  Primary Category (required)
-                </label>
-                <p className="text-sm text-gray-600">
-                  Select the category that best describes your business
+            {!editModeState.businessCategories ? (
+              <div className="flex flex-col gap-2 mt-2">
+                <p>
+                  {editInfoState.primaryCategory.length > 0
+                    ? editInfoState.primaryCategory
+                    : "Marketing"}
                 </p>
               </div>
-              <div className="flex flex-row gap-4 items-center">
-                {!isPrimaryCategoryChange ? (
-                  <div className="w-80 px-4 py-2 bg-skeleton">
-                    <p>
-                      {editInfoState.primaryCategory.length > 0
-                        ? editInfoState.primaryCategory
-                        : "Marketing"}
-                    </p>
-                  </div>
-                ) : (
-                  <input
-                    type="text"
-                    autoComplete="off"
-                    aria-autocomplete="list"
-                    aria-controls="react-autosuggestion"
-                    className="form-input md:w-80"
-                    placeholder="Search for a category"
-                    onChange={(e) =>
-                      setEditInfoState((prevState) => ({
-                        ...prevState,
-                        primaryCategory: e.target.value,
-                      }))
-                    }
-                  />
-                )}
-
-                {editModeState.businessCategories && isPrimaryCategoryChange ? (
-                  <div className="flex items-center gap-4">
-                    <div
-                      className="hover:underline cursor-pointer text-success"
-                      onClick={() =>
-                        setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-                      }
-                    >
-                      apply
-                    </div>
-                    <div
-                      className="hover:underline cursor-pointer text-error"
-                      onClick={() =>
-                        setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-                      }
-                    >
-                      cancel
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    className="hover:underline cursor-pointer"
-                    onClick={() =>
-                      setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-                    }
-                  >
-                    change
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-row gap-4">
-                <div
-                  role="combobox"
-                  aria-controls="react-autosuggestion"
-                  aria-expanded="false"
-                  className="react-autosuggestion-container"
-                >
-                  <input
-                    type="text"
-                    autoComplete="off"
-                    aria-autocomplete="list"
-                    aria-controls="react-autosuggestion"
-                    className="form-input md:w-80"
-                    placeholder="Search for a category"
-                  />
-                  <div
-                    className="react-auto-suggestion-container"
-                    id="react-autosuggestion"
-                    role="listbox"
-                  ></div>
+            ) : (
+              <>
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="primaryCategory">
+                    Primary Category (required)
+                  </label>
+                  <p className="text-sm text-gray-600">
+                    Select the category that best describes your business
+                  </p>
                 </div>
-              </div>
-            </>
-          )}
+                <div className="flex flex-row gap-4 items-center">
+                  {!isPrimaryCategoryChange ? (
+                    <div className="w-80 px-4 py-2 bg-skeleton">
+                      <p>
+                        {editInfoState.primaryCategory.length > 0
+                          ? editInfoState.primaryCategory
+                          : "Marketing"}
+                      </p>
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      aria-autocomplete="list"
+                      aria-controls="react-autosuggestion"
+                      className="form-input md:w-80"
+                      placeholder="Search for a category"
+                      onChange={(e) =>
+                        setEditInfoState((prevState) => ({
+                          ...prevState,
+                          primaryCategory: e.target.value,
+                        }))
+                      }
+                    />
+                  )}
 
-          {/* edit mode */}
-          {/* <div className="flex flex-col gap-1">
+                  {editModeState.businessCategories &&
+                  isPrimaryCategoryChange ? (
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="hover:underline cursor-pointer text-success"
+                        onClick={() =>
+                          setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                        }
+                      >
+                        apply
+                      </div>
+                      <div
+                        className="hover:underline cursor-pointer text-error"
+                        onClick={() =>
+                          setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                        }
+                      >
+                        cancel
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="hover:underline cursor-pointer"
+                      onClick={() =>
+                        setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+                      }
+                    >
+                      change
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-row gap-4">
+                  <div
+                    role="combobox"
+                    aria-controls="react-autosuggestion"
+                    aria-expanded="false"
+                    className="react-autosuggestion-container"
+                  >
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      aria-autocomplete="list"
+                      aria-controls="react-autosuggestion"
+                      className="form-input md:w-80"
+                      placeholder="Search for a category"
+                    />
+                    <div
+                      className="react-auto-suggestion-container"
+                      id="react-autosuggestion"
+                      role="listbox"
+                    ></div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* edit mode */}
+            {/* <div className="flex flex-col gap-1">
             <label htmlFor="primaryCategory">
               Primary Category (required)
             </label>
@@ -1766,10 +1871,10 @@ const Profile = () => {
               <p>Marketing</p>
             </div>
             <div className="hover:underline cursor-pointer">change</div> */}
-          {/* edit mode */}
-          {/* <div className="hover:underline cursor-pointer">cancel</div> */}
-          {/* edit mode */}
-          {/* </div>
+            {/* edit mode */}
+            {/* <div className="hover:underline cursor-pointer">cancel</div> */}
+            {/* edit mode */}
+            {/* </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="primaryCategory">
             Secondary Categories (optional)
@@ -1789,118 +1894,120 @@ const Profile = () => {
               <div className="react-auto-suggestion-container" id="react-autosuggestion" role="listbox"></div>
             </div>
           </div> */}
-          {/* edit mode */}
-        </div>}
+            {/* edit mode */}
+          </div>
+        )}
         {/* BUSINESS CATEGORIES👆 */}
         {/* \\\\\\\\\\\\\\\\\ */}
 
         {/* \\\\\\\\\\\\\\\\\ */}
         {/* PRODUCTS AND SERVICES👇 */}
-        {accountType === 'business' && <div
-          className="flex flex-col gap-4 bg-white text-gray-800 p-6"
-          ref={servicesRef}
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <p className="text-2xl font-medium font-lora text-black title">
-                Products and Services
+        {accountType === "business" && (
+          <div
+            className="flex flex-col gap-4 bg-white text-gray-800 p-6"
+            ref={servicesRef}
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">
+                  Products and Services
+                </p>
+              </div>
+              <p className="text-lg">
+                Create a list of your products and services for your customers.
               </p>
             </div>
-            <p className="text-lg">
-              Create a list of your products and services for your customers.
-            </p>
-          </div>
-          {editInfoState.products.length > 0 && (
-            <div className="flex flex-col gap-2">
-              <hr className="w-full text-grey-300" />
-              <div className="text-xs">
-                {editInfoState.products.length}
-                {`/30 Items Listed`}
-              </div>
-              {editInfoState.products.map((product) => (
-                <div
-                  key={product.id}
-                  title="click to edit"
-                  className="flex flex-row gap-2 items-center cursor-pointer"
-                >
-                  <FaCheckCircle />
-                  {/* reordering */}
-                  {/* <div className="flex flex-col">
+            {editInfoState.products.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <hr className="w-full text-grey-300" />
+                <div className="text-xs">
+                  {editInfoState.products.length}
+                  {`/30 Items Listed`}
+                </div>
+                {editInfoState.products.map((product) => (
+                  <div
+                    key={product.id}
+                    title="click to edit"
+                    className="flex flex-row gap-2 items-center cursor-pointer"
+                  >
+                    <FaCheckCircle />
+                    {/* reordering */}
+                    {/* <div className="flex flex-col">
                 <AiFillCaretUp />
                 <AiFillCaretDown />
               </div> */}
-                  {/* reordering */}
-                  <span>{product.name}</span>
-                </div>
-              ))}
-              {!editModeState.products && (
-                <div className="flex flex-row items-center gap-4">
-                  <div
-                    className="flex flex-row gap-2 items-center cursor-pointer"
-                    onClick={() => handleToggleEditMode("products")}
-                  >
-                    <BsFillPlusCircleFill className="text-success" />
-                    <span>Add a product</span>
+                    {/* reordering */}
+                    <span>{product.name}</span>
                   </div>
-                  {/* <div className="flex flex-row gap-2 items-center cursor-pointer">
+                ))}
+                {!editModeState.products && (
+                  <div className="flex flex-row items-center gap-4">
+                    <div
+                      className="flex flex-row gap-2 items-center cursor-pointer"
+                      onClick={() => handleToggleEditMode("products")}
+                    >
+                      <BsFillPlusCircleFill className="text-success" />
+                      <span>Add a product</span>
+                    </div>
+                    {/* <div className="flex flex-row gap-2 items-center cursor-pointer">
                     <TiArrowUnsorted className="text-orange-700" />
                     <span>Reorder product</span>
                   </div> */}
-                </div>
-              )}
-            </div>
-          )}
-          {!editModeState.products ? (
-            editInfoState.products.length === 0 && (
-              <div className="border-2 border-black border-dashed p-4">
-                <div className="flex flex-wrap gap-4">
-                  <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                    <MdMiscellaneousServices className="h-5 w-6" />
                   </div>
-                  <div className="flex flex-col gap-6">
-                    <div className="flex flex-col gap-4">
-                      <p className="text-gray-700">
-                        Attract the right customers by creating a list of up to
-                        30 products or services that you offer.
-                      </p>
-                      <div className="flex items-center font-bold gap-1">
-                        <span
-                          className="cursor-pointer hover:underline"
-                          onClick={() => handleToggleEditMode("products")}
-                        >
-                          Create services list
-                        </span>
-                        <FaChevronRight />
+                )}
+              </div>
+            )}
+            {!editModeState.products ? (
+              editInfoState.products.length === 0 && (
+                <div className="border-2 border-black border-dashed p-4">
+                  <div className="flex flex-wrap gap-4">
+                    <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                      <MdMiscellaneousServices className="h-5 w-6" />
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-4">
+                        <p className="text-gray-700">
+                          Attract the right customers by creating a list of up
+                          to 30 products or services that you offer.
+                        </p>
+                        <div className="flex items-center font-bold gap-1">
+                          <span
+                            className="cursor-pointer hover:underline"
+                            onClick={() => handleToggleEditMode("products")}
+                          >
+                            Create services list
+                          </span>
+                          <FaChevronRight />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              )
+            ) : (
+              <div className="flex flex-col gap-2">
+                <hr className="w-full text-grey-300" />
+                <div className="text-xs">
+                  {`1`}
+                  {`/30 Items Listed`}
+                </div>
+                {addProductForm}
               </div>
-            )
-          ) : (
-            <div className="flex flex-col gap-2">
-              <hr className="w-full text-grey-300" />
-              <div className="text-xs">
-                {`1`}
-                {`/30 Items Listed`}
-              </div>
-              {addProductForm}
-            </div>
-          )}
-          {/* edit mode */}
-          {/* <div className="flex flex-col gap-2">
+            )}
+            {/* edit mode */}
+            {/* <div className="flex flex-col gap-2">
             <hr className="w-full text-grey-300"/>
             <div className="text-xs">{`1`}{`/30 Items Listed`}</div> */}
-          {/* edited */}
-          {/* <div title="click to edit" className="flex flex-row gap-2 items-center cursor-pointer"> */}
-          {/* <FaCheckCircle /> */}
-          {/* reordering */}
-          {/* <div className="flex flex-col">
+            {/* edited */}
+            {/* <div title="click to edit" className="flex flex-row gap-2 items-center cursor-pointer"> */}
+            {/* <FaCheckCircle /> */}
+            {/* reordering */}
+            {/* <div className="flex flex-col">
                 <AiFillCaretUp />
                 <AiFillCaretDown />
               </div> */}
-          {/* reordering */}
-          {/* <span>bottle</span>
+            {/* reordering */}
+            {/* <span>bottle</span>
             </div>
             <div className="flex flex-row items-center gap-4">
               <div className="flex flex-row gap-2 items-center cursor-pointer">
@@ -1912,9 +2019,9 @@ const Profile = () => {
                 <span>Reorder product</span>
               </div>
             </div> */}
-          {/* edited */}
-          {/* reordering */}
-          {/* <div className="flex flex-row items-center gap-2 cursor-pointer text-error">
+            {/* edited */}
+            {/* reordering */}
+            {/* <div className="flex flex-row items-center gap-2 cursor-pointer text-error">
               <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
                 <IoClose className="text-error"/>
                 <span>Cancel</span>
@@ -1924,8 +2031,8 @@ const Profile = () => {
                 <span>Save</span>
               </button>
             </div> */}
-          {/* reordering */}
-          {/* <form name="editProductForm" >
+            {/* reordering */}
+            {/* <form name="editProductForm" >
               <div className="flex ">
                 <input type="text" name="product-0" className="form-input rounded-r-0"/>
                 <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
@@ -1933,8 +2040,9 @@ const Profile = () => {
               </div>
             </form>
           </div> */}
-          {/* edit mode */}
-        </div>}
+            {/* edit mode */}
+          </div>
+        )}
         {/* PRODUCTS AND SERVICES👆 */}
         {/* \\\\\\\\\\\ */}
 
@@ -2096,103 +2204,110 @@ const Profile = () => {
           ) : (
             <FormProvider {...socialMediaForm}>
               <form onSubmit={handleSubmitSocialMedia(verifySocialMedia)}>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-1">
-                <label htmlFor="facebook">Facebook URL</label>
-                <div className="flex w-full flex-row">
-                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                    <BsFacebook />
-                    <p className="text-sm">https://</p>
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="facebook">Facebook URL</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <BsFacebook />
+                        <p className="text-sm">https://</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="facebook"
+                        className="form-input w-full"
+                        placeholder="e.g. www.facebook.com/companyProfile"
+                        {...registerSocialMedia("facebook")}
+                        value={personalSocialMediaLinks.facebook}
+                        onChange={(e) =>
+                          setPersonalSocialMediaLinks((prevState) => ({
+                            ...prevState,
+                            facebook: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    id="facebook"
-                    className="form-input w-full"
-                    placeholder="e.g. www.facebook.com/companyProfile"
-                    {...registerSocialMedia('facebook')}
-                    value={personalSocialMediaLinks.facebook}
-                    onChange={(e) => setPersonalSocialMediaLinks(prevState => ({...prevState, facebook: e.target.value}))}
-                  />
-                </div>
-              </div>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="instagram">Instagram</label>
-                <div className="flex w-full flex-row">
-                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                    <BsInstagram />
-                    <p className="text-sm">@</p>
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="instagram">Instagram</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <BsInstagram />
+                        <p className="text-sm">@</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="instagram"
+                        className="form-input w-full"
+                        placeholder="e.g. @instagramProfile"
+                        {...registerSocialMedia("instagram")}
+                        value={instagramObj && instagramObj.link}
+                        onChange={(e) =>
+                          handleSocialMediaChange("instagram", e)
+                        }
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    id="instagram"
-                    className="form-input w-full"
-                    placeholder="e.g. @instagramProfile"
-                    {...registerSocialMedia('instagram')}
-                    value={instagramObj && instagramObj.link}
-                    onChange={(e) => handleSocialMediaChange("instagram", e)}
-                  />
-                </div>
-              </div>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="twitter">Twitter</label>
-                <div className="flex w-full flex-row">
-                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                    <BsTwitter />
-                    <p className="text-sm">@</p>
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="twitter">Twitter</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <BsTwitter />
+                        <p className="text-sm">@</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="twitter"
+                        className="form-input w-full"
+                        placeholder="e.g. @twitterProfile"
+                        {...registerSocialMedia("twitter")}
+                        value={twitterObj && twitterObj.link}
+                        onChange={(e) => handleSocialMediaChange("twitter", e)}
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    id="twitter"
-                    className="form-input w-full"
-                    placeholder="e.g. @twitterProfile"
-                    {...registerSocialMedia('twitter')}
-                    value={twitterObj && twitterObj.link}
-                    onChange={(e) => handleSocialMediaChange("twitter", e)}
-                  />
-                </div>
-              </div>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="linkedin">LinkedIn URL</label>
-                <div className="flex w-full flex-row">
-                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                    <BsLinkedin />
-                    <p className="text-sm">https://</p>
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="linkedin">LinkedIn URL</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <BsLinkedin />
+                        <p className="text-sm">https://</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="linkedin"
+                        className="form-input w-full"
+                        placeholder="e.g. www.linkedin.com/companyProfile"
+                        {...registerSocialMedia("linkedin")}
+                        value={linkedinObj && linkedinObj.link}
+                        onChange={(e) => handleSocialMediaChange("linkedin", e)}
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    id="linkedin"
-                    className="form-input w-full"
-                    placeholder="e.g. www.linkedin.com/companyProfile"
-                    {...registerSocialMedia('linkedin')}
-                    value={linkedinObj && linkedinObj.link}
-                    onChange={(e) => handleSocialMediaChange("linkedin", e)}
-                  />
-                </div>
-              </div>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="youtube">Youtube Channel</label>
-                <div className="flex w-full flex-row">
-                  <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                    <BsYoutube />
-                    <p className="text-sm">https://</p>
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="youtube">Youtube Channel</label>
+                    <div className="flex w-full flex-row">
+                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <BsYoutube />
+                        <p className="text-sm">https://</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="youtube"
+                        className="form-input w-full"
+                        placeholder="e.g. www.youtube.com/profile"
+                        {...registerSocialMedia("youtube")}
+                        value={youtubeObj && youtubeObj.link}
+                        onChange={(e) => handleSocialMediaChange("youtube", e)}
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    id="youtube"
-                    className="form-input w-full"
-                    placeholder="e.g. www.youtube.com/profile"
-                    {...registerSocialMedia('youtube')}
-                    value={youtubeObj && youtubeObj.link}
-                    onChange={(e) => handleSocialMediaChange("youtube", e)}
-                  />
-                </div>
-              </div>
 
-              {/* <div className="flex flex-col gap-1">
+                  {/* <div className="flex flex-col gap-1">
                 <label htmlFor="pinterest">Pinterest URL</label>
                 <div className="flex w-full flex-row">
                   <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
@@ -2209,8 +2324,8 @@ const Profile = () => {
                   />
                 </div>
               </div> */}
-            </div>
-            <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
+                </div>
+                <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
                   <button
                     className="bg-skeleton py-1 px-3  rounded "
                     onClick={() => handleToggleEditMode("socialMedia")}
@@ -2224,7 +2339,7 @@ const Profile = () => {
                     Verify
                   </button>
                 </div>
-            </form>
+              </form>
             </FormProvider>
           )}
         </div>
@@ -2232,136 +2347,138 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\ */}
         {/* CONTACT */}
-        {accountType === 'business' && <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <p className="text-2xl font-medium font-lora text-black title">
-                Contacts
+        {accountType === "business" && (
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">
+                  Contacts
+                </p>
+                {editModeState.contact && (
+                  <div className="flex items-start flex-wrap gap-2">
+                    <button
+                      className="bg-skeleton py-1 px-3  rounded "
+                      onClick={() => handleToggleEditMode("contact")}
+                    >
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded ">
+                      Verify
+                    </button>
+                  </div>
+                )}
+              </div>
+              <p className="text-lg">
+                Who are the primary contacts in your business?
               </p>
-              {editModeState.contact && (
-                <div className="flex items-start flex-wrap gap-2">
-                  <button
-                    className="bg-skeleton py-1 px-3  rounded "
-                    onClick={() => handleToggleEditMode("contact")}
-                  >
-                    Cancel
-                  </button>
-                  <button className="bg-orange text-white py-1 px-3 rounded ">
-                    Verify
-                  </button>
-                </div>
-              )}
             </div>
-            <p className="text-lg">
-              Who are the primary contacts in your business?
-            </p>
-          </div>
-          {!editModeState.contact ? (
-            <>
-              <div className="md:grid gap-2 grid-cols-2">
-                <div className="border-2 border-black border-dashed p-4">
-                  <div className="flex flex-wrap lg:flex-col gap-4">
-                    <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                      <IoMdContact className="h-5 w-6" />
-                    </div>
-                    <div className="flex flex-col gap-6">
-                      <div className="flex flex-col gap-4">
-                        <p className="text-gray-700">
-                          Inform customers on special contacts in your company.
-                        </p>
-                        <div className="flex items-center font-bold gap-1">
-                          <span
-                            className="cursor-pointer hover:underline"
-                            onClick={() => handleToggleEditMode("contact")}
-                          >
-                            Create an additional contact
-                          </span>
-                          <FaChevronRight />
+            {!editModeState.contact ? (
+              <>
+                <div className="md:grid gap-2 grid-cols-2">
+                  <div className="border-2 border-black border-dashed p-4">
+                    <div className="flex flex-wrap lg:flex-col gap-4">
+                      <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                        <IoMdContact className="h-5 w-6" />
+                      </div>
+                      <div className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-4">
+                          <p className="text-gray-700">
+                            Inform customers on special contacts in your
+                            company.
+                          </p>
+                          <div className="flex items-center font-bold gap-1">
+                            <span
+                              className="cursor-pointer hover:underline"
+                              onClick={() => handleToggleEditMode("contact")}
+                            >
+                              Create an additional contact
+                            </span>
+                            <FaChevronRight />
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <button
+                  className="py-2 mt-2 rounded w-48 bg-black text-white"
+                  onClick={() => handleToggleEditMode("contact")}
+                >
+                  Add contact
+                </button>
+              </>
+            ) : (
+              <div className="md:grid gap-2 grid-cols-2">
+                <div className="flex flex-col gap-2 py-2">
+                  <span className="text-xs text-red-700">Required</span>
+                  <div className="form-control">
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      className="w-80"
+                      id="firstname"
+                      name="firstname"
+                    />
+                  </div>
+                  <span className="text-xs text-red-700">Required</span>
+                  <div className="form-control">
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      className="w-80"
+                      id="lastname"
+                      name="lastname"
+                    />
+                  </div>
+                  <span className="text-xs text-red-700">Required</span>
+                  <div className="form-control">
+                    <input
+                      type="text"
+                      placeholder="Title or Role"
+                      className="w-80"
+                      id="title"
+                      name="title"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      className="w-80"
+                      id="email"
+                      name="email"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <input
+                      type="text"
+                      placeholder="Phone"
+                      className="w-80"
+                      id="phone"
+                      name="phone"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <input
+                      type="text"
+                      placeholder="Fax"
+                      className="w-80"
+                      id="fax"
+                      name="fax"
+                    />
+                  </div>
+                </div>
+                <div className="error">
+                  First Name, Last Name and Title are required
+                </div>
               </div>
-              <button
-                className="py-2 mt-2 rounded w-48 bg-black text-white"
-                onClick={() => handleToggleEditMode("contact")}
-              >
-                Add contact
-              </button>
-            </>
-          ) : (
-            <div className="md:grid gap-2 grid-cols-2">
-              <div className="flex flex-col gap-2 py-2">
-                <span className="text-xs text-red-700">Required</span>
-                <div className="form-control">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="w-80"
-                    id="firstname"
-                    name="firstname"
-                  />
-                </div>
-                <span className="text-xs text-red-700">Required</span>
-                <div className="form-control">
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="w-80"
-                    id="lastname"
-                    name="lastname"
-                  />
-                </div>
-                <span className="text-xs text-red-700">Required</span>
-                <div className="form-control">
-                  <input
-                    type="text"
-                    placeholder="Title or Role"
-                    className="w-80"
-                    id="title"
-                    name="title"
-                  />
-                </div>
-                <div className="form-control">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-80"
-                    id="email"
-                    name="email"
-                  />
-                </div>
-                <div className="form-control">
-                  <input
-                    type="text"
-                    placeholder="Phone"
-                    className="w-80"
-                    id="phone"
-                    name="phone"
-                  />
-                </div>
-                <div className="form-control">
-                  <input
-                    type="text"
-                    placeholder="Fax"
-                    className="w-80"
-                    id="fax"
-                    name="fax"
-                  />
-                </div>
-              </div>
-              <div className="error">
-                First Name, Last Name and Title are required
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* EDIT MODE */}
-          {/*  */}
-          {/* EDIT MODE */}
-          {/* edited */}
-          {/* <div className="flex flex-col gap-4 leading-relaxed">
+            {/* EDIT MODE */}
+            {/*  */}
+            {/* EDIT MODE */}
+            {/* edited */}
+            {/* <div className="flex flex-col gap-4 leading-relaxed">
             <div className="lg:w-3/4">
               <p className="font-semibold">Short Description:</p>
               <p>The actual short description text</p>
@@ -2371,123 +2488,128 @@ const Profile = () => {
               <p>The actual detailed description text</p>
             </div>
           </div> */}
-          {/* edited */}
-        </div>}
+            {/* edited */}
+          </div>
+        )}
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
 
         {/* \\\\\\\\\\\ */}
         {/* DETAILED INFORMATION👇 */}
-        {accountType === 'business' && <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <h3 className="text-2xl font-medium font-lora text-black title">
-                Detailed Information
-              </h3>
-              {!editModeState.detailedInformation ? (
-                <button
-                  className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                  onClick={() => handleToggleEditMode("detailedInformation")}
-                >
-                  Edit
-                </button>
-              ) : (
-                <div className="flex items-start flex-wrap gap-2">
+        {accountType === "business" && (
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-between">
+                <h3 className="text-2xl font-medium font-lora text-black title">
+                  Detailed Information
+                </h3>
+                {!editModeState.detailedInformation ? (
                   <button
-                    className="bg-skeleton py-1 px-3  rounded "
+                    className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
                     onClick={() => handleToggleEditMode("detailedInformation")}
                   >
-                    Cancel
+                    Edit
                   </button>
-                  <button
-                    className="bg-orange text-white py-1 px-3 rounded "
-                    onClick={verifyDetailedInformation}
-                  >
-                    Verify
-                  </button>
-                </div>
-              )}
+                ) : (
+                  <div className="flex items-start flex-wrap gap-2">
+                    <button
+                      className="bg-skeleton py-1 px-3  rounded "
+                      onClick={() =>
+                        handleToggleEditMode("detailedInformation")
+                      }
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="bg-orange text-white py-1 px-3 rounded "
+                      onClick={verifyDetailedInformation}
+                    >
+                      Verify
+                    </button>
+                  </div>
+                )}
+              </div>
+              <p className="text-lg text-gray-700">
+                Additional business information to set your apart from your
+                competitors. <br />
+                This is unique information and increases the legitimacy of your
+                business
+              </p>
             </div>
-            <p className="text-lg text-gray-700">
-              Additional business information to set your apart from your
-              competitors. <br />
-              This is unique information and increases the legitimacy of your
-              business
-            </p>
+            {!editModeState.detailedInformation ? (
+              <div className="flex flex-col gap-2 text-gray-700">
+                <div className="flex border-b border-gray-200 py-2">
+                  <p className="w-64">Location Type</p>
+                  <p>{editInfoState.detailedInformation.locationType} </p>
+                </div>
+                <div className="flex border-b border-gray-200 py-2">
+                  <p className="w-64">Year Established</p>
+                  <p>{editInfoState.detailedInformation.yearEstablished}</p>
+                </div>
+                <div className="flex py-2">
+                  <p className="w-64">Employees</p>
+                  <p>{editInfoState.detailedInformation.employees}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 text-gray-700">
+                <div className="flex items-center gap-4">
+                  <p>Location Type</p>
+                  <div>
+                    <select
+                      id="locationType"
+                      className="w-48 form-input"
+                      value={editInfoState.detailedInformation.locationType}
+                      onChange={(e) =>
+                        handleDetailedInformationChange("locationType", e)
+                      }
+                    >
+                      <option value=""></option>
+                      <option value="Headquarters">Headquarters</option>
+                      <option value="Office">Office</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <p>Year Established</p>
+                  <div>
+                    <input
+                      type="number"
+                      max="4"
+                      id="yearEstablished"
+                      className="w-48 form-input"
+                      maxLength={4}
+                      value={editInfoState.detailedInformation.yearEstablished}
+                      onChange={(e) =>
+                        handleDetailedInformationChange("yearEstablished", e)
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <p>Employees</p>
+                  <div>
+                    <select
+                      id="employees"
+                      className="w-48 form-input"
+                      value={editInfoState.detailedInformation.employees}
+                      onChange={(e) =>
+                        handleDetailedInformationChange("employees", e)
+                      }
+                    >
+                      <option value="0"></option>
+                      <option value="0 - 4">0 - 4</option>
+                      <option value="5 - 9">5 - 9</option>
+                      <option value="10 - 19">10 - 19</option>
+                      <option value="20 - 49">20 - 49</option>
+                      <option value="50+">50+</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-          {!editModeState.detailedInformation ? (
-            <div className="flex flex-col gap-2 text-gray-700">
-              <div className="flex border-b border-gray-200 py-2">
-                <p className="w-64">Location Type</p>
-                <p>{editInfoState.detailedInformation.locationType} </p>
-              </div>
-              <div className="flex border-b border-gray-200 py-2">
-                <p className="w-64">Year Established</p>
-                <p>{editInfoState.detailedInformation.yearEstablished}</p>
-              </div>
-              <div className="flex py-2">
-                <p className="w-64">Employees</p>
-                <p>{editInfoState.detailedInformation.employees}</p>
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2 text-gray-700">
-              <div className="flex items-center gap-4">
-                <p>Location Type</p>
-                <div>
-                  <select
-                    id="locationType"
-                    className="w-48 form-input"
-                    value={editInfoState.detailedInformation.locationType}
-                    onChange={(e) =>
-                      handleDetailedInformationChange("locationType", e)
-                    }
-                  >
-                    <option value=""></option>
-                    <option value="Headquarters">Headquarters</option>
-                    <option value="Office">Office</option>
-                  </select>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <p>Year Established</p>
-                <div>
-                  <input
-                    type="number"
-                    max="4"
-                    id="yearEstablished"
-                    className="w-48 form-input"
-                    maxLength={4}
-                    value={editInfoState.detailedInformation.yearEstablished}
-                    onChange={(e) =>
-                      handleDetailedInformationChange("yearEstablished", e)
-                    }
-                  />
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <p>Employees</p>
-                <div>
-                  <select
-                    id="employees"
-                    className="w-48 form-input"
-                    value={editInfoState.detailedInformation.employees}
-                    onChange={(e) =>
-                      handleDetailedInformationChange("employees", e)
-                    }
-                  >
-                    <option value="0"></option>
-                    <option value="0 - 4">0 - 4</option>
-                    <option value="5 - 9">5 - 9</option>
-                    <option value="10 - 19">10 - 19</option>
-                    <option value="20 - 49">20 - 49</option>
-                    <option value="50+">50+</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>}
+        )}
         {/* DETAILED INFORMATION👆 */}
         {/* \\\\\\\\\\\ */}
 
