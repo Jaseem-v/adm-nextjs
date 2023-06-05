@@ -136,12 +136,12 @@ const Business = () => {
                 gap-x-10 md:gap-x-11 lg:gap-x-12 gap-y-6 md:gap-y-7 lg:gap-8"
           >
             {firms.map((firm) => (
-              <Link href="/business/details" key={firm.id}>
+              <Link href="/business/details" key={firm.id} >
                 <div
                   className="flex flex-col items-center justify-between shadow-eventCard
                         pt-12 md:pt-14 lg:pt-16 px-14 md:px-16 lg:px-20
                         pb-8 md:pb-9 lg:pb-10
-                        rounded-[20px]"
+                        rounded-[20px] hover:scale-[1.02] transition-all duration-200 hover:shadow-xl"
                 >
                   <img
                     src={firm.image}
