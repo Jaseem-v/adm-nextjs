@@ -786,11 +786,18 @@ const Profile = () => {
       service: string
     }
 
-  const handleProductAdd = (data: ServicesFormValues) => {
-    const { service } = data;
-    console.log('value', service)
+  const handleProductAdd = async (data: ServicesFormValues) => {
+    const service = { name: data.service}
+    const services = [...businessAccountData.services, service ]
+    const updatedBusinessAccountData = {...businessAccountData, services}
+    console.log('updatedBusinessAccount data', updatedBusinessAccountData)
 
     if (service.length > 0) {
+      // try {
+      //   const response = await httpClient().patch('user/business/profile', updatedBusinessAccountData )
+      // } catch (error) {
+      //   console.log(error)
+      // }
       setEditInfoState((prevState) => {
         const lastIndex = editInfoState.products.length - 1;
         const id = lastIndex + 1;
