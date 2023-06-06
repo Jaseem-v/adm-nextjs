@@ -781,18 +781,21 @@ const Profile = () => {
     ? console.log("personal account data", personalAccountData)
     : console.log("business account data", businessAccountData);
 
-  const handleProductAdd = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const value = formData.get("product-0") as string;
-    console.log('value', value)
 
-    if (value.length > 0) {
+    type ServicesFormValues = {
+      service: string
+    }
+
+  const handleProductAdd = (data: ServicesFormValues) => {
+    const { service } = data;
+    console.log('value', service)
+
+    if (service.length > 0) {
       setEditInfoState((prevState) => {
         const lastIndex = editInfoState.products.length - 1;
         const id = lastIndex + 1;
         const updatedProducts: Product[] = [...prevState.products];
-        updatedProducts[id] = { id, name: value };
+        updatedProducts[id] = { id, name: service };
   
         return {
           ...prevState,
@@ -803,9 +806,7 @@ const Profile = () => {
     handleToggleEditMode("products");
   };
 
-  type ServicesFormValues = {
-    service: string
-  }
+  
 
   const servicesForm = useForm<ServicesFormValues>({
     defaultValues : {},
@@ -820,13 +821,14 @@ const Profile = () => {
   const { errors: errorsService } = formStateService;
 
   const addProductForm = (
-    <form name="editProductForm" onSubmit={(e) => handleProductAdd(e)}>
+    <FormProvider {...servicesForm}>
+    <form name="editProductForm" onSubmit={handleSubmitService(handleProductAdd)}>
       <div className="flex">
-        <input
-          type="text"
-          name="product-0"
-          className="form-input rounded-r-0"
-        />
+          <input
+            type="text"
+            className="form-input rounded-r-0"
+            {...registerService('service')}
+          />
         <button
           type="submit"
           className="py-2 px-4 bg-success text-white"
@@ -848,7 +850,9 @@ const Profile = () => {
           />
         </div>
       </div>
+      <p className="text-error text-sm mt-1">{errorsService?.service?.message}</p>
     </form>
+    </FormProvider>
   );
 
 
