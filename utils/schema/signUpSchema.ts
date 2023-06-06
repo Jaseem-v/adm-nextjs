@@ -135,3 +135,7 @@ export const fullnameSchema = yup.object({
 export const businessNameSchema = yup.object({
   name: yup.string().required('This field is required').min(3)
 })
+
+export const servicesSchema = yup.object({
+  service: yup.string().required('This field should not be empty.')
+})

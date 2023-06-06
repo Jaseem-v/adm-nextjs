@@ -41,6 +41,7 @@ import {
   updateBusinessInfoSchema,
   fullnameSchema,
   businessNameSchema,
+  servicesSchema,
 } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
@@ -632,20 +633,6 @@ const Profile = () => {
     }
   };
 
-  // const getFormattedLink = (platform: string, value: string) => {
-  //   let link = '';
-  //   switch (platform) {
-  //     case 'instagram':
-  //       link = `instagram.com/${value}`;
-  //       break;
-  //     case 'twitter':
-  //       link = `twitter.com/${value}`;
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  //   return link;
-  // };
 
   type SocialMediaFormValues = {
     facebook: string;
@@ -798,21 +785,39 @@ const Profile = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const value = formData.get("product-0") as string;
+    console.log('value', value)
 
-    setEditInfoState((prevState) => {
-      const lastIndex = editInfoState.products.length - 1;
-      const id = lastIndex + 1;
-      const updatedProducts: Product[] = [...prevState.products];
-      updatedProducts[id] = { id, name: value };
-
-      return {
-        ...prevState,
-        products: updatedProducts,
-      };
-    });
-
+    if (value.length > 0) {
+      setEditInfoState((prevState) => {
+        const lastIndex = editInfoState.products.length - 1;
+        const id = lastIndex + 1;
+        const updatedProducts: Product[] = [...prevState.products];
+        updatedProducts[id] = { id, name: value };
+  
+        return {
+          ...prevState,
+          products: updatedProducts,
+        };
+      });
+    }
     handleToggleEditMode("products");
   };
+
+  type ServicesFormValues = {
+    service: string
+  }
+
+  const servicesForm = useForm<ServicesFormValues>({
+    defaultValues : {},
+    resolver: yupResolver(servicesSchema),
+  });
+
+  const {
+    register: registerService,
+    handleSubmit: handleSubmitService,
+    formState: formStateService,
+  } = servicesForm;
+  const { errors: errorsService } = formStateService;
 
   const addProductForm = (
     <form name="editProductForm" onSubmit={(e) => handleProductAdd(e)}>
