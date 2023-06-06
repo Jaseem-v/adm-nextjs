@@ -792,17 +792,17 @@ const Profile = () => {
     const updatedBusinessAccountData = {...businessAccountData, services}
     console.log('updatedBusinessAccount data', updatedBusinessAccountData)
 
-    if (service.length > 0) {
-      // try {
-      //   const response = await httpClient().patch('user/business/profile', updatedBusinessAccountData )
-      // } catch (error) {
-      //   console.log(error)
-      // }
+    if (data.service.length > 0) {
+      try {
+        const response = await httpClient().patch('user/business/profile', updatedBusinessAccountData )
+      } catch (error) {
+        console.log(error)
+      }
       setEditInfoState((prevState) => {
         const lastIndex = editInfoState.products.length - 1;
         const id = lastIndex + 1;
         const updatedProducts: Product[] = [...prevState.products];
-        updatedProducts[id] = { id, name: service };
+        updatedProducts[id] = { id, name: data.service };
   
         return {
           ...prevState,
