@@ -794,7 +794,7 @@ const Profile = () => {
 
     if (data.service.length > 0) {
       try {
-        const response = await httpClient().patch('user/business/profile', updatedBusinessAccountData )
+        await httpClient().patch('user/business/profile', updatedBusinessAccountData )
       } catch (error) {
         console.log(error)
       }
@@ -2622,16 +2622,20 @@ const Profile = () => {
             {/*  */}
             {/* EDIT MODE */}
             {/* edited */}
-            {/* <div className="flex flex-col gap-4 leading-relaxed">
-            <div className="lg:w-3/4">
-              <p className="font-semibold">Short Description:</p>
-              <p>The actual short description text</p>
+            <div className="md:grid gap-2 grid-cols-2">
+              <div className="mb-3 md:mb-0 border-2 border-black border-dashed gap-2 items-center p-4">
+                <div className="flex md:float-right">
+                  <button className="btn px-3 py-1 rounded text-black border-2 border-black hover:text-white hover:bg-black text-xs w-1/2">Edit</button>
+                  <span className="px-2">|</span>
+                  <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">Remove</button>
+                </div>
+                <p className="text-lg">Co-founder</p>
+                <p className="text-gray-700">Rishab</p>
+                <p className="text-gray-700">Pant</p>
+                <p className="text-gray-700">{`Email | rishabpant@gmail.com`}</p>
+                <p className="text-gray-700">{`Phone | 234234234`}</p>
+              </div>
             </div>
-            <div className="lg:w-3/4">
-            <p className="font-semibold">Detailed Description:</p>
-              <p>The actual detailed description text</p>
-            </div>
-          </div> */}
             {/* edited */}
           </div>
         )}
