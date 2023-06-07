@@ -2528,10 +2528,10 @@ const Profile = () => {
                   <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">Remove</button>
                 </div>
                 <p className="text-lg">Co-founder</p>
-                <p className="text-gray-700">Rishab</p>
-                <p className="text-gray-700">Pant</p>
-                <p className="text-gray-700">{`Email | rishabpant@gmail.com`}</p>
-                <p className="text-gray-700">{`Phone | 234234234`}</p>
+                <p className="text-gray-700">{businessAccountData.contactDetails.fname}</p>
+                <p className="text-gray-700">{businessAccountData.contactDetails.lname}</p>
+                <p className="text-gray-700">{`Email | ${businessAccountData.contactDetails.email}`}</p>
+                <p className="text-gray-700">{`Phone | ${businessAccountData.contactDetails.phone}`}</p>
               </div>
             </div>
                 : 
