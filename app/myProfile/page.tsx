@@ -786,6 +786,7 @@ const Profile = () => {
       service: string
     }
 
+    console.log(businessAccountData.contactDetails)
   const handleProductAdd = async (data: ServicesFormValues) => {
     const service = { name: data.service}
     const services = [...businessAccountData.services, service ]
@@ -2518,6 +2519,22 @@ const Profile = () => {
             </div>
             {!editModeState.contact ? (
               <>
+              {businessAccountData.contactDetails  ? 
+              <div className="md:grid gap-2 grid-cols-2">
+              <div className="mb-3 md:mb-0 border-2 border-black border-dashed gap-2 items-center p-4">
+                <div className="flex md:float-right">
+                  <button className="btn px-3 py-1 rounded text-black border-2 border-black hover:text-white hover:bg-black text-xs w-1/2">Edit</button>
+                  <span className="px-2">|</span>
+                  <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">Remove</button>
+                </div>
+                <p className="text-lg">Co-founder</p>
+                <p className="text-gray-700">Rishab</p>
+                <p className="text-gray-700">Pant</p>
+                <p className="text-gray-700">{`Email | rishabpant@gmail.com`}</p>
+                <p className="text-gray-700">{`Phone | 234234234`}</p>
+              </div>
+            </div>
+                : 
                 <div className="md:grid gap-2 grid-cols-2">
                   <div className="border-2 border-black border-dashed p-4">
                     <div className="flex flex-wrap lg:flex-col gap-4">
@@ -2544,6 +2561,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
+                }
                 <button
                   className="py-2 mt-2 rounded w-48 bg-black text-white"
                   onClick={() => handleToggleEditMode("contact")}
@@ -2622,20 +2640,7 @@ const Profile = () => {
             {/*  */}
             {/* EDIT MODE */}
             {/* edited */}
-            <div className="md:grid gap-2 grid-cols-2">
-              <div className="mb-3 md:mb-0 border-2 border-black border-dashed gap-2 items-center p-4">
-                <div className="flex md:float-right">
-                  <button className="btn px-3 py-1 rounded text-black border-2 border-black hover:text-white hover:bg-black text-xs w-1/2">Edit</button>
-                  <span className="px-2">|</span>
-                  <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">Remove</button>
-                </div>
-                <p className="text-lg">Co-founder</p>
-                <p className="text-gray-700">Rishab</p>
-                <p className="text-gray-700">Pant</p>
-                <p className="text-gray-700">{`Email | rishabpant@gmail.com`}</p>
-                <p className="text-gray-700">{`Phone | 234234234`}</p>
-              </div>
-            </div>
+            
             {/* edited */}
           </div>
         )}
