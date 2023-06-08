@@ -788,8 +788,9 @@ const Profile = () => {
 
     console.log(businessAccountData.contactDetails)
   const handleProductAdd = async (data: ServicesFormValues) => {
-    const service = { name: data.service}
+    const service = data.service
     const services = [...businessAccountData.services, service ]
+    console.log('services ' , services)
     const updatedBusinessAccountData = {...businessAccountData, services}
     console.log('updatedBusinessAccount data', updatedBusinessAccountData)
 
