@@ -163,7 +163,7 @@ const Profile = () => {
       username: "",
       phone: "",
       email: "",
-      category: "",
+      category: [],
       website: "",
       about: "",
       socialMediaLinks: [],
@@ -308,18 +308,6 @@ const Profile = () => {
       ? 100
       : Math.min(completedSections.length * 15, 100);
 
-  // const validateField = async (fieldName: string, value: FormType[keyof FormType]) => {
-  //   try {
-  //     await yup.reach(validationSchema, fieldName).validate(value);
-  //     setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
-  //   } catch (validationError: yup.ValidationError) {
-  //     setErrors((prevErrors) => ({
-  //       ...prevErrors,
-  //       [fieldName]: validationError.message,
-  //     }));
-  //   }
-  // };
-
   const handleEditInfoStateChange = (
     section: keyof EditInfoStateType,
     value: EditInfoStateType[keyof EditInfoStateType]
@@ -329,7 +317,6 @@ const Profile = () => {
       [section]: value,
     }));
 
-    // validateField(section, String(value));
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -355,7 +342,7 @@ const Profile = () => {
           // Do whatever you want with the file contents
           const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
           console.log("file", file);
-
+          console.log('image file', URL.createObjectURL(file))
           if (section === "logo") {
             setEditInfoState((prevState) => ({
               ...prevState,
@@ -762,7 +749,8 @@ const Profile = () => {
 
         try {
           const response = await httpClient().get('/category/customer')
-          const res = response.data
+          const res = response.data.data
+          setBusinessAccountData(prevState => ({...prevState, category: res}))
           console.log(res)
         } catch (error) {
           console.log(error)

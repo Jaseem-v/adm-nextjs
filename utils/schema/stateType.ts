@@ -69,7 +69,7 @@ export type BusinessAccountDataType = {
   username: string;
   phone: string;
   email: string;
-  category: string;
+  category: [];
   website: string;
   about: string;
   socialMediaLinks: SocialMediaLink[];
