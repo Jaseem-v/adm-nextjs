@@ -452,7 +452,6 @@ const Profile = () => {
     console.log("verified business info");
   };
 
-  console.log('error', errorsBusinessInfo)
 
   const verifyWebsite = async () => {
     // POST API
@@ -661,7 +660,6 @@ const Profile = () => {
       ? personalAccountData.socialMediaLinks
       : businessAccountData.socialMediaLinks;
 
-  console.log(sm);
   const instagramObj = Object.values(sm).find(
     (obj) => obj.title === "INSTAGRAM"
   );
@@ -749,7 +747,6 @@ const Profile = () => {
         try {
           const response = await httpClient().get("user/business/profile");
           if (response.status === 200) {
-            console.log("business api data", response.data);
             const res = response.data.data;
             setBusinessAccountData(res);
             setBusinessName(res.name);
@@ -782,38 +779,66 @@ const Profile = () => {
     : console.log("business account data", businessAccountData);
 
 
-    type ServicesFormValues = {
-      service: string
-    }
+  type ServicesFormValues = {
+    service: string
+  }
 
-    console.log(businessAccountData.contactDetails)
-  const handleProductAdd = async (data: ServicesFormValues) => {
-    const service = data.service
-    const services = [...businessAccountData.services, service ]
-    console.log('services ' , services)
-    const updatedBusinessAccountData = {...businessAccountData, services}
-    console.log('updatedBusinessAccount data', updatedBusinessAccountData)
+  const serviceEditForm = useForm<ServicesFormValues>({
+    defaultValues : {},
+    resolver: yupResolver(servicesSchema),
+  });
 
-    if (data.service.length > 0) {
-      try {
-        await httpClient().patch('user/business/profile', updatedBusinessAccountData )
-      } catch (error) {
-        console.log(error)
-      }
-      setEditInfoState((prevState) => {
-        const lastIndex = editInfoState.products.length - 1;
-        const id = lastIndex + 1;
-        const updatedProducts: Product[] = [...prevState.products];
-        updatedProducts[id] = { id, name: data.service };
+  const {
+    register: registerServiceEdit,
+    handleSubmit: handleSubmitServiceEdit,
+    formState: formStateServiceEdit,
+    setValue
+  } = serviceEditForm;
+  const { errors: errorsServiceEdit } = formStateServiceEdit;
+
+  const [serviceItemEdit, setServiceItemEdit] = useState(false);
+  const [serviceItemEditValue, setServiceItemEditValue] = useState('');
+
+
+const handleServicesClick = (product: string) => {
+  setServiceItemEdit(true);
+  setValue('service', product)
+  setServiceItemEditValue(product);
   
-        return {
-          ...prevState,
-          products: updatedProducts,
-        };
-      });
+};
+console.log('serive item', serviceItemEditValue )
+
+const handleProductAdd = async (data: ServicesFormValues) => {
+  const service: string = data.service;
+  const services: string[] = businessAccountData.services.map((product) =>
+    product === serviceItemEditValue ? service : product
+  );
+  console.log('services', services);
+  const updatedBusinessAccountData = { ...businessAccountData, services };
+
+  if (data.service.length > 0) {
+    try {
+      await httpClient().patch('user/business/profile', updatedBusinessAccountData);
+    } catch (error) {
+      console.log(error);
     }
-    handleToggleEditMode("products");
-  };
+    setEditInfoState((prevState) => {
+      const updatedProducts: Product[] = prevState.products.map((product) =>
+        product.name === serviceItemEditValue ? { ...product, name: data.service } : product
+      );
+
+      return {
+        ...prevState,
+        products: updatedProducts,
+      };
+    });
+  }
+  setServiceItemEdit(false);
+  setServiceItemEditValue('');
+
+  handleToggleEditMode('products');
+};
+
 
   
 
@@ -865,7 +890,6 @@ const Profile = () => {
   );
 
 
-  console.log('uploded photos', uploadedPhotos)
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
       {facebookObj && (
@@ -1956,47 +1980,77 @@ const Profile = () => {
               </p>
             </div>
             {businessAccountData.services.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <hr className="w-full text-grey-300" />
-                <div className="text-xs">
-                  {editInfoState.products.length}
-                  {`/30 Items Listed`}
-                </div>
-                {businessAccountData.services.map((product) => (
-                  <div
-                    key={product}
-                    title="click to edit"
-                    className="flex flex-row gap-2 items-center cursor-pointer"
-                  >
-                    <FaCheckCircle />
-                    {/* reordering */}
-                    {/* <div className="flex flex-col">
-                <AiFillCaretUp />
-                <AiFillCaretDown />
-              </div> */}
-                    {/* reordering */}
-                    <span>{product}</span>
-                  </div>
-                ))}
-                {!editModeState.products && (
-                  <div className="flex flex-row items-center gap-4">
-                    <div
-                      className="flex flex-row gap-2 items-center cursor-pointer"
-                      onClick={() => handleToggleEditMode("products")}
-                    >
-                      <BsFillPlusCircleFill className="text-success" />
-                      <span>Add a product</span>
-                    </div>
-                    {/* <div className="flex flex-row gap-2 items-center cursor-pointer">
-                    <TiArrowUnsorted className="text-orange-700" />
-                    <span>Reorder product</span>
-                  </div> */}
-                  </div>
-                )}
-              </div>
-            )}
+  <div className="flex flex-col gap-2">
+    <hr className="w-full text-grey-300" />
+    <div className="text-xs">
+      {businessAccountData.services.length}/{`30 Items Listed`}
+    </div>
+    {serviceItemEdit ? (
+      <FormProvider {...serviceEditForm}>
+        <form name="editProductForm" onSubmit={handleSubmitServiceEdit(handleProductAdd)}>
+          <div className="flex">
+            <input
+              type="text"
+              className="form-input rounded-r-0"
+              {...registerServiceEdit('service')}
+            />
+            <button type="submit" className="py-2 px-4 bg-success text-white" title="save">
+              <FaCheck />
+            </button>
+            <button type="button" className="py-2 px-4 bg-error text-white" title="delete">
+              <FaTrashAlt />
+            </button>
+            <div className="flex items-center justify-center px-2">
+              <IoClose
+                className="text-error w-6 h-6 stroke-3 cursor-pointer"
+                onClick={() => setServiceItemEdit(false)}
+              />
+            </div>
+          </div>
+          <p className="text-error text-sm mt-1">{errorsServiceEdit?.service?.message}</p>
+        </form>
+      </FormProvider>
+    ) : (
+      <>
+        {businessAccountData.services.map((product) => (
+          <div
+            key={product}
+            title="click to edit"
+            className="flex flex-row gap-2 items-center cursor-pointer"
+            onClick={() => handleServicesClick(product)}
+          >
+            <FaCheckCircle />
+            {/* reordering */}
+            {/* <div className="flex flex-col">
+              <AiFillCaretUp />
+              <AiFillCaretDown />
+            </div> */}
+            {/* reordering */}
+            <span>{product}</span>
+          </div>
+        ))}
+        {!editModeState.products && (
+          <div className="flex flex-row items-center gap-4">
+            <div
+              className="flex flex-row gap-2 items-center cursor-pointer"
+              onClick={() => handleToggleEditMode("products")}
+            >
+              <BsFillPlusCircleFill className="text-success" />
+              <span>Add a product</span>
+            </div>
+            {/* <div className="flex flex-row gap-2 items-center cursor-pointer">
+              <TiArrowUnsorted className="text-orange-700" />
+              <span>Reorder product</span>
+            </div> */}
+          </div>
+        )}
+      </>
+    )}
+  </div>
+)}
+
             {!editModeState.products ? (
-              editInfoState.products.length === 0 && (
+              businessAccountData.services.length === 0 && (
                 <div className="border-2 border-black border-dashed p-4">
                   <div className="flex flex-wrap gap-4">
                     <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
@@ -2023,6 +2077,7 @@ const Profile = () => {
                 </div>
               )
             ) : (
+              !serviceItemEdit && (
               <div className="flex flex-col gap-2">
                 <hr className="w-full text-grey-300" />
                 <div className="text-xs">
@@ -2031,6 +2086,7 @@ const Profile = () => {
                 </div>
                 {addProductForm}
               </div>
+              )
             )}
             {/* edit mode */}
             {/* <div className="flex flex-col gap-2">
