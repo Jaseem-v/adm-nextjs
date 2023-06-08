@@ -282,7 +282,7 @@ const Profile = () => {
     (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" &&
       editInfoState.logo.length > 0) ||
     editInfoState.photos.length > 0;
-  const isServicesCompleted = editInfoState.products.length > 0;
+  const isServicesCompleted = businessAccountData.services.length > 0;
   const isSocialMediaCompleted =
   accountType === 'personal'
     ? personalAccountData.socialMediaLinks.some((link) => link.link !== "")
