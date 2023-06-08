@@ -1955,16 +1955,16 @@ const Profile = () => {
                 Create a list of your products and services for your customers.
               </p>
             </div>
-            {editInfoState.products.length > 0 && (
+            {businessAccountData.services.length > 0 && (
               <div className="flex flex-col gap-2">
                 <hr className="w-full text-grey-300" />
                 <div className="text-xs">
                   {editInfoState.products.length}
                   {`/30 Items Listed`}
                 </div>
-                {editInfoState.products.map((product) => (
+                {businessAccountData.services.map((product) => (
                   <div
-                    key={product.id}
+                    key={product}
                     title="click to edit"
                     className="flex flex-row gap-2 items-center cursor-pointer"
                   >
@@ -1975,7 +1975,7 @@ const Profile = () => {
                 <AiFillCaretDown />
               </div> */}
                     {/* reordering */}
-                    <span>{product.name}</span>
+                    <span>{product}</span>
                   </div>
                 ))}
                 {!editModeState.products && (
