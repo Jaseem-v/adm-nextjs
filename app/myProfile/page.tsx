@@ -147,6 +147,7 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [businessCategory, setBusinessCategory] = useState([])
   const [businessAddress, setBusinessAddress] = useState({
     address: '',
     city: '',
@@ -746,11 +747,12 @@ const Profile = () => {
         } catch (error) {
           console.log(error);
         }
-
+        
         try {
           const response = await httpClient().get('/category/customer')
           const res = response.data.data
           setBusinessAccountData(prevState => ({...prevState, category: res}))
+          setBusinessCategory(res)
           console.log(res)
         } catch (error) {
           console.log(error)
@@ -766,7 +768,7 @@ const Profile = () => {
     ? console.log("personal account data", personalAccountData)
     : console.log("business account data", businessAccountData);
 
-
+console.log(businessCategory)
   type ServicesFormValues = {
     service: string
   }
@@ -1810,11 +1812,9 @@ const handleProductAdd = async (data: ServicesFormValues) => {
             </div>
             {!editModeState.businessCategories ? (
               <div className="flex flex-col gap-2 mt-2">
-                <p>
-                  {editInfoState.primaryCategory.length > 0
-                    ? editInfoState.primaryCategory
-                    : "Marketing"}
-                </p>
+                {businessCategory.map(cat => (
+                  <p key={cat._id}>{cat.name}</p>
+                ))}
               </div>
             ) : (
               <>
