@@ -29,7 +29,7 @@ const CompanyDetails = () => {
       const response = await httpClient().get('/category');
       if (response.status === 200) {
         const categoryData = response.data;
-        console.log(categoryData);
+        // console.log(categoryData);
       } else {
         console.log('Failed to fetch category data.');
       }
@@ -38,7 +38,7 @@ const CompanyDetails = () => {
       console.log('An error occurred while fetching category data:', error);
     }
   };
-  console.log(getCategory())
+  // console.log(getCategory())
   getCategory()
   return (
     <>

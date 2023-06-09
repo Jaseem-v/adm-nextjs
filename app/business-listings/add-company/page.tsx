@@ -131,7 +131,7 @@ const EnlistCompany = () => {
   const usernameValue = watch("username");
   const passwordValue = watch("password");
 
-  console.log("hide address", hideAddressValue);
+  // console.log("hide address", hideAddressValue);
 
   // FUNCTIONS
   //   const stepOneErrors: Record<string, string | boolean> = {};
@@ -142,7 +142,7 @@ const EnlistCompany = () => {
   //   }
   // });
   const isStepOneError = Object.keys(errorsOne).length !== 0;
-  console.log("stepone errors", errorsOne);
+  // console.log("stepone errors", errorsOne);
 
   async function next() {
     setIsSubmitted(true);
@@ -181,7 +181,7 @@ const EnlistCompany = () => {
   // ONSUBMIT
 
   const onSubmitOne = (d: FirstFormValues) => {
-    console.log("step one submitted");
+    // console.log("step one submitted");
     setData((prevState) => ({ ...prevState, ...d }));
     next();
   };
@@ -459,12 +459,12 @@ const EnlistCompany = () => {
         phone: phone,
       },
     };
-    console.log("final data", finalData);
+    // console.log("final data", finalData);
     try {
       await httpClient()
         .post("user/business/signup", finalData)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
 
           if (res.status === 200) {
             toast.success("Account Created Successfully", {
@@ -487,7 +487,7 @@ const EnlistCompany = () => {
     }
     setIsSubmitted(true);
   };
-  console.log("errors two", errorsTwo);
+  // console.log("errors two", errorsTwo);
 
   const isStepTwoError = Object.keys(errorsTwo).length !== 0;
 

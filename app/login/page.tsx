@@ -36,6 +36,7 @@ const Login = () => {
 
   // ONSUBMIT
   const onSubmit = async (data: FormValues) => {
+    setIsLoading(true);
     const { accountType, username, password } = data;
     if (accountType === "personal") {
       const loginData = {
@@ -99,7 +100,8 @@ const Login = () => {
         setIsLoading(false);
       }
     }
-    setIsLoading(true);
+
+    setIsLoading(false);
   };
 
   return (

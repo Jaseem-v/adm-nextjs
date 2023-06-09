@@ -15,6 +15,7 @@ import { getLoginStatus } from './../services/loginStatus';
 import { FaHome } from "react-icons/fa"
 import { IoPersonSharp } from "react-icons/io5"
 import { MdLogout } from "react-icons/md"
+import { useRouter } from "next/navigation";
 
 
 const businessItems: MenuProps['items'] = [
@@ -70,13 +71,14 @@ const Navbar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showEnlistModel, setShowEnlistModel] = useState(false);
   const [username, setUsername] = useState('')
-  const [loggedOut, setLoggedOut] = useState(false)
+  const [isLoggedin, setIsLoggedIn] = useState(false)
+  const [isLoggedOut, setIsLoggedOut] = useState(false)
 
-  const logout = async () => {
-    await localStorage.removeItem('accessToken')
-    setLoggedOut(true)
+  const logout = () => {
+    localStorage.removeItem('accessToken')
+    setIsLoggedOut(true)
   }
-  
+
   const items: MenuProps['items'] = [
     {
       key: '1',
@@ -100,7 +102,7 @@ const Navbar = () => {
       key: '3',
       label: (
         <div rel="noopener noreferrer" className="flex gap-2 items-center border-none" onClick={logout}>
-          <MdLogout/>
+          <MdLogout />
           Logout
         </div>
       ),
@@ -113,44 +115,70 @@ const Navbar = () => {
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
 
-    
-    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
-    // const loginStatus = token !== null
-    const isLoggedin = token !== null;
-    
-    useEffect(() => {
+
+  const router = useRouter()
+
+
+
+  useEffect(() => {
+
+    setInterval(() => {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
+      const loggedin = token !== null;
+      if (isLoggedin !== loggedin)
+        setIsLoggedIn(loggedin)
+      // if (!token)
+    }, 5000)
+
+    // setIsLoggedIn(true)
+
+
     //    const { loginStatus} = router.query;
     // setIsLoggedin(loginStatus === 'success');
-    
-    const fetchUser = async() => {
-      const accountType = localStorage.getItem('accountType')
 
-      if (accountType === 'personal') {
-        try {
-          const response = await httpClient().get("user/personal/profile")
-          if (response.status === 200) {
-            const { username } = response.data.data
-            const editedUsername = username.slice(3)
-            setUsername(editedUsername)
-          }
-        } catch (error) {
-          console.log(error)
-        }
-      } else if (accountType === 'business') {
-        try {
-          const response = await httpClient().get("user/business/profile")
-          if (response.status === 200) {
-            const { username } = response.data.data
-            const editedUsername = username.slice(3)
-            setUsername(editedUsername)
-          }
-        } catch (error) {
-          console.log(error)
-        }
-      }
-    }
-    fetchUser()
-  }, [loggedOut])
+    // const fetchUser = async () => {
+    //   const accountType = localStorage.getItem('accountType')
+
+    //   if (accountType === 'personal') {
+    //     try {
+    //       const response = await httpClient().get("user/personal/profile")
+    //       if (response.status === 200) {
+    //         const { username } = response.data.data
+    //         const editedUsername = username.slice(3)
+    //         setUsername(editedUsername)
+    //       }
+    //     } catch (error) {
+    //       console.log(error)
+    //     }
+    //   } else if (accountType === 'business') {
+    //     try {
+    //       const response = await httpClient().get("user/business/profile")
+    //       if (response.status === 200) {
+    //         const { username } = response.data.data
+    //         const editedUsername = username.slice(3)
+    //         setUsername(editedUsername)
+    //       }
+    //     } catch (error) {
+    //       console.log(error)
+    //     }
+    //   }
+    // }
+    // fetchUser()
+
+    // const loginStatus = token !== null
+
+
+  }, [isLoggedOut])
+
+  useEffect(() => {
+    if (isLoggedin == false && isLoggedOut == true)
+      router.push("/")
+
+  }, [isLoggedin, isLoggedOut])
+
+
+  console.log(isLoggedin);
+
 
 
 
@@ -177,111 +205,111 @@ const Navbar = () => {
         {!isMobileNav && (
           <div className="hidden lg:grid items-center px-16">
             <ul className="flex gap-10" id="navbar-cta">
-                <li
-                  className="py-10 hidden lg:block"
+              <li
+                className="py-10 hidden lg:block"
+              >
+                <Link
+                  href='/'
+                  className={`nav1 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                  aria-current="page"
                 >
-                  <Link
-                    href='/'
-                    className={`nav1 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
-                    aria-current="page"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li
-                  className="py-10 hidden lg:block"
+                  Home
+                </Link>
+              </li>
+              <li
+                className="py-10 hidden lg:block"
+              >
+                <Link
+                  href='/about'
+                  className={`nav2 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                  aria-current="page"
                 >
-                  <Link
-                    href='/about'
-                    className={`nav2 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
-                    aria-current="page"
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li
-                  className="py-10 hidden lg:block"
+                  About Us
+                </Link>
+              </li>
+              <li
+                className="py-10 hidden lg:block"
+              >
+                <Link
+                  href='/gallery'
+                  className={`nav3 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
+                  aria-current="page"
                 >
-                  <Link
-                    href='/gallery'
-                    className={`nav3 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
-                    aria-current="page"
-                  >
-                    Gallery
-                  </Link>
-                </li>
-                <li
-                  className="py-10 hidden lg:block h-[17px]"
-                >
-                  <Dropdown menu={{ items: businessItems }} placement="bottomRight" arrow>
+                  Gallery
+                </Link>
+              </li>
+              <li
+                className="py-10 hidden lg:block h-[17px]"
+              >
+                <Dropdown menu={{ items: businessItems }} placement="bottomRight" arrow>
                   <div
                     className='nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2 cursor-pointer'
                     aria-current="page"
                   >
                     Business
                     <img
-                          src="/images/expand.svg"
-                          alt="expand"
-                          className="mt-1cursor-pointer"
-                        />
+                      src="/images/expand.svg"
+                      alt="expand"
+                      className="mt-1cursor-pointer"
+                    />
                   </div>
-                  </Dropdown>
-                </li>
-                <li
-                  className="py-10 hidden lg:block"
+                </Dropdown>
+              </li>
+              <li
+                className="py-10 hidden lg:block"
+              >
+                <Link
+                  href='/events'
+                  className='nav5 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                  aria-current="page"
                 >
-                  <Link
-                    href='/events'
-                    className='nav5 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
-                    aria-current="page"
-                  >
-                    Events
-                  </Link>
-                </li>
-                <li
-                  className="py-10 hidden lg:block"
+                  Events
+                </Link>
+              </li>
+              <li
+                className="py-10 hidden lg:block"
+              >
+                <Link
+                  href='/contact'
+                  className='nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                  aria-current="page"
                 >
-                  <Link
-                    href='/contact'
-                    className='nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
-                    aria-current="page"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
         )}
         {/* login */}
         {isLoggedin ? <Dropdown menu={{ items }} placement="bottomRight" arrow>
-<div className="flex items-center justify-end gap-3 hover:cursor-pointer">
-          <div className="h-9 w-9 bg-skeleton rounded-full"></div>
-          <div className="flex items-center gap-2">
-            <p>{username}</p>
-            <img
-              src="/images/expand.svg"
-              alt="expand"
-              className="mt-1 cursor-pointer w-[11px] h-2"
-            />
+          <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
+            <div className="h-9 w-9 bg-skeleton rounded-full"></div>
+            <div className="flex items-center gap-2">
+              <p>{username}</p>
+              <img
+                src="/images/expand.svg"
+                alt="expand"
+                className="mt-1 cursor-pointer w-[11px] h-2"
+              />
+            </div>
           </div>
-        </div>
-    </Dropdown> :
-        <div className="hidden lg:flex items-center gap-5 text-sm">
-          <div className="relative">
-          <Dropdown menu={{ items: enlistItems }} placement="bottomRight" arrow>
-            <button
-              className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-            >
-              Claim my Listing
-            </button>
-            </Dropdown>
-          </div>
-          <Link href="/login">
-            <button className="navBtn font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
-              Login
-            </button>
-          </Link>
-        </div>}
+        </Dropdown> :
+          <div className="hidden lg:flex items-center gap-5 text-sm">
+            <div className="relative">
+              <Dropdown menu={{ items: enlistItems }} placement="bottomRight" arrow>
+                <button
+                  className="navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                >
+                  Claim my Listing
+                </button>
+              </Dropdown>
+            </div>
+            <Link href="/login">
+              <button className="navBtn font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                Login
+              </button>
+            </Link>
+          </div>}
 
         {showEnlistModel && (
           <EnlistModel setShowEnlistModel={setShowEnlistModel} />
