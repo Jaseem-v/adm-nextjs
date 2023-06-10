@@ -290,9 +290,9 @@ export default function Index() {
               <div className="team-member" key={member.id}>
                 <div>
                   <img
-                    src={member.image}
+                    src='images/profilePreview.png'
                     alt="team-member-1"
-                    className="rounded-md"
+                    className="rounded-md w-[333px] lg:w-[290px]"
                   />
                 </div>
                 <div className="mt-2 text-center">

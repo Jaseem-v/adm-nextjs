@@ -49,3 +49,7 @@ body {
   background-image: url(/images/sectionHeader.png);
   background-size: cover;
 }
+.navbarImage {
+  background-size: cover;
+  
+}

@@ -1,7 +1,4 @@
 "use client";
-import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
-import UserForm from "@/components/enlist/userForm";
-import Profile from "@/components/profile";
 import httpClient from "@/services/axiosInstance";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
