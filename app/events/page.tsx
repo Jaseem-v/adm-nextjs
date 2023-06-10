@@ -1,6 +1,9 @@
+"use client"
 import SectionHeader from "@/components/SectionHeader";
+import httpClient from "@/services/axiosInstance";
+import { useEffect, useState } from "react";
 
-const events = [
+const eventsDummy = [
   {
     id: 1,
     image: "/images/event1.png",
@@ -57,7 +60,28 @@ const events = [
   },
 ];
 
+type Event = {
+  _id: number,
+    image: string,
+    title: string,
+    desc: string,
+    date: string,
+    time: string,
+}
+
 const Events = () => {
+  const [events, setEvents] = useState<Event[]>([])
+  useEffect(() =>  {
+    const fetchEvents = async () => {
+    try {
+      const response = await httpClient().get('/event/customer')
+      setEvents(response.data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fetchEvents()
+  }, [])
   return (
     <>
       <SectionHeader title="Events" page="Events" />
@@ -80,9 +104,9 @@ const Events = () => {
               {events.map((event) => (
                 <div
                   className="event-card rounded-xl max-w-sm shadow-eventCard hover:scale-[1.02] transition-all duration-200 hover:shadow-xl"
-                  key={event.id}
+                  key={event._id}
                 >
-                  <img src={event.image} alt="event image" />
+                  <img src="/images/event3.png" alt="event image" />
                   <div
                     className="px-7 md:px-8 lg:px-9
                             py-5 md:py-6 
@@ -90,7 +114,7 @@ const Events = () => {
                   >
                     <p className="text-base lg:text-lg">{event.title}</p>
                     <p className="text-xs lg:text-sm font-semibold text-desc">
-                      {event.description}
+                      {event.desc}
                     </p>
                     <div className="flex gap-2 mt-4">
                       <p className="px-5 py-2 text-base lg:text-lg bg-[#e3e3e3]">
