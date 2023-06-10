@@ -73,33 +73,8 @@ const CompanyDetails = () => {
 
       <section className="bg-[#F5F5F5] py-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:gap-7 gap-5 px-5 xl:px-0 xl:grid-rows-5">
-          {/* <!-- business name card --> */}
-          <div className="max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 xl:row-span-2 text-center">
-            <div className="w-full min-h-[270px] flex justify-center items-center">
-              <img src="/images/twitterImg.png" alt="company logo" />
-            </div>
-            <p className="business-name font-semibold text-2xl md:text-3xl lg:text-[32px]">
-              Business Name
-            </p>
-            <p className="font-medium text-base text-desc mt-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labor.
-            </p>
-            <div className="flex items-center justify-center gap-2 mt-5 md:mt-6">
-              <a href="#">
-                <button className="py-3 md:py-4 px-6 md:px-7 border border-black text-sm rounded-lg w-32 md:w-36">
-                  Message
-                </button>
-              </a>
-              <a href="#">
-                <button className="py-3 md:py-4 px-6 md:px-7 bg-orange text-white text-sm rounded-lg w-32 md:w-36">
-                  Follow
-                </button>
-              </a>
-            </div>
-          </div>
           {/* <!-- Overview --> */}
-          <div className="flex flex-col md:col-span-2 bg-white rounded-[10px] xl:row-span-5">
+          <div className="flex flex-col md:col-span-2 bg-white rounded-[10px] xl:row-span-4">
             <div className="py-6 px-11 bg-black text-white w-full rounded-[10px]">
               <p className="font-medium text-lg md:text-xl">Overview</p>
             </div>
@@ -149,7 +124,7 @@ const CompanyDetails = () => {
             </div>
           </div>
           {/* <!-- contact info card --> */}
-          <div className="max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
+          <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
             <p className="font-semibold text-xl md:text-2xl">Contact info</p>
             <div className="flex flex-col gap-4 font-medium text-base md:text-lg">
               <div className="flex items-center justify-start gap-2">
@@ -167,12 +142,12 @@ const CompanyDetails = () => {
             </div>
           </div>
           {/* <!-- location --> */}
-          <div className="max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
+          <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
             <p className="font-semibold text-xl md:text-2xl">Location</p>
             <img src="/images/locationImg.png" alt="location" />
           </div>
           {/* <!-- social media --> */}
-          <div className="max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
+          <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
             <p className="font-semibold text-xl md:text-2xl">Social Media</p>
             <div className="grid grid-cols-4 gap-10">
               <a href="#">

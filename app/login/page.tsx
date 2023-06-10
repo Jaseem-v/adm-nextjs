@@ -114,7 +114,7 @@ const Login = () => {
               <img
                 src="/images/back-icon.png"
                 alt="back icon"
-                className="absolute top-7 left-5 lg:left-0 w-8 lg:w-10 h-8 lg:h-10"
+                className="absolute top-7 left-5 xl:left-0 w-8 lg:w-10 h-8 lg:h-10"
               />
             </Link>
           </div>
@@ -212,7 +212,7 @@ const Login = () => {
                 </form>
               </FormProvider>
 
-              <div className="mt-5 flex gap-1 justify-center font-bold text-base md:text-lg lg:text-xl">
+              <div className="mt-5 flex gap-1 justify-center font-bold text-base md:text-lg ">
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p className="font-medium">Don't have an account?</p>
                 <Link href="/signup">
@@ -221,7 +221,7 @@ const Login = () => {
               </div>
             </div>
             <div className="hidden xl:block">
-              <img src="/images/loginImage.png" alt="" />
+              <img src="/images/loginImage.png" alt=""/>
             </div>
           </div>
         </div>
