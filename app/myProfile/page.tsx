@@ -50,6 +50,7 @@ import {
   EditInfoStateType,
   PersonalAccountDataType,
 } from "@/utils/schema/stateType";
+import { redirect } from "next/navigation";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -67,6 +68,10 @@ interface Photo {
 let idCounter = 0; // Counter for generating unique IDs
 
 const Profile = () => {
+  const loginStatus = localStorage.getItem('accessToken')
+  if (!loginStatus) {
+    redirect('/')
+  }
   const initialEditModeState: EditModeState = {
     businessName: false,
     businessInfo: false,
