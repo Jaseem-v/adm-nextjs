@@ -3,11 +3,25 @@
 import SectionHeader from "@/components/SectionHeader";
 import { getAccessToken, saveAccessToken } from "@/services/authService";
 import httpClient from "@/services/axiosInstance";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 const CompanyDetails = () => {
   const [data, setData] = useState()
+  const [userData, setUserData] = useState()
+const id = 1;
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await httpClient().get(`/user/business/${id}`)
+        console.log(response)
+        console.log(response.data.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUserData()
+  }, [])
 
   const addCategory = async () => {
     const data = {'name': 'mobile', 'status': 'Active', 'visibility': 'Show', 'image': {
@@ -81,7 +95,7 @@ const CompanyDetails = () => {
             <div className="flex flex-col gap-8 md:gap-9 lg:gap-10 p-9 md:p-11 font-poppins">
               <img src="/images/companyProfile.png" alt="img" />
               <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
-                <p className="font-bold text-xl md:text-2xl">About Business</p>
+                <p className="font-bold text-2xl md:text-3xl">Twitter</p>
                 <p className="font-medium text-lg md:text-xl text-desc max-w-2xl">
                   Dr. Agnes Ayres is a Maxillofacial Surgeon in New York, NY.
                   Dr. Ayres has more experience with Congenital Cardiac
@@ -94,7 +108,7 @@ const CompanyDetails = () => {
               </div>
               {/* <!-- owner details --> */}
               <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
-                <p className="font-bold text-xl md:text-2xl">Owner Details</p>
+                <p className="font-semibold text-xl md:text-2xl">Owner Details</p>
                 <div className="flex flex-col gap-4 text-desc text-lg md:text-xl">
                   <p className="font-semibold">
                     Full Name :{" "}
@@ -114,7 +128,7 @@ const CompanyDetails = () => {
               </div>
               {/* <!-- company gallery --> */}
               <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
-                <p className="font-bold text-xl md:text-2xl">Company Gallery</p>
+                <p className="font-semibold text-xl md:text-2xl">Company Gallery</p>
                 <div className="flex gap-6 overflow-x-scroll lg:overflow-auto">
                   <img src="/images/gallery4.png" alt="" />
                   <img src="/images/gallery2.png" alt="" />
