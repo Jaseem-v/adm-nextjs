@@ -121,6 +121,12 @@ const Profile = () => {
     landmark: string
   };
 
+  
+  type BusinessCategory = {
+    _id: string;
+    name: string;
+  }
+
   const businessInfoForm = useForm<BusinessInfoFormValues>({
     defaultValues: {},
     resolver: yupResolver(updateBusinessInfoSchema),
@@ -152,6 +158,7 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [businessCategory, setBusinessCategory] = useState<BusinessCategory[]>([])
   const [businessAddress, setBusinessAddress] = useState({
     address: '',
     city: '',
@@ -756,6 +763,7 @@ const Profile = () => {
           const response = await httpClient().get('/category/customer')
           const res = response.data.data
           setBusinessAccountData(prevState => ({...prevState, category: res}))
+          setBusinessCategory(res)
           console.log(res)
         } catch (error) {
           console.log(error)
@@ -1815,11 +1823,9 @@ const handleProductAdd = async (data: ServicesFormValues) => {
             </div>
             {!editModeState.businessCategories ? (
               <div className="flex flex-col gap-2 mt-2">
-                <p>
-                  {editInfoState.primaryCategory.length > 0
-                    ? editInfoState.primaryCategory
-                    : "Marketing"}
-                </p>
+                 {businessCategory.map(cat => (
+                  <p key={cat._id}>{cat.name}</p>
+                ))}
               </div>
             ) : (
               <>
@@ -1833,13 +1839,14 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 </div>
                 <div className="flex flex-row gap-4 items-center">
                   {!isPrimaryCategoryChange ? (
-                    <div className="w-80 px-4 py-2 bg-skeleton">
-                      <p>
-                        {editInfoState.primaryCategory.length > 0
-                          ? editInfoState.primaryCategory
-                          : "Marketing"}
-                      </p>
+                    <div className="flex flex-col gap-2 mt-2">
+                    
+                      {businessCategory.map(cat => (
+                    <div className="w-80 px-4 py-2 bg-skeleton" key={cat._id}>
+                        <p >{cat.name}</p>
                     </div>
+                        ))}
+                        </div>
                   ) : (
                     <input
                       type="text"
