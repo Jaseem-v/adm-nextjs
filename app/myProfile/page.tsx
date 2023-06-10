@@ -116,6 +116,11 @@ const Profile = () => {
     landmark: string
   };
 
+  type BusinessCategory = {
+    _id: string;
+    name: string;
+  }
+
   const businessInfoForm = useForm<BusinessInfoFormValues>({
     defaultValues: {},
     resolver: yupResolver(updateBusinessInfoSchema),
@@ -147,7 +152,7 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
-  const [businessCategory, setBusinessCategory] = useState([])
+  const [businessCategory, setBusinessCategory] = useState<BusinessCategory[]>([])
   const [businessAddress, setBusinessAddress] = useState({
     address: '',
     city: '',
