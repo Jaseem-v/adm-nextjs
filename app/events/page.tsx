@@ -106,7 +106,7 @@ const Events = () => {
                   className="event-card rounded-xl max-w-sm shadow-eventCard hover:scale-[1.02] transition-all duration-200 hover:shadow-xl"
                   key={event._id}
                 >
-                  <img src={event.image} alt="event image" />
+                  <img src="/images/event3.png" alt="event image" />
                   <div
                     className="px-7 md:px-8 lg:px-9
                             py-5 md:py-6 
