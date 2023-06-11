@@ -50,6 +50,7 @@ import {
   EditInfoStateType,
   PersonalAccountDataType,
 } from "@/utils/schema/stateType";
+import { redirect } from "next/navigation";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -67,6 +68,17 @@ interface Photo {
 let idCounter = 0; // Counter for generating unique IDs
 
 const Profile = () => {
+  const [loginStatus, setloginStatus] = useState(true)
+
+  useEffect(() => {
+    const isAccessToken = localStorage.getItem('accessToken') !== null
+    setloginStatus(isAccessToken)
+
+  })
+
+  if (!loginStatus) {
+    redirect('/')
+  }
   const initialEditModeState: EditModeState = {
     businessName: false,
     businessInfo: false,
@@ -115,6 +127,7 @@ const Profile = () => {
     hidePhone: boolean;
     landmark: string
   };
+
 
   type BusinessCategory = {
     _id: string;
@@ -290,9 +303,9 @@ const Profile = () => {
     editInfoState.photos.length > 0;
   const isServicesCompleted = businessAccountData.services.length > 0;
   const isSocialMediaCompleted =
-  accountType === 'personal'
-    ? personalAccountData.socialMediaLinks.some((link) => link.link !== "")
-    : businessAccountData.socialMediaLinks.some((link) => link.link !== "");
+    accountType === 'personal'
+      ? personalAccountData.socialMediaLinks.some((link) => link.link !== "")
+      : businessAccountData.socialMediaLinks.some((link) => link.link !== "");
 
 
   const progressSections = [
@@ -416,7 +429,7 @@ const Profile = () => {
 
   // SECTION FUNCTIONS
 
-  const verifyBusinessInfo = async(data: BusinessInfoFormValues) => {
+  const verifyBusinessInfo = async (data: BusinessInfoFormValues) => {
     // POST API
     console.log(data)
     const info = {
@@ -429,7 +442,7 @@ const Profile = () => {
       place: businessAddress.place
     }
 
-    const updatedBusinessAccountData = {...businessAccountData, addressDetails: {...info}}
+    const updatedBusinessAccountData = { ...businessAccountData, addressDetails: { ...info } }
     try {
       await httpClient()
         .patch("user/business/profile", updatedBusinessAccountData)
@@ -608,8 +621,8 @@ const Profile = () => {
         socialMediaLinks: transformedData,
       };
       await httpClient()
-      .patch("user/personal/profile", updatedPersonalAccountData)
-      .catch((err) => console.log(err));
+        .patch("user/personal/profile", updatedPersonalAccountData)
+        .catch((err) => console.log(err));
       console.log("verified social media");
 
     } else if (accountType === 'business') {
@@ -619,8 +632,8 @@ const Profile = () => {
       };
       console.log(updatedBusinessAccountData)
       await httpClient()
-      .patch("user/business/profile", updatedBusinessAccountData)
-      .catch((err) => console.log(err));
+        .patch("user/business/profile", updatedBusinessAccountData)
+        .catch((err) => console.log(err));
       console.log("verified social media");
     }
   };
@@ -686,7 +699,7 @@ const Profile = () => {
 
   const isSocialMediaAdded = accountType === 'personal' ? Object.values(
     personalAccountData.socialMediaLinks
-  ).some((value) => value !== undefined) : Object.values( 
+  ).some((value) => value !== undefined) : Object.values(
     businessAccountData.socialMediaLinks
   ).some((value) => value !== undefined)
 
@@ -743,7 +756,7 @@ const Profile = () => {
             const res = response.data.data;
             setBusinessAccountData(res);
             setBusinessName(res.name);
-            setBusinessAddress({...res.addressDetails, phone: res.phone})
+            setBusinessAddress({ ...res.addressDetails, phone: res.phone })
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -752,11 +765,11 @@ const Profile = () => {
         } catch (error) {
           console.log(error);
         }
-        
+
         try {
           const response = await httpClient().get('/category/customer')
           const res = response.data.data
-          setBusinessAccountData(prevState => ({...prevState, category: res}))
+          setBusinessAccountData(prevState => ({ ...prevState, category: res }))
           setBusinessCategory(res)
           console.log(res)
         } catch (error) {
@@ -773,13 +786,13 @@ const Profile = () => {
     ? console.log("personal account data", personalAccountData)
     : console.log("business account data", businessAccountData);
 
-console.log(businessCategory)
+  console.log(businessCategory)
   type ServicesFormValues = {
     service: string
   }
 
   const serviceEditForm = useForm<ServicesFormValues>({
-    defaultValues : {},
+    defaultValues: {},
     resolver: yupResolver(servicesSchema),
   });
 
@@ -795,50 +808,50 @@ console.log(businessCategory)
   const [serviceItemEditValue, setServiceItemEditValue] = useState('');
 
 
-const handleServicesClick = (product: string) => {
-  setServiceItemEdit(true);
-  setValue('service', product)
-  setServiceItemEditValue(product);
-  
-};
-console.log('serive item', serviceItemEditValue )
+  const handleServicesClick = (product: string) => {
+    setServiceItemEdit(true);
+    setValue('service', product)
+    setServiceItemEditValue(product);
 
-const handleProductAdd = async (data: ServicesFormValues) => {
-  const service: string = data.service;
-  const services: string[] = businessAccountData.services.map((product) =>
-    product === serviceItemEditValue ? service : product
-  );
-  console.log('services', services);
-  const updatedBusinessAccountData = { ...businessAccountData, services };
+  };
+  console.log('serive item', serviceItemEditValue)
 
-  if (data.service.length > 0) {
-    try {
-      await httpClient().patch('user/business/profile', updatedBusinessAccountData);
-    } catch (error) {
-      console.log(error);
+  const handleProductAdd = async (data: ServicesFormValues) => {
+    const service: string = data.service;
+    const services: string[] = businessAccountData.services.map((product) =>
+      product === serviceItemEditValue ? service : product
+    );
+    console.log('services', services);
+    const updatedBusinessAccountData = { ...businessAccountData, services };
+
+    if (data.service.length > 0) {
+      try {
+        await httpClient().patch('user/business/profile', updatedBusinessAccountData);
+      } catch (error) {
+        console.log(error);
+      }
+      setEditInfoState((prevState) => {
+        const updatedProducts: Product[] = prevState.products.map((product) =>
+          product.name === serviceItemEditValue ? { ...product, name: data.service } : product
+        );
+
+        return {
+          ...prevState,
+          products: updatedProducts,
+        };
+      });
     }
-    setEditInfoState((prevState) => {
-      const updatedProducts: Product[] = prevState.products.map((product) =>
-        product.name === serviceItemEditValue ? { ...product, name: data.service } : product
-      );
+    setServiceItemEdit(false);
+    setServiceItemEditValue('');
 
-      return {
-        ...prevState,
-        products: updatedProducts,
-      };
-    });
-  }
-  setServiceItemEdit(false);
-  setServiceItemEditValue('');
-
-  handleToggleEditMode('products');
-};
+    handleToggleEditMode('products');
+  };
 
 
-  
+
 
   const servicesForm = useForm<ServicesFormValues>({
-    defaultValues : {},
+    defaultValues: {},
     resolver: yupResolver(servicesSchema),
   });
 
@@ -851,36 +864,36 @@ const handleProductAdd = async (data: ServicesFormValues) => {
 
   const addProductForm = (
     <FormProvider {...servicesForm}>
-    <form name="editProductForm" onSubmit={handleSubmitService(handleProductAdd)}>
-      <div className="flex">
+      <form name="editProductForm" onSubmit={handleSubmitService(handleProductAdd)}>
+        <div className="flex">
           <input
             type="text"
             className="form-input rounded-r-0"
             {...registerService('service')}
           />
-        <button
-          type="submit"
-          className="py-2 px-4 bg-success text-white"
-          title="save"
-        >
-          <FaCheck />
-        </button>
-        <button
-          type="submit"
-          className="py-2 px-4 bg-error text-white"
-          title="save"
-        >
-          <FaTrashAlt />
-        </button>
-        <div className="flex items-center justify-center px-2">
-          <IoClose
-            className="text-error w-6 h-6 stroke-3 cursor-pointer"
-            onClick={() => handleToggleEditMode("products")}
-          />
+          <button
+            type="submit"
+            className="py-2 px-4 bg-success text-white"
+            title="save"
+          >
+            <FaCheck />
+          </button>
+          <button
+            type="submit"
+            className="py-2 px-4 bg-error text-white"
+            title="save"
+          >
+            <FaTrashAlt />
+          </button>
+          <div className="flex items-center justify-center px-2">
+            <IoClose
+              className="text-error w-6 h-6 stroke-3 cursor-pointer"
+              onClick={() => handleToggleEditMode("products")}
+            />
+          </div>
         </div>
-      </div>
-      <p className="text-error text-sm mt-1">{errorsService?.service?.message}</p>
-    </form>
+        <p className="text-error text-sm mt-1">{errorsService?.service?.message}</p>
+      </form>
     </FormProvider>
   );
 
@@ -1053,9 +1066,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isAddressCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isAddressCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Name, Address & phone
                   </p>
@@ -1070,9 +1082,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 {/* ITEM 2 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isCategoriesCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isCategoriesCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Business Categories
                   </p>
@@ -1087,9 +1098,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isAboutCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isAboutCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Detailed Description
                   </p>
@@ -1100,9 +1110,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isPhotoCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isPhotoCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Logo or Image
                   </p>
@@ -1119,9 +1128,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isServicesCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isServicesCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Services
                   </p>
@@ -1136,9 +1144,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isSocialMediaCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isSocialMediaCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Social Media
                   </p>
@@ -1327,194 +1334,194 @@ const handleProductAdd = async (data: ServicesFormValues) => {
             {accountType === "business" && (
               <div className="flex flex-col gap-6 text-gray-800">
                 <FormProvider {...businessInfoForm}>
-                <form className="flex flex-col gap-2" onSubmit={handleSubmitBusinessInfo(verifyBusinessInfo)} noValidate>
-                  <div className="flex flex-row gap-4">
-                    <span className="text-2xl font-lora font-medium">
-                      Business Info
-                    </span>
-                    <span className="flex-1"></span>
-                    {/* optional */}
-                    <div>
-                      {!editModeState.businessInfo ? (
-                        <button
-                          className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
-                          onClick={() => handleToggleEditMode("businessInfo")}
-                        >
-                          Edit
-                        </button>
-                      ) : (
-                        <div className="flex items-start flex-wrap gap-2">
+                  <form className="flex flex-col gap-2" onSubmit={handleSubmitBusinessInfo(verifyBusinessInfo)} noValidate>
+                    <div className="flex flex-row gap-4">
+                      <span className="text-2xl font-lora font-medium">
+                        Business Info
+                      </span>
+                      <span className="flex-1"></span>
+                      {/* optional */}
+                      <div>
+                        {!editModeState.businessInfo ? (
                           <button
-                            className="bg-skeleton py-1 px-3  rounded "
+                            className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
                             onClick={() => handleToggleEditMode("businessInfo")}
                           >
-                            Cancel
+                            Edit
                           </button>
-                          <button
-                            className="bg-orange text-white py-1 px-3 rounded "
-                            type="submit"
-                          >
-                            Verify
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-6">
-                    {!editModeState.businessInfo ? (
-                      <div className="flex flex-row items-start gap-2">
-                        <CiLocationOn className="mt-1" />
-                        <div className="flex flex-col gap-1">
-                          <p className="text-lg font-medium flex items-center gap-1">
-                            Address{" "}
-                            <span>
-                              <FaEye className="h-3" />
-                            </span>
-                          </p>
-                          <p className="text-lg text-gray-700">
-                            {businessAddress.address}
-                            {`, `}
-                            {businessAddress.city}
-                            {`, `}
-                            {businessAddress.place}
-                            {`, `}
-                            {businessAddress.pincode}
-                          </p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col gap-2">
-                        <div className="flex flex-row items-center gap-2">
-                          <CiLocationOn />
-                          <p className="text-lg font-medium flex items-center gap-1">
-                            Address{" "}
-                            <span>
-                              <FaEye className="h-3" />
-                            </span>
-                          </p>
-                        </div>
-                        <div className="flex flex-col gap-3">
-                          <div className="flex flex-col gap-1 form-control">
-                            <label htmlFor="state">State</label>
-                            <select
-                              name="state"
-                              id="state"
-                              className="w-1/2 md:w-1/4"
+                        ) : (
+                          <div className="flex items-start flex-wrap gap-2">
+                            <button
+                              className="bg-skeleton py-1 px-3  rounded "
+                              onClick={() => handleToggleEditMode("businessInfo")}
                             >
-                              <option value="Abudhabi">Abudhabi</option>
-                            </select>
+                              Cancel
+                            </button>
+                            <button
+                              className="bg-orange text-white py-1 px-3 rounded "
+                              type="submit"
+                            >
+                              Verify
+                            </button>
                           </div>
-                          <div className="flex flex-col gap-1 form-control">
-                            <label htmlFor="streetAddress">
-                              Address
-                            </label>
-                            <input
-                              type="text"
-                              id="streetAddress"
-                              placeholder="e.g. Sheikh Zayed St"
-                              {...registerBusinessInfo('address')}
-                              value={businessAddress.address}
-                              onChange={(e) => setBusinessAddress(prevState => ({...prevState, address: e.target.value}))}
-                            />
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      {!editModeState.businessInfo ? (
+                        <div className="flex flex-row items-start gap-2">
+                          <CiLocationOn className="mt-1" />
+                          <div className="flex flex-col gap-1">
+                            <p className="text-lg font-medium flex items-center gap-1">
+                              Address{" "}
+                              <span>
+                                <FaEye className="h-3" />
+                              </span>
+                            </p>
+                            <p className="text-lg text-gray-700">
+                              {businessAddress.address}
+                              {`, `}
+                              {businessAddress.city}
+                              {`, `}
+                              {businessAddress.place}
+                              {`, `}
+                              {businessAddress.pincode}
+                            </p>
                           </div>
-                          <div className="flex flex-col gap-1"></div>{" "}
-                          {/* ADDRESS LINE 2 optional */}
-                          <div className="grid md:grid-cols-3 md:gap-x-10 gap-y-3">
-                            <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                              <label htmlFor="building">
-                                Landmark
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-2">
+                          <div className="flex flex-row items-center gap-2">
+                            <CiLocationOn />
+                            <p className="text-lg font-medium flex items-center gap-1">
+                              Address{" "}
+                              <span>
+                                <FaEye className="h-3" />
+                              </span>
+                            </p>
+                          </div>
+                          <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-1 form-control">
+                              <label htmlFor="state">State</label>
+                              <select
+                                name="state"
+                                id="state"
+                                className="w-1/2 md:w-1/4"
+                              >
+                                <option value="Abudhabi">Abudhabi</option>
+                              </select>
+                            </div>
+                            <div className="flex flex-col gap-1 form-control">
+                              <label htmlFor="streetAddress">
+                                Address
                               </label>
                               <input
                                 type="text"
-                                id="building"
-                                placeholder="Louvre Abu Dhabi"
-                                {...registerBusinessInfo('landmark')}
-                                value={businessAddress.landmark}
-                                onChange={(e) => setBusinessAddress(prevState => ({...prevState, landmark: e.target.value}))}
+                                id="streetAddress"
+                                placeholder="e.g. Sheikh Zayed St"
+                                {...registerBusinessInfo('address')}
+                                value={businessAddress.address}
+                                onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, address: e.target.value }))}
                               />
                             </div>
-                            <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                              <label htmlFor="city">City</label>
-                              <input
-                                type="text"
-                                id="city"
-                                placeholder="e.g. Al Ain"
-                                {...registerBusinessInfo("city")}
-                                value={businessAddress.city}
-                                onChange={(e) => setBusinessAddress(prevState => ({...prevState, city: e.target.value}))}
-                              />
+                            <div className="flex flex-col gap-1"></div>{" "}
+                            {/* ADDRESS LINE 2 optional */}
+                            <div className="grid md:grid-cols-3 md:gap-x-10 gap-y-3">
+                              <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                                <label htmlFor="building">
+                                  Landmark
+                                </label>
+                                <input
+                                  type="text"
+                                  id="building"
+                                  placeholder="Louvre Abu Dhabi"
+                                  {...registerBusinessInfo('landmark')}
+                                  value={businessAddress.landmark}
+                                  onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, landmark: e.target.value }))}
+                                />
+                              </div>
+                              <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                                <label htmlFor="city">City</label>
+                                <input
+                                  type="text"
+                                  id="city"
+                                  placeholder="e.g. Al Ain"
+                                  {...registerBusinessInfo("city")}
+                                  value={businessAddress.city}
+                                  onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, city: e.target.value }))}
+                                />
+                              </div>
+                              <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                                <label htmlFor="zip">Zip</label>
+                                <input
+                                  type="text"
+                                  inputMode="numeric"
+                                  pattern="[0-9]"
+                                  id="zip"
+                                  placeholder="126452"
+                                  {...registerBusinessInfo('zip')}
+                                  value={businessAddress.pincode}
+                                  onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, pincode: e.target.value }))}
+                                />
+                              </div>
                             </div>
-                            <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                              <label htmlFor="zip">Zip</label>
-                              <input
-                                type="text"
-                                inputMode="numeric"
-                                pattern="[0-9]"
-                                id="zip"
-                                placeholder="126452"
-                                {...registerBusinessInfo('zip')}
-                                value={businessAddress.pincode}
-                                onChange={(e) => setBusinessAddress(prevState => ({...prevState, pincode: e.target.value}))}
-                              />
-                            </div>
-                          </div>
-                          <div className="flex flex-row gap-2 items-center">
-                            <label
-                              htmlFor="hideAddress"
-                              className="cursor-pointer"
-                            >
-                              <input
-                                type="checkbox"
+                            <div className="flex flex-row gap-2 items-center">
+                              <label
+                                htmlFor="hideAddress"
                                 className="cursor-pointer"
-                                id="hideAddress"
-                                name="hideAddress"
-                              />
-                              <span className="ml-1 text-sm">
-                                Don{`'`}t display my address publicly
-                              </span>
-                            </label>
-                          </div>
-                          <div className="flex flex-row gap-2 items-center">
-                            <label
-                              htmlFor="showServiceArea"
-                              className="cursor-pointer"
-                            >
-                              <input
-                                type="checkbox"
+                              >
+                                <input
+                                  type="checkbox"
+                                  className="cursor-pointer"
+                                  id="hideAddress"
+                                  name="hideAddress"
+                                />
+                                <span className="ml-1 text-sm">
+                                  Don{`'`}t display my address publicly
+                                </span>
+                              </label>
+                            </div>
+                            <div className="flex flex-row gap-2 items-center">
+                              <label
+                                htmlFor="showServiceArea"
                                 className="cursor-pointer"
-                                id="showServiceArea"
-                                name="showServiceArea"
-                              />
-                              <span className="ml-1 text-sm">
-                                We deliver or provide service at customer
-                                locations
-                              </span>
-                            </label>
+                              >
+                                <input
+                                  type="checkbox"
+                                  className="cursor-pointer"
+                                  id="showServiceArea"
+                                  name="showServiceArea"
+                                />
+                                <span className="ml-1 text-sm">
+                                  We deliver or provide service at customer
+                                  locations
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {editModeState.businessInfo && isServiceArea && (
-                      <div className="flex flex-col w-full gap-2 px-4 items-start">
-                        <div className="flex items-center">
-                          <CiLocationOn />
-                          <p className="text-lg font-medium mr-4">
-                            Service Areas
-                          </p>
-                          <p className="text-sm">2/6 Areas listed</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <FaTrashAlt />
-                          <div className="form-control">
-                            <input type="text" />
+                      {editModeState.businessInfo && isServiceArea && (
+                        <div className="flex flex-col w-full gap-2 px-4 items-start">
+                          <div className="flex items-center">
+                            <CiLocationOn />
+                            <p className="text-lg font-medium mr-4">
+                              Service Areas
+                            </p>
+                            <p className="text-sm">2/6 Areas listed</p>
                           </div>
+                          <div className="flex items-center gap-2">
+                            <FaTrashAlt />
+                            <div className="form-control">
+                              <input type="text" />
+                            </div>
+                          </div>
+                          <p className="font-semibold cursor-pointer text-orange-600 hover:underline">
+                            + Add Service Area
+                          </p>
                         </div>
-                        <p className="font-semibold cursor-pointer text-orange-600 hover:underline">
-                          + Add Service Area
-                        </p>
-                      </div>
-                    )}
+                      )}
 
                       <div className="flex flex-row gap-2">
                         <RiPhoneFill className="mt-1" />
@@ -1531,8 +1538,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                         </div>
                       </div>
 
-                  </div>
-                </form>
+                    </div>
+                  </form>
                 </FormProvider >
               </div>
             )}
@@ -1753,13 +1760,13 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                       onChange={(e) => {
                         accountType === "personal"
                           ? setPersonalAccountData((prevState) => ({
-                              ...prevState,
-                              about: e.target.value,
-                            }))
+                            ...prevState,
+                            about: e.target.value,
+                          }))
                           : setBusinessAccountData((prevState) => ({
-                              ...prevState,
-                              about: e.target.value,
-                            }));
+                            ...prevState,
+                            about: e.target.value,
+                          }));
                       }}
                     ></textarea>
                   </div>
@@ -1817,9 +1824,17 @@ const handleProductAdd = async (data: ServicesFormValues) => {
             </div>
             {!editModeState.businessCategories ? (
               <div className="flex flex-col gap-2 mt-2">
-                {businessCategory.map(cat => (
-                  <p key={cat._id}>{cat.name}</p>
-                ))}
+                {/* <select
+                  id="categories"
+                  placeholder="e.g. Marketing, consultent, design"
+                  {...register("categories")}
+                  onBlur={() => trigger("categories")}
+                >
+                  {businessCategory.map(cat => (
+                    <option value={cat._id}>{cat.name}</option>
+                  ))}
+                </select> */}
+
               </div>
             ) : (
               <>
@@ -1833,12 +1848,13 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                 </div>
                 <div className="flex flex-row gap-4 items-center">
                   {!isPrimaryCategoryChange ? (
-                    <div className="w-80 px-4 py-2 bg-skeleton">
-                      <p>
-                        {editInfoState.primaryCategory.length > 0
-                          ? editInfoState.primaryCategory
-                          : "Marketing"}
-                      </p>
+                    <div className="flex flex-col gap-2 mt-2">
+
+                      {businessCategory.map(cat => (
+                        <div className="w-80 px-4 py-2 bg-skeleton" key={cat._id}>
+                          <p >{cat.name}</p>
+                        </div>
+                      ))}
                     </div>
                   ) : (
                     <input
@@ -1858,7 +1874,7 @@ const handleProductAdd = async (data: ServicesFormValues) => {
                   )}
 
                   {editModeState.businessCategories &&
-                  isPrimaryCategoryChange ? (
+                    isPrimaryCategoryChange ? (
                     <div className="flex items-center gap-4">
                       <div
                         className="hover:underline cursor-pointer text-success"
@@ -1973,74 +1989,74 @@ const handleProductAdd = async (data: ServicesFormValues) => {
               </p>
             </div>
             {businessAccountData.services.length > 0 && (
-  <div className="flex flex-col gap-2">
-    <hr className="w-full text-grey-300" />
-    <div className="text-xs">
-      {businessAccountData.services.length}/{`30 Items Listed`}
-    </div>
-    {serviceItemEdit ? (
-      <FormProvider {...serviceEditForm}>
-        <form name="editProductForm" onSubmit={handleSubmitServiceEdit(handleProductAdd)}>
-          <div className="flex">
-            <input
-              type="text"
-              className="form-input rounded-r-0"
-              {...registerServiceEdit('service')}
-            />
-            <button type="submit" className="py-2 px-4 bg-success text-white" title="save">
-              <FaCheck />
-            </button>
-            <button type="button" className="py-2 px-4 bg-error text-white" title="delete">
-              <FaTrashAlt />
-            </button>
-            <div className="flex items-center justify-center px-2">
-              <IoClose
-                className="text-error w-6 h-6 stroke-3 cursor-pointer"
-                onClick={() => setServiceItemEdit(false)}
-              />
-            </div>
-          </div>
-          <p className="text-error text-sm mt-1">{errorsServiceEdit?.service?.message}</p>
-        </form>
-      </FormProvider>
-    ) : (
-      <>
-        {businessAccountData.services.map((product) => (
-          <div
-            key={product}
-            title="click to edit"
-            className="flex flex-row gap-2 items-center cursor-pointer"
-            onClick={() => handleServicesClick(product)}
-          >
-            <FaCheckCircle />
-            {/* reordering */}
-            {/* <div className="flex flex-col">
+              <div className="flex flex-col gap-2">
+                <hr className="w-full text-grey-300" />
+                <div className="text-xs">
+                  {businessAccountData.services.length}/{`30 Items Listed`}
+                </div>
+                {serviceItemEdit ? (
+                  <FormProvider {...serviceEditForm}>
+                    <form name="editProductForm" onSubmit={handleSubmitServiceEdit(handleProductAdd)}>
+                      <div className="flex">
+                        <input
+                          type="text"
+                          className="form-input rounded-r-0"
+                          {...registerServiceEdit('service')}
+                        />
+                        <button type="submit" className="py-2 px-4 bg-success text-white" title="save">
+                          <FaCheck />
+                        </button>
+                        <button type="button" className="py-2 px-4 bg-error text-white" title="delete">
+                          <FaTrashAlt />
+                        </button>
+                        <div className="flex items-center justify-center px-2">
+                          <IoClose
+                            className="text-error w-6 h-6 stroke-3 cursor-pointer"
+                            onClick={() => setServiceItemEdit(false)}
+                          />
+                        </div>
+                      </div>
+                      <p className="text-error text-sm mt-1">{errorsServiceEdit?.service?.message}</p>
+                    </form>
+                  </FormProvider>
+                ) : (
+                  <>
+                    {businessAccountData.services.map((product) => (
+                      <div
+                        key={product}
+                        title="click to edit"
+                        className="flex flex-row gap-2 items-center cursor-pointer"
+                        onClick={() => handleServicesClick(product)}
+                      >
+                        <FaCheckCircle />
+                        {/* reordering */}
+                        {/* <div className="flex flex-col">
               <AiFillCaretUp />
               <AiFillCaretDown />
             </div> */}
-            {/* reordering */}
-            <span>{product}</span>
-          </div>
-        ))}
-        {!editModeState.products && (
-          <div className="flex flex-row items-center gap-4">
-            <div
-              className="flex flex-row gap-2 items-center cursor-pointer"
-              onClick={() => handleToggleEditMode("products")}
-            >
-              <BsFillPlusCircleFill className="text-success" />
-              <span>Add a product</span>
-            </div>
-            {/* <div className="flex flex-row gap-2 items-center cursor-pointer">
+                        {/* reordering */}
+                        <span>{product}</span>
+                      </div>
+                    ))}
+                    {!editModeState.products && (
+                      <div className="flex flex-row items-center gap-4">
+                        <div
+                          className="flex flex-row gap-2 items-center cursor-pointer"
+                          onClick={() => handleToggleEditMode("products")}
+                        >
+                          <BsFillPlusCircleFill className="text-success" />
+                          <span>Add a product</span>
+                        </div>
+                        {/* <div className="flex flex-row gap-2 items-center cursor-pointer">
               <TiArrowUnsorted className="text-orange-700" />
               <span>Reorder product</span>
             </div> */}
-          </div>
-        )}
-      </>
-    )}
-  </div>
-)}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
 
             {!editModeState.products ? (
               businessAccountData.services.length === 0 && (
@@ -2071,14 +2087,14 @@ const handleProductAdd = async (data: ServicesFormValues) => {
               )
             ) : (
               !serviceItemEdit && (
-              <div className="flex flex-col gap-2">
-                <hr className="w-full text-grey-300" />
-                <div className="text-xs">
-                  {`1`}
-                  {`/30 Items Listed`}
+                <div className="flex flex-col gap-2">
+                  <hr className="w-full text-grey-300" />
+                  <div className="text-xs">
+                    {`1`}
+                    {`/30 Items Listed`}
+                  </div>
+                  {addProductForm}
                 </div>
-                {addProductForm}
-              </div>
               )
             )}
             {/* edit mode */}
@@ -2206,9 +2222,8 @@ const handleProductAdd = async (data: ServicesFormValues) => {
               <div {...getCompanyImagesRootProps()}>
                 <input type="file" {...getCompanyImagesInputProps()} />
                 <div
-                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
-                    isDragActive ? "border-blue-500" : "border-black"
-                  }`}
+                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${isDragActive ? "border-blue-500" : "border-black"
+                    }`}
                 >
                   <p className="font-semibold">Add a photo</p>
                   <BsFillCameraFill className="w-11 h-11" />
@@ -2294,232 +2309,232 @@ const handleProductAdd = async (data: ServicesFormValues) => {
               <form onSubmit={handleSubmitSocialMedia(verifySocialMedia)}>
                 {/* Personal Account Social Media Links */}
                 {accountType === "personal" && (
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="facebook">Facebook URL</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                        <BsFacebook />
-                        <p className="text-sm">https://</p>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="facebook">Facebook URL</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                          <BsFacebook />
+                          <p className="text-sm">https://</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="facebook"
+                          className="form-input w-full"
+                          placeholder="e.g. www.facebook.com/companyProfile"
+                          {...registerSocialMedia("facebook")}
+                          value={personalSocialMediaLinks.facebook}
+                          onChange={(e) =>
+                            setPersonalSocialMediaLinks((prevState) => ({
+                              ...prevState,
+                              facebook: e.target.value,
+                            }))
+                          }
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="facebook"
-                        className="form-input w-full"
-                        placeholder="e.g. www.facebook.com/companyProfile"
-                        {...registerSocialMedia("facebook")}
-                        value={personalSocialMediaLinks.facebook}
-                        onChange={(e) =>
-                          setPersonalSocialMediaLinks((prevState) => ({
-                            ...prevState,
-                            facebook: e.target.value,
-                          }))
-                        }
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="instagram">Instagram</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                        <BsInstagram />
-                        <p className="text-sm">@</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="instagram">Instagram</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                          <BsInstagram />
+                          <p className="text-sm">@</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="instagram"
+                          className="form-input w-full"
+                          placeholder="e.g. @instagramProfile"
+                          {...registerSocialMedia("instagram")}
+                          value={instagramObj && instagramObj.link}
+                          onChange={(e) =>
+                            handleSocialMediaChange("instagram", e)
+                          }
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="instagram"
-                        className="form-input w-full"
-                        placeholder="e.g. @instagramProfile"
-                        {...registerSocialMedia("instagram")}
-                        value={instagramObj && instagramObj.link}
-                        onChange={(e) =>
-                          handleSocialMediaChange("instagram", e)
-                        }
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="twitter">Twitter</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                        <BsTwitter />
-                        <p className="text-sm">@</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="twitter">Twitter</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                          <BsTwitter />
+                          <p className="text-sm">@</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="twitter"
+                          className="form-input w-full"
+                          placeholder="e.g. @twitterProfile"
+                          {...registerSocialMedia("twitter")}
+                          value={twitterObj && twitterObj.link}
+                          onChange={(e) => handleSocialMediaChange("twitter", e)}
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="twitter"
-                        className="form-input w-full"
-                        placeholder="e.g. @twitterProfile"
-                        {...registerSocialMedia("twitter")}
-                        value={twitterObj && twitterObj.link}
-                        onChange={(e) => handleSocialMediaChange("twitter", e)}
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="linkedin">LinkedIn URL</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                        <BsLinkedin />
-                        <p className="text-sm">https://</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="linkedin">LinkedIn URL</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                          <BsLinkedin />
+                          <p className="text-sm">https://</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="linkedin"
+                          className="form-input w-full"
+                          placeholder="e.g. www.linkedin.com/companyProfile"
+                          {...registerSocialMedia("linkedin")}
+                          value={linkedinObj && linkedinObj.link}
+                          onChange={(e) => handleSocialMediaChange("linkedin", e)}
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="linkedin"
-                        className="form-input w-full"
-                        placeholder="e.g. www.linkedin.com/companyProfile"
-                        {...registerSocialMedia("linkedin")}
-                        value={linkedinObj && linkedinObj.link}
-                        onChange={(e) => handleSocialMediaChange("linkedin", e)}
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="youtube">Youtube Channel</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                        <BsYoutube />
-                        <p className="text-sm">https://</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="youtube">Youtube Channel</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                          <BsYoutube />
+                          <p className="text-sm">https://</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="youtube"
+                          className="form-input w-full"
+                          placeholder="e.g. www.youtube.com/profile"
+                          {...registerSocialMedia("youtube")}
+                          value={youtubeObj && youtubeObj.link}
+                          onChange={(e) => handleSocialMediaChange("youtube", e)}
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="youtube"
-                        className="form-input w-full"
-                        placeholder="e.g. www.youtube.com/profile"
-                        {...registerSocialMedia("youtube")}
-                        value={youtubeObj && youtubeObj.link}
-                        onChange={(e) => handleSocialMediaChange("youtube", e)}
-                      />
                     </div>
-                  </div>
-                </div>)}
+                  </div>)}
                 {/* Business Account Social Media Links */}
                 {accountType === "business" && (
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="facebook">Facebook URL</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                        <BsFacebook />
-                        <p className="text-sm">https://</p>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="facebook">Facebook URL</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                          <BsFacebook />
+                          <p className="text-sm">https://</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="facebook"
+                          className="form-input w-full"
+                          placeholder="e.g. www.facebook.com/companyProfile"
+                          {...registerSocialMedia("facebook")}
+                          value={businessSocialMediaLinks.facebook}
+                          onChange={(e) =>
+                            setBusinessSocialMediaLinks((prevState) => ({
+                              ...prevState,
+                              facebook: e.target.value,
+                            }))
+                          }
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="facebook"
-                        className="form-input w-full"
-                        placeholder="e.g. www.facebook.com/companyProfile"
-                        {...registerSocialMedia("facebook")}
-                        value={businessSocialMediaLinks.facebook}
-                        onChange={(e) =>
-                          setBusinessSocialMediaLinks((prevState) => ({
-                            ...prevState,
-                            facebook: e.target.value,
-                          }))
-                        }
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="instagram">Instagram</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                        <BsInstagram />
-                        <p className="text-sm">@</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="instagram">Instagram</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                          <BsInstagram />
+                          <p className="text-sm">@</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="instagram"
+                          className="form-input w-full"
+                          placeholder="e.g. @instagramProfile"
+                          {...registerSocialMedia("instagram")}
+                          value={businessSocialMediaLinks.instagram}
+                          onChange={(e) =>
+                            setBusinessSocialMediaLinks((prevState) => ({
+                              ...prevState,
+                              instagram: e.target.value,
+                            }))
+                          }
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="instagram"
-                        className="form-input w-full"
-                        placeholder="e.g. @instagramProfile"
-                        {...registerSocialMedia("instagram")}
-                        value={businessSocialMediaLinks.instagram}
-                        onChange={(e) =>
-                          setBusinessSocialMediaLinks((prevState) => ({
-                            ...prevState,
-                            instagram: e.target.value,
-                          }))
-                        }
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="twitter">Twitter</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
-                        <BsTwitter />
-                        <p className="text-sm">@</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="twitter">Twitter</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                          <BsTwitter />
+                          <p className="text-sm">@</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="twitter"
+                          className="form-input w-full"
+                          placeholder="e.g. @twitterProfile"
+                          {...registerSocialMedia("twitter")}
+                          value={businessSocialMediaLinks.twitter}
+                          onChange={(e) =>
+                            setBusinessSocialMediaLinks((prevState) => ({
+                              ...prevState,
+                              twitter: e.target.value,
+                            }))
+                          }
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="twitter"
-                        className="form-input w-full"
-                        placeholder="e.g. @twitterProfile"
-                        {...registerSocialMedia("twitter")}
-                        value={businessSocialMediaLinks.twitter}
-                        onChange={(e) =>
-                          setBusinessSocialMediaLinks((prevState) => ({
-                            ...prevState,
-                            twitter: e.target.value,
-                          }))
-                        }
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="linkedin">LinkedIn URL</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                        <BsLinkedin />
-                        <p className="text-sm">https://</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="linkedin">LinkedIn URL</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                          <BsLinkedin />
+                          <p className="text-sm">https://</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="linkedin"
+                          className="form-input w-full"
+                          placeholder="e.g. www.linkedin.com/companyProfile"
+                          {...registerSocialMedia("linkedin")}
+                          value={businessSocialMediaLinks.linkedin}
+                          onChange={(e) =>
+                            setBusinessSocialMediaLinks((prevState) => ({
+                              ...prevState,
+                              linkedin: e.target.value,
+                            }))
+                          }
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="linkedin"
-                        className="form-input w-full"
-                        placeholder="e.g. www.linkedin.com/companyProfile"
-                        {...registerSocialMedia("linkedin")}
-                        value={businessSocialMediaLinks.linkedin}
-                        onChange={(e) =>
-                          setBusinessSocialMediaLinks((prevState) => ({
-                            ...prevState,
-                            linkedin: e.target.value,
-                          }))
-                        }
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="youtube">Youtube Channel</label>
-                    <div className="flex w-full flex-row">
-                      <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
-                        <BsYoutube />
-                        <p className="text-sm">https://</p>
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="youtube">Youtube Channel</label>
+                      <div className="flex w-full flex-row">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                          <BsYoutube />
+                          <p className="text-sm">https://</p>
+                        </div>
+                        <input
+                          type="text"
+                          id="youtube"
+                          className="form-input w-full"
+                          placeholder="e.g. www.youtube.com/profile"
+                          {...registerSocialMedia("youtube")}
+                          value={businessSocialMediaLinks.youtube}
+                          onChange={(e) =>
+                            setBusinessSocialMediaLinks((prevState) => ({
+                              ...prevState,
+                              youtube: e.target.value,
+                            }))
+                          }
+                        />
                       </div>
-                      <input
-                        type="text"
-                        id="youtube"
-                        className="form-input w-full"
-                        placeholder="e.g. www.youtube.com/profile"
-                        {...registerSocialMedia("youtube")}
-                        value={businessSocialMediaLinks.youtube}
-                        onChange={(e) =>
-                          setBusinessSocialMediaLinks((prevState) => ({
-                            ...prevState,
-                            youtube: e.target.value,
-                          }))
-                        }
-                      />
                     </div>
-                  </div>
-                </div>)}
+                  </div>)}
                 <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
                   <button
                     className="bg-skeleton py-1 px-3  rounded "
@@ -2569,48 +2584,48 @@ const handleProductAdd = async (data: ServicesFormValues) => {
             </div>
             {!editModeState.contact ? (
               <>
-              {businessAccountData.contactDetails  ? 
-              <div className="md:grid gap-2 grid-cols-2">
-              <div className="mb-3 md:mb-0 border-2 border-black border-dashed gap-2 items-center p-4">
-                <div className="flex md:float-right">
-                  <button className="btn px-3 py-1 rounded text-black border-2 border-black hover:text-white hover:bg-black text-xs w-1/2">Edit</button>
-                  <span className="px-2">|</span>
-                  <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">Remove</button>
-                </div>
-                <p className="text-lg">Co-founder</p>
-                <p className="text-gray-700">{businessAccountData.contactDetails.fname}</p>
-                <p className="text-gray-700">{businessAccountData.contactDetails.lname}</p>
-                <p className="text-gray-700">{`Email | ${businessAccountData.contactDetails.email}`}</p>
-                <p className="text-gray-700">{`Phone | ${businessAccountData.contactDetails.phone}`}</p>
-              </div>
-            </div>
-                : 
-                <div className="md:grid gap-2 grid-cols-2">
-                  <div className="border-2 border-black border-dashed p-4">
-                    <div className="flex flex-wrap lg:flex-col gap-4">
-                      <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                        <IoMdContact className="h-5 w-6" />
+                {businessAccountData.contactDetails ?
+                  <div className="md:grid gap-2 grid-cols-2">
+                    <div className="mb-3 md:mb-0 border-2 border-black border-dashed gap-2 items-center p-4">
+                      <div className="flex md:float-right">
+                        <button className="btn px-3 py-1 rounded text-black border-2 border-black hover:text-white hover:bg-black text-xs w-1/2">Edit</button>
+                        <span className="px-2">|</span>
+                        <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">Remove</button>
                       </div>
-                      <div className="flex flex-col gap-6">
-                        <div className="flex flex-col gap-4">
-                          <p className="text-gray-700">
-                            Inform customers on special contacts in your
-                            company.
-                          </p>
-                          <div className="flex items-center font-bold gap-1">
-                            <span
-                              className="cursor-pointer hover:underline"
-                              onClick={() => handleToggleEditMode("contact")}
-                            >
-                              Create an additional contact
-                            </span>
-                            <FaChevronRight />
+                      <p className="text-lg">Co-founder</p>
+                      <p className="text-gray-700">{businessAccountData.contactDetails.fname}</p>
+                      <p className="text-gray-700">{businessAccountData.contactDetails.lname}</p>
+                      <p className="text-gray-700">{`Email | ${businessAccountData.contactDetails.email}`}</p>
+                      <p className="text-gray-700">{`Phone | ${businessAccountData.contactDetails.phone}`}</p>
+                    </div>
+                  </div>
+                  :
+                  <div className="md:grid gap-2 grid-cols-2">
+                    <div className="border-2 border-black border-dashed p-4">
+                      <div className="flex flex-wrap lg:flex-col gap-4">
+                        <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                          <IoMdContact className="h-5 w-6" />
+                        </div>
+                        <div className="flex flex-col gap-6">
+                          <div className="flex flex-col gap-4">
+                            <p className="text-gray-700">
+                              Inform customers on special contacts in your
+                              company.
+                            </p>
+                            <div className="flex items-center font-bold gap-1">
+                              <span
+                                className="cursor-pointer hover:underline"
+                                onClick={() => handleToggleEditMode("contact")}
+                              >
+                                Create an additional contact
+                              </span>
+                              <FaChevronRight />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 }
                 <button
                   className="py-2 mt-2 rounded w-48 bg-black text-white"
@@ -2690,7 +2705,7 @@ const handleProductAdd = async (data: ServicesFormValues) => {
             {/*  */}
             {/* EDIT MODE */}
             {/* edited */}
-            
+
             {/* edited */}
           </div>
         )}

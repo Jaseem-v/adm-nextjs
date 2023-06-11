@@ -1,5 +1,10 @@
+"use client"
+
 import Link from "next/link";
 import SectionHeader from "@/components/SectionHeader";
+import { useState, useEffect } from 'react';
+import httpClient from "@/services/axiosInstance";
+
 
 const firms = [
   {
@@ -59,6 +64,27 @@ const firms = [
 ];
 
 const Business = () => {
+  type Business = {
+    _id: string;
+    image: string;
+    name: string;
+    link: string;
+  }
+  const [business, setBusiness] = useState<Business[]>()
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      try {
+        await httpClient().get('/user/personal')
+        .then(res => {
+          console.log(res)
+          console.log(res.data.data)
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchBusinesses()
+  }, [])
   return (
     <>
       {/* \\\\\\\\\\\\ */}

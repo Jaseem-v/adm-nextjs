@@ -1,3 +1,5 @@
+"use client";
+
 import {
   socialMedia,
   members,
@@ -9,8 +11,41 @@ import React from "react";
 import "./../components/global/home.css";
 import ContactForm from "@/components/contactForm";
 import Link from "next/link";
+import httpClient from "@/services/axiosInstance";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
-export default function Index() {
+type Member = {
+  _id: string;
+  image: string;
+  name: string;
+  place: string
+}
+const Index = () => {
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [data, setData] = useState<Member[]>([]);
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       await httpClient().get(`/user/personal`)
+  //       .then(res => {    
+  //         console.log(res)
+  //         if (res.status === 200) {
+  //           console.log(res)
+  //           setData(res.data.data);
+  //         }
+  //       })
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     setIsLoading(false);
+  //   };
+  
+  //   fetchData();
+  // }, []);
   return (
     <>
       <section className={`mainHeader text-white font-inter`}>
@@ -290,9 +325,10 @@ export default function Index() {
               <div className="team-member" key={member.id}>
                 <div>
                   <img
+                    // src='images/profilePreview.png'
                     src={member.image}
                     alt="team-member-1"
-                    className="rounded-md"
+                    className="rounded-md w-[333px] lg:w-[290px]"
                   />
                 </div>
                 <div className="mt-2 text-center">
@@ -585,7 +621,7 @@ export default function Index() {
       {/* TESTIMONIAL */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section>
+      {/* <section>
         <div className=" px-4 xl:px-0 pt-14 md:pt-20 lg:pt-32">
           <div className="news-feed-title max-w-screen-xl mx-auto grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0">
             <div className="bg-lightOrange w-full h-[1px] "></div>
@@ -622,7 +658,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* CONTACT FORM */}
@@ -633,3 +669,4 @@ export default function Index() {
     </>
   );
 }
+export default Index;

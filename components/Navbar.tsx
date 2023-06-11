@@ -283,7 +283,11 @@ const Navbar = () => {
         {/* login */}
         {isLoggedin ? <Dropdown menu={{ items }} placement="bottomRight" arrow>
           <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
-            <div className="h-9 w-9 bg-skeleton rounded-full"></div>
+          <div
+  className="h-9 w-9 rounded-full navbarImage"
+  style={{backgroundImage: 'url(images/profilePreview.png)'}}
+></div>
+
             <div className="flex items-center gap-2">
               <p>{username}</p>
               <img
