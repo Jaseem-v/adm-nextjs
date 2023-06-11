@@ -34,12 +34,6 @@ const BusinessPersonDetails = ({ params }: {
 
 
   const fullname = data.fname + " " + data.lname;
-
-  // const id = "64699180fb028a79b7284578"
-
-  // console.log(id);
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,7 +55,7 @@ const BusinessPersonDetails = ({ params }: {
     };
 
     fetchData();
-  }, []);
+  }, [data]);
 
   console.log('data', data)
 

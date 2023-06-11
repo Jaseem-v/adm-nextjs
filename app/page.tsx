@@ -21,31 +21,56 @@ type Member = {
   name: string;
   place: string
 }
+type Business = {
+  _id: string;
+  image: string;
+  name: string;
+  about: string
+}
 const Index = () => {
 
   const [isLoading, setIsLoading] = useState(false)
-  const [data, setData] = useState<Member[]>([]);
+  const [personalData, setPersonalData] = useState<Member[]>([]);
+  const [businessData, setBusinessData] = useState<Business[]>([]);
 
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       await httpClient().get(`/user/personal`)
-  //       .then(res => {    
-  //         console.log(res)
-  //         if (res.status === 200) {
-  //           console.log(res)
-  //           setData(res.data.data);
-  //         }
-  //       })
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     setIsLoading(false);
-  //   };
+  useEffect(() => {
+    const fetchPersonalData = async () => {
+      try {
+        await httpClient().get(`/user/personal/all`)
+        .then(res => {    
+          if (res.status === 200) {
+            console.log(res)
+            const slicedRes = res.data.data.slice(0,8)
+            setPersonalData(slicedRes);
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
   
-  //   fetchData();
-  // }, []);
+    fetchPersonalData();
+
+    const fetchBusinessData = async () => {
+      try {
+        await httpClient().get(`/user/business/all`)
+        .then(res => {    
+          if (res.status === 200) {
+            console.log(res)
+            const slicedRes = res.data.data.slice(0,4)
+            setBusinessData(slicedRes);
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+  
+    fetchBusinessData();
+  }, []);
   return (
     <>
       <section className={`mainHeader text-white font-inter`}>
@@ -307,12 +332,12 @@ const Index = () => {
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
       <section className=" max-w-screen-xl mx-auto px-5 xl:px-0 py-16">
-        <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0">
-          <div className="bg-lightOrange w-full h-[1px] "></div>
-          <h3 className="min-w-[188px] font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black z-10 pl-1">
+        <div className="about-us-title grid place-items-center justify-items-center grid-cols-6 gap-1 md:gap-0 overflow-hidden">
+          <div className="bg-lightOrange w-full h-[1px]  col-span-1 lg:col-span-2"></div>
+          <h3 className="min-w-[188px] font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black z-10 pl-1 col-span-4 lg:col-span-2 whitespace-nowrap">
             Meet Our Members
           </h3>
-          <div className="bg-lightOrange w-full h-[1px]"></div>
+          <div className="bg-lightOrange w-full h-[1px] col-span-1 lg:col-span-2"></div>
         </div>
         <div className="flex flex-col justify-center items-center">
           <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
@@ -362,24 +387,24 @@ const Index = () => {
             AbudhabiMalayalees
           </p>
           <div className="companies mt-12 md:mt-16 lg:mt-20  grid lg:grid-cols-2 gap-x-8 gap-y-12 justify-items-center">
-            {popularCompanies.map((company) => (
+          {businessData.map((business) => (
               <div
-                className="company flex flex-col gap-3 max-w-fit "
-                key={company.id}
+                className="company flex flex-col gap-3 w-full xl:w-[575px]"
+                key={business._id}
               >
-                <div>
-                  <img src={company.image} alt="company1" />
+                <div className="h-[135px] md:h-[232px] lg:h-[192px] xl:h-[232px] overflow-hidden rounded-2xl">
+                  <img src={"https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"} alt="company1" className="bg-cover"/>
                 </div>
                 <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
                   <div className="w-12 h-12">
-                    <img src={company.logo} alt="companylogo" width="48px" />
+                    <img src='images/appleLogo.png' alt="companylogo" width="48px" />
                   </div>
                   <div>
                     <p className="font-semibold text-2xl md:text-3xl lg:text-4xl">
-                      {company.title}
+                      {business.name}
                     </p>
                     <p className="mt-2 text-desc text-sm max-w-md font-semibold">
-                      {company.description}
+                      {business.about}
                     </p>
                     <button className="mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
                       Load More

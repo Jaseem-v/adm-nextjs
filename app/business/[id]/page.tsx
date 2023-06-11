@@ -117,11 +117,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                   <p className="font-semibold">
                     Full Name :{" "}
                     <span className="font-medium">Business Man</span>
-                  </p>
-                  <p className="font-semibold">
-                    Language :{" "}
-                    <span className="font-medium">English, Spanish, Hindi</span>
-                  </p>
+                  </p> 
                   <p className="font-semibold">
                     Age : <span className="font-medium">34</span>
                   </p>

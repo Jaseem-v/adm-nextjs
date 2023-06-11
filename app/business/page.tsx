@@ -110,15 +110,12 @@ const Business = () => {
             <img src="/images/firms1.png" alt="img" className="w-full" />
           </div>
           <div className="flex flex-col text-left flex-1">
-            <p className="font-medium text-xl lg:text-2xl">dolor sit atetur</p>
+            {/* <p className="font-medium text-xl lg:text-2xl">Business</p> */}
             <p className="font-medium text-3xl md:text-4xl xl:text-5xl">
-              Lorem ipsum dolor sit amet consectetur
+            Unlock the Power of Connections
             </p>
             <p className="mt-5 md:mt-6 lg:mt-7 font-semibold text-lg md:text-xl text-desc">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in{" "}
+              Explore a diverse range of industry-leading businesses that have consistently demonstrated excellence and innovation. Discover their unique stories, expertise, and offerings, and connect with these exceptional enterprises to forge valuable partnerships. Join us in celebrating the success and accomplishments of our esteemed business community members!
             </p>
           </div>
         </div>
