@@ -18,7 +18,8 @@ import { toast } from "react-hot-toast";
 type Member = {
   _id: string;
   image: string;
-  name: string;
+  fname: string;
+  lname: string;
   place: string
 }
 type Business = {
@@ -346,30 +347,30 @@ const Index = () => {
             success. Join us today and unlock your potential.
           </p>
           <div className="team grid  mt-12 md:grid-cols-2 xl:grid-cols-4 gap-y-7 lg:gap-y-10 lg:gap-x-10 gap-x-7">
-            {members.map((member) => (
-              <div className="team-member" key={member.id}>
+            {personalData.map((member) => (
+              <div className="team-member" key={member._id}>
                 <div>
                   <img
                     // src='images/profilePreview.png'
-                    src={member.image}
+                    src='images/profilePreview.png'
                     alt="team-member-1"
                     className="rounded-md w-[333px] lg:w-[290px]"
                   />
                 </div>
                 <div className="mt-2 text-center">
                   <p className=" font-semibold   md:text-lg lg:text-xl">
-                    {member.name}
+                    {member.fname}{ }{member.lname}
                   </p>
                   <p className=" text-sm md:text-base text-[#333] font-medium">
-                    {member.position}
+                    Abu dhabi
                   </p>
                 </div>
               </div>
             ))}
           </div>
-          <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-lightOrange hover:bg-orange transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-white">
+          <Link href='/businesspersons' className="mt-8 md:mt-12 lg:mt-16 font-regular bg-lightOrange hover:bg-orange transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-white w-fit">
             Load More
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -419,12 +420,12 @@ const Index = () => {
               </div>
             ))}
           </div>
-          <button
+          <Link href='/business'
             className="mt-8 md:mt-12 lg:mt-16 font-regular border border-white py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-white text-center block mx-auto
-                hover:bg-gray-900"
+                hover:bg-gray-900 w-fit"
           >
             Load More
-          </button>
+          </Link>
         </div>
       </section>
 
