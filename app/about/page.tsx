@@ -1,6 +1,9 @@
+"use client"
 import Link from "next/link";
 import SectionHeader from '@/components/SectionHeader';
 import { numbers } from '../../utils/content';
+import { useState } from "react";
+import EnlistModel from "@/components/enlistModel";
 
 const features = [
   {
@@ -24,6 +27,7 @@ const features = [
 ]
 
 const AboutUs = () => {
+  const [showEnlistModel, setShowEnlistModel] = useState(false)
   return (
     <>
     {/* \\\\\\\\\\\\ */}
@@ -114,14 +118,12 @@ const AboutUs = () => {
       <section className="bg-zinc-900 ">
         <div className="max-w-screen-xl mx-auto px-5 xl:px-0 py-10 md:py-12 xl:py-20  text-center flex flex-col items-center">
           <h3 className="text-white font-poppins font-bold text-3xl">Want to join the team?</h3>
-          <Link href="/register" >
-                  <button
-            className="mt-9 font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
-          >
-            Enlist Now
-            <img src="/images/arrow-right.svg" alt="right arrow" />
-          </button>
-          </Link>
+            <button
+              className="mt-9 font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
+            >
+              Enlist Now
+              <img src="/images/arrow-right.svg" alt="right arrow" />
+            </button>
         </div>
       </section>
       {/* \\\\\\\\\\\\ */}

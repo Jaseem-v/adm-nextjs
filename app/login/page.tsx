@@ -9,9 +9,11 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
 import { setLoginStatus } from './../../services/loginStatus';
+import EnlistModel from "@/components/enlistModel";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showEnlistModel, setShowEnlistModel] = useState(false)
 
   type FormValues = {
     accountType: string;
@@ -101,6 +103,11 @@ const Login = () => {
     setIsLoading(false);
   };
 
+  const handleBack = () => {
+    navigate.back();
+  };
+  
+
   return (
     <main className="h-screen font-inter max-w-screen-xl mx-auto flex items-center justify-center relative">
       <section className="">
@@ -110,13 +117,13 @@ const Login = () => {
         >
           {/* <!-- back icon --> */}
           <div>
-            <Link href="/">
+            <button onClick={handleBack}>
               <img
                 src="/images/back-icon.png"
                 alt="back icon"
                 className="absolute top-7 left-5 xl:left-0 w-8 lg:w-10 h-8 lg:h-10"
               />
-            </Link>
+            </button>
           </div>
           <div className="flex items-center justify-center lg:gap-20">
             <div className="max-w-[400px] ">
@@ -215,11 +222,14 @@ const Login = () => {
               <div className="mt-5 flex gap-1 justify-center font-bold text-base md:text-lg ">
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p className="font-medium">Don't have an account?</p>
-                <Link href="/signup">
+                <button onClick={() => setShowEnlistModel(true)}>
                   <p>Register Now</p>
-                </Link>
+                </button>
               </div>
             </div>
+            {/* {showEnlistModel && (
+          <EnlistModel setShowEnlistModel={setShowEnlistModel} />
+        )} */}
             <div className="hidden xl:block">
               <img src="/images/loginImage.png" alt=""/>
             </div>

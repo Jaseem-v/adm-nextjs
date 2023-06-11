@@ -292,7 +292,7 @@ const Profile = () => {
 
   const isAddressCompleted =
     businessAddress.address.length > 0 && businessAccountData.phone.length > 0;
-  const isCategoriesCompleted = editInfoState.primaryCategory.length > 0;
+  const isCategoriesCompleted = businessAccountData.category.length > 0;
   const isAboutCompleted =
     accountType === "personal"
       ? personalAccountData.about.length > 0

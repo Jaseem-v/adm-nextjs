@@ -7,7 +7,7 @@ const Footer = () => {
             pt-14 md:pt-16 lg:pt-16 pb-14 md:pb-14 lg:pb-16 xl:pb-20"
       >
         <div>
-          <a href="#" className=" flex items-center gap-2 py-7">
+          <a href="#" className=" flex items-center gap-2 pb-7">
             <img src="/images/logo.png" alt="logo" className="h-10 lg:h-12" />
             <p className="text-lg lg:text-2xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
               Abu Dhabi
@@ -19,9 +19,7 @@ const Footer = () => {
             className="text-base md:text-lg pt-3 md:pt-4 lg:pt-5 text-white
                     max-w-lg"
           >
-            Vitae congue mauris rhoncus aenean. Enim nulla aliquet porttitor
-            lacus luctus accumsan tortor posuere. Tempus egestas sed sed risus
-            pretium quam.
+            We are a group of like-minded individuals who come together to foster a strong sense of community, promote business opportunities, and support each other in both personal and professional endeavors.
           </p>
         </div>
         <div>
