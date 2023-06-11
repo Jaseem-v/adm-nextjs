@@ -16,25 +16,29 @@ const BusinessPersons = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await httpClient().get(`/user/personal`)
-        .then(res => {    
-          if (res.status === 400) {
-            toast.error(res.data.message, {
-              icon: '👏',
-            });
-          }
-          if (res.status === 200) {
-            setData(res.data.data);
-          }
-        })
+        await httpClient().get(`/user/personal/all`)
+          .then(res => {
+            if (res.status === 400) {
+              toast.error(res.data.message, {
+                icon: '👏',
+              });
+            }
+            if (res.status === 200) {
+              setData(res.data.data);
+            }
+          })
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     };
-  
+
     fetchData();
   }, []);
+
+
+  console.log(data);
+
 
   return (
     <>
@@ -92,29 +96,29 @@ const BusinessPersons = () => {
           {/* business persons div */}
           <div className="grid place-items-center justify-items-center w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10 md:mb-14 xl:mb-20 mt-14 md:mt-16 xl:mt-20">
             {/* business person card */}
-            {/* {data.map(person => (
-            <Link href="/businesspersons/details" key={person._id} className="w-full">
-              <div
-                className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
+            {data.map(person => (
+              <Link href={`/businesspersons/${person._id}`} key={person._id} className="w-full">
+                <div
+                  className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
                     border border-black flex gap-4 items-center justify-center w-full"
-              >
-                <img
-                  src="/images/testimonialImg.png"
-                  alt="person"
-                  className=""
-                />
-                <div className="flex flex-col gap-1 items-start">
-                  <p className="font-semibold text-lg md:text-xl">
-                    {`${person.fname} ${person.lname}`}
-                  </p>
-                  <p className="font-light text-sm">CEO Amazon</p>
-                  <p className="font-light text-sm">www.amazon.com</p>
+                >
+                  <img
+                    src="/images/testimonialImg.png"
+                    alt="person"
+                    className=""
+                  />
+                  <div className="flex flex-col gap-1 items-start">
+                    <p className="font-semibold text-lg md:text-xl">
+                      {`${person.fname} ${person.lname}`}
+                    </p>
+                    <p className="font-light text-sm">CEO Amazon</p>
+                    <p className="font-light text-sm">www.amazon.com</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
 
-            ))} */}
-            <Link href="/businesspersons/details" className="w-full">
+            ))}
+            {/* <Link href="/businesspersons/details" className="w-full">
               <div
                 className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
                     border border-black flex gap-4 items-center justify-center w-full"
@@ -132,7 +136,7 @@ const BusinessPersons = () => {
                   <p className="font-light text-sm">www.amazon.com</p>
                 </div>
               </div>
-            </Link>
+            </Link> */}
             {/* business person card */}
           </div>
         </div>

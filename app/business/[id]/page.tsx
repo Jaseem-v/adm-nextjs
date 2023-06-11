@@ -6,10 +6,12 @@ import httpClient from "@/services/axiosInstance";
 import { useState, useEffect } from 'react';
 
 
-const CompanyDetails = () => {
+const CompanyDetails = ({ params }: { params: { id: string } }) => {
   const [data, setData] = useState()
   const [userData, setUserData] = useState()
-const id = 1;
+  // const id = 1;
+
+  const { id } = params
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -24,14 +26,16 @@ const id = 1;
   }, [])
 
   const addCategory = async () => {
-    const data = {'name': 'mobile', 'status': 'Active', 'visibility': 'Show', 'image': {
-      uri: 'https://i.ibb.co/SPJXPcD/store.png',
-      type: 'image/png',
-      name: 'store.png',
-    }}
+    const data = {
+      'name': 'mobile', 'status': 'Active', 'visibility': 'Show', 'image': {
+        uri: 'https://i.ibb.co/SPJXPcD/store.png',
+        type: 'image/png',
+        name: 'store.png',
+      }
+    }
     try {
       await httpClient().post('category', data)
-      .then(res => console.log(res))
+        .then(res => console.log(res))
     } catch (error) {
       console.log(error)
     }

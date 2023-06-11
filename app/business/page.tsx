@@ -68,23 +68,27 @@ const Business = () => {
     _id: string;
     image: string;
     name: string;
-    link: string;
+    website: string;
   }
   const [business, setBusiness] = useState<Business[]>()
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        await httpClient().get('/user/personal')
-        .then(res => {
-          console.log(res)
-          console.log(res.data.data)
-        })
+        await httpClient().get('/user/business/all')
+          .then(res => {
+            console.log(res)
+            setBusiness(res.data.data)
+          })
       } catch (err) {
         console.log(err)
       }
     }
     fetchBusinesses()
   }, [])
+
+
+  console.log(business);
+
   return (
     <>
       {/* \\\\\\\\\\\\ */}
@@ -161,8 +165,8 @@ const Business = () => {
                 mt-14 lg:mt-16 mb-14 md:mb-20 lg:mb-24 
                 gap-x-10 md:gap-x-11 lg:gap-x-12 gap-y-6 md:gap-y-7 lg:gap-8"
           >
-            {firms.map((firm) => (
-              <Link href="/business/details" key={firm.id} >
+            {business && business.reverse().map((firm) => (
+              <Link href={`/business/${firm._id}`} key={firm._id} >
                 <div
                   className="flex flex-col items-center justify-between shadow-eventCard
                         pt-12 md:pt-14 lg:pt-16 px-14 md:px-16 lg:px-20
@@ -170,14 +174,14 @@ const Business = () => {
                         rounded-[20px] hover:scale-[1.02] transition-all duration-200 hover:shadow-xl"
                 >
                   <img
-                    src={firm.image}
+                    src={"https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"}
                     alt="company"
                     className="max-w-[230px]"
                   />
                   <p className="mt-7 md:mt-8 lg:mt-9 font-semibold text-lg lg:text-xl text-center">
-                    {firm.title}
+                    {firm.name}
                   </p>
-                  <p className="text-sm">{firm.link}</p>
+                  <p className="text-sm">{firm.website}</p>
                 </div>
               </Link>
             ))}

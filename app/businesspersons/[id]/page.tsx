@@ -4,7 +4,10 @@ import httpClient from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-const BusinessPersonDetails = () => {
+
+const BusinessPersonDetails = ({ params }: {
+  params: { id: string }
+}) => {
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState({
     _id: "",
@@ -23,35 +26,45 @@ const BusinessPersonDetails = () => {
     __v: 0
   })
 
+
+
+  const { id } = params
+
+
+
+
   const fullname = data.fname + " " + data.lname;
 
-  const id = "64699180fb028a79b7284578"
+  // const id = "64699180fb028a79b7284578"
+
+  // console.log(id);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         await httpClient().get(`/user/personal/${id}`)
-        .then(res => {    
-          if (res.status === 400) {
-            toast.error(res.data.message, {
-              icon: '👏',
-            });
-          }
-          if (res.status === 200) {
-            setData(res.data.data);
-          }
-        })
+          .then(res => {
+            if (res.status === 400) {
+              toast.error(res.data.message, {
+                icon: '👏',
+              });
+            }
+            if (res.status === 200) {
+              setData(res.data.data);
+            }
+          })
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     };
-  
+
     fetchData();
   }, []);
 
   console.log('data', data)
-  
+
 
   return (
     <>
