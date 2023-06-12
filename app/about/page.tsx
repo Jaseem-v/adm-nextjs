@@ -119,6 +119,7 @@ const AboutUs = () => {
         <div className="max-w-screen-xl mx-auto px-5 xl:px-0 py-10 md:py-12 xl:py-20  text-center flex flex-col items-center">
           <h3 className="text-white font-poppins font-bold text-3xl">Want to join the team?</h3>
             <button
+              onClick={() => setShowEnlistModel(true)}
               className="mt-9 font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
             >
               Enlist Now
@@ -126,6 +127,9 @@ const AboutUs = () => {
             </button>
         </div>
       </section>
+      {showEnlistModel && (
+          <EnlistModel setShowEnlistModel={setShowEnlistModel} />
+        )}
       {/* \\\\\\\\\\\\ */}
       {/* HEADER */}
       {/* \\\\\\\\\\\\ */}
