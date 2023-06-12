@@ -9,10 +9,10 @@ const EnlistModel = ({ setShowEnlistModel }: EnlistModelProps) => {
   return (
     <>
       <div
-        className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center"
+        className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50"
         onClick={() => setShowEnlistModel(false)}
       />
-      <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center text-white z-50">
+      <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center text-white z-50" onClick={() => setShowEnlistModel(false)}>
         <div className="relative flex flex-col md:flex-row gap-5 p-5 text-center font-lexend font-medium text-2xl lg:text-3xl bg-black rounded-lg">
           <Link
             href="/business-listings/add-company"
