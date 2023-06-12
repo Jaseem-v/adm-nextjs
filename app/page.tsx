@@ -89,7 +89,7 @@ const Index = () => {
               Abudhabi Malayalees community today!
             </p>
             <div className="flex gap-2 md:gap-4 mt-8 items-center justify-center">
-              <Link href="/login">
+              <Link href="/business-listings/add-company">
                 <button className="py-3 md:py-4 px-8 md:px-12 bg-white text-black font-medium text-base md:text-lg lg:text-xl rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                   Register Now
                 </button>

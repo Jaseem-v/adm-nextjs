@@ -61,7 +61,7 @@ const ContactForm = () => {
                 rows={8}
                 className="rounded-[40px] bg-black border border-white
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
-                                placeholder:font-medium placeholder:text-base placeholder:md:text-lg"
+                                placeholder:font-medium placeholder:text-base placeholder:md:text-lg "
                 placeholder="Message"
               ></textarea>
               <button
