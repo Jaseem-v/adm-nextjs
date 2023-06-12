@@ -109,14 +109,13 @@ const Login = () => {
   
 
   return (
-    <main className="h-screen font-inter max-w-screen-xl mx-auto flex items-center justify-center relative">
+    <main className="h-screen font-inter max-w-screen-xl mx-auto flex items-center justify-center relative overflow-hidden">
       <section className="">
         <div
           className="p-8 md:p-6 lg:p-7
-             xl:px-0 "
+             xl:px-0 py-5"
         >
           {/* <!-- back icon --> */}
-          <div>
             <button onClick={handleBack}>
               <img
                 src="/images/back-icon.png"
@@ -124,7 +123,6 @@ const Login = () => {
                 className="absolute top-7 left-5 xl:left-0 w-8 lg:w-10 h-8 lg:h-10"
               />
             </button>
-          </div>
           <div className="flex items-center justify-center lg:gap-20">
             <div className="max-w-[400px] ">
               <p className="font-bold text-3xl ">Welcome back</p>
@@ -228,11 +226,11 @@ const Login = () => {
               </div>
             </div>
             {/* {showEnlistModel && (
-          <EnlistModel setShowEnlistModel={setShowEnlistModel} />
-        )} */}
-            {/* <div className="hidden xl:block">
-              <img src="/images/loginImage.png" alt=""/>
-            </div> */}
+              <EnlistModel setShowEnlistModel={setShowEnlistModel} />
+            )} */}
+            <div className="hidden xl:block">
+              <img src="/images/loginImage.png" alt="" className=" -mt-6"/>
+            </div>
           </div>
         </div>
       </section>
