@@ -225,9 +225,9 @@ const Login = () => {
                 </button>
               </div>
             </div>
-            {/* {showEnlistModel && (
+            {showEnlistModel && (
               <EnlistModel setShowEnlistModel={setShowEnlistModel} />
-            )} */}
+            )}
             <div className="hidden xl:block">
               <img src="/images/loginImage.png" alt="" className=" -mt-6"/>
             </div>
