@@ -230,9 +230,9 @@ const Login = () => {
             {/* {showEnlistModel && (
           <EnlistModel setShowEnlistModel={setShowEnlistModel} />
         )} */}
-            <div className="hidden xl:block">
+            {/* <div className="hidden xl:block">
               <img src="/images/loginImage.png" alt=""/>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

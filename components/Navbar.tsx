@@ -450,12 +450,15 @@ const Navbar = () => {
               <div className="relative flex-1">
                 <button
                   className=" w-full font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-                  onClick={() => setIsEnlistDropdown((prevState) => !prevState)}
+                  onClick={() => {
+                    setShowEnlistModel(true)
+                    setIsMobileNavOpen(false)
+                  }}
                 >
                   Enlist
                 </button>
-                {isEnlistDropdown && (
-                  <EnlistDropdown setIsEnlistDropdown={setIsEnlistDropdown} />
+                {showEnlistModel && (
+                  <EnlistModel setShowEnlistModel={setShowEnlistModel} />
                 )}
               </div>
               <Link href="/login" className="flex-1">

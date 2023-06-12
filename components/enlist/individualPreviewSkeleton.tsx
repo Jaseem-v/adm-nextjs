@@ -27,7 +27,7 @@ export const IndividualPreviewSkeleton = ({
   email,
 }: Props) => {
   return (
-    <div className="w-full">
+    <div className="w-full hidden xl:block">
       {/* \\\\\\\\\\\\\\\\\\ */}
 
       {/* NAVBAR */}

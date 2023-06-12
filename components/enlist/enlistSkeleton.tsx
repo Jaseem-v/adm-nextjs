@@ -35,7 +35,7 @@ export const EnlistSkeleton = ({
   hideAddress
 }: Props) => {
   return (
-    <div className="w-full">
+    <div className="w-full hidden xl:block">
       {/* \\\\\\\\\\\\\\\\\\ */}
 
       {/* NAVBAR */}

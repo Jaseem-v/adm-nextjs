@@ -251,6 +251,7 @@ const EnlistCompany = () => {
               placeholder="e.g. Al Ain"
               {...register("city")}
               onBlur={() => trigger("city")}
+              className="mt-5 md:mt-0"
             />
             <p className="error">{errorsOne.city?.message}</p>
           </div>
@@ -264,6 +265,7 @@ const EnlistCompany = () => {
               placeholder="126452"
               {...register("zip")}
               onBlur={() => trigger("zip")}
+              className="mt-5 md:mt-0"
             />
             <p className="error">{errorsOne.zip?.message}</p>
           </div>
@@ -375,7 +377,7 @@ const EnlistCompany = () => {
           </label> */}
 
           <button
-            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
+            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-4 md:col-span-2 text-[15px] w-fit ${
               isStepOneError ? "bg-opacity-50" : ""
             }`}
           >
@@ -560,7 +562,7 @@ const EnlistCompany = () => {
   );
 
   return (
-    <div className="container grid justify-items-center pt-14 w-full mx-auto lg:grid-cols-2">
+    <div className="container grid justify-items-center pt-14 w-full mx-auto xl:grid-cols-2">
       <div className="flex flex-col px-6 md:px-8 w-full">
         {page !== 0 && (
           <div className="w-full text-inter mb-6 ">

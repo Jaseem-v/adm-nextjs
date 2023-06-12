@@ -11,17 +11,17 @@ body {
 
 @font-face {
   font-family: 'Albra';
-  src: url(/public/fonts/AlbraBold.ttf);
+  src: url(/fonts/AlbraBold.ttf);
   font-weight: 700;
 }
 @font-face {
   font-family: 'Albra';
-  src: url(/public/fonts/AlbraBookTRIAL-Semi.otf);
+  src: url(/fonts/AlbraBookTRIAL-Semi.otf);
   font-weight: 600;
 }
 @font-face {
   font-family: 'Joane';
-  src: url(/public/fonts/Joane-Black.ttf);
+  src: url(/fonts/Joane-Black.ttf);
   font-weight: 700;
 }
 
