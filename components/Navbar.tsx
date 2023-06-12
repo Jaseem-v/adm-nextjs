@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import BusinessDropdown from "./BusinessDropdown";
 import Link from "next/link";
 import "./Navbar.css";
 import EnlistModel from "./enlistModel";
 import { Toaster } from "react-hot-toast";
-import EnlistDropdown from "./enlistDropdown";
 import httpClient from "@/services/axiosInstance";
 import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
@@ -15,7 +13,7 @@ import { getLoginStatus } from './../services/loginStatus';
 import { FaHome } from "react-icons/fa"
 import { IoPersonSharp } from "react-icons/io5"
 import { MdLogout } from "react-icons/md"
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 
 const businessItems: MenuProps['items'] = [
@@ -74,6 +72,7 @@ const Navbar = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const [isLoggedOut, setIsLoggedOut] = useState(false)
 
+
   const logout = () => {
     localStorage.removeItem('accessToken')
     setIsLoggedOut(true)
@@ -117,7 +116,8 @@ const Navbar = () => {
 
 
   const router = useRouter()
-
+  const pathname = usePathname()
+  const isLoginPage = pathname === "/login";
 
 
   useEffect(() => {
@@ -179,13 +179,10 @@ const Navbar = () => {
 
   console.log(isLoggedin);
 
-
-
-
   return (
     // need to implement proper sticky navbar
     <header
-      className="font-inter z-20 bg-black text-white sticky top-0 left-0"
+      className={`font-inter z-20 bg-black text-white sticky top-0 left-0 ${isLoginPage ? 'hidden' : 'block'}`}
       id="navbar"
     >
       <Toaster position="top-right" reverseOrder={false} />
