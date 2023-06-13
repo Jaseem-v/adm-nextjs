@@ -82,9 +82,11 @@ const Events = () => {
   }
   fetchEvents()
   }, [])
+
+  const breadcrumbs = ['Events']
   return (
     <>
-      <SectionHeader title="Events" page="Events" />
+      <SectionHeader title="Events" breadcrumbs={breadcrumbs} />
 
       {/* \\\\\\\\\\\\ */}
       {/* EVENTS */}

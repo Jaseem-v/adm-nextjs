@@ -58,32 +58,11 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
   };
   // console.log(getCategory())
   getCategory()
+
+  const breadcrumbs = ['Business', 'Details']
   return (
     <>
-      <div
-        className="businessFirms-header text-white py-16 md:py-20 lg:py-24 xl:py-28
-    
-    px-5 xl:px-0  "
-      >
-        <div className="max-w-screen-xl mx-auto flex flex-col items-start justify-center">
-          <p className="font-kaisei text-lg md:text-xl lg:text-2xl">
-            Business Profiles
-          </p>
-          <p
-            className="font-bold text-4xl md:text-5xl lg:text-6xl
-            mt-3 md:mt-4 lg:mt-5"
-          >
-            Business Details
-          </p>
-          <p
-            className="text-sm md:text-base max-w-lg text-start
-            mt-3 md:mt-4 lg:mt-5"
-          >
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore
-          </p>
-        </div>
-      </div>
+      <SectionHeader title="Business Profiles" breadcrumbs={breadcrumbs} />
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}

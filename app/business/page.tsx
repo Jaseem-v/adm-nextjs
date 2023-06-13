@@ -88,7 +88,7 @@ const Business = () => {
 
 
   console.log(business);
-
+  const breadcrumbs = ['Business Firms']
   return (
     <>
       {/* \\\\\\\\\\\\ */}
@@ -97,7 +97,7 @@ const Business = () => {
 
       <SectionHeader
         title="Business Firms"
-        page="Business Firms"
+        breadcrumbs={breadcrumbs}
       />
 
       {/* \\\\\\\\\\\\ */}

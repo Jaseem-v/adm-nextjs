@@ -1,6 +1,7 @@
 import SectionHeader from "@/components/SectionHeader";
 
 const Gallery = () => {
+  const breadcrumbs = ['Gallery']
   return (
     <>
       {/* <div
@@ -23,7 +24,7 @@ const Gallery = () => {
           labore et dolore
         </p>
       </div> */}
-      <SectionHeader title="Gallery" page="Gallery" />
+      <SectionHeader title="Gallery" breadcrumbs={breadcrumbs} />
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}

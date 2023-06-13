@@ -28,12 +28,13 @@ const features = [
 
 const AboutUs = () => {
   const [showEnlistModel, setShowEnlistModel] = useState(false)
+  const breadcrumbs = ['About']
   return (
     <>
     {/* \\\\\\\\\\\\ */}
       {/* HEADER */}
       {/* \\\\\\\\\\\\ */}
-      <SectionHeader title="About Us" page="About"/>
+      <SectionHeader title="About Us" breadcrumbs={breadcrumbs}/>
 
 
       {/* \\\\\\\\\\\\ */}

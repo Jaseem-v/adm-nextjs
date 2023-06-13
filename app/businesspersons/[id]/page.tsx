@@ -3,6 +3,7 @@
 import httpClient from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import SectionHeader from "@/components/SectionHeader";
 
 
 const BusinessPersonDetails = ({ params }: {
@@ -58,6 +59,7 @@ const BusinessPersonDetails = ({ params }: {
   }, [data]);
 
   console.log('data', data)
+  const breadcrumbs = ['Business', 'Details']
 
 
   return (
@@ -66,29 +68,7 @@ const BusinessPersonDetails = ({ params }: {
       {/* HEADER */}
       {/* \\\\\\\\\\\\ */}
 
-      <div
-        className="py-16 md:py-20 lg:py-24 xl:py-28
-            px-5 xl:px-0  bg-black text-white"
-      >
-        <div className=" flex flex-col items-start justify-center max-w-screen-xl mx-auto">
-          <p className="font-kaisei text-lg md:text-xl lg:text-2xl">
-            Business profiles
-          </p>
-          <p
-            className="font-bold text-4xl md:text-5xl lg:text-6xl
-                    mt-3 md:mt-4 lg:mt-5"
-          >
-            Business Man
-          </p>
-          <p
-            className="text-sm md:text-base max-w-lg text-start
-                    mt-3 md:mt-4 lg:mt-5"
-          >
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore
-          </p>
-        </div>
-      </div>
+      <SectionHeader title="Business Profiles" breadcrumbs={breadcrumbs} />
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
