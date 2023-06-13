@@ -317,8 +317,25 @@ const Profile = () => {
     isSocialMediaCompleted,
   ];
 
+  const isPersonalNameCompleted =
+    personalAccountData.fname.length > 0 && personalAccountData.phone.length > 0;
+  const isPersonalAboutCompleted = personalAccountData.about.length > 0
+  const isPersonalPhotoCompleted =
+    (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" &&
+      editInfoState.logo.length > 0) ||
+    editInfoState.photos.length > 0;
+  const isPersonalSocialMediaCompleted = personalAccountData.socialMediaLinks.some((link) => link.link !== "")
+
+  const personalProgressSections = [
+    isPersonalNameCompleted,
+    isPersonalAboutCompleted,
+    isPersonalPhotoCompleted,
+    isPersonalSocialMediaCompleted,
+  ];
+
   // Calculate the completion percentage
   const completedSections = progressSections.filter((section) => section);
+  const personalCompletedSections = personalProgressSections.filter((section) => section);
   const completionPercentage = Math.floor(
     (completedSections.length / progressSections.length) * 100
   );
@@ -326,6 +343,8 @@ const Profile = () => {
     completedSections.length === progressSections.length
       ? 100
       : Math.min(completedSections.length * 15, 100);
+  const personalOverallCompletionPercentage =
+  personalCompletedSections.length * 25;
 
   const handleEditInfoStateChange = (
     section: keyof EditInfoStateType,
@@ -1044,7 +1063,7 @@ const Profile = () => {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
             <div className="flex flex-col gap-2 text-inter">
               <p className="text-4xl lg:text-7xl font-semibold">
-                {overallCompletionPercentage}%
+                {accountType === 'personal' ? personalOverallCompletionPercentage : overallCompletionPercentage}%
               </p>
               <p className="font-semibold text-lg md:text-xl lg:max-w-[194px]">
                 of your profile is complete
@@ -1054,9 +1073,9 @@ const Profile = () => {
               <div className="w-full xl:w-[800px] h-8 bg-skeleton rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gold flex items-center justify-center font-semibold text-white"
-                  style={{ width: `${overallCompletionPercentage}%` }}
+                  style={{ width: `${accountType === 'personal' ? personalOverallCompletionPercentage : overallCompletionPercentage}%` }}
                 >
-                  {overallCompletionPercentage}%
+                  {accountType === 'personal' ? personalOverallCompletionPercentage : overallCompletionPercentage}%
                 </div>
               </div>
               <p className="text-lg md:text-xl font-medium">
@@ -1066,21 +1085,21 @@ const Profile = () => {
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${isAddressCompleted ? "text-success" : "text-error"
+                    className={`${accountType === 'personal' ? (isPersonalNameCompleted ? "text-success" : "text-error") : isAddressCompleted ? 'text-success' : 'text-error'
                       }`}
                   >
-                    Name, Address & phone
+                    {accountType === 'personal' ? 'Name & phone' : 'Name, Address & phone'}
                   </p>
                   <div
                     onClick={() =>
                       handleProgessBarClick(businessInfoRef, "businessInfo")
                     }
                   >
-                    {editOrAdd(isAddressCompleted)}
+                    {accountType === 'personal' ? editOrAdd(isPersonalNameCompleted) : editOrAdd(isAddressCompleted)}
                   </div>
                 </div>
                 {/* ITEM 2 */}
-                <div className="flex justify-between items-center gap-2">
+                {accountType === 'business' && <div className="flex justify-between items-center gap-2">
                   <p
                     className={`${isCategoriesCompleted ? "text-success" : "text-error"
                       }`}
@@ -1094,7 +1113,7 @@ const Profile = () => {
                   >
                     {editOrAdd(isCategoriesCompleted)}
                   </div>
-                </div>
+                </div>}
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
@@ -1126,7 +1145,7 @@ const Profile = () => {
                   </div>
                 </div>
                 {/* ITEM 4 */}
-                <div className="flex justify-between items-center gap-2">
+                {accountType === 'business' && <div className="flex justify-between items-center gap-2">
                   <p
                     className={`${isServicesCompleted ? "text-success" : "text-error"
                       }`}
@@ -1140,7 +1159,7 @@ const Profile = () => {
                   >
                     {editOrAdd(isServicesCompleted)}
                   </div>
-                </div>
+                </div>}
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
