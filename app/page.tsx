@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 
 type Member = {
   _id: string;
-  image: string;
+  profilePicture: { key: string}
   fname: string;
   lname: string;
   place: string
@@ -72,6 +72,8 @@ const Index = () => {
   
     fetchBusinessData();
   }, []);
+
+  console.log(personalData[0])
   return (
     <>
       <section className={`mainHeader text-white font-inter`}>
@@ -190,122 +192,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* <section className="bg-white py-16">
-        <div className="max-w-screen-xl mx-auto px-5 xl:px-0">
-          <div className="lg:text-center">
-            <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
-              <div className="bg-lightOrange w-full h-[1px]"></div>
-              <h3 className="font-kaisei text-black font-semibold tracking-wide uppercase text-2xl md:text-3xl lg:text-4xl">
-                About us
-              </h3>
-              <div className="bg-lightOrange w-full h-[1px]"></div>
-            </div>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              We're a leading provider of innovative solutions
-            </p>
-            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-              Our team is dedicated to creating and implementing cutting-edge
-              technologies to improve your business. We specialize in everything
-              from web development to custom software solutions.
-            </p>
-          </div>
-          <div className="container mx-auto flex flex-wrap py-12">
-            <div className="w-full md:w-1/2 p-4">
-              <img
-                src="/images/aboutUs-1.png"
-                alt="About Us"
-                className="h-full w-full object-cover rounded-lg shadow-md"
-              />
-            </div>
-            <div className="w-full md:w-1/2 p-4">
-              <p className="mt-4 max-w-2xl text-xl text-gray-500">
-                Abu Dhabi Malayalees is a vibrant and thriving business
-                community of Malayalees in Abu Dhabi, United Arab Emirates. We
-                are a group of like-minded individuals who come together to
-                foster a strong sense of community, promote business
-                opportunities, and support each other in both personal and
-                professional endeavors.
-              </p>
-              <p className="mt-4 max-w-2xl text-xl text-gray-500">
-                Our community is made up of individuals from all walks of life,
-                including entrepreneurs, professionals, and business owners, who
-                share a common interest in connecting and collaborating with
-                fellow Malayalees. We aim to provide a platform for our members
-                to network, share ideas, and explore new business opportunities.
-              </p>
-              <div className="mt-20">
-                <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-12 w-12 rounded-md bg-lightOrange text-white">
-                        <svg
-                          className="h-6 w-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M9 5l7 3-3 2-1 7-5-6z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <dt className="text-lg leading-6 font-medium text-gray-900">
-                        Our Mission
-                      </dt>
-                      <dd className="mt-2 text-base text-gray-500">
-                        Our mission is to empower businesses with technology,
-                        helping them to reach their full potential and achieve
-                        their goals.
-                      </dd>
-                    </div>
-                  </div>
-
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-12 w-12 rounded-md bg-lightOrange text-white">
-                        <svg
-                          className="h-6 w-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M9 5l7 3-3 2-1 7-5-6z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <dt className="text-lg leading-6 font-medium text-gray-900">
-                        Our Values
-                      </dt>
-                      <dd className="mt-2 text-base text-gray-500">
-                        We believe in delivering quality work, honesty, and
-                        transparency in all our business dealings. We strive to
-                        build lasting relationships with our clients and
-                        partners.
-                      </dd>
-                    </div>
-                  </div>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* NUMBERS */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
@@ -354,8 +240,8 @@ const Index = () => {
               <div className="team-member" key={member._id}>
                 <div>
                   <img
-                    // src='images/profilePreview.png'
                     src='images/profilePreview.png'
+                    // src={`/personal-account-profile-picture/${member.profilePicture.key}`}
                     alt="team-member-1"
                     className="rounded-md w-[333px] lg:w-[290px]"
                   />
@@ -446,155 +332,57 @@ const Index = () => {
             <div className="bg-lightOrange w-full h-[1px]"></div>
           </div>
         </div>
-        <div className="content">
-          <div className="gallery full">
-            <div className="swiper-container">
-              <div className="swiper-wrapper">
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3663038/pexels-photo-3663038.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3551207/pexels-photo-3551207.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3375493/pexels-photo-3375493.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3663039/pexels-photo-3663039.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3551208/pexels-photo-3551208.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3375494/pexels-photo-3375494.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="swiper-next-button">
-              <em className="material-icons"></em>
-            </div>
-            <div className="swiper-prev-button">
-              <em className="material-icons"></em>
-            </div>
-          </div>
-
-          <div className="gallery thumb">
-            <div className="swiper-container">
-              <div className="swiper-wrapper">
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3663038/pexels-photo-3663038.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                      alt=""
-                    />
-
-                    <div className="overlay">
-                      <em className="material-icons"></em>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3551207/pexels-photo-3551207.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                      alt=""
-                    />
-
-                    <div className="overlay">
-                      <em className="material-icons"></em>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3375493/pexels-photo-3375493.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                      alt=""
-                    />
-
-                    <div className="overlay">
-                      <em className="material-icons"></em>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3663039/pexels-photo-3663039.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                      alt=""
-                    />
-
-                    <div className="overlay">
-                      <em className="material-icons"></em>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3551208/pexels-photo-3551208.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                      alt=""
-                    />
-
-                    <div className="overlay">
-                      <em className="material-icons"></em>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="image">
-                    <img
-                      src="https://images.pexels.com/photos/3375494/pexels-photo-3375494.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                      alt=""
-                    />
-
-                    <div className="overlay">
-                      <em className="material-icons"></em>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="swiper-next-button">
-              <em className="material-icons">arrow_right_alt</em>
-            </div>
-            <div className="swiper-prev-button">
-              <em className="material-icons">arrow_right_alt</em>
-            </div>
-          </div>
-        </div>
+        <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
+  <div className="-m-1 flex flex-wrap md:-m-2">
+    <div className="flex w-1/2 flex-wrap">
+      <div className="w-1/2 p-1 md:p-2">
+        <img
+          alt="gallery"
+          className="block h-full w-full rounded-lg object-cover object-center"
+          src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" />
+      </div>
+      <div className="w-1/2 p-1 md:p-2">
+        <img
+          alt="gallery"
+          className="block h-full w-full rounded-lg object-cover object-center"
+          src="https://images.pexels.com/photos/3471029/pexels-photo-3471029.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+          {/* src="https://assets.forafinancial.com/blog-assets/uploads/2020/01/trust.jpg" /> */}
+      </div>
+      <div className="w-full p-1 md:p-2">
+        <img
+          alt="gallery"
+          className="block h-full w-full rounded-lg object-cover object-center"
+          src="https://images.unsplash.com/photo-1462556791646-c201b8241a94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" />
+      </div>
+    </div>
+    <div className="flex w-1/2 flex-wrap">
+      <div className="w-full p-1 md:p-2">
+        <img
+          alt="gallery"
+          className="block h-full w-full rounded-lg object-cover object-center"
+          src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" />
+      </div>
+      <div className="w-1/2 p-1 md:p-2">
+        <img
+          alt="gallery"
+          className="block h-full w-full rounded-lg object-cover object-center"
+          src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" />
+      </div>
+      <div className="w-1/2 p-1 md:p-2">
+        <img
+          alt="gallery"
+          className="block h-full w-full rounded-lg object-cover object-center"
+          src="https://images.unsplash.com/photo-1551135049-8a33b5883817?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" />
+      </div>
+    </div>
+    <Link href='/gallery'
+            className="mt-8 md:mt-12 lg:mt-16 font-regular border border-white py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-white text-center block mx-auto
+                hover:bg-gray-900 w-fit"
+          >
+            Load More
+          </Link>
+  </div>
+</div>
       </section>
 
       {/* \\\\\\\\\\\\\\\\\\\ */}
