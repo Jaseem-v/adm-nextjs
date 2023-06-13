@@ -74,7 +74,7 @@ const Business = () => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        await httpClient().get('/user/business/all')
+        await httpClient().get('/user/business/verified')
           .then(res => {
             console.log(res)
             setBusiness(res.data.data)

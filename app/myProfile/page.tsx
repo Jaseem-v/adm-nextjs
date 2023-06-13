@@ -344,7 +344,7 @@ const Profile = () => {
       ? 100
       : Math.min(completedSections.length * 15, 100);
   const personalOverallCompletionPercentage =
-  personalCompletedSections.length * 25;
+    personalCompletedSections.length * 25;
 
   const handleEditInfoStateChange = (
     section: keyof EditInfoStateType,
@@ -374,13 +374,32 @@ const Profile = () => {
       acceptedFiles.forEach((file: FileWithPath) => {
         const reader: FileReader = new FileReader();
 
+        const profileImg = new FormData();
+
+
         reader.onabort = () => console.log("File reading was aborted");
         reader.onerror = () => console.log("File reading has failed");
-        reader.onload = () => {
+        reader.onload = async () => {
           // Do whatever you want with the file contents
           const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
+
+
           console.log("file", file);
           console.log('image file', URL.createObjectURL(file))
+
+          profileImg.append("image", file)
+
+
+          try {
+            await httpClient("multipart/form-data")
+              .patch("user/personal/change-profile-picture", profileImg)
+              .then((res) => {
+                console.log("img upload", res);
+              })
+              .catch((err) => console.log("error updating", err));
+          } catch (error) {
+            console.log(error);
+          }
           if (section === "logo") {
             setEditInfoState((prevState) => ({
               ...prevState,
@@ -421,7 +440,17 @@ const Profile = () => {
     }
   };
 
-  const removeLogo = () => {
+  const removeLogo = async () => {
+    try {
+      await httpClient()
+        .delete("user/personal/remove-profile-picture")
+        .then((res) => {
+          console.log("img upload", res);
+        })
+        .catch((err) => console.log("error updating", err));
+    } catch (error) {
+      console.log(error);
+    }
     const oldLogo = "https://i.ibb.co/SPJXPcD/store.png";
     setEditInfoState((prevState) => ({ ...prevState, logo: oldLogo }));
     setShowDeleteModel(false);
