@@ -16,7 +16,7 @@ const BusinessPersons = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await httpClient().get(`/user/personal/all`)
+        await httpClient().get(`/user/personal/verified`)
           .then(res => {
             if (res.status === 400) {
               toast.error(res.data.message, {
@@ -24,6 +24,7 @@ const BusinessPersons = () => {
               });
             }
             if (res.status === 200) {
+              console.log(res.data)
               setData(res.data.data);
             }
           })
