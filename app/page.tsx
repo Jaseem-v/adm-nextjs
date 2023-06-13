@@ -38,7 +38,7 @@ const Index = () => {
   useEffect(() => {
     const fetchPersonalData = async () => {
       try {
-        await httpClient().get(`/user/personal/all`)
+        await httpClient().get(`/user/personal/verified`)
         .then(res => {    
           if (res.status === 200) {
             console.log(res)
@@ -56,7 +56,7 @@ const Index = () => {
 
     const fetchBusinessData = async () => {
       try {
-        await httpClient().get(`/user/business/all`)
+        await httpClient().get(`/user/business/verified`)
         .then(res => {    
           if (res.status === 200) {
             console.log(res)

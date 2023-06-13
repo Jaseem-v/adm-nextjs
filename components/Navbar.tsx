@@ -20,17 +20,17 @@ const businessItems: MenuProps['items'] = [
   {
     key: '1',
     label: (
-      <a rel="noopener noreferrer" href="/business" >
+      <Link rel="noopener noreferrer" href="/business" >
         Business Company
-      </a>
+      </Link>
     ),
   },
   {
     key: '2',
     label: (
-      <a rel="noopener noreferrer" href="/businesspersons" >
+      <Link rel="noopener noreferrer" href="/businesspersons" >
         Business Persons
-      </a>
+      </Link>
     ),
   }
 ];
@@ -38,17 +38,17 @@ const enlistItems: MenuProps['items'] = [
   {
     key: '1',
     label: (
-      <a rel="noopener noreferrer" href="/business-listings/add-individual" >
+      <Link rel="noopener noreferrer" href="/business-listings/add-individual" >
         Enlist Individual
-      </a>
+      </Link>
     ),
   },
   {
     key: '2',
     label: (
-      <a rel="noopener noreferrer" href="/business-listings/add-company" >
+      <Link rel="noopener noreferrer" href="/business-listings/add-company" >
         Enlist Company
-      </a>
+      </Link>
     ),
   }
 ];
@@ -82,19 +82,19 @@ const Navbar = () => {
     {
       key: '1',
       label: (
-        <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
+        <Link rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
           <FaHome />
           Dashboard
-        </a>
+        </Link>
       ),
     },
     {
       key: '2',
       label: (
-        <a rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
+        <Link rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
           <IoPersonSharp />
           My profile
-        </a>
+        </Link>
       ),
     },
     {
@@ -128,7 +128,7 @@ const Navbar = () => {
       if (isLoggedin !== loggedin)
         setIsLoggedIn(loggedin)
       // if (!token)
-    }, 5000)
+    }, 1000)
 
     // setIsLoggedIn(true)
 
