@@ -108,10 +108,10 @@ console.log(data)
               {/* <p className="business-name font-semibold text-base lg:text-lg font-lora lg:pt-1">
                 CEO & Founder
               </p> */}
-              <p className="font-medium text-base text-desc mt-4">
+              {/* <p className="font-medium text-base text-desc mt-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labor.
-              </p>
+              </p> */}
               <div className="flex flex-col gap-4 font-medium text-base md:text-lg py-8">
                 <div className="flex items-center justify-start gap-2">
                   <img src="/images/location.svg" alt="location" />
@@ -143,8 +143,7 @@ console.log(data)
             <div className=" bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
               <p className="font-semibold text-xl md:text-2xl">Social Media</p>
               <p className="font-medium text-base text-desc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labor.
+              Connect with me on social media to stay updated on my latest projects, interests, and experiences.
               </p>
               <div className="grid grid-cols-4 gap-10">
                 {facebookObj && <a href={`facebook.com/${facebookObj.link}`}>

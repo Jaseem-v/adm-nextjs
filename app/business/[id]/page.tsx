@@ -3,11 +3,12 @@
 import SectionHeader from "@/components/SectionHeader";
 import { getAccessToken, saveAccessToken } from "@/services/authService";
 import httpClient from "@/services/axiosInstance";
+import { BusinessAccountDataType } from "@/utils/schema/stateType";
 import { useState, useEffect } from 'react';
 
 
 const CompanyDetails = ({ params }: { params: { id: string } }) => {
-  const [data, setData] = useState()
+  const [data, setData] = useState<BusinessAccountDataType>()
   const [userData, setUserData] = useState()
   // const id = 1;
 
@@ -58,6 +59,22 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
   };
   // console.log(getCategory())
   getCategory()
+
+  interface SocialMediaLink {
+    _id: string;
+    title: string;
+    link: string;
+    // Add other properties if necessary
+  }
+  // const socialMediaLinks = data.socialMediaLinks;
+
+  // const instagramObj = Object.values(socialMediaLinks).find((obj) => obj.title === "INSTAGRAM");
+  // const facebookObj = Object.values(socialMediaLinks).find((obj) => obj.title === "FACEBOOK");
+  // const linkedinObj = Object.values(socialMediaLinks).find((obj) => obj.title === "LINKEDIN");
+  // const twitterObj = Object.values(socialMediaLinks).find((obj) => obj.title === "TWITTER");
+  // const youtubeObj = Object.values(socialMediaLinks).find((obj) => obj.title === "YOUTUBE");
+  // const whatsappObj = Object.values(socialMediaLinks).find((obj) => obj.title === "WHATSAPP");
+  // const telegramObj = Object.values(socialMediaLinks).find((obj) => obj.title === "TELEGRAM");
 
   const breadcrumbs = ['Business', 'Details']
   return (
