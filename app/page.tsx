@@ -143,13 +143,13 @@ const Index = () => {
 
       <section>
         <div className="my-20 text-center text-black max-w-screen-xl mx-auto px-5 xl:px-0">
-          <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
+          {/* <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0 mb-4">
             <div className="bg-lightOrange w-full h-[1px]"></div>
             <h3 className="font-kaisei text-black font-semibold tracking-wide uppercase text-2xl md:text-3xl lg:text-4xl">
               About us
             </h3>
             <div className="bg-lightOrange w-full h-[1px]"></div>
-          </div>
+          </div> */}
           <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333]">
             We believe community grows businesses
           </h1>
@@ -340,6 +340,9 @@ const Index = () => {
           </h3>
           <div className="bg-lightOrange w-full h-[1px] col-span-1 lg:col-span-2"></div>
         </div>
+        {/* <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
+            Meet Our Members
+          </h1> */}
         <div className="flex flex-col justify-center items-center">
           <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
             As a member, gain exclusive access to a thriving network of fellow
