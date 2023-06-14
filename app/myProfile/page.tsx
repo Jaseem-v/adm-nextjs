@@ -95,13 +95,10 @@ const Profile = () => {
     useState<EditModeState>(initialEditModeState);
   const [isServiceArea, setIsServiceArea] = useState(false);
   const [isPrimaryCategoryChange, setIsPrimaryCategoryChange] = useState(false);
-  const [isSecondaryCategoryChange, setIsSecondaryCategoryChange] =
-    useState(false);
   const [isAddedPhoto, setIsAddedPhoto] = useState(false);
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [showDeleteModel, setShowDeleteModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [updateCount, setUpdateCount] = useState(0);
 
   const handleToggleEditMode = (section: string) => {
     setEditModeState((prevState) => {
@@ -857,6 +854,14 @@ const Profile = () => {
   accountType === "personal"
     ? console.log("personal account data", personalAccountData)
     : console.log("business account data", businessAccountData);
+
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+  // CATEGORIES 
+  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
+  const handleCategoryApply = async () => {
+    setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
+  }
+
 
   // \\\\\\\\\\\\\\\\\\\\\\\\\
   // PRODUCTS & SERVICES 
@@ -2097,9 +2102,7 @@ const Profile = () => {
                     <div className="flex items-center gap-4">
                       <div
                         className="hover:underline cursor-pointer text-success"
-                        onClick={() =>
-                          setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-                        }
+                        onClick={handleCategoryApply}
                       >
                         apply
                       </div>
