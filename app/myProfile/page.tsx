@@ -909,6 +909,22 @@ const Profile = () => {
           console.log(error);
         }
       }
+    } else if (!serviceItemEdit) {
+      const services: string[] = [...businessAccountData.services, service]
+      console.log("services", services);
+      const updatedBusinessAccountData = { ...businessAccountData, services };
+      console.log("updated", updatedBusinessAccountData);
+  
+      if (data.service.length > 0) {
+        try {
+          await httpClient().patch(
+            "user/business/profile",
+            updatedBusinessAccountData
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
     setServiceItemEdit(false);
     setServiceItemEditValue("");
