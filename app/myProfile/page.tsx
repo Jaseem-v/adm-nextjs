@@ -934,6 +934,22 @@ const Profile = () => {
     
   };
 
+  const handleProductDelete = async () => {
+    const deletedService = serviceItemEditValue;
+    const services = businessAccountData.services.filter(service => service !== deletedService)
+    const updatedBusinessAccountData = { ...businessAccountData, services };
+    try {
+      await httpClient().patch(
+        "user/business/profile",
+        updatedBusinessAccountData
+        );
+        setBusinessAccountData(updatedBusinessAccountData)
+    } catch (error) {
+        console.log(error);
+    }
+    setServiceItemEdit(false);
+  }
+
   const servicesForm = useForm<ServicesFormValues>({
     defaultValues: {},
     resolver: yupResolver(servicesSchema),
@@ -2197,6 +2213,7 @@ const Profile = () => {
                           type="button"
                           className="py-2 px-4 bg-error text-white"
                           title="delete"
+                          onClick={handleProductDelete}
                         >
                           <FaTrashAlt />
                         </button>
