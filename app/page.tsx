@@ -342,9 +342,9 @@ const Index = () => {
                   <img src={business?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${business.profilePicture.key}` : "https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"} alt="company1" className="bg-cover" />
                 </div>
                 <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
-                  <div className="w-12 h-12">
+                  {/* <div className="w-12 h-12">
                     <img src='images/appleLogo.png' alt="companylogo" width="48px" />
-                  </div>
+                  </div> */}
                   <div>
                     <p className="font-semibold text-2xl md:text-3xl lg:text-4xl">
                       {business.name}
