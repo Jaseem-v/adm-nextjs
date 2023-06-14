@@ -884,36 +884,37 @@ const Profile = () => {
   const handleServicesClick = (product: string) => {
     setServiceItemEdit(true);
     setValue("service", product);
+    setServiceItemEditValue(product);
   };
   console.log("serive item", serviceItemEditValue);
 
   const handleProductAdd = async (data: ServicesFormValues) => {
     const service: string = data.service;
-    console.log("service", service);
-    
-    const services: string[] = businessAccountData.services.includes(service)
-      ? businessAccountData.services
-      : [...businessAccountData.services, service];
-    console.log("services", services);
-    
-    const updatedBusinessAccountData = { ...businessAccountData, services };
-    console.log("updated", updatedBusinessAccountData);
+    console.log("service", data);
+    if (serviceItemEdit) {
+      const services: string[] = businessAccountData.services.map((product) =>
+        product === serviceItemEditValue ? service : product
+      );
+      console.log("services", services);
+      const updatedBusinessAccountData = { ...businessAccountData, services };
+      console.log("updated", updatedBusinessAccountData);
   
-    if (data.service.length > 0) {
-      try {
-        await httpClient().patch(
-          "user/business/profile",
-          updatedBusinessAccountData
-        )
-      } catch (error) {
-        console.log(error);
+      if (data.service.length > 0) {
+        try {
+          await httpClient().patch(
+            "user/business/profile",
+            updatedBusinessAccountData
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
-    
     setServiceItemEdit(false);
+    setServiceItemEditValue("");
+
     handleToggleEditMode("products");
   };
-  
 
   const servicesForm = useForm<ServicesFormValues>({
     defaultValues: {},
@@ -2203,12 +2204,6 @@ const Profile = () => {
                         onClick={() => handleServicesClick(product)}
                       >
                         <FaCheckCircle />
-                        {/* reordering */}
-                        {/* <div className="flex flex-col">
-              <AiFillCaretUp />
-              <AiFillCaretDown />
-            </div> */}
-                        {/* reordering */}
                         <span>{product}</span>
                       </div>
                     ))}
