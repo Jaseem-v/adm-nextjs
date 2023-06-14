@@ -68,16 +68,15 @@ interface Photo {
 let idCounter = 0; // Counter for generating unique IDs
 
 const Profile = () => {
-  const [loginStatus, setloginStatus] = useState(true)
+  const [loginStatus, setloginStatus] = useState(true);
 
   useEffect(() => {
-    const isAccessToken = localStorage.getItem('accessToken') !== null
-    setloginStatus(isAccessToken)
-
-  })
+    const isAccessToken = localStorage.getItem("accessToken") !== null;
+    setloginStatus(isAccessToken);
+  });
 
   if (!loginStatus) {
-    redirect('/')
+    redirect("/");
   }
   const initialEditModeState: EditModeState = {
     businessName: false,
@@ -125,14 +124,13 @@ const Profile = () => {
     hideAddress: boolean;
     phone: string;
     hidePhone: boolean;
-    landmark: string
+    landmark: string;
   };
-
 
   type BusinessCategory = {
     _id: string;
     name: string;
-  }
+  };
 
   const businessInfoForm = useForm<BusinessInfoFormValues>({
     defaultValues: {},
@@ -165,16 +163,18 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
-  const [businessCategory, setBusinessCategory] = useState<BusinessCategory[]>([])
+  const [businessCategory, setBusinessCategory] = useState<BusinessCategory[]>(
+    []
+  );
   const [businessAddress, setBusinessAddress] = useState({
-    address: '',
-    city: '',
-    landmark: '',
-    pincode: '',
-    place: '',
-    state: '',
-    streetNumber: '',
-  })
+    address: "",
+    city: "",
+    landmark: "",
+    pincode: "",
+    place: "",
+    state: "",
+    streetNumber: "",
+  });
   const [businessAccountData, setBusinessAccountData] =
     useState<BusinessAccountDataType>({
       _id: "",
@@ -188,8 +188,8 @@ const Profile = () => {
       socialMediaLinks: [],
       services: [],
       gallery: [],
-      profilePicture:{
-        key:""
+      profilePicture: {
+        key: "",
       },
       addressDetails: {
         streetNumber: "",
@@ -306,10 +306,9 @@ const Profile = () => {
     editInfoState.photos.length > 0;
   const isServicesCompleted = businessAccountData.services.length > 0;
   const isSocialMediaCompleted =
-    accountType === 'personal'
+    accountType === "personal"
       ? personalAccountData.socialMediaLinks.some((link) => link.link !== "")
       : businessAccountData.socialMediaLinks.some((link) => link.link !== "");
-
 
   const progressSections = [
     isAddressCompleted,
@@ -321,13 +320,15 @@ const Profile = () => {
   ];
 
   const isPersonalNameCompleted =
-    personalAccountData.fname.length > 0 && personalAccountData.phone.length > 0;
-  const isPersonalAboutCompleted = personalAccountData.about.length > 0
+    personalAccountData.fname.length > 0 &&
+    personalAccountData.phone.length > 0;
+  const isPersonalAboutCompleted = personalAccountData.about.length > 0;
   const isPersonalPhotoCompleted =
     (editInfoState.logo !== "https://i.ibb.co/SPJXPcD/store.png" &&
       editInfoState.logo.length > 0) ||
     editInfoState.photos.length > 0;
-  const isPersonalSocialMediaCompleted = personalAccountData.socialMediaLinks.some((link) => link.link !== "")
+  const isPersonalSocialMediaCompleted =
+    personalAccountData.socialMediaLinks.some((link) => link.link !== "");
 
   const personalProgressSections = [
     isPersonalNameCompleted,
@@ -338,7 +339,9 @@ const Profile = () => {
 
   // Calculate the completion percentage
   const completedSections = progressSections.filter((section) => section);
-  const personalCompletedSections = personalProgressSections.filter((section) => section);
+  const personalCompletedSections = personalProgressSections.filter(
+    (section) => section
+  );
   const completionPercentage = Math.floor(
     (completedSections.length / progressSections.length) * 100
   );
@@ -357,7 +360,6 @@ const Profile = () => {
       ...prevState,
       [section]: value,
     }));
-
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -379,23 +381,25 @@ const Profile = () => {
 
         const profileImg = new FormData();
 
-
         reader.onabort = () => console.log("File reading was aborted");
         reader.onerror = () => console.log("File reading has failed");
         reader.onload = async () => {
           // Do whatever you want with the file contents
           const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
 
-
           console.log("file", file);
-          console.log('image file', URL.createObjectURL(file))
+          console.log("image file", URL.createObjectURL(file));
 
-          profileImg.append("image", file)
-
+          profileImg.append("image", file);
 
           try {
             await httpClient("multipart/form-data")
-              .patch(`user/${accountType === "personal" ? "personal" : "business"}/change-profile-picture`, profileImg)
+              .patch(
+                `user/${
+                  accountType === "personal" ? "personal" : "business"
+                }/change-profile-picture`,
+                profileImg
+              )
               .then((res) => {
                 console.log("img upload", res);
               })
@@ -446,7 +450,11 @@ const Profile = () => {
   const removeLogo = async () => {
     try {
       await httpClient()
-        .delete(`user/${accountType === "personal" ? "personal" : "business"}/change-profile-picture`)
+        .delete(
+          `user/${
+            accountType === "personal" ? "personal" : "business"
+          }/change-profile-picture`
+        )
         .then((res) => {
           console.log("img upload", res);
         })
@@ -482,7 +490,7 @@ const Profile = () => {
 
   const verifyBusinessInfo = async (data: BusinessInfoFormValues) => {
     // POST API
-    console.log(data)
+    console.log(data);
     const info = {
       address: data.address,
       city: data.city,
@@ -490,10 +498,13 @@ const Profile = () => {
       pincode: data.zip,
       state: businessAddress.state,
       streetNumber: businessAddress.streetNumber,
-      place: businessAddress.place
-    }
+      place: businessAddress.place,
+    };
 
-    const updatedBusinessAccountData = { ...businessAccountData, addressDetails: { ...info } }
+    const updatedBusinessAccountData = {
+      ...businessAccountData,
+      addressDetails: { ...info },
+    };
     try {
       await httpClient()
         .patch("user/business/profile", updatedBusinessAccountData)
@@ -508,7 +519,6 @@ const Profile = () => {
     handleToggleEditMode("businessInfo");
     console.log("verified business info");
   };
-
 
   const verifyWebsite = async () => {
     // POST API
@@ -665,8 +675,7 @@ const Profile = () => {
       []
     );
 
-    if (accountType === 'personal') {
-
+    if (accountType === "personal") {
       const updatedPersonalAccountData = {
         ...personalAccountData,
         socialMediaLinks: transformedData,
@@ -675,20 +684,18 @@ const Profile = () => {
         .patch("user/personal/profile", updatedPersonalAccountData)
         .catch((err) => console.log(err));
       console.log("verified social media");
-
-    } else if (accountType === 'business') {
+    } else if (accountType === "business") {
       const updatedBusinessAccountData = {
         ...businessAccountData,
         socialMediaLinks: transformedData,
       };
-      console.log(updatedBusinessAccountData)
+      console.log(updatedBusinessAccountData);
       await httpClient()
         .patch("user/business/profile", updatedBusinessAccountData)
         .catch((err) => console.log(err));
       console.log("verified social media");
     }
   };
-
 
   type SocialMediaFormValues = {
     facebook: string;
@@ -748,11 +755,14 @@ const Profile = () => {
   } = socialMediaForm;
   const { errors: errorsSocialMedia } = formStateSocialMedia;
 
-  const isSocialMediaAdded = accountType === 'personal' ? Object.values(
-    personalAccountData.socialMediaLinks
-  ).some((value) => value !== undefined) : Object.values(
-    businessAccountData.socialMediaLinks
-  ).some((value) => value !== undefined)
+  const isSocialMediaAdded =
+    accountType === "personal"
+      ? Object.values(personalAccountData.socialMediaLinks).some(
+          (value) => value !== undefined
+        )
+      : Object.values(businessAccountData.socialMediaLinks).some(
+          (value) => value !== undefined
+        );
 
   const verifyDetailedInformation = () => {
     // POST API
@@ -794,7 +804,7 @@ const Profile = () => {
             setPersonalLastname(res.lname);
             setEditInfoState((prevState) => ({
               ...prevState,
-              logo:`https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${res.profilePicture.key}`,
+              logo: `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${res?.profilePicture?.key}`,
             }));
           } else if (response.status === 400) {
             toast.error(response.data.message, {
@@ -811,10 +821,10 @@ const Profile = () => {
             const res = response.data.data;
             setBusinessAccountData(res);
             setBusinessName(res.name);
-            setBusinessAddress({ ...res.addressDetails, phone: res.phone })
+            setBusinessAddress({ ...res.addressDetails, phone: res.phone });
             setEditInfoState((prevState) => ({
               ...prevState,
-              logo:`https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${res.profilePicture.key}`,
+              logo: `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${res?.profilePicture?.key}`,
             }));
           } else if (response.status === 400) {
             toast.error(response.data.message, {
@@ -826,13 +836,15 @@ const Profile = () => {
         }
 
         try {
-          const response = await httpClient().get('/category/business/customer')
-          const res = response.data.data
+          const response = await httpClient().get(
+            "/category/business/customer"
+          );
+          const res = response.data.data;
           // setBusinessAccountData(prevState => ({ ...prevState, category: res }))
-          setBusinessCategory(res)
-          console.log(res)
+          setBusinessCategory(res);
+          console.log(res);
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
       setIsLoading(false);
@@ -845,10 +857,13 @@ const Profile = () => {
     ? console.log("personal account data", personalAccountData)
     : console.log("business account data", businessAccountData);
 
-  console.log(businessCategory)
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+  // PRODUCTS & SERVICES 
+  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
+
   type ServicesFormValues = {
-    service: string
-  }
+    service: string;
+  };
 
   const serviceEditForm = useForm<ServicesFormValues>({
     defaultValues: {},
@@ -859,55 +874,46 @@ const Profile = () => {
     register: registerServiceEdit,
     handleSubmit: handleSubmitServiceEdit,
     formState: formStateServiceEdit,
-    setValue
+    setValue,
   } = serviceEditForm;
   const { errors: errorsServiceEdit } = formStateServiceEdit;
 
   const [serviceItemEdit, setServiceItemEdit] = useState(false);
-  const [serviceItemEditValue, setServiceItemEditValue] = useState('');
-
+  const [serviceItemEditValue, setServiceItemEditValue] = useState("");
 
   const handleServicesClick = (product: string) => {
     setServiceItemEdit(true);
-    setValue('service', product)
-    setServiceItemEditValue(product);
-
+    setValue("service", product);
   };
-  console.log('serive item', serviceItemEditValue)
+  console.log("serive item", serviceItemEditValue);
 
   const handleProductAdd = async (data: ServicesFormValues) => {
     const service: string = data.service;
-    const services: string[] = businessAccountData.services.map((product) =>
-      product === serviceItemEditValue ? service : product
-    );
-    console.log('services', services);
+    console.log("service", service);
+    
+    const services: string[] = businessAccountData.services.includes(service)
+      ? businessAccountData.services
+      : [...businessAccountData.services, service];
+    console.log("services", services);
+    
     const updatedBusinessAccountData = { ...businessAccountData, services };
-
+    console.log("updated", updatedBusinessAccountData);
+  
     if (data.service.length > 0) {
       try {
-        await httpClient().patch('user/business/profile', updatedBusinessAccountData);
+        await httpClient().patch(
+          "user/business/profile",
+          updatedBusinessAccountData
+        )
       } catch (error) {
         console.log(error);
       }
-      setEditInfoState((prevState) => {
-        const updatedProducts: Product[] = prevState.products.map((product) =>
-          product.name === serviceItemEditValue ? { ...product, name: data.service } : product
-        );
-
-        return {
-          ...prevState,
-          products: updatedProducts,
-        };
-      });
     }
+    
     setServiceItemEdit(false);
-    setServiceItemEditValue('');
-
-    handleToggleEditMode('products');
+    handleToggleEditMode("products");
   };
-
-
-
+  
 
   const servicesForm = useForm<ServicesFormValues>({
     defaultValues: {},
@@ -923,12 +929,15 @@ const Profile = () => {
 
   const addProductForm = (
     <FormProvider {...servicesForm}>
-      <form name="editProductForm" onSubmit={handleSubmitService(handleProductAdd)}>
+      <form
+        name="editProductForm"
+        onSubmit={handleSubmitService(handleProductAdd)}
+      >
         <div className="flex">
           <input
             type="text"
             className="form-input rounded-r-0"
-            {...registerService('service')}
+            {...registerService("service")}
           />
           <button
             type="submit"
@@ -951,11 +960,12 @@ const Profile = () => {
             />
           </div>
         </div>
-        <p className="text-error text-sm mt-1">{errorsService?.service?.message}</p>
+        <p className="text-error text-sm mt-1">
+          {errorsService?.service?.message}
+        </p>
       </form>
     </FormProvider>
   );
-
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -1103,7 +1113,10 @@ const Profile = () => {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
             <div className="flex flex-col gap-2 text-inter">
               <p className="text-4xl lg:text-7xl font-semibold">
-                {accountType === 'personal' ? personalOverallCompletionPercentage : overallCompletionPercentage}%
+                {accountType === "personal"
+                  ? personalOverallCompletionPercentage
+                  : overallCompletionPercentage}
+                %
               </p>
               <p className="font-semibold text-lg md:text-xl lg:max-w-[194px]">
                 of your profile is complete
@@ -1113,9 +1126,18 @@ const Profile = () => {
               <div className="w-full xl:w-[800px] h-8 bg-skeleton rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gold flex items-center justify-center font-semibold text-white"
-                  style={{ width: `${accountType === 'personal' ? personalOverallCompletionPercentage : overallCompletionPercentage}%` }}
+                  style={{
+                    width: `${
+                      accountType === "personal"
+                        ? personalOverallCompletionPercentage
+                        : overallCompletionPercentage
+                    }%`,
+                  }}
                 >
-                  {accountType === 'personal' ? personalOverallCompletionPercentage : overallCompletionPercentage}%
+                  {accountType === "personal"
+                    ? personalOverallCompletionPercentage
+                    : overallCompletionPercentage}
+                  %
                 </div>
               </div>
               <p className="text-lg md:text-xl font-medium">
@@ -1125,40 +1147,58 @@ const Profile = () => {
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${accountType === 'personal' ? (isPersonalNameCompleted ? "text-success" : "text-error") : isAddressCompleted ? 'text-success' : 'text-error'
-                      }`}
+                    className={`${
+                      accountType === "personal"
+                        ? isPersonalNameCompleted
+                          ? "text-success"
+                          : "text-error"
+                        : isAddressCompleted
+                        ? "text-success"
+                        : "text-error"
+                    }`}
                   >
-                    {accountType === 'personal' ? 'Name & phone' : 'Name, Address & phone'}
+                    {accountType === "personal"
+                      ? "Name & phone"
+                      : "Name, Address & phone"}
                   </p>
                   <div
                     onClick={() =>
                       handleProgessBarClick(businessInfoRef, "businessInfo")
                     }
                   >
-                    {accountType === 'personal' ? editOrAdd(isPersonalNameCompleted) : editOrAdd(isAddressCompleted)}
+                    {accountType === "personal"
+                      ? editOrAdd(isPersonalNameCompleted)
+                      : editOrAdd(isAddressCompleted)}
                   </div>
                 </div>
                 {/* ITEM 2 */}
-                {accountType === 'business' && <div className="flex justify-between items-center gap-2">
-                  <p
-                    className={`${isCategoriesCompleted ? "text-success" : "text-error"
+                {accountType === "business" && (
+                  <div className="flex justify-between items-center gap-2">
+                    <p
+                      className={`${
+                        isCategoriesCompleted ? "text-success" : "text-error"
                       }`}
-                  >
-                    Business Categories
-                  </p>
-                  <div
-                    onClick={() =>
-                      handleProgessBarClick(categoriesRef, "businessCategories")
-                    }
-                  >
-                    {editOrAdd(isCategoriesCompleted)}
+                    >
+                      Business Categories
+                    </p>
+                    <div
+                      onClick={() =>
+                        handleProgessBarClick(
+                          categoriesRef,
+                          "businessCategories"
+                        )
+                      }
+                    >
+                      {editOrAdd(isCategoriesCompleted)}
+                    </div>
                   </div>
-                </div>}
+                )}
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${isAboutCompleted ? "text-success" : "text-error"
-                      }`}
+                    className={`${
+                      isAboutCompleted ? "text-success" : "text-error"
+                    }`}
                   >
                     Detailed Description
                   </p>
@@ -1169,8 +1209,9 @@ const Profile = () => {
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${isPhotoCompleted ? "text-success" : "text-error"
-                      }`}
+                    className={`${
+                      isPhotoCompleted ? "text-success" : "text-error"
+                    }`}
                   >
                     Logo or Image
                   </p>
@@ -1185,26 +1226,30 @@ const Profile = () => {
                   </div>
                 </div>
                 {/* ITEM 4 */}
-                {accountType === 'business' && <div className="flex justify-between items-center gap-2">
-                  <p
-                    className={`${isServicesCompleted ? "text-success" : "text-error"
+                {accountType === "business" && (
+                  <div className="flex justify-between items-center gap-2">
+                    <p
+                      className={`${
+                        isServicesCompleted ? "text-success" : "text-error"
                       }`}
-                  >
-                    Services
-                  </p>
-                  <div
-                    onClick={() =>
-                      handleProgessBarClick(servicesRef, "products")
-                    }
-                  >
-                    {editOrAdd(isServicesCompleted)}
+                    >
+                      Services
+                    </p>
+                    <div
+                      onClick={() =>
+                        handleProgessBarClick(servicesRef, "products")
+                      }
+                    >
+                      {editOrAdd(isServicesCompleted)}
+                    </div>
                   </div>
-                </div>}
+                )}
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${isSocialMediaCompleted ? "text-success" : "text-error"
-                      }`}
+                    className={`${
+                      isSocialMediaCompleted ? "text-success" : "text-error"
+                    }`}
                   >
                     Social Media
                   </p>
@@ -1393,7 +1438,11 @@ const Profile = () => {
             {accountType === "business" && (
               <div className="flex flex-col gap-6 text-gray-800">
                 <FormProvider {...businessInfoForm}>
-                  <form className="flex flex-col gap-2" onSubmit={handleSubmitBusinessInfo(verifyBusinessInfo)} noValidate>
+                  <form
+                    className="flex flex-col gap-2"
+                    onSubmit={handleSubmitBusinessInfo(verifyBusinessInfo)}
+                    noValidate
+                  >
                     <div className="flex flex-row gap-4">
                       <span className="text-2xl font-lora font-medium">
                         Business Info
@@ -1412,7 +1461,9 @@ const Profile = () => {
                           <div className="flex items-start flex-wrap gap-2">
                             <button
                               className="bg-skeleton py-1 px-3  rounded "
-                              onClick={() => handleToggleEditMode("businessInfo")}
+                              onClick={() =>
+                                handleToggleEditMode("businessInfo")
+                              }
                             >
                               Cancel
                             </button>
@@ -1471,32 +1522,38 @@ const Profile = () => {
                               </select>
                             </div>
                             <div className="flex flex-col gap-1 form-control">
-                              <label htmlFor="streetAddress">
-                                Address
-                              </label>
+                              <label htmlFor="streetAddress">Address</label>
                               <input
                                 type="text"
                                 id="streetAddress"
                                 placeholder="e.g. Sheikh Zayed St"
-                                {...registerBusinessInfo('address')}
+                                {...registerBusinessInfo("address")}
                                 value={businessAddress.address}
-                                onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, address: e.target.value }))}
+                                onChange={(e) =>
+                                  setBusinessAddress((prevState) => ({
+                                    ...prevState,
+                                    address: e.target.value,
+                                  }))
+                                }
                               />
                             </div>
                             <div className="flex flex-col gap-1"></div>{" "}
                             {/* ADDRESS LINE 2 optional */}
                             <div className="grid md:grid-cols-3 md:gap-x-10 gap-y-3">
                               <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                                <label htmlFor="building">
-                                  Landmark
-                                </label>
+                                <label htmlFor="building">Landmark</label>
                                 <input
                                   type="text"
                                   id="building"
                                   placeholder="Louvre Abu Dhabi"
-                                  {...registerBusinessInfo('landmark')}
+                                  {...registerBusinessInfo("landmark")}
                                   value={businessAddress.landmark}
-                                  onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, landmark: e.target.value }))}
+                                  onChange={(e) =>
+                                    setBusinessAddress((prevState) => ({
+                                      ...prevState,
+                                      landmark: e.target.value,
+                                    }))
+                                  }
                                 />
                               </div>
                               <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
@@ -1507,7 +1564,12 @@ const Profile = () => {
                                   placeholder="e.g. Al Ain"
                                   {...registerBusinessInfo("city")}
                                   value={businessAddress.city}
-                                  onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, city: e.target.value }))}
+                                  onChange={(e) =>
+                                    setBusinessAddress((prevState) => ({
+                                      ...prevState,
+                                      city: e.target.value,
+                                    }))
+                                  }
                                 />
                               </div>
                               <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
@@ -1518,9 +1580,14 @@ const Profile = () => {
                                   pattern="[0-9]"
                                   id="zip"
                                   placeholder="126452"
-                                  {...registerBusinessInfo('zip')}
+                                  {...registerBusinessInfo("zip")}
                                   value={businessAddress.pincode}
-                                  onChange={(e) => setBusinessAddress(prevState => ({ ...prevState, pincode: e.target.value }))}
+                                  onChange={(e) =>
+                                    setBusinessAddress((prevState) => ({
+                                      ...prevState,
+                                      pincode: e.target.value,
+                                    }))
+                                  }
                                 />
                               </div>
                             </div>
@@ -1596,10 +1663,9 @@ const Profile = () => {
                           </p>
                         </div>
                       </div>
-
                     </div>
                   </form>
-                </FormProvider >
+                </FormProvider>
               </div>
             )}
 
@@ -1819,13 +1885,13 @@ const Profile = () => {
                       onChange={(e) => {
                         accountType === "personal"
                           ? setPersonalAccountData((prevState) => ({
-                            ...prevState,
-                            about: e.target.value,
-                          }))
+                              ...prevState,
+                              about: e.target.value,
+                            }))
                           : setBusinessAccountData((prevState) => ({
-                            ...prevState,
-                            about: e.target.value,
-                          }));
+                              ...prevState,
+                              about: e.target.value,
+                            }));
                       }}
                     ></textarea>
                   </div>
@@ -1893,7 +1959,6 @@ const Profile = () => {
                     <option value={cat._id}>{cat.name}</option>
                   ))}
                 </select> */}
-
               </div>
             ) : (
               <>
@@ -1908,19 +1973,27 @@ const Profile = () => {
                 <div className="flex flex-row gap-4 items-center">
                   {!isPrimaryCategoryChange ? (
                     <div className="flex flex-col gap-2 mt-2">
+                      {businessCategory &&
+                        businessCategory
+                          .filter((el) => {
+                            console.log(
+                              "fil",
+                              el._id == businessAccountData.category
+                            );
+                            return el._id == businessAccountData.category;
+                          })
+                          .map((cat) => {
+                            console.log("cat", cat);
 
-                      {businessCategory && businessCategory.filter(el => {
-                        console.log("fil", el._id == businessAccountData.category);
-                        return el._id == businessAccountData.category
-                      }).map(cat => {
-                        console.log("cat", cat);
-
-                        return (
-                          <div className="w-80 px-4 py-2 bg-skeleton" key={cat._id}>
-                            <p >{cat.name}</p>
-                          </div>
-                        )
-                      })}
+                            return (
+                              <div
+                                className="w-80 px-4 py-2 bg-skeleton"
+                                key={cat._id}
+                              >
+                                <p>{cat.name}</p>
+                              </div>
+                            );
+                          })}
                     </div>
                   ) : (
                     // <input
@@ -1952,18 +2025,17 @@ const Profile = () => {
                     >
                       <option value={""}></option>
 
-                      {
-                        businessCategory && businessCategory.map((el,i) => (
-
-                          <option value={el._id} key={i}>{el.name}</option>
-                        ))
-                      }
-
+                      {businessCategory &&
+                        businessCategory.map((el, i) => (
+                          <option value={el._id} key={i}>
+                            {el.name}
+                          </option>
+                        ))}
                     </select>
                   )}
 
                   {editModeState.businessCategories &&
-                    isPrimaryCategoryChange ? (
+                  isPrimaryCategoryChange ? (
                     <div className="flex items-center gap-4">
                       <div
                         className="hover:underline cursor-pointer text-success"
@@ -2085,17 +2157,28 @@ const Profile = () => {
                 </div>
                 {serviceItemEdit ? (
                   <FormProvider {...serviceEditForm}>
-                    <form name="editProductForm" onSubmit={handleSubmitServiceEdit(handleProductAdd)}>
+                    <form
+                      name="editProductForm"
+                      onSubmit={handleSubmitServiceEdit(handleProductAdd)}
+                    >
                       <div className="flex">
                         <input
                           type="text"
                           className="form-input rounded-r-0"
-                          {...registerServiceEdit('service')}
+                          {...registerServiceEdit("service")}
                         />
-                        <button type="submit" className="py-2 px-4 bg-success text-white" title="save">
+                        <button
+                          type="submit"
+                          className="py-2 px-4 bg-success text-white"
+                          title="save"
+                        >
                           <FaCheck />
                         </button>
-                        <button type="button" className="py-2 px-4 bg-error text-white" title="delete">
+                        <button
+                          type="button"
+                          className="py-2 px-4 bg-error text-white"
+                          title="delete"
+                        >
                           <FaTrashAlt />
                         </button>
                         <div className="flex items-center justify-center px-2">
@@ -2105,7 +2188,9 @@ const Profile = () => {
                           />
                         </div>
                       </div>
-                      <p className="text-error text-sm mt-1">{errorsServiceEdit?.service?.message}</p>
+                      <p className="text-error text-sm mt-1">
+                        {errorsServiceEdit?.service?.message}
+                      </p>
                     </form>
                   </FormProvider>
                 ) : (
@@ -2147,45 +2232,43 @@ const Profile = () => {
               </div>
             )}
 
-            {!editModeState.products ? (
-              businessAccountData.services.length === 0 && (
-                <div className="border-2 border-black border-dashed p-4">
-                  <div className="flex flex-wrap gap-4">
-                    <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                      <MdMiscellaneousServices className="h-5 w-6" />
-                    </div>
-                    <div className="flex flex-col gap-6">
-                      <div className="flex flex-col gap-4">
-                        <p className="text-gray-700">
-                          Attract the right customers by creating a list of up
-                          to 30 products or services that you offer.
-                        </p>
-                        <div className="flex items-center font-bold gap-1">
-                          <span
-                            className="cursor-pointer hover:underline"
-                            onClick={() => handleToggleEditMode("products")}
-                          >
-                            Create services list
-                          </span>
-                          <FaChevronRight />
+            {!editModeState.products
+              ? businessAccountData.services.length === 0 && (
+                  <div className="border-2 border-black border-dashed p-4">
+                    <div className="flex flex-wrap gap-4">
+                      <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                        <MdMiscellaneousServices className="h-5 w-6" />
+                      </div>
+                      <div className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-4">
+                          <p className="text-gray-700">
+                            Attract the right customers by creating a list of up
+                            to 30 products or services that you offer.
+                          </p>
+                          <div className="flex items-center font-bold gap-1">
+                            <span
+                              className="cursor-pointer hover:underline"
+                              onClick={() => handleToggleEditMode("products")}
+                            >
+                              Create services list
+                            </span>
+                            <FaChevronRight />
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )
-            ) : (
-              !serviceItemEdit && (
-                <div className="flex flex-col gap-2">
-                  <hr className="w-full text-grey-300" />
-                  <div className="text-xs">
-                    {`1`}
-                    {`/30 Items Listed`}
+                )
+              : !serviceItemEdit && (
+                  <div className="flex flex-col gap-2">
+                    <hr className="w-full text-grey-300" />
+                    <div className="text-xs">
+                      {`1`}
+                      {`/30 Items Listed`}
+                    </div>
+                    {addProductForm}
                   </div>
-                  {addProductForm}
-                </div>
-              )
-            )}
+                )}
             {/* edit mode */}
             {/* <div className="flex flex-col gap-2">
             <hr className="w-full text-grey-300"/>
@@ -2311,8 +2394,9 @@ const Profile = () => {
               <div {...getCompanyImagesRootProps()}>
                 <input type="file" {...getCompanyImagesInputProps()} />
                 <div
-                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${isDragActive ? "border-blue-500" : "border-black"
-                    }`}
+                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                    isDragActive ? "border-blue-500" : "border-black"
+                  }`}
                 >
                   <p className="font-semibold">Add a photo</p>
                   <BsFillCameraFill className="w-11 h-11" />
@@ -2393,7 +2477,6 @@ const Profile = () => {
               </div>
             )
           ) : (
-
             <FormProvider {...socialMediaForm}>
               <form onSubmit={handleSubmitSocialMedia(verifySocialMedia)}>
                 {/* Personal Account Social Media Links */}
@@ -2458,7 +2541,9 @@ const Profile = () => {
                           placeholder="e.g. @twitterProfile"
                           {...registerSocialMedia("twitter")}
                           value={twitterObj && twitterObj.link}
-                          onChange={(e) => handleSocialMediaChange("twitter", e)}
+                          onChange={(e) =>
+                            handleSocialMediaChange("twitter", e)
+                          }
                         />
                       </div>
                     </div>
@@ -2477,7 +2562,9 @@ const Profile = () => {
                           placeholder="e.g. www.linkedin.com/companyProfile"
                           {...registerSocialMedia("linkedin")}
                           value={linkedinObj && linkedinObj.link}
-                          onChange={(e) => handleSocialMediaChange("linkedin", e)}
+                          onChange={(e) =>
+                            handleSocialMediaChange("linkedin", e)
+                          }
                         />
                       </div>
                     </div>
@@ -2496,11 +2583,14 @@ const Profile = () => {
                           placeholder="e.g. www.youtube.com/profile"
                           {...registerSocialMedia("youtube")}
                           value={youtubeObj && youtubeObj.link}
-                          onChange={(e) => handleSocialMediaChange("youtube", e)}
+                          onChange={(e) =>
+                            handleSocialMediaChange("youtube", e)
+                          }
                         />
                       </div>
                     </div>
-                  </div>)}
+                  </div>
+                )}
                 {/* Business Account Social Media Links */}
                 {accountType === "business" && (
                   <div className="flex flex-col gap-2">
@@ -2623,7 +2713,8 @@ const Profile = () => {
                         />
                       </div>
                     </div>
-                  </div>)}
+                  </div>
+                )}
                 <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
                   <button
                     className="bg-skeleton py-1 px-3  rounded "
@@ -2673,22 +2764,30 @@ const Profile = () => {
             </div>
             {!editModeState.contact ? (
               <>
-                {businessAccountData.contactDetails ?
+                {businessAccountData.contactDetails ? (
                   <div className="md:grid gap-2 grid-cols-2">
                     <div className="mb-3 md:mb-0 border-2 border-black border-dashed gap-2 items-center p-4">
                       <div className="flex md:float-right">
-                        <button className="btn px-3 py-1 rounded text-black border-2 border-black hover:text-white hover:bg-black text-xs w-1/2">Edit</button>
+                        <button className="btn px-3 py-1 rounded text-black border-2 border-black hover:text-white hover:bg-black text-xs w-1/2">
+                          Edit
+                        </button>
                         <span className="px-2">|</span>
-                        <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">Remove</button>
+                        <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">
+                          Remove
+                        </button>
                       </div>
                       <p className="text-lg">Co-founder</p>
-                      <p className="text-gray-700">{businessAccountData.contactDetails.fname}</p>
-                      <p className="text-gray-700">{businessAccountData.contactDetails.lname}</p>
+                      <p className="text-gray-700">
+                        {businessAccountData.contactDetails.fname}
+                      </p>
+                      <p className="text-gray-700">
+                        {businessAccountData.contactDetails.lname}
+                      </p>
                       <p className="text-gray-700">{`Email | ${businessAccountData.contactDetails.email}`}</p>
                       <p className="text-gray-700">{`Phone | ${businessAccountData.contactDetails.phone}`}</p>
                     </div>
                   </div>
-                  :
+                ) : (
                   <div className="md:grid gap-2 grid-cols-2">
                     <div className="border-2 border-black border-dashed p-4">
                       <div className="flex flex-wrap lg:flex-col gap-4">
@@ -2715,7 +2814,7 @@ const Profile = () => {
                       </div>
                     </div>
                   </div>
-                }
+                )}
                 <button
                   className="py-2 mt-2 rounded w-48 bg-black text-white"
                   onClick={() => handleToggleEditMode("contact")}
@@ -2926,7 +3025,7 @@ const Profile = () => {
         {/* BUSINESS HOURS👆 */}
         {/* \\\\\\\\\\\ */}
       </div>
-    </div >
+    </div>
   );
 };
 
