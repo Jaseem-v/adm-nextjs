@@ -23,6 +23,7 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { BsFillCameraFill } from "react-icons/bs";
 import { IoMdContact } from "react-icons/io";
 import { MdMiscellaneousServices } from "react-icons/md";
+import { MdAlternateEmail } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import { BsFillPlusCircleFill } from "react-icons/bs";
@@ -947,7 +948,7 @@ const Profile = () => {
     } catch (error) {
         console.log(error);
     }
-    setServiceItemEdit(false);
+    setServiceItemEdit(false  );
   }
 
   const servicesForm = useForm<ServicesFormValues>({
@@ -1698,6 +1699,17 @@ const Profile = () => {
                           </p>
                         </div>
                       </div>
+                      <div className="flex flex-row gap-2">
+                        <MdAlternateEmail className="mt-1" />
+                        <div className="flex flex-col gap-1">
+                          <p className="text-lg font-medium flex items-center gap-1">
+                            Username{" "}
+                          </p>
+                          <p className="text-lg text-gray-700">
+                            {businessAccountData.username.slice(3)}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </FormProvider>
@@ -1740,6 +1752,17 @@ const Profile = () => {
                         </p>
                       </div>
                     </div>
+                    <div className="flex flex-row gap-2">
+                        <MdAlternateEmail className="mt-1" />
+                        <div className="flex flex-col gap-1">
+                          <p className="text-lg font-medium flex items-center gap-1">
+                            Username{" "}
+                          </p>
+                          <p className="text-lg text-gray-700">
+                            {personalAccountData.username.slice(3)}
+                          </p>
+                        </div>
+                      </div>
                   </div>
                 </form>
               </div>
