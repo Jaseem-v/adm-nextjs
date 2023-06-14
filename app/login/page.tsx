@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signInSchema } from "../../utils/schema/signUpSchema";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
 import { setLoginStatus } from './../../services/loginStatus';
@@ -81,8 +81,11 @@ const Login = () => {
             console.log(res);
 
             if (res.status == 400) {
-              toast.error(res.data.message, {
-                icon: "👏",
+
+              console.log("error",res.data.message);
+              
+              toast.success(res.data.message, {
+                icon: "🟥",
               });
             }
 
@@ -110,6 +113,8 @@ const Login = () => {
 
   return (
     <main className="h-screen font-inter max-w-screen-xl mx-auto flex items-center justify-center relative overflow-hidden">
+      <Toaster position="top-right" reverseOrder={false} />
+
       <section className="">
         <div
           className="p-8 md:p-6 lg:p-7

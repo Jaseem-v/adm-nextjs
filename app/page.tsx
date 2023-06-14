@@ -296,16 +296,16 @@ const Index = () => {
               <div className="team-member" key={member._id}>
                 <div>
                   <img
-                    src='images/profilePreview.png'
+                    src={member?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${member.profilePicture.key}` : 'images/profilePreview.png'}
                     // src={`/personal-account-profile-picture/${member.profilePicture.key}`}
                     alt="team-member-1"
                     className="rounded-md w-[333px] lg:w-[290px]"
                   />
                 </div>
                 <div className="mt-2 text-center">
-                  <p className=" font-semibold   md:text-lg lg:text-xl">
+                  <Link href={`/businesspersons/${member._id}`} className=" font-semibold   md:text-lg lg:text-xl">
                     {member.fname}{ }{member.lname}
-                  </p>
+                  </Link>
                   <p className=" text-sm md:text-base text-[#333] font-medium">
                     Abu dhabi
                   </p>
@@ -339,7 +339,7 @@ const Index = () => {
                 key={business._id}
               >
                 <div className="h-[135px] md:h-[232px] lg:h-[192px] xl:h-[232px] overflow-hidden rounded-2xl">
-                  <img src={business?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${business.profilePicture.key}` :"https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"} alt="company1" className="bg-cover" />
+                  <img src={business?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${business.profilePicture.key}` : "https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"} alt="company1" className="bg-cover" />
                 </div>
                 <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
                   <div className="w-12 h-12">
@@ -352,9 +352,9 @@ const Index = () => {
                     <p className="mt-2 text-desc text-sm max-w-md font-semibold">
                       {business.website}
                     </p>
-                    <button className="mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
-                      Load More
-                    </button>
+                    <Link href={`/business/${business._id}`} className=" block mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
+                      View Details
+                    </Link>
                     <img
                       src="/images/blackTRarrow.png"
                       alt="arrow"
@@ -397,7 +397,7 @@ const Index = () => {
           >
             <div className="flex flex-wrap -mx-4">
 
-              {galleryData && galleryData.map((el,i) => (
+              {galleryData && galleryData.map((el, i) => (
                 <div className="md:w-1/3 px-4 mb-8" key={i}>
                   <a href={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`}>
                     <img alt="img1" src={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`} />
