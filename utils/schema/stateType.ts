@@ -73,7 +73,7 @@ export type BusinessAccountDataType = {
   website: string;
   about: string;
   socialMediaLinks: SocialMediaLink[];
-  services: [];
+  services: string[];
   gallery: [];
   addressDetails: {
     streetNumber: string;

@@ -886,8 +886,7 @@ const Profile = () => {
     setValue("service", product);
     setServiceItemEditValue(product);
   };
-  console.log("serive item", serviceItemEditValue);
-
+  
   const handleProductAdd = async (data: ServicesFormValues) => {
     const service: string = data.service;
     console.log("service", data);
@@ -905,31 +904,34 @@ const Profile = () => {
             "user/business/profile",
             updatedBusinessAccountData
           );
+          setBusinessAccountData(updatedBusinessAccountData)
         } catch (error) {
           console.log(error);
         }
       }
+      setValue('service', '')
+      setServiceItemEdit(false);
+      setServiceItemEditValue("");
     } else if (!serviceItemEdit) {
       const services: string[] = [...businessAccountData.services, service]
       console.log("services", services);
       const updatedBusinessAccountData = { ...businessAccountData, services };
       console.log("updated", updatedBusinessAccountData);
-  
+      
       if (data.service.length > 0) {
         try {
           await httpClient().patch(
             "user/business/profile",
             updatedBusinessAccountData
-          );
-        } catch (error) {
-          console.log(error);
-        }
+            );
+            setBusinessAccountData(updatedBusinessAccountData)
+          } catch (error) {
+            console.log(error);
+          }
       }
+      handleToggleEditMode("products");
     }
-    setServiceItemEdit(false);
-    setServiceItemEditValue("");
-
-    handleToggleEditMode("products");
+    
   };
 
   const servicesForm = useForm<ServicesFormValues>({
@@ -2277,7 +2279,43 @@ const Profile = () => {
                       {`1`}
                       {`/30 Items Listed`}
                     </div>
-                    {addProductForm}
+                    <FormProvider {...servicesForm}>
+      <form
+        name="editProductForm"
+        onSubmit={handleSubmitService(handleProductAdd)}
+      >
+        <div className="flex">
+          <input
+            type="text"
+            className="form-input rounded-r-0"
+            {...registerService("service")}
+          />
+          <button
+            type="submit"
+            className="py-2 px-4 bg-success text-white"
+            title="save"
+          >
+            <FaCheck />
+          </button>
+          <button
+            type="submit"
+            className="py-2 px-4 bg-error text-white"
+            title="save"
+          >
+            <FaTrashAlt />
+          </button>
+          <div className="flex items-center justify-center px-2">
+            <IoClose
+              className="text-error w-6 h-6 stroke-3 cursor-pointer"
+              onClick={() => handleToggleEditMode("products")}
+            />
+          </div>
+        </div>
+        <p className="text-error text-sm mt-1">
+          {errorsService?.service?.message}
+        </p>
+      </form>
+    </FormProvider>
                   </div>
                 )}
             {/* edit mode */}
