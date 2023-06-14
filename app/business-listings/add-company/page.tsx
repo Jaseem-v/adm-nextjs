@@ -1,7 +1,7 @@
 "use client";
 
 import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -64,6 +64,7 @@ const EnlistCompany = () => {
   const [data, setData] = useState(INITIAL_DATA);
   const [page, setPage] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [categoryData, setCategoryData] = useState<{ _id: string, name: string }[] | []>([])
 
   const navigate = useRouter();
 
@@ -185,6 +186,24 @@ const EnlistCompany = () => {
     setData((prevState) => ({ ...prevState, ...d }));
     next();
   };
+
+  const fetchCategoryData = async () => {
+    try {
+      const response = await httpClient().get('/category/business/customer')
+      const res = response.data.data
+
+      setCategoryData(response.data.data)
+
+      console.log("category", res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchCategoryData()
+  }, [])
+
 
   const isCompany = true;
 
@@ -311,10 +330,15 @@ const EnlistCompany = () => {
               {...register("categories")}
               onBlur={() => trigger("categories")}
             >
-              <option value="Business">Business</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Design">Design</option>
-              <option value="Architecture">Architecture</option>
+              <option value={""}></option>
+
+              {
+                categoryData && categoryData.map((el,i) => (
+
+                  <option value={el._id} key={i}>{el.name}</option>
+                ))
+              }
+
             </select>
             <p className="error">{errorsOne.categories?.message}</p>
           </div>
@@ -377,9 +401,8 @@ const EnlistCompany = () => {
           </label> */}
 
           <button
-            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-4 md:col-span-2 text-[15px] w-fit ${
-              isStepOneError ? "bg-opacity-50" : ""
-            }`}
+            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-4 md:col-span-2 text-[15px] w-fit ${isStepOneError ? "bg-opacity-50" : ""
+              }`}
           >
             Add my company
           </button>
@@ -472,7 +495,7 @@ const EnlistCompany = () => {
             toast.success("Account Created Successfully", {
               icon: "👏",
             });
-            navigate.push("/login");
+            navigate.push("/register-success");
           } else {
             // Handle non-200 status codes
             toast.error("An error occurred during signup");
@@ -551,9 +574,8 @@ const EnlistCompany = () => {
           <p className="error">{errorsTwo.place?.message}</p>
         </div>
         <button
-          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${
-            isStepTwoError ? "bg-opacity-50" : ""
-          }`}
+          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${isStepTwoError ? "bg-opacity-50" : ""
+            }`}
         >
           Finish
         </button>

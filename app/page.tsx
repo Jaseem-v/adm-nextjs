@@ -14,63 +14,100 @@ import Link from "next/link";
 import httpClient from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import EnlistModel from "@/components/enlistModel";
+import LightGallery from 'lightgallery/react';
+
+// import styles
+import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-thumbnail.css';
+
+// If you want you can use SCSS instead of css
+// import 'lightgallery/scss/lightgallery.scss';
+// import 'lightgallery/scss/lg-zoom.scss';
+
+// import plugins if you need
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
 
 type Member = {
   _id: string;
-  profilePicture: { key: string}
+  profilePicture: { key: string }
   fname: string;
   lname: string;
   place: string
 }
 type Business = {
   _id: string;
-  image: string;
+  profilePicture: {
+    key: string
+  };
   name: string;
-  about: string
+  about: string;
+  website: string;
 }
 const Index = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [personalData, setPersonalData] = useState<Member[]>([]);
   const [businessData, setBusinessData] = useState<Business[]>([]);
+  const [galleryData, setGalleryData] = useState<{ image: { key: string } }[] | []>([])
+  const [showEnlistModel, setShowEnlistModel] = useState(false)
+
 
 
   useEffect(() => {
     const fetchPersonalData = async () => {
       try {
         await httpClient().get(`/user/personal/verified`)
-        .then(res => {    
-          if (res.status === 200) {
-            console.log(res)
-            const slicedRes = res.data.data.slice(0,8)
-            setPersonalData(slicedRes);
-          }
-        })
+          .then(res => {
+            if (res.status === 200) {
+              console.log(res)
+              const slicedRes = res.data.data.slice(0, 8)
+              setPersonalData(slicedRes);
+            }
+          })
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     };
-  
+
     fetchPersonalData();
 
     const fetchBusinessData = async () => {
       try {
         await httpClient().get(`/user/business/verified`)
-        .then(res => {    
-          if (res.status === 200) {
-            console.log(res)
-            const slicedRes = res.data.data.slice(0,4)
-            setBusinessData(slicedRes);
-          }
-        })
+          .then(res => {
+            if (res.status === 200) {
+              console.log(res)
+              const slicedRes = res.data.data.slice(0, 4)
+              setBusinessData(slicedRes);
+            }
+          })
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     };
-  
+
+    const fetchGalleryData = async () => {
+      try {
+        await httpClient().get(`/gallery/customer`)
+          .then(res => {
+            if (res.status === 200) {
+              setGalleryData(res.data.data)
+
+            }
+          })
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+
     fetchBusinessData();
+    fetchGalleryData()
   }, []);
 
   console.log(personalData[0])
@@ -192,11 +229,30 @@ const Index = () => {
         </div>
       </section>
 
+      {/* \\\\\\\\\\\\ */}
+      {/* SECTION */}
+      {/* \\\\\\\\\\\\ */}
+      <section className="bg-zinc-900 ">
+        <div className="max-w-screen-xl mx-auto px-5 xl:px-0 py-10 md:py-12 xl:py-20  text-center flex flex-col items-center">
+          <h3 className="text-white font-poppins font-bold text-2xl md:text-3xl">Want to join the team?</h3>
+          <button
+            onClick={() => setShowEnlistModel(true)}
+            className="mt-6 lg:mt-9 font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
+          >
+            Join our community
+            <img src="/images/arrow-right.svg" alt="right arrow" />
+          </button>
+        </div>
+      </section>
+      {showEnlistModel && (
+        <EnlistModel setShowEnlistModel={setShowEnlistModel} />
+      )}
+
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* NUMBERS */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className=" py-16 bg-gray bg-zinc-800">
+      {/* <section className=" py-16 bg-gray bg-zinc-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {numbers.map((number) => (
@@ -212,7 +268,7 @@ const Index = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* MEMBERS */}
@@ -277,13 +333,13 @@ const Index = () => {
             AbudhabiMalayalees
           </p>
           <div className="companies mt-12 md:mt-16 lg:mt-20  grid lg:grid-cols-2 gap-x-8 gap-y-12 justify-items-center">
-          {businessData.map((business) => (
+            {businessData.map((business) => (
               <div
                 className="company flex flex-col gap-3 w-full xl:w-[575px]"
                 key={business._id}
               >
                 <div className="h-[135px] md:h-[232px] lg:h-[192px] xl:h-[232px] overflow-hidden rounded-2xl">
-                  <img src={"https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"} alt="company1" className="bg-cover"/>
+                  <img src={business?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${business.profilePicture.key}` :"https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"} alt="company1" className="bg-cover" />
                 </div>
                 <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
                   <div className="w-12 h-12">
@@ -294,7 +350,7 @@ const Index = () => {
                       {business.name}
                     </p>
                     <p className="mt-2 text-desc text-sm max-w-md font-semibold">
-                      {business.about}
+                      {business.website}
                     </p>
                     <button className="mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
                       Load More
@@ -333,56 +389,48 @@ const Index = () => {
           </div>
         </div>
         <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
-  <div className="-m-1 flex flex-wrap md:-m-2">
-    <div className="flex w-1/2 flex-wrap">
-      <div className="w-1/2 p-1 md:p-2">
-        <img
-          alt="gallery"
-          className="block h-full w-full rounded-lg object-cover object-center"
-          src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" />
-      </div>
-      <div className="w-1/2 p-1 md:p-2">
-        <img
-          alt="gallery"
-          className="block h-full w-full rounded-lg object-cover object-center"
-          src="https://images.pexels.com/photos/3471029/pexels-photo-3471029.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-          {/* src="https://assets.forafinancial.com/blog-assets/uploads/2020/01/trust.jpg" /> */}
-      </div>
-      <div className="w-full p-1 md:p-2">
-        <img
-          alt="gallery"
-          className="block h-full w-full rounded-lg object-cover object-center"
-          src="https://images.unsplash.com/photo-1462556791646-c201b8241a94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" />
-      </div>
-    </div>
-    <div className="flex w-1/2 flex-wrap">
-      <div className="w-full p-1 md:p-2">
-        <img
-          alt="gallery"
-          className="block h-full w-full rounded-lg object-cover object-center"
-          src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" />
-      </div>
-      <div className="w-1/2 p-1 md:p-2">
-        <img
-          alt="gallery"
-          className="block h-full w-full rounded-lg object-cover object-center"
-          src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" />
-      </div>
-      <div className="w-1/2 p-1 md:p-2">
-        <img
-          alt="gallery"
-          className="block h-full w-full rounded-lg object-cover object-center"
-          src="https://images.unsplash.com/photo-1551135049-8a33b5883817?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" />
-      </div>
-    </div>
-    <Link href='/gallery'
-            className="mt-8 md:mt-12 lg:mt-16 font-regular border border-white py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-white text-center block mx-auto
-                hover:bg-gray-900 w-fit"
+
+          <LightGallery
+            // onInit={onInit}
+            speed={500}
+            plugins={[lgThumbnail, lgZoom]}
           >
-            Load More
-          </Link>
-  </div>
-</div>
+            <div className="flex flex-wrap -mx-4">
+
+              {galleryData && galleryData.map((el,i) => (
+                <div className="md:w-1/3 px-4 mb-8" key={i}>
+                  <a href={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`}>
+                    <img alt="img1" src={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`} />
+                  </a>
+                </div>
+              ))
+              }
+
+            </div>
+          </LightGallery>
+          {/* <div className="-m-1 flex flex-wrap md:-m-2">
+
+            <div className="flex flex-wrap">
+              {galleryData && galleryData.map((el) => (
+                // <div className="w-1/2 p-1 md:p-2">
+                <img
+                  alt="gallery"
+                  className="block h-full w-full rounded-lg object-cover object-center"
+                  src={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`} />
+
+              ))
+              }
+
+            </div>
+
+            <Link href='/gallery'
+              className="mt-8 md:mt-12 lg:mt-16 font-regular border border-white py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-white text-center block mx-auto
+                hover:bg-gray-900 w-fit"
+            >
+              Load More
+            </Link>
+          </div> */}
+        </div>
       </section>
 
       {/* \\\\\\\\\\\\\\\\\\\ */}

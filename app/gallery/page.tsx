@@ -2,6 +2,10 @@ import SectionHeader from "@/components/SectionHeader";
 
 const Gallery = () => {
   const breadcrumbs = ['Gallery']
+
+
+
+  
   return (
     <>
       {/* <div

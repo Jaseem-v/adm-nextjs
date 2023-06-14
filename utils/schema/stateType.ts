@@ -69,7 +69,7 @@ export type BusinessAccountDataType = {
   username: string;
   phone: string;
   email: string;
-  category: [];
+  category: string;
   website: string;
   about: string;
   socialMediaLinks: SocialMediaLink[];
@@ -93,6 +93,9 @@ export type BusinessAccountDataType = {
   };
   status: string;
   isDeleted: boolean;
+  profilePicture: {
+    key: string;
+  }
 };
 
 export type PersonalAccountDataType = {

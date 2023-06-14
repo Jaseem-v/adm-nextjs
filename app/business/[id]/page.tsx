@@ -4,6 +4,7 @@ import SectionHeader from "@/components/SectionHeader";
 import { getAccessToken, saveAccessToken } from "@/services/authService";
 import httpClient from "@/services/axiosInstance";
 import { BusinessAccountDataType } from "@/utils/schema/stateType";
+import Link from "next/link";
 import { useState, useEffect } from 'react';
 
 
@@ -19,6 +20,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
         const response = await httpClient().get(`/user/business/${id}`)
         console.log(response)
         console.log(response.data.data)
+        setData(response.data.data)
       } catch (err) {
         console.log(err)
       }
@@ -26,39 +28,39 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
     fetchUserData()
   }, [])
 
-  const addCategory = async () => {
-    const data = {
-      'name': 'mobile', 'status': 'Active', 'visibility': 'Show', 'image': {
-        uri: 'https://i.ibb.co/SPJXPcD/store.png',
-        type: 'image/png',
-        name: 'store.png',
-      }
-    }
-    try {
-      await httpClient().post('category', data)
-        .then(res => console.log(res))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  addCategory()
+  // const addCategory = async () => {
+  //   const data = {
+  //     'name': 'mobile', 'status': 'Active', 'visibility': 'Show', 'image': {
+  //       uri: 'https://i.ibb.co/SPJXPcD/store.png',
+  //       type: 'image/png',
+  //       name: 'store.png',
+  //     }
+  //   }
+  //   try {
+  //     await httpClient().post('category', data)
+  //       .then(res => console.log(res))
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // addCategory()
 
-  const getCategory = async () => {
-    try {
-      const response = await httpClient().get('/category');
-      if (response.status === 200) {
-        const categoryData = response.data;
-        // console.log(categoryData);
-      } else {
-        console.log('Failed to fetch category data.');
-      }
-      return response;
-    } catch (error) {
-      console.log('An error occurred while fetching category data:', error);
-    }
-  };
+  // const getCategory = async () => {
+  //   try {
+  //     const response = await httpClient().get('/category');
+  //     if (response.status === 200) {
+  //       const categoryData = response.data;
+  //       // console.log(categoryData);
+  //     } else {
+  //       console.log('Failed to fetch category data.');
+  //     }
+  //     return response;
+  //   } catch (error) {
+  //     console.log('An error occurred while fetching category data:', error);
+  //   }
+  // };
   // console.log(getCategory())
-  getCategory()
+  // getCategory()
 
   interface SocialMediaLink {
     _id: string;
@@ -79,31 +81,27 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
   const breadcrumbs = ['Business', 'Details']
   return (
     <>
-      <SectionHeader title="Business Profiles" breadcrumbs={breadcrumbs} />
+      <SectionHeader title={data ? data?.name : ""} breadcrumbs={breadcrumbs} />
 
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
       {/* \\\\\\\\\\\\ */}
 
       <section className="bg-[#F5F5F5] py-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:gap-7 gap-5 px-5 xl:px-0 xl:grid-rows-5">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:gap-7 gap-5 px-5 xl:px-0 ">
           {/* <!-- Overview --> */}
-          <div className="flex flex-col md:col-span-2 bg-white rounded-[10px] xl:row-span-4">
+          <div className="flex flex-col md:col-span-2 bg-white rounded-[10px] xl:row-span-5">
             <div className="py-6 px-11 bg-black text-white w-full rounded-[10px]">
               <p className="font-medium text-lg md:text-xl">Overview</p>
             </div>
             <div className="flex flex-col gap-8 md:gap-9 lg:gap-10 p-9 md:p-11 font-poppins">
-              <img src="/images/companyProfile.png" alt="img" />
+              <img src={data?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${data.profilePicture.key}` : "/images/companyProfile.png"} alt="img" />
               <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
-                <p className="font-bold text-2xl md:text-3xl">Twitter</p>
+                <p className="font-bold text-2xl md:text-3xl">{data?.name}</p>
                 <p className="font-medium text-lg md:text-xl text-desc max-w-2xl">
-                  Dr. Agnes Ayres is a Maxillofacial Surgeon in New York, NY.
-                  Dr. Ayres has more experience with Congenital Cardiac
-                  Disorders and Cardiac Care than other specialists in his area.
-                  He is affiliated with medical facilities such as Mount Sinai
-                  Morningside and Roosevelt Hospital. He is accepting new
-                  patients. Be sure to call ahead with Dr. Pinney to book an
-                  appointment.
+                  {
+                    data?.about
+                  }
                 </p>
               </div>
               {/* <!-- owner details --> */}
@@ -112,13 +110,13 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                 <div className="flex flex-col gap-4 text-desc text-lg md:text-xl">
                   <p className="font-semibold">
                     Full Name :{" "}
-                    <span className="font-medium">Business Man</span>
-                  </p> 
-                  <p className="font-semibold">
-                    Age : <span className="font-medium">34</span>
+                    <span className="font-medium">{data?.contactDetails.fname} {data?.contactDetails.lname}</span>
                   </p>
                   <p className="font-semibold">
-                    Place : <span className="font-medium">Dubai</span>
+                    Email : <span className="font-medium">{data?.contactDetails.email}</span>
+                  </p>
+                  <p className="font-semibold">
+                    Phone : <span className="font-medium">{data?.contactDetails.phone}</span>
                   </p>
                 </div>
               </div>
@@ -139,22 +137,30 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
             <div className="flex flex-col gap-4 font-medium text-base md:text-lg">
               <div className="flex items-center justify-start gap-2">
                 <img src="/images/location.svg" alt="location" />
-                <p>Al Ain, Abudhabi</p>
+                <p>{data?.addressDetails.address} , {data?.addressDetails.city} , {data?.addressDetails.state} , {data?.addressDetails.pincode}</p>
+
               </div>
               <div className="flex items-center justify-start gap-2">
                 <img src="/images/mail.svg" alt="mail" />
-                <p>businesscompany@gmail.com</p>
+                <p>{data?.email}</p>
               </div>
               <div className="flex items-center justify-start gap-2">
                 <img src="/images/phone.svg" alt="phone" />
-                <p>980328793</p>
+                <p>{data?.phone}</p>
               </div>
             </div>
           </div>
+
           {/* <!-- location --> */}
           <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
             <p className="font-semibold text-xl md:text-2xl">Location</p>
             <img src="/images/locationImg.png" alt="location" />
+
+            <Link target="_blank"
+              className="text-center navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+              href={`https://www.google.com/maps?q=${data?.name.replace(/ /g, "+")},${data?.addressDetails.address.replace(/ /g, "+")},${data?.addressDetails.city.replace(/ /g, "+")},${data?.addressDetails.state.replace(/ /g, "+")},${data?.addressDetails.pincode}`}>
+              Get Direction
+            </Link>
           </div>
           {/* <!-- social media --> */}
           <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">

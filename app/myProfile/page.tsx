@@ -182,12 +182,15 @@ const Profile = () => {
       username: "",
       phone: "",
       email: "",
-      category: [],
+      category: "",
       website: "",
       about: "",
       socialMediaLinks: [],
       services: [],
       gallery: [],
+      profilePicture:{
+        key:""
+      },
       addressDetails: {
         streetNumber: "",
         state: "",
@@ -392,7 +395,7 @@ const Profile = () => {
 
           try {
             await httpClient("multipart/form-data")
-              .patch("user/personal/change-profile-picture", profileImg)
+              .patch(`user/${accountType === "personal" ? "personal" : "business"}/change-profile-picture`, profileImg)
               .then((res) => {
                 console.log("img upload", res);
               })
@@ -443,7 +446,7 @@ const Profile = () => {
   const removeLogo = async () => {
     try {
       await httpClient()
-        .delete("user/personal/remove-profile-picture")
+        .delete(`user/${accountType === "personal" ? "personal" : "business"}/change-profile-picture`)
         .then((res) => {
           console.log("img upload", res);
         })
@@ -789,6 +792,10 @@ const Profile = () => {
             setPersonalAccountData(res);
             setPersonalFirstname(res.fname);
             setPersonalLastname(res.lname);
+            setEditInfoState((prevState) => ({
+              ...prevState,
+              logo:`https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${res.profilePicture.key}`,
+            }));
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -805,6 +812,10 @@ const Profile = () => {
             setBusinessAccountData(res);
             setBusinessName(res.name);
             setBusinessAddress({ ...res.addressDetails, phone: res.phone })
+            setEditInfoState((prevState) => ({
+              ...prevState,
+              logo:`https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${res.profilePicture.key}`,
+            }));
           } else if (response.status === 400) {
             toast.error(response.data.message, {
               icon: "🔴",
@@ -815,9 +826,9 @@ const Profile = () => {
         }
 
         try {
-          const response = await httpClient().get('/category/customer')
+          const response = await httpClient().get('/category/business/customer')
           const res = response.data.data
-          setBusinessAccountData(prevState => ({ ...prevState, category: res }))
+          // setBusinessAccountData(prevState => ({ ...prevState, category: res }))
           setBusinessCategory(res)
           console.log(res)
         } catch (error) {
@@ -1797,7 +1808,7 @@ const Profile = () => {
                       name="shortDescription"
                       id="shortDescription"
                       rows={10}
-                      maxLength={150}
+                      // maxLength={150}
                       className="border border-[#b7babf] w-full py-2 px-3 text-sm"
                       placeholder="This should be a statement about your business that summarizes the services you provide, the products you offer, and/or the areas that you serve."
                       value={
@@ -1898,27 +1909,57 @@ const Profile = () => {
                   {!isPrimaryCategoryChange ? (
                     <div className="flex flex-col gap-2 mt-2">
 
-                      {businessCategory.map(cat => (
-                        <div className="w-80 px-4 py-2 bg-skeleton" key={cat._id}>
-                          <p >{cat.name}</p>
-                        </div>
-                      ))}
+                      {businessCategory && businessCategory.filter(el => {
+                        console.log("fil", el._id == businessAccountData.category);
+                        return el._id == businessAccountData.category
+                      }).map(cat => {
+                        console.log("cat", cat);
+
+                        return (
+                          <div className="w-80 px-4 py-2 bg-skeleton" key={cat._id}>
+                            <p >{cat.name}</p>
+                          </div>
+                        )
+                      })}
                     </div>
                   ) : (
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      aria-autocomplete="list"
-                      aria-controls="react-autosuggestion"
+                    // <input
+                    //   type="text"
+                    //   autoComplete="off"
+                    //   aria-autocomplete="list"
+                    //   aria-controls="react-autosuggestion"
+                    //   className="form-input md:w-80"
+                    //   placeholder="Search for a category"
+                    //   onChange={(e) =>
+                    //     setEditInfoState((prevState) => ({
+                    //       ...prevState,
+                    //       primaryCategory: e.target.value,
+                    //     }))
+                    //   }
+                    // />
+
+                    <select
+                      id="categories"
+                      placeholder="e.g. Marketing, consultent, design"
                       className="form-input md:w-80"
-                      placeholder="Search for a category"
+                      defaultValue={businessAccountData.category}
                       onChange={(e) =>
                         setEditInfoState((prevState) => ({
                           ...prevState,
                           primaryCategory: e.target.value,
                         }))
                       }
-                    />
+                    >
+                      <option value={""}></option>
+
+                      {
+                        businessCategory && businessCategory.map((el,i) => (
+
+                          <option value={el._id} key={i}>{el.name}</option>
+                        ))
+                      }
+
+                    </select>
                   )}
 
                   {editModeState.businessCategories &&
@@ -1953,7 +1994,7 @@ const Profile = () => {
                   )}
                 </div>
 
-                <div className="flex flex-row gap-4">
+                {/* <div className="flex flex-row gap-4">
                   <div
                     role="combobox"
                     aria-controls="react-autosuggestion"
@@ -1974,7 +2015,7 @@ const Profile = () => {
                       role="listbox"
                     ></div>
                   </div>
-                </div>
+                </div> */}
               </>
             )}
 
@@ -2885,7 +2926,7 @@ const Profile = () => {
         {/* BUSINESS HOURS👆 */}
         {/* \\\\\\\\\\\ */}
       </div>
-    </div>
+    </div >
   );
 };
 
