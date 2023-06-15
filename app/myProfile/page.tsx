@@ -853,9 +853,15 @@ const Profile = () => {
   // \\\\\\\\\\\\\\\\\\\\\\\\\ 
   const handleCategoryApply = async () => {
     console.log('category', primaryCategory)
-    const updatedBusinessAccountData = ({...businessAccountData, category: primaryCategory})
-    await httpClient().patch('user/business/profile', updatedBusinessAccountData)
-    .then(res => console.log(res))
+    if (primaryCategory.length > 0) {
+      const updatedBusinessAccountData = ({...businessAccountData, category: primaryCategory})
+      await httpClient().patch('user/business/profile', updatedBusinessAccountData)
+      .then(res => {
+        console.log(res)
+        setBusinessAccountData(updatedBusinessAccountData)
+      })
+    }
+    handleToggleEditMode("businessCategories")
     setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
   }
 
@@ -2008,10 +2014,6 @@ const Profile = () => {
                 {businessCategory &&
                         businessCategory
                           .filter((el) => {
-                            console.log(
-                              "fil",
-                              el._id == businessAccountData.category
-                            );
                             return el._id == businessAccountData.category;
                           })
                           .map((cat) => {
@@ -2025,7 +2027,7 @@ const Profile = () => {
                                 <p>{cat.name}</p>
                               </div>
                             );
-                      })}
+                })}
                 {/* display the selected category */}
                 {/* <select
                   id="categories"
