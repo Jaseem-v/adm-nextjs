@@ -2005,7 +2005,7 @@ const Profile = () => {
             </div>
             {!editModeState.businessCategories ? (
               <div className="flex flex-col gap-2 mt-2">
-                {/* {businessCategory &&
+                {businessCategory &&
                         businessCategory
                           .filter((el) => {
                             console.log(
@@ -2025,7 +2025,7 @@ const Profile = () => {
                                 <p>{cat.name}</p>
                               </div>
                             );
-                      })} */}
+                      })}
                 {/* display the selected category */}
                 {/* <select
                   id="categories"
