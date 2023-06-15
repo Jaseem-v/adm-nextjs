@@ -76,7 +76,7 @@ const EnlistIndividual = () => {
       toast.success('Account Created Successfully', {
         icon: '👏',
       });
-      navigate.push("/login");
+      navigate.push("/register-success");
     } else {
       // Handle error case here
       toast.error('An error occurred during signup');
