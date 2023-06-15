@@ -71,6 +71,7 @@ const Navbar = () => {
   const [username, setUsername] = useState('')
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const [isLoggedOut, setIsLoggedOut] = useState(false)
+  const [isLoginPage, setIsLoginPage] = useState(false)
 
 
   const logout = () => {
@@ -117,11 +118,16 @@ const Navbar = () => {
 
   const router = useRouter()
   const pathname = usePathname()
-  const isLoginPage = pathname === "/login";
-
 
   useEffect(() => {
+    if (pathname === '/login') {
+      setIsLoginPage(true);
+    } else {
+      setIsLoginPage(false);
+    }
+  }, [pathname])
 
+  useEffect(() => {
     setInterval(() => {
       const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
       const loggedin = token !== null;
@@ -168,16 +174,16 @@ const Navbar = () => {
     // const loginStatus = token !== null
 
 
-  }, [isLoggedOut])
+  }, [isLoggedOut, pathname])
 
   useEffect(() => {
-    if (isLoggedin == false && isLoggedOut == true)
+    if (isLoggedin == false && isLoggedOut == true) {
       router.push("/")
+    }
 
   }, [isLoggedin, isLoggedOut])
 
 
-  console.log(isLoggedin);
 
   return (
     // need to implement proper sticky navbar
