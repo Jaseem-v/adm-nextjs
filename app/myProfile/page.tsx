@@ -161,6 +161,7 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [primaryCategory, setPrimaryCategory] = useState('')
   const [detailedInformation, setDetailedInformation] = useState({
     locationType: '',
     yearEstablished: '',
@@ -851,6 +852,10 @@ const Profile = () => {
   // CATEGORIES 
   // \\\\\\\\\\\\\\\\\\\\\\\\\ 
   const handleCategoryApply = async () => {
+    console.log('category', primaryCategory)
+    const updatedBusinessAccountData = ({...businessAccountData, category: primaryCategory})
+    await httpClient().patch('user/business/profile', updatedBusinessAccountData)
+    .then(res => console.log(res))
     setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
   }
 
@@ -2000,6 +2005,28 @@ const Profile = () => {
             </div>
             {!editModeState.businessCategories ? (
               <div className="flex flex-col gap-2 mt-2">
+                {/* {businessCategory &&
+                        businessCategory
+                          .filter((el) => {
+                            console.log(
+                              "fil",
+                              el._id == businessAccountData.category
+                            );
+                            return el._id == businessAccountData.category;
+                          })
+                          .map((cat) => {
+                            console.log("cat", cat);
+
+                            return (
+                              <div
+                                className="w-80 px-4 py-2 bg-skeleton"
+                                key={cat._id}
+                              >
+                                <p>{cat.name}</p>
+                              </div>
+                            );
+                      })} */}
+                {/* display the selected category */}
                 {/* <select
                   id="categories"
                   placeholder="e.g. Marketing, consultent, design"
@@ -2067,12 +2094,7 @@ const Profile = () => {
                       placeholder="e.g. Marketing, consultent, design"
                       className="form-input md:w-80"
                       defaultValue={businessAccountData.category}
-                      onChange={(e) =>
-                        setEditInfoState((prevState) => ({
-                          ...prevState,
-                          primaryCategory: e.target.value,
-                        }))
-                      }
+                      onChange={(e) =>setPrimaryCategory(e.target.value)}
                     >
                       <option value={""}></option>
 
