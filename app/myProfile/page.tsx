@@ -161,6 +161,11 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [detailedInformation, setDetailedInformation] = useState({
+    locationType: '',
+    yearEstablished: '',
+    employees: ''
+  })
   const [businessCategory, setBusinessCategory] = useState<BusinessCategory[]>(
     []
   );
@@ -254,18 +259,7 @@ const Profile = () => {
     }));
   };
 
-  const handleDetailedInformationChange = (
-    name: string,
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { value } = event.target;
-    setEditInfoState((prevState) => ({
-      ...prevState,
-      detailedInformation: { ...prevState.detailedInformation, [name]: value },
-    }));
-  };
+  
 
   // SECTION REFS
   const businessInfoRef = useRef<HTMLDivElement>(null);
@@ -657,7 +651,9 @@ const Profile = () => {
     }
   };
 
-  // SOCIAL MEDIA
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+  // SOCIAL MEDIA 
+  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
   const verifySocialMedia = async (data: SocialMediaFormValues) => {
     handleToggleEditMode("socialMedia");
 
@@ -762,11 +758,7 @@ const Profile = () => {
           (value) => value !== undefined
         );
 
-  const verifyDetailedInformation = () => {
-    // POST API
-    handleToggleEditMode("detailedInformation");
-    console.log("verified detailed information");
-  };
+  
 
   // const updatedSocialMedia = useMemo(() => {
   //   return {
@@ -968,45 +960,41 @@ const Profile = () => {
   } = servicesForm;
   const { errors: errorsService } = formStateService;
 
-  const addProductForm = (
-    <FormProvider {...servicesForm}>
-      <form
-        name="editProductForm"
-        onSubmit={handleSubmitService(handleProductAdd)}
-      >
-        <div className="flex">
-          <input
-            type="text"
-            className="form-input rounded-r-0"
-            {...registerService("service")}
-          />
-          <button
-            type="submit"
-            className="py-2 px-4 bg-success text-white"
-            title="save"
-          >
-            <FaCheck />
-          </button>
-          <button
-            type="submit"
-            className="py-2 px-4 bg-error text-white"
-            title="save"
-          >
-            <FaTrashAlt />
-          </button>
-          <div className="flex items-center justify-center px-2">
-            <IoClose
-              className="text-error w-6 h-6 stroke-3 cursor-pointer"
-              onClick={() => handleToggleEditMode("products")}
-            />
-          </div>
-        </div>
-        <p className="text-error text-sm mt-1">
-          {errorsService?.service?.message}
-        </p>
-      </form>
-    </FormProvider>
-  );
+
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+  // DETAILED INFORMATION 
+  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
+
+  const verifyDetailedInformation = async() => {
+    // POST API
+    const updatedBusinessAccountData = ({...businessAccountData, detailedInformation})
+    // const updatedBusinessAccountData = ({...businessAccountData, 
+    //   locationType: detailedInformation.locationType, 
+    //   yearEstablished: detailedInformation.yearEstablished, 
+    //   employees: detailedInformation.employees })
+    console.log('updatedBusiness', updatedBusinessAccountData)
+
+    await httpClient().patch('/user/business/profile', updatedBusinessAccountData)
+    .then(res => console.log(res))
+
+    handleToggleEditMode("detailedInformation");
+    console.log("verified detailed information");
+  };
+
+  const handleDetailedInformationChange = (
+    name: string,
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setDetailedInformation(prevState => ({...prevState, [name]: value}))
+    setEditInfoState((prevState) => ({
+      ...prevState,
+      detailedInformation: { ...prevState.detailedInformation, [name]: value },
+    }));
+  };
+  
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -1959,7 +1947,7 @@ const Profile = () => {
                     ></textarea>
                   </div>
                   <div className="self-end">
-                    <span>0/1000</span>
+                    <span>{businessAccountData.about.length}/1000</span>
                   </div>
                 </div>
               </div>
@@ -1979,7 +1967,7 @@ const Profile = () => {
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <p className="text-2xl font-medium font-lora text-black title">
-                  Business Categories
+                  Business Category
                 </p>
                 {!editModeState.businessCategories ? (
                   <button
@@ -2015,11 +2003,11 @@ const Profile = () => {
                 {/* <select
                   id="categories"
                   placeholder="e.g. Marketing, consultent, design"
-                  {...register("categories")}
-                  onBlur={() => trigger("categories")}
+                  // {...register("categories")}
+                  // onBlur={() => trigger("categories")}
                 >
                   {businessCategory.map(cat => (
-                    <option value={cat._id}>{cat.name}</option>
+                    <option value={cat._id} key={cat._id}>{cat.name}</option>
                   ))}
                 </select> */}
               </div>
@@ -2056,7 +2044,7 @@ const Profile = () => {
                                 <p>{cat.name}</p>
                               </div>
                             );
-                          })}
+                      })}
                     </div>
                   ) : (
                     // <input
@@ -3065,6 +3053,9 @@ const Profile = () => {
                       <option value=""></option>
                       <option value="Headquarters">Headquarters</option>
                       <option value="Office">Office</option>
+                      <option value="Studio">Studio</option>
+                      <option value="Factory">Factory</option>
+                      <option value="Store">Store</option>
                     </select>
                   </div>
                 </div>

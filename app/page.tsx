@@ -297,7 +297,7 @@ const Index = () => {
                 <div>
                   <img
                     src={member?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${member.profilePicture.key}` : 'images/profilePreview.png'}
-                    // src={`/personal-account-profile-picture/${member.profilePicture.key}`}
+                    // src={`/personal-account-profilez-picture/${member.profilePicture.key}`}
                     alt="team-member-1"
                     className="rounded-md w-[333px] lg:w-[290px]"
                   />
@@ -352,7 +352,7 @@ const Index = () => {
                     <p className="mt-2 text-desc text-sm max-w-md font-semibold">
                       {business.website}
                     </p>
-                    <Link href={`/business/${business._id}`} className=" block mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700">
+                    <Link href={`/business/${business._id}`} className=" block mt-4 font-regular bg-lightOrange text-sm text-white py-3 px-4 hover:bg-orange transition-all duration-200 active:bg-amber-700 w-fit">
                       View Details
                     </Link>
                     <img
