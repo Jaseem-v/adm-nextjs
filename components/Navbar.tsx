@@ -188,7 +188,7 @@ const Navbar = () => {
   return (
     // need to implement proper sticky navbar
     <header
-      className={`font-inter z-20 bg-black text-white sticky top-0 left-0 ${isLoginPage ? 'hidden' : 'block'}`}
+      className={`font-inter z-20 bg-brownBg text-white sticky top-0 left-0 ${isLoginPage ? 'hidden' : 'block'}`}
       id="navbar"
     >
       <Toaster position="top-right" reverseOrder={false} />

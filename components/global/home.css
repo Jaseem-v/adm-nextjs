@@ -1,10 +1,10 @@
 .mainHeader {
-  background-image: url(/images/headerImage2.png);
+  background-image: url(/images/bg3.png);
   background-size: cover;
   position: relative;
 }
 
-.mainHeader::after {
+/* .mainHeader::after {
   content: "";
   position: absolute;
   top: 0;
@@ -12,7 +12,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-}
+} */
 
 .social-media-section {
   background: #fafafa;

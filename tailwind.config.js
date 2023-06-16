@@ -14,7 +14,9 @@ module.exports = {
         skeleton: "#f5f2f0",
         darkSkeleton: "#a6a8ab",
         mediumSkeleton: "#e4dedb",
-        lightBg: '#E5E5E5'
+        lightBg: '#E5E5E5',
+        darkBg: '#dbdbdb',
+        brown: '#8B5D33'
       },
       backgroundImage: {
         logoBg:
@@ -46,7 +48,9 @@ module.exports = {
         lightGold: '#ffedbc',
         textBlack: '#333333',
         descBlack: '#5c5c5c',
-        lightBg: '#E5E5E5'
+        lightBg: '#E5E5E5',
+        darkBg: '#dbdbdb',
+        brown: '#8B5D33'
       },
       borderColor: {
         lightGreen: "rgba(63, 130, 119, 0.1)",
