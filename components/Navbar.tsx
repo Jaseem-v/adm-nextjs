@@ -196,7 +196,7 @@ const Navbar = () => {
         {/* logo👇 */}
         <Link href="/" className="logo flex items-center gap-2 py-5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo.png" alt="logo" className="h-9 lg:h-11" />
+          <img src="/images/newLogo.png" alt="logo" className="h-9 lg:h-11" />
           <p className="text-lg lg:text-xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
             Abu Dhabi
             <br />

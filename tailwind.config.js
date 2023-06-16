@@ -14,6 +14,7 @@ module.exports = {
         skeleton: "#f5f2f0",
         darkSkeleton: "#a6a8ab",
         mediumSkeleton: "#e4dedb",
+        lightBg: '#E5E5E5'
       },
       backgroundImage: {
         logoBg:
@@ -21,6 +22,7 @@ module.exports = {
         gold: "linear-gradient(135.12deg, #F8D754 24.95%, #FFF5CF 193.21%)",
         contactUsImg: "url('./assets/images/contactUsImg.png')",
         enlist: "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%)",
+        brownBg: "linear-gradient(to right, #8B5D33, #be8a5e)",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
@@ -40,7 +42,8 @@ module.exports = {
         darkSkeleton: "#a6a8ab",
         mediumSkeleton: "#e4dedb",
         success: "#48ad70",
-        error: "#e5574e"
+        error: "#e5574e",
+
       },
       borderColor: {
         lightGreen: "rgba(63, 130, 119, 0.1)",
