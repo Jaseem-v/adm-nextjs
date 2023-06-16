@@ -135,7 +135,7 @@ const Index = () => {
               </Link>
               <Link href="/about">
                 <button
-                  className="py-[11px] md:py-[15px] px-6 md:px-10 bg-lightBg text-descBlack hover:bg-gray-900 font-medium text-base md:text-lg lg:text-xl rounded-lg border border-white
+                  className="py-[11px] md:py-[15px] px-6 md:px-10 bg-lightBg text-descBlack hover:bg-darkBg font-medium text-base md:text-lg lg:text-xl rounded-lg border border-white
                     flex items-center justify-center gap-2 active:translate-y-[1px] transition-all duration-75"
                 >
                   <p>Learn more</p>
@@ -434,7 +434,7 @@ const Index = () => {
                     <p className="font-semibold text-xl md:text-2xl">
                       {news.title}
                     </p>
-                    <p className="bg-lightOrange px-2 py-2 text-xs">New</p>
+                    <p className="bg-brownBg text-lightGold px-2 py-2 text-xs">New</p>
                   </div>
                   <p className="mt-3 text-base md:text-lg lg:text-xl md:max-w-xs">
                     {news.description}

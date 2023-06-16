@@ -14,15 +14,17 @@ const ContactForm = () => {
         className="max-w-screen-xl mx-auto px-4 xl:px-0 pt-14 md:pt-20 lg:pt-32 text-white 
             "
       >
-        <p className="font-kaisei text-white font-bold text-xl md:text-2xl lg:text-3xl">
-          Contact Us
-        </p>
-        <p className=" mt-4 md:mt-5 lg:mt-6 xl:mt-7 font-semibold text-2xl md:text-4xl lg:text-5xl md:max-w-2xl lg:max-w-4xl">
+          <div className="flex flex-col justify-center items-center">
+        <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333]">
+            Contact Us
+          </h1>
+          <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-descBlack text-center">
           Get in touch with us
         </p>
+        </div>
         <div className=" mt-10 md:mt-12 lg:mt-16 font-inter flex flex-col lg:flex-row gap-6 md:gap-7">
           <div
-            className="grow bg-black rounded-[40px] xl:max-w-2xl 
+            className="grow bg-darkBg rounded-[40px] xl:max-w-2xl 
                     "
           >
             <form
@@ -36,7 +38,7 @@ const ContactForm = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 id="name"
-                className="w-full rounded-[40px] bg-black border border-white 
+                className="w-full rounded-[40px] bg-lightBg 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
                                 placeholder:font-medium placeholder:text-base placeholder:md:text-lg"
                 placeholder="Your name"
@@ -47,7 +49,7 @@ const ContactForm = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
-                className="w-full rounded-[40px] bg-black border border-white 
+                className="w-full rounded-[40px] bg-lightBg 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
                                 placeholder:font-medium placeholder:text-base placeholder:md:text-lg"
                 placeholder="Your Email"
@@ -59,15 +61,15 @@ const ContactForm = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 cols={30}
                 rows={8}
-                className="rounded-[40px] bg-black border border-white
+                className="rounded-[40px] bg-lightBg 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
                                 placeholder:font-medium placeholder:text-base placeholder:md:text-lg "
                 placeholder="Message"
               ></textarea>
               <button
                 type="submit"
-                className="text-black bg-lightOrange py-4 md:py-7 lg:py-7 rounded-[40px]
-                                hover:bg-orange transition-all duration-200 active:bg-amber-700"
+                className="text-lightGold bg-brownBg py-4 md:py-7 lg:py-7 rounded-[40px]
+                                hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700"
               >
                 Submit
               </button>
@@ -77,7 +79,7 @@ const ContactForm = () => {
           {/* <!-- contact details --> */}
           <div
             className="px-12 md:px-16 lg:px-20 py-24 rounded-[20px] flex flex-col gap-10 md:gap-12 lg:gap-16
-                         bg-black bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 xl:w-[556px]"
+                         bg-black bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 xl:w-[556px]"
           >
             <div className="">
               <div className="flex gap-5 items-center">
