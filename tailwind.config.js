@@ -16,7 +16,8 @@ module.exports = {
         mediumSkeleton: "#e4dedb",
         lightBg: '#E5E5E5',
         darkBg: '#dbdbdb',
-        brown: '#8B5D33'
+        brown: '#8B5D33',
+        lightGold: '#ffedbc',
       },
       backgroundImage: {
         logoBg:
