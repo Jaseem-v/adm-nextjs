@@ -111,10 +111,10 @@ const Business = () => {
           </div>
           <div className="flex flex-col text-left flex-1">
             {/* <p className="font-medium text-xl lg:text-2xl">Business</p> */}
-            <p className="font-medium text-3xl md:text-4xl xl:text-5xl">
+            <p className="font-medium text-3xl md:text-4xl xl:text-5xl text-textBlack">
             Unlock the Power of Connections
             </p>
-            <p className="mt-5 md:mt-6 lg:mt-7 font-semibold text-lg md:text-xl text-desc">
+            <p className="mt-5 md:mt-6 lg:mt-7 font-semibold text-lg md:text-xl text-descBlack">
               Explore a diverse range of industry-leading businesses that have consistently demonstrated excellence and innovation. Discover their unique stories, expertise, and offerings, and connect with these exceptional enterprises to forge valuable partnerships. Join us in celebrating the success and accomplishments of our esteemed business community members!
             </p>
           </div>
@@ -127,17 +127,6 @@ const Business = () => {
 
       <section>
         <div className="max-w-screen-xl mx-auto px-5 xl:px-0">
-          {/* <!-- reusable👇 --> */}
-          <div className="about-us-title grid place-items-center justify-items-center grid-cols-3 gap-1 md:gap-0">
-            <div className="bg-lightOrange w-full h-[1px]"></div>
-            <h3 className="font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black">
-              About us
-            </h3>
-            <div className="bg-lightOrange w-full h-[1px]"></div>
-          </div>
-          <p className="font-normal text-lg lg:text-xl text-center">
-            Lorem ipsum dolor sit amo
-          </p>
           {/* <!-- search div --> */}
           <div
             className="border border-black px-4 py-2 lg:py-3

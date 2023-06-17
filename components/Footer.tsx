@@ -5,7 +5,7 @@ const Footer = () => {
   const pathname = usePathname()
   const isLoginPage = pathname === '/login'
   return (
-    <footer className={`bg-black text-white px-4 xl:px-0 font-inter ${isLoginPage ? 'hidden' : 'block'}`}>
+    <footer className={`bg-brownBg text-white px-4 xl:px-0 font-inter ${isLoginPage ? 'hidden' : 'block'}`}>
       <div
         className="max-w-screen-xl mx-auto
             flex justify-between flex-col lg:flex-row gap-y-8
@@ -13,7 +13,7 @@ const Footer = () => {
       >
         <div>
           <a href="#" className=" flex items-center gap-2 pb-7">
-            <img src="/images/logo.png" alt="logo" className="h-10 lg:h-12" />
+            <img src="/images/newLogo.png" alt="logo" className="h-10 lg:h-12" />
             <p className="text-lg lg:text-2xl font-kaisei font-bold bg-logoBg text-transparent bg-clip-text leading-[23.83px]">
               Abu Dhabi
               <br />
@@ -58,12 +58,19 @@ const Footer = () => {
           >
             <li>
               <a
+                href="https://www.facebook.com/groups/abudhabimalayalees"
+                target="_blank"
+              >
+                <img src="/images/facebookkkk.png" alt="fb"  />
+              </a>
+            </li>
+            <li>
+              <a
                 href="https://chat.whatsapp.com/LtrgXq9UdbBCOc82H958uU"
                 target="_blank"
               >
                 <img
-                  className="w-[45px]"
-                  src="/images/whatsapp.png"
+                  src="/images/whatsapppp.png"
                   alt="google"
                 />
               </a>
@@ -73,22 +80,14 @@ const Footer = () => {
                 href="https://www.instagram.com/abudhabimalayalee"
                 target="_blank"
               >
-                <img src="/images/instagram.png" alt="instagram" />
+                <img src="/images/instagrammmm.png" alt="instagram" />
               </a>
             </li>
-            <li>
-              <a
-                href="https://www.facebook.com/groups/abudhabimalayalees"
-                target="_blank"
-              >
-                <img src="/images/facebook.png" alt="fb" width="45px" />
-              </a>
-            </li>
+            
             <li>
               <a href="https://t.me/abudhabimalayali" target="_blank">
                 <img
-                  className="w-[45px]"
-                  src="/images/telegram.png"
+                  src="/images/telegrammmm.png"
                   alt="linkedin"
                 />
               </a>

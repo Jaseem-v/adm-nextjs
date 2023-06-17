@@ -18,6 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" type="image/png" href="/images/newLogo.png" />
+      </head>
       <body>
         {/* <Toaster position="top-right" reverseOrder={false} /> */}
 
