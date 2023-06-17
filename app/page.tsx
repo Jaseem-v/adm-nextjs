@@ -116,7 +116,7 @@ const Index = () => {
       <section className={`mainHeader bg-left md:bg-bottom text-white font-inter`}>
         {/* \\\\\\\\\\\\\\\\ */}
         {/* \\\ Main header */}
-        <div className="pt-36 pb-56 md:pt-44 md:pb-64 lg:py-52 lg:pb-72 z-10 relative h-full">
+        <div className="pt-36 pb-56 md:pt-44 md:pb-64 lg:pt-52 lg:pb-80 xl:pb-96 z-10 relative h-full">
           <div className="text-center flex flex-col justify-center  px-5 xl:px-0">
             <p className="text-textBlack font-bold text-[28px] md:text-[42px] lg:text-[54px] leading-tight md:leading-[62px]">
               Empowering Businesses

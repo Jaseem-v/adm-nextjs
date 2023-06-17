@@ -259,7 +259,7 @@ const Navbar = () => {
                 </Dropdown>
               </li>
               <li
-                className="py-10 hidden lg:block"
+                className="py-10 hidden xl:block"
               >
                 <Link
                   href='/events'
