@@ -40,7 +40,7 @@ const ContactForm = () => {
                 id="name"
                 className="w-full rounded-[40px] bg-lightBg 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
-                                placeholder:font-medium placeholder:text-base placeholder:md:text-lg"
+                                placeholder:opacity-80 placeholder:font-medium placeholder:text-base placeholder:md:text-lg  focus-visible:outline-brown text-textBlack"
                 placeholder="Your name"
               />
               <input
@@ -51,7 +51,7 @@ const ContactForm = () => {
                 id="email"
                 className="w-full rounded-[40px] bg-lightBg 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
-                                placeholder:font-medium placeholder:text-base placeholder:md:text-lg"
+                                placeholder:opacity-80 placeholder:font-medium placeholder:text-base placeholder:md:text-lg focus-visible:outline-brown text-textBlack"
                 placeholder="Your Email"
               />
               <textarea
@@ -63,13 +63,13 @@ const ContactForm = () => {
                 rows={8}
                 className="rounded-[40px] bg-lightBg 
                                 py-4 md:py-7 lg:py-7 px-8 md:px-9 lg:px-[44px] 
-                                placeholder:font-medium placeholder:text-base placeholder:md:text-lg "
+                                placeholder:opacity-80 placeholder:font-medium placeholder:text-base placeholder:md:text-lg focus-visible:outline-brown text-textBlack"
                 placeholder="Message"
               ></textarea>
               <button
                 type="submit"
                 className="text-lightGold bg-brownBg py-4 md:py-7 lg:py-7 rounded-[40px]
-                                hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700"
+                           transition ease-in-out duration-300 active:bg-amber-700 hover:bg-brownBgInvert"
               >
                 Submit
               </button>

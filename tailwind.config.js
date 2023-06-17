@@ -26,6 +26,7 @@ module.exports = {
         contactUsImg: "url('./assets/images/contactUsImg.png')",
         enlist: "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%)",
         brownBg: "linear-gradient(to right, #8B5D33, #be8a5e)",
+        brownBgInvert: "linear-gradient(to right, #be8a5e, #8B5D33)",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
