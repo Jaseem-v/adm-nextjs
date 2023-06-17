@@ -155,14 +155,14 @@ const Business = () => {
               <Link href={`/business/${firm._id}`} key={firm._id} >
                 <div
                   className="flex flex-col items-center justify-between shadow-eventCard
-                        pt-12 md:pt-14 lg:pt-16 px-14 md:px-16 lg:px-20
+                        pt-8 md:pt-10 lg:pt-12 px-10 md:px-12 lg:px-14
                         pb-8 md:pb-9 lg:pb-10
                         rounded-[20px] hover:scale-[1.02] transition-all duration-200 hover:shadow-xl"
                 >
                   <img
-                    src={"https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"}
+                    src={firm.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${firm?.profilePicture?.key}` : "https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"}
                     alt="company"
-                    className="max-w-[230px]"
+                    className="w-[282px] h-[146px] object-cover"
                   />
                   <p className="mt-7 md:mt-8 lg:mt-9 font-semibold text-lg lg:text-xl text-center">
                     {firm.name}
