@@ -328,7 +328,7 @@ const Index = () => {
                     src={member?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${member.profilePicture.key}` : 'images/profilePreview.png'}
                     // src={`/personal-account-profilez-picture/${member.profilePicture.key}`}
                     alt="team-member-1"
-                    className="rounded-md w-[333px] lg:w-[290px]"
+                    className="rounded-md w-[333px] lg:w-[290px] h-[333px] lg:h-[290px] object-cover"
                   />
                 </div>
                 <div className="mt-2 text-center">
