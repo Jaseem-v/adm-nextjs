@@ -441,7 +441,7 @@ const Index = () => {
                   </p>
                   <a
                     href="#"
-                    className="block mt-8 font-semibold text-base md:text-lg lg:text-xl"
+                    className="block mt-8 font-semibold text-sm md:text-lg underline"
                   >
                     Read more
                   </a>
