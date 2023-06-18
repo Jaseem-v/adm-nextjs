@@ -69,6 +69,9 @@ const Business = () => {
     image: string;
     name: string;
     website: string;
+    profilePicture: {
+      key: string
+    };
   }
   const [business, setBusiness] = useState<Business[]>()
   useEffect(() => {

@@ -327,7 +327,7 @@ const Navbar = () => {
           {/* Hamburger button */}
           <button
             type="button"
-            className="mobile-menu inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white focus:outline-none focus:text-white transition duration-700 ease-in-out"
+            className="mobile-menu inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:text-white transition duration-700 ease-in-out"
             aria-label="Main menu"
             aria-expanded="false"
             onClick={() => setIsMobileNavOpen((prevState) => !prevState)}
