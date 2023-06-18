@@ -39,7 +39,7 @@ const enlistItems: MenuProps['items'] = [
     key: '1',
     label: (
       <Link rel="noopener noreferrer" href="/business-listings/add-individual" >
-        Enlist Individual
+        Personal
       </Link>
     ),
   },
@@ -47,7 +47,7 @@ const enlistItems: MenuProps['items'] = [
     key: '2',
     label: (
       <Link rel="noopener noreferrer" href="/business-listings/add-company" >
-        Enlist Company
+        Business
       </Link>
     ),
   }
@@ -305,14 +305,14 @@ const Navbar = () => {
             <div className="relative">
               <Dropdown menu={{ items: enlistItems }} placement="bottomRight" arrow>
                 <button
-                  className="navBtn font-medium bg-lightGold text-brown py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                  className="navBtn font-medium bg-lightGold text-brown py-3 px-6 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
                 >
-                  Claim my Listing
+                  Register
                 </button>
               </Dropdown>
             </div>
             <Link href="/login">
-              <button className="navBtn font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+              <button className="navBtn font-medium bg-white text-black py-3 px-10 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                 Login
               </button>
             </Link>
@@ -458,7 +458,7 @@ const Navbar = () => {
                     setIsMobileNavOpen(false)
                   }}
                 >
-                  Enlist
+                  Register
                 </button>
                 {showEnlistModel && (
                   <EnlistModel setShowEnlistModel={setShowEnlistModel} />

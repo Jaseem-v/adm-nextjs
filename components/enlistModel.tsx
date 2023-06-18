@@ -20,8 +20,7 @@ const EnlistModel = ({ setShowEnlistModel }: EnlistModelProps) => {
             className="enlist-company md:pb-14 w-64 h-48 md:w-56 md:h-[400px] lg:w-64 lg:h-[460px] flex items-center md:items-end justify-center hover:cursor-pointer rounded-sm hover:border hover:border-white"
           >
             <h2 className="hover:underline hover:underline-offset-1 transition-all duration-300">
-              Enlist <br />
-              Company
+              Business
             </h2>
           </Link>
           <Link
@@ -31,8 +30,7 @@ const EnlistModel = ({ setShowEnlistModel }: EnlistModelProps) => {
           >
             <div className="absolute top-0 left-0 bg-enlist w-full h-full z-10 md:w-0 md:h-0" />
             <h2 className="hover:underline hover:underline-offset-1 transition-all duration-300 z-20">
-              Enlist <br />
-              Individual
+              Personal
             </h2>
           </Link>
           {/* close button */}
