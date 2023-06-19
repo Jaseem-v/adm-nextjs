@@ -28,11 +28,35 @@ export const businessFirstStepSchema = yup.object({
         .matches(/^\d{6}$/, "Zip code must be 6 digits"),
     hideAddress: yup.boolean(),
     hasServiceArea: yup.boolean(),
+    numberType: yup.string().required(),
     phoneNumber: yup
-        .string()
-        .required("Phone number is required")
-        .max(10)
-        .min(10),
+  .string()
+  .required("Phone number is required")
+  .test("phoneNumber", "Invalid phone number", function (value) {
+    const numberType = this.parent.numberType;
+    if (numberType === "landline") {
+      if (/^\d{9}$/.test(value)) {
+        return true;
+      } else {
+        throw new yup.ValidationError(
+          "Landline number must be 9 digits",
+          value,
+          "phoneNumber"
+        );
+      }
+    } else if (numberType === "mobile") {
+      if (/^\d{7}$/.test(value)) {
+        return true;
+      } else {
+        throw new yup.ValidationError(
+          "Mobile number must be 7 digits",
+          value,
+          "phoneNumber"
+        );
+      }
+    }
+    return false;
+  }),
     websiteUrl: yup.string(),
     // .matches(
     //   /^(?:https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/,
@@ -49,6 +73,7 @@ export const businessFirstStepSchema = yup.object({
         .required("Password is required")
         .min(8, "Password must be atleast 8 charecters"),
 });
+
 
 export const signInSchema = yup.object({
     accountType: yup.string().required('Account type is required'),
@@ -73,6 +98,7 @@ export const businessInfoSchema = yup.object({
         .required("Zip is required"),
     hideAddress: yup.boolean(),
     hasServiceArea: yup.boolean(),
+
     phoneNumber: yup
         .string()
         .required("Phone number is required")

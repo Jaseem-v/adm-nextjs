@@ -20,6 +20,7 @@ type FormData = {
   hideAddress: boolean;
   hasServiceArea: boolean;
 
+  numberType: string;
   phoneNumber: string;
   websiteUrl: string;
 
@@ -43,6 +44,7 @@ const INITIAL_DATA: FormData = {
   hideAddress: true,
   hasServiceArea: false,
 
+  numberType: 'landline',
   phoneNumber: "",
   websiteUrl: "",
 
@@ -74,6 +76,7 @@ const EnlistCompany = () => {
     hideAddress: boolean;
     hasServiceArea: boolean;
 
+    numberType: string;
     phoneNumber: string;
     websiteUrl: string;
 
@@ -93,6 +96,7 @@ const EnlistCompany = () => {
       zip: "",
       hideAddress: false,
       hasServiceArea: false,
+      numberType: 'landline',
       phoneNumber: "",
       websiteUrl: "",
       categories: "",
@@ -118,6 +122,7 @@ const EnlistCompany = () => {
   const streetAddressValue = watch("streetAddress");
   const cityValue = watch("city");
   const zipValue = watch("zip");
+  const numberType = watch('numberType')
   const phoneNumberValue = watch("phoneNumber");
   const websiteUrlValue = watch("websiteUrl");
 
@@ -176,7 +181,7 @@ const EnlistCompany = () => {
       companyName,
       streetAddress,
       city,
-      zip,
+      buildingNumber,
       phoneNumber,
       websiteUrl,
       categories,
@@ -193,7 +198,7 @@ const EnlistCompany = () => {
       category: categories,
       website: websiteUrl,
       addressDetails: {
-        streetNumber: "12",
+        streetNumber: buildingNumber,
         state: "abu dhabi",
         city: city,
         address: streetAddress,
@@ -314,7 +319,6 @@ const EnlistCompany = () => {
               placeholder="e.g. Al Ain"
               {...register("city")}
               onBlur={() => trigger("city")}
-              className="mt-5 md:mt-0"
             />
             <p className="error">{errorsOne.city?.message}</p>
           </div>
@@ -323,16 +327,41 @@ const EnlistCompany = () => {
           <h1 className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
             How will customers contact you?
           </h1>
-          <div className="form-control col-span-6">
+          <div className=" col-span-6">
             <label htmlFor="phoneNumber">Phone number</label>
-            <input
-              type="tel"
-              pattern="[0-9]"
-              id="phoneNumber"
-              placeholder="e.g. +971 123 4567"
-              {...register("phoneNumber")}
-              onBlur={() => trigger("phoneNumber")}
-            />
+            <div className="grid grid-cols-3 gap-4 items-center">
+              <select id="numberType" {...register("numberType")} className="border border-[#B7BABF] rounded px-3 py-2">
+                <option value="landline">Landline</option>
+                <option value="mobile">Mobile</option>
+              </select>
+              {watch("numberType") === "landline" ? (
+                <div className="flex items-center col-span-2">
+                  <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+971</div>
+                  <input
+                    type="tel"
+                    pattern="[0-9]"
+                    id="phoneNumber"
+                    placeholder="e.g. 123 4567"
+                    className="border-y border-r border-[#B7BABF] rounded-r px-3 py-2 w-full"
+                    {...register("phoneNumber")}
+                    onBlur={() => trigger("phoneNumber")}
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center col-span-2">
+                  <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+02</div>
+                  <input
+                    type="tel"
+                    pattern="[0-9]"
+                    id="phoneNumber"
+                    placeholder="e.g. 123 4567"
+                    className="border-y border-r border-[#B7BABF] rounded-r px-3 py-2 w-full"
+                    {...register("phoneNumber")}
+                    onBlur={() => trigger("phoneNumber")}
+                  />
+                </div>
+              )}
+            </div>
             <p className="error">{errorsOne.phoneNumber?.message}</p>
           </div>
 
