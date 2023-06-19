@@ -196,7 +196,7 @@ const Login = () => {
                   </div>
 
                   <button
-                    className=" mt-5 font-regular bg-lightOrange py-3 md:py-4 px-12 text-lg md:text-xl rounded-md w-full  hover:bg-amber-500 transition-all duration-200 active:bg-amber-700  flex justify-center  items-center"
+                    className=" mt-5 font-regular bg-brownBg text-lightGold py-3 md:py-4 px-12 text-lg md:text-xl rounded-md w-full  hover:bg-brownBgInvert transition-all duration-200 active:bg-brownBg  flex justify-center  items-center"
                     type="submit"
                     disabled={isLoading}
                     value={"Login"}

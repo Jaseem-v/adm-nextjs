@@ -128,13 +128,11 @@ const Navbar = () => {
   }, [pathname])
 
   useEffect(() => {
-    setInterval(() => {
       const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
       const loggedin = token !== null;
       if (isLoggedin !== loggedin)
         setIsLoggedIn(loggedin)
       // if (!token)
-    }, 1000)
 
     // setIsLoggedIn(true)
 

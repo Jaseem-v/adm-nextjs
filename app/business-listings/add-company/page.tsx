@@ -172,19 +172,67 @@ const EnlistCompany = () => {
     }
   }
 
-  function back() {
-    setPage((i) => {
-      if (i <= 0) return i;
-      return i - 1;
-    });
-  }
-
-  // ONSUBMIT
-
-  const onSubmitOne = (d: FirstFormValues) => {
+  const onSubmitOne = async (d: FirstFormValues) => {
     // console.log("step one submitted");
     setData((prevState) => ({ ...prevState, ...d }));
-    next();
+    console.log(d)
+    const {
+      companyName,
+      streetAddress,
+      city,
+      zip,
+      phoneNumber,
+      websiteUrl,
+      categories,
+      email,
+      username,
+      password,
+    } = d;
+    const finalData = {
+      name: companyName,
+      username: `ba-${username}`,
+      phone: phoneNumber,
+      email: email,
+      password: password,
+      category: categories,
+      website: websiteUrl,
+      addressDetails: {
+        streetNumber: "12",
+        state: "abu dhabi",
+        city: city,
+        address: streetAddress,
+        place: streetAddress,
+        pincode: '111111',
+        landmark: "mosque",
+      }
+    };
+    // console.log("final data", finalData);
+    try {
+      await httpClient()
+        .post("user/business/signup", finalData)
+        .then((res) => {
+          console.log(res);
+
+          if (res.status === 200) {
+            toast.success("Account Created Successfully", {
+              icon: "👏",
+            });
+            navigate.push("/register-success");
+          } else {
+            // Handle non-200 status codes
+            toast.error("An error occurred during signup");
+          }
+        })
+        .catch((error) => {
+          // Handle request errors
+          console.log(error);
+          toast.error("An error occurred during signup");
+        });
+    } catch (err) {
+      // Handle exceptions
+      console.log(err);
+    }
+    setIsSubmitted(true);
   };
 
   const fetchCategoryData = async () => {
@@ -401,7 +449,7 @@ const EnlistCompany = () => {
           </label> */}
 
           <button
-            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-4 md:col-span-2 text-[15px] w-fit ${isStepOneError ? "bg-opacity-50" : ""
+            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-brownBg text-lightGold col-span-4 md:col-span-2 text-[15px] w-fit ${isStepOneError ? "bg-opacity-50" : ""
               }`}
           >
             Add my company
@@ -410,189 +458,12 @@ const EnlistCompany = () => {
       </form>
     </div>
   );
-
-  // \\\\\\\\\\\\\\\\\\\
-  // STEP 2
-  // \\\\\\\\\\\\\\\\\\\
-
-  type SecondFormValues = {
-    firstname: string;
-    lastname: string;
-    phone: string;
-    place: string;
-  };
-
-  const formTwo = useForm<SecondFormValues>({
-    defaultValues: {
-      firstname: "",
-      lastname: "",
-      phone: "",
-      place: "",
-    },
-    resolver: yupResolver(businessIndividualSchema),
-  });
-
-  const {
-    register: registerTwo,
-    handleSubmit: handleSubmitTwo,
-    formState: formStateTwo,
-    trigger: triggerTwo,
-    watch: watchTwo,
-  } = formTwo;
-  const { errors: errorsTwo } = formStateTwo;
-
-  const onSubmit = async ({
-    firstname,
-    lastname,
-    phone,
-    place,
-  }: SecondFormValues) => {
-    setData((prevData) => ({ ...prevData, firstname, lastname, phone, place }));
-    const {
-      companyName,
-      phoneNumber,
-      streetAddress,
-      city,
-      categories,
-      websiteUrl,
-      email,
-      username,
-      password,
-      zip,
-    } = data;
-    const finalData = {
-      name: companyName,
-      username: `ba-${username}`,
-      phone: phoneNumber,
-      email: email,
-      password: password,
-      category: "64684fd43e84f3ea2dd8acad",
-      website: websiteUrl,
-      addressDetails: {
-        streetNumber: "12",
-        state: "abu dhabi",
-        city: city,
-        address: streetAddress,
-        place: streetAddress,
-        pincode: zip,
-        landmark: "mosque",
-      },
-      contactDetails: {
-        fname: firstname,
-        lname: lastname,
-        email: email,
-        phone: phone,
-      },
-    };
-    // console.log("final data", finalData);
-    try {
-      await httpClient()
-        .post("user/business/signup", finalData)
-        .then((res) => {
-          // console.log(res);
-
-          if (res.status === 200) {
-            toast.success("Account Created Successfully", {
-              icon: "👏",
-            });
-            navigate.push("/register-success");
-          } else {
-            // Handle non-200 status codes
-            toast.error("An error occurred during signup");
-          }
-        })
-        .catch((error) => {
-          // Handle request errors
-          console.log(error);
-          toast.error("An error occurred during signup");
-        });
-    } catch (err) {
-      // Handle exceptions
-      console.log(err);
-    }
-    setIsSubmitted(true);
-  };
-  // console.log("errors two", errorsTwo);
-
-  const isStepTwoError = Object.keys(errorsTwo).length !== 0;
-
-  const Step2 = (
-    <div className="userForm">
-      <h1 className="font-semibold font-lora text-xl md:text-2xl xl:text-3xl">
-        Congratulations! Your company page is ready.
-      </h1>
-      <p className=" mt-4">
-        Register to save your updates and publish your company page
-      </p>
-      <form
-        onSubmit={handleSubmitTwo(onSubmit)}
-        noValidate
-        className="my-5 grid grid-cols-2 gap-x-5 gap-y-3"
-      >
-        <div className="form-control">
-          <label htmlFor="firstname">First Name</label>
-          <input
-            type="text"
-            id="firstname"
-            placeholder="e.g. Harry"
-            {...registerTwo("firstname")}
-            onBlur={() => triggerTwo("firstname")}
-          />
-          <p className="error">{errorsTwo.firstname?.message}</p>
-        </div>
-        <div className="form-control">
-          <label htmlFor="lastname">Last Name</label>
-          <input
-            type="text"
-            id="lastname"
-            placeholder="e.g. Brook"
-            {...registerTwo("lastname")}
-            onBlur={() => triggerTwo("lastname")}
-          />
-          <p className="error">{errorsTwo.lastname?.message}</p>
-        </div>
-        <div className="form-control col-span-2">
-          <label htmlFor="phone">Phone number</label>
-          <input
-            type="text"
-            id="phone"
-            placeholder="e.g. Google"
-            {...registerTwo("phone")}
-            onBlur={() => triggerTwo("phone")}
-          />
-          <p className="error">{errorsTwo.phone?.message}</p>
-        </div>
-        <div className="form-control col-span-2">
-          <label htmlFor="place">Place</label>
-          <input
-            type="text"
-            id="place"
-            placeholder="e.g. abu dhabi"
-            {...registerTwo("place")}
-            onBlur={() => triggerTwo("place")}
-          />
-          <p className="error">{errorsTwo.place?.message}</p>
-        </div>
-        <button
-          className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-orange text-white col-span-2 text-[15px] w-fit ${isStepTwoError ? "bg-opacity-50" : ""
-            }`}
-        >
-          Finish
-        </button>
-      </form>
-    </div>
-  );
+  
 
   return (
     <div className="container grid justify-items-center pt-14 w-full mx-auto xl:grid-cols-2">
       <div className="flex flex-col px-6 md:px-8 w-full">
-        {page !== 0 && (
-          <div className="w-full text-inter mb-6 ">
-            <button onClick={back}>{`<`} Previous</button>
-          </div>
-        )}
         {page === 0 && Step1}
-        {page === 1 && Step2}
       </div>
       <EnlistSkeleton
         companyName={companyNameValue}
