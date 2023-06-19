@@ -145,7 +145,7 @@ const EnlistCompany = () => {
   //   }
   // });
   const isStepOneError = Object.keys(errorsOne).length !== 0;
-  // console.log("stepone errors", errorsOne);
+  console.log("stepone errors", errorsOne);
 
   async function next() {
     setIsSubmitted(true);
@@ -208,32 +208,32 @@ const EnlistCompany = () => {
       }
     };
     console.log("final data", finalData);
-    // try {
-    //   await httpClient()
-    //     .post("user/business/signup", finalData)
-    //     .then((res) => {
-    //       console.log(res);
+    try {
+      await httpClient()
+        .post("user/business/signup", finalData)
+        .then((res) => {
+          console.log(res);
 
-    //       if (res.status === 200) {
-    //         toast.success("Account Created Successfully", {
-    //           icon: "👏",
-    //         });
-    //         navigate.push("/register-success");
-    //       } else {
-    //         // Handle non-200 status codes  
-    //         toast.error("An error occurred during signup");
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       // Handle request errors
-    //       console.log(error);
-    //       toast.error("An error occurred during signup");
-    //     });
-    // } catch (err) {
-    //   // Handle exceptions
-    //   console.log(err);
-    // }
-    // setIsSubmitted(true);
+          if (res.status === 200) {
+            toast.success("Account Created Successfully", {
+              icon: "👏",
+            });
+            navigate.push("/register-success");
+          } else {
+            // Handle non-200 status codes  
+            toast.error("An error occurred during signup");
+          }
+        })
+        .catch((error) => {
+          // Handle request errors
+          console.log(error);
+          toast.error("An error occurred during signup");
+        });
+    } catch (err) {
+      // Handle exceptions
+      console.log(err);
+    }
+    setIsSubmitted(true);
   };
 
   const fetchCategoryData = async () => {
@@ -341,7 +341,7 @@ const EnlistCompany = () => {
                     type="tel"
                     pattern="[0-9]"
                     id="phoneNumber"
-                    placeholder="e.g. 123 4567"
+                    placeholder="e.g. 123 456 789"
                     className="border-y border-r border-[#B7BABF] rounded-r px-3 py-2 w-full"
                     {...register("phoneNumber")}
                     onBlur={() => trigger("phoneNumber")}

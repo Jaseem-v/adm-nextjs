@@ -22,10 +22,6 @@ export const businessFirstStepSchema = yup.object({
     streetAddress: yup.string().required("streetAddress is required"),
     building: yup.string(),
     city: yup.string().required("City is required"),
-    zip: yup
-        .string()
-        .matches(/^[0-9]*$/, "Zip must be a number")
-        .matches(/^\d{6}$/, "Zip code must be 6 digits"),
     hideAddress: yup.boolean(),
     hasServiceArea: yup.boolean(),
     numberType: yup.string().required(),
