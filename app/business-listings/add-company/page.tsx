@@ -6,10 +6,7 @@ import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./../../../components/enlist/form.css";
-import {
-  businessFirstStepSchema,
-  businessIndividualSchema,
-} from "@/utils/schema/signUpSchema";
+import { businessFirstStepSchema } from "@/utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -17,7 +14,7 @@ import { useRouter } from "next/navigation";
 type FormData = {
   companyName: string;
   streetAddress: string;
-  building: string;
+  buildingNumber: string;
   city: string;
   zip: string;
   hideAddress: boolean;
@@ -40,7 +37,7 @@ type FormData = {
 const INITIAL_DATA: FormData = {
   companyName: "",
   streetAddress: "",
-  building: "",
+  buildingNumber: "",
   city: "",
   zip: "",
   hideAddress: true,
@@ -71,7 +68,7 @@ const EnlistCompany = () => {
   type FirstFormValues = {
     companyName: string;
     streetAddress: string;
-    building: string;
+    buildingNumber: string;
     city: string;
     zip: string;
     hideAddress: boolean;
@@ -91,7 +88,7 @@ const EnlistCompany = () => {
     defaultValues: {
       companyName: "",
       streetAddress: "",
-      building: "",
+      buildingNumber: "",
       city: "",
       zip: "",
       hideAddress: false,
@@ -124,7 +121,7 @@ const EnlistCompany = () => {
   const phoneNumberValue = watch("phoneNumber");
   const websiteUrlValue = watch("websiteUrl");
 
-  const buildingValue = watch("building");
+  const buildingValue = watch("buildingNumber");
   const categoryValue = watch("categories");
   const hideAddressValue = watch("hideAddress");
 
@@ -175,7 +172,6 @@ const EnlistCompany = () => {
   const onSubmitOne = async (d: FirstFormValues) => {
     // console.log("step one submitted");
     setData((prevState) => ({ ...prevState, ...d }));
-    console.log(d)
     const {
       companyName,
       streetAddress,
@@ -206,33 +202,33 @@ const EnlistCompany = () => {
         landmark: "mosque",
       }
     };
-    // console.log("final data", finalData);
-    try {
-      await httpClient()
-        .post("user/business/signup", finalData)
-        .then((res) => {
-          console.log(res);
+    console.log("final data", finalData);
+    // try {
+    //   await httpClient()
+    //     .post("user/business/signup", finalData)
+    //     .then((res) => {
+    //       console.log(res);
 
-          if (res.status === 200) {
-            toast.success("Account Created Successfully", {
-              icon: "👏",
-            });
-            navigate.push("/register-success");
-          } else {
-            // Handle non-200 status codes
-            toast.error("An error occurred during signup");
-          }
-        })
-        .catch((error) => {
-          // Handle request errors
-          console.log(error);
-          toast.error("An error occurred during signup");
-        });
-    } catch (err) {
-      // Handle exceptions
-      console.log(err);
-    }
-    setIsSubmitted(true);
+    //       if (res.status === 200) {
+    //         toast.success("Account Created Successfully", {
+    //           icon: "👏",
+    //         });
+    //         navigate.push("/register-success");
+    //       } else {
+    //         // Handle non-200 status codes  
+    //         toast.error("An error occurred during signup");
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       // Handle request errors
+    //       console.log(error);
+    //       toast.error("An error occurred during signup");
+    //     });
+    // } catch (err) {
+    //   // Handle exceptions
+    //   console.log(err);
+    // }
+    // setIsSubmitted(true);
   };
 
   const fetchCategoryData = async () => {
@@ -299,18 +295,18 @@ const EnlistCompany = () => {
             />
             <p className="error">{errorsOne.streetAddress?.message}</p>
           </div>
-          <div className="form-control col-span-2 mt-4">
-            <label htmlFor="building">Apt/Suite (optional)</label>
+          <div className="form-control col-span-3 mt-4">
+            <label htmlFor="building">Building Number</label>
             <input
               type="text"
               id="building"
-              placeholder="#200"
-              {...register("building")}
-              onBlur={() => trigger("building")}
+              placeholder="200"
+              {...register("buildingNumber")}
+              onBlur={() => trigger("buildingNumber")}
             />
-            <p className="error">{errorsOne.building?.message}</p>
+            <p className="error">{errorsOne.buildingNumber?.message}</p>
           </div>
-          <div className="form-control col-span-2 mt-4">
+          <div className="form-control col-span-3 mt-4">
             <label htmlFor="city">City</label>
             <input
               type="text"
@@ -321,20 +317,6 @@ const EnlistCompany = () => {
               className="mt-5 md:mt-0"
             />
             <p className="error">{errorsOne.city?.message}</p>
-          </div>
-          <div className="form-control col-span-2 mt-4">
-            <label htmlFor="zip">Zip</label>
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]"
-              id="zip"
-              placeholder="126452"
-              {...register("zip")}
-              onBlur={() => trigger("zip")}
-              className="mt-5 md:mt-0"
-            />
-            <p className="error">{errorsOne.zip?.message}</p>
           </div>
 
           {/* contact  */}
