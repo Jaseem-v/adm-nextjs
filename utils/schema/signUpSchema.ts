@@ -107,11 +107,11 @@ export const updateBusinessInfoSchema = yup.object({
     address: yup.string().required("streetAddress is required"),
     landmark: yup.string(),
     city: yup.string().required("City is required"),
-    zip: yup
-        .string()
-        .matches(/^[0-9]*$/, "Zip must be a number")
-        .matches(/^\d{6}$/, "Zip code must be 6 digits")
-        .required("Zip is required"),
+    buildingNumber: yup.number().required(),
+    zip: yup.string()
+        // .matches(/^[0-9]*$/, "Zip must be a number")
+        // .matches(/^\d{6}$/, "Zip code must be 6 digits")
+        // .required("Zip is required"),
 
 })
 

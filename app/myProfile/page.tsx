@@ -117,7 +117,7 @@ const Profile = () => {
 
   type BusinessInfoFormValues = {
     address: string;
-    building: string;
+    buildingNumber: string;
     city: string;
     zip: string;
     hideAddress: boolean;
@@ -491,7 +491,7 @@ const Profile = () => {
       landmark: data.landmark,
       pincode: data.zip,
       state: businessAddress.state,
-      streetNumber: businessAddress.streetNumber,
+      streetNumber: data.buildingNumber,
       place: businessAddress.place,
     };
 
@@ -1561,13 +1561,13 @@ const Profile = () => {
                               </span>
                             </p>
                             <p className="text-lg text-gray-700">
+                              {businessAddress.streetNumber}
+                              {`, `}
                               {businessAddress.address}
                               {`, `}
                               {businessAddress.city}
-                              {`, `}
-                              {businessAddress.place}
-                              {`, `}
-                              {businessAddress.pincode}
+                              {/* {`, `}
+                              {businessAddress.pincode} */}
                             </p>
                           </div>
                         </div>
@@ -1645,6 +1645,23 @@ const Profile = () => {
                                 />
                               </div>
                               <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
+                                <label htmlFor="buildingNumber">Building Number</label>
+                                <input
+                                  type="text"
+                                  inputMode="numeric"
+                                  pattern="[0-9]"
+                                  placeholder="126452"
+                                  {...registerBusinessInfo("buildingNumber")}
+                                  value={businessAddress.streetNumber}
+                                  onChange={(e) =>
+                                    setBusinessAddress((prevState) => ({
+                                      ...prevState,
+                                      streetNumber: e.target.value,
+                                    }))
+                                  }
+                                />
+                              </div>
+                              {/* <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
                                 <label htmlFor="zip">Zip</label>
                                 <input
                                   type="text"
@@ -1661,9 +1678,9 @@ const Profile = () => {
                                     }))
                                   }
                                 />
-                              </div>
+                              </div> */}
                             </div>
-                            <div className="flex flex-row gap-2 items-center">
+                            {/* <div className="flex flex-row gap-2 items-center">
                               <label
                                 htmlFor="hideAddress"
                                 className="cursor-pointer"
@@ -1678,7 +1695,7 @@ const Profile = () => {
                                   Don{`'`}t display my address publicly
                                 </span>
                               </label>
-                            </div>
+                            </div> */}
                             <div className="flex flex-row gap-2 items-center">
                               <label
                                 htmlFor="showServiceArea"
@@ -1735,16 +1752,24 @@ const Profile = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="flex flex-row gap-2">
-                        <MdAlternateEmail className="mt-1" />
-                        <div className="flex flex-col gap-1">
-                          <p className="text-lg font-medium flex items-center gap-1">
-                            Username{" "}
-                          </p>
-                          <p className="text-lg text-gray-700">
-                            {businessAccountData.username.slice(3)}
-                          </p>
+                      <div className="flex gap-4 items-center justify-between">
+                        <div className="flex flex-row gap-2">
+                          <MdAlternateEmail className="mt-1" />
+                          <div className="flex flex-col gap-1">
+                            <p className="text-lg font-medium flex items-center gap-1">
+                              Username{" "}
+                            </p>
+                            <p className="text-lg text-gray-700">
+                              {businessAccountData.username.slice(3)}
+                            </p>
+                          </div>
                         </div>
+                        {/* <button
+                          className="btn py-1 px-2 border-2 rounded border-gray-950 text-darks-v1 hover:text-white hover:bg-gray-950"
+                          onClick={() => handleToggleEditMode("businessName")}
+                        >
+                          Edit
+                        </button> */}
                       </div>
                     </div>
                   </form>
