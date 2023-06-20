@@ -79,11 +79,11 @@ const ContactForm = () => {
           {/* <!-- contact details --> */}
           <div
             className="px-12 md:px-16 lg:px-20 py-24 rounded-[20px] flex flex-col gap-10 md:gap-12 lg:gap-16
-                         bg-black bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 xl:w-[556px]"
+                         bg-black bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 xl:w-[556px] text-textBlack font-poppins"
           >
             <div className="">
               <div className="flex gap-5 items-center">
-                <img src="/images/address.png" alt="address" />
+                <img src="/images/location.png" alt="address" />
                 <p className="font-medium text-2xl md:text-3xl">Address</p>
               </div>
               <p className="mt-5 max-w-[300px] font-medium text-lg md:text-xl opacity-80">
@@ -92,7 +92,7 @@ const ContactForm = () => {
             </div>
             <div className="">
               <div className="flex gap-5 items-center">
-                <img src="/images/phone.png" alt="address" />
+                <img src="/images/call.png" alt="phone" />
                 <p className="font-medium text-2xl md:text-3xl">
                   Contact Number
                 </p>
@@ -103,7 +103,7 @@ const ContactForm = () => {
             </div>
             <div className="">
               <div className="flex gap-5 items-center">
-                <img src="/images/address.png" alt="address" />
+                <img src="/images/mail.png" alt="address" />
                 <p className="font-medium text-2xl md:text-3xl">
                   Email Address
                 </p>

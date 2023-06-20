@@ -34,16 +34,19 @@ const Footer = () => {
                     flex flex-col gap-5"
           >
             <li>
-              <a href="/index.html">Home</a>
+              <a href="/">Home</a>
             </li>
             <li>
-              <a href="/aboutUs.html">About Us</a>
+              <a href="/about">About Us</a>
             </li>
             <li>
-              <a href="/gallery.html">Gallery</a>
+              <a href="/gallery">Gallery</a>
             </li>
             <li>
-              <a href="/contactUs.html">Contact Us</a>
+              <a href="/contact">Contact Us</a>
+            </li>
+            <li>
+              <a href="/events">Events</a>
             </li>
           </ul>
         </div>
