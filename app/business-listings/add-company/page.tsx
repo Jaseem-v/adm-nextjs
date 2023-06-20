@@ -205,7 +205,8 @@ const EnlistCompany = () => {
         place: streetAddress,
         pincode: '111111',
         landmark: "mosque",
-      }
+      },
+      contactDetails: {}
     };
     console.log("final data", finalData);
     try {
