@@ -43,6 +43,7 @@ import {
   fullnameSchema,
   businessNameSchema,
   servicesSchema,
+  contactDetailsSchema,
 } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
@@ -1005,7 +1006,38 @@ const Profile = () => {
       detailedInformation: { ...prevState.detailedInformation, [name]: value },
     }));
   };
+
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+  // CONTACTS 
+  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
   
+  type ContactFormValues = {
+    fname: string;
+    lname: string;
+    email: string;
+    phone: string;
+  };
+
+  const contactForm = useForm<ContactFormValues>({
+    defaultValues: {},
+    resolver: yupResolver(contactDetailsSchema),
+  });
+
+  const {
+    register: registerContact,
+    handleSubmit: handleSubmitContact,
+    formState: formStateContact,
+    setValue: setValueContact,
+  } = contactForm;
+  const { errors: errorsContact } = formStateContact;
+
+  const addContact = async (data: ContactFormValues) => {
+    const contactData = {...data, isAddressVisible: false}
+    console.log('contactData', contactData)
+    // const contactDetails = [businessAccountData.contactDetails, contactData]
+    // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
+    // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
+  }
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -2017,8 +2049,6 @@ const Profile = () => {
                             return el._id == businessAccountData.category;
                           })
                           .map((cat) => {
-                            console.log("cat", cat);
-
                             return (
                               <div
                                 className="w-80 px-4 py-2 bg-skeleton"
@@ -2373,53 +2403,6 @@ const Profile = () => {
     </FormProvider>
                   </div>
                 )}
-            {/* edit mode */}
-            {/* <div className="flex flex-col gap-2">
-            <hr className="w-full text-grey-300"/>
-            <div className="text-xs">{`1`}{`/30 Items Listed`}</div> */}
-            {/* edited */}
-            {/* <div title="click to edit" className="flex flex-row gap-2 items-center cursor-pointer"> */}
-            {/* <FaCheckCircle /> */}
-            {/* reordering */}
-            {/* <div className="flex flex-col">
-                <AiFillCaretUp />
-                <AiFillCaretDown />
-              </div> */}
-            {/* reordering */}
-            {/* <span>bottle</span>
-            </div>
-            <div className="flex flex-row items-center gap-4">
-              <div className="flex flex-row gap-2 items-center cursor-pointer">
-                <BsFillPlusCircleFill className="text-success" />
-                <span>Add a product</span>
-              </div>
-              <div className="flex flex-row gap-2 items-center cursor-pointer">
-                <TiArrowUnsorted className="text-orange-700" />
-                <span>Reorder product</span>
-              </div>
-            </div> */}
-            {/* edited */}
-            {/* reordering */}
-            {/* <div className="flex flex-row items-center gap-2 cursor-pointer text-error">
-              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
-                <IoClose className="text-error"/>
-                <span>Cancel</span>
-              </button>
-              <button className="flex flex-row items-center gap-2 text-error py-2 px-4">
-                <FaCheck className="text-error"/>
-                <span>Save</span>
-              </button>
-            </div> */}
-            {/* reordering */}
-            {/* <form name="editProductForm" >
-              <div className="flex ">
-                <input type="text" name="product-0" className="form-input rounded-r-0"/>
-                <button type="submit" className="py-2 px-4 bg-success text-white" title="save"><FaCheck /></button>
-                <button type="submit" className="py-2 px-4 bg-error text-white" title="save"><FaTrashAlt /></button>
-              </div>
-            </form>
-          </div> */}
-            {/* edit mode */}
           </div>
         )}
         {/* PRODUCTS AND SERVICES👆 */}
@@ -2842,25 +2825,12 @@ const Profile = () => {
         {/* \\\\\\\\\\\ */}
         {/* CONTACT */}
         {accountType === "business" && (
-          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6">
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 relative">
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <p className="text-2xl font-medium font-lora text-black title">
                   Contacts
                 </p>
-                {editModeState.contact && (
-                  <div className="flex items-start flex-wrap gap-2">
-                    <button
-                      className="bg-skeleton py-1 px-3  rounded "
-                      onClick={() => handleToggleEditMode("contact")}
-                    >
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded ">
-                      Verify
-                    </button>
-                  </div>
-                )}
               </div>
               <p className="text-lg">
                 Who are the primary contacts in your business?
@@ -2927,16 +2897,16 @@ const Profile = () => {
                 </button>
               </>
             ) : (
-              <div className="md:grid gap-2 grid-cols-2">
-                <div className="flex flex-col gap-2 py-2">
-                  <span className="text-xs text-red-700">Required</span>
+              <FormProvider {...contactForm}>
+              <div className="md:grid gap-2 grid-cols-2" >
+                <form className="flex flex-col gap-2 py-2" onSubmit={handleSubmitContact(addContact)}>
                   <div className="form-control">
                     <input
                       type="text"
                       placeholder="First Name"
                       className="w-80"
                       id="firstname"
-                      name="firstname"
+                      {...registerContact("fname")}
                     />
                   </div>
                   <span className="text-xs text-red-700">Required</span>
@@ -2946,11 +2916,11 @@ const Profile = () => {
                       placeholder="Last Name"
                       className="w-80"
                       id="lastname"
-                      name="lastname"
+                      {...registerContact("lname")}
                     />
                   </div>
                   <span className="text-xs text-red-700">Required</span>
-                  <div className="form-control">
+                  {/* <div className="form-control">
                     <input
                       type="text"
                       placeholder="Title or Role"
@@ -2958,14 +2928,14 @@ const Profile = () => {
                       id="title"
                       name="title"
                     />
-                  </div>
+                  </div> */}
                   <div className="form-control">
                     <input
                       type="email"
                       placeholder="Email"
                       className="w-80"
                       id="email"
-                      name="email"
+                      {...registerContact("email")}
                     />
                   </div>
                   <div className="form-control">
@@ -2974,29 +2944,28 @@ const Profile = () => {
                       placeholder="Phone"
                       className="w-80"
                       id="phone"
-                      name="phone"
+                      {...registerContact("phone")}
                     />
                   </div>
-                  <div className="form-control">
-                    <input
-                      type="text"
-                      placeholder="Fax"
-                      className="w-80"
-                      id="fax"
-                      name="fax"
-                    />
+                  <div className="flex items-start flex-wrap gap-2 absolute top-6 right-6">
+                    <button
+                      className="bg-skeleton py-1 px-3  rounded "
+                      type="button"
+                      onClick={() => handleToggleEditMode("contact")}
+                    >
+                      Cancel
+                    </button>
+                    <button className="bg-orange text-white py-1 px-3 rounded " type="submit">
+                      Verify
+                    </button>
                   </div>
-                </div>
+                </form>
                 <div className="error">
                   First Name, Last Name and Title are required
                 </div>
               </div>
+              </FormProvider>
             )}
-
-            {/* EDIT MODE */}
-            {/*  */}
-            {/* EDIT MODE */}
-            {/* edited */}
 
             {/* edited */}
           </div>

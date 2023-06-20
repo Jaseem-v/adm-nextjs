@@ -148,6 +148,13 @@ export const SocialMediaSchema = yup.object({
     )
 })
 
+export const contactDetailsSchema = yup.object({
+  fname: yup.string().required('This field is required'),
+  lname: yup.string().required('This field is required'),
+  email: yup.string().email(),
+  phone: yup.number()
+})
+
 export const fullnameSchema = yup.object({
   firstname: yup.string().required('This field is required').min(2),
   lastname: yup.string().required('This field is required').min(2)
