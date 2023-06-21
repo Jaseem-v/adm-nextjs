@@ -98,7 +98,7 @@ const Events = () => {
             max-w-screen-xl mx-auto"
         >
           <div className="px-6 xl:px-0">
-            <p className="font-bold text-3xl lg:text-4xl">Upcoming events</p>
+            <p className="font-bold text-3xl lg:text-4xl text-textBlack">Upcoming events</p>
             <div
               className="event-cards mt-8 md:mt-9 lg:mt-11
                     grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10 lg:gap-12"

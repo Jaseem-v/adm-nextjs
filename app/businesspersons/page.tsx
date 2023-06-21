@@ -66,7 +66,7 @@ const BusinessPersons = () => {
           </p>
           <p
             className="font-semibold text-3xl md:text-4xl lg:text-5xl
-                mt-3 md:mt-4 lg:mt-5"
+                mt-3 md:mt-4 lg:mt-5 text-textBlack"
           >
             Connect with a Network of <br /> Business Professionals
           </p>
