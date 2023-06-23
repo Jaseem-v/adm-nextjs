@@ -27,12 +27,11 @@ import { MdAlternateEmail } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import { BsFillPlusCircleFill } from "react-icons/bs";
-import { TiArrowUnsorted } from "react-icons/ti";
-import { AiFillCaretDown } from "react-icons/ai";
-import { AiFillCaretUp } from "react-icons/ai";
+// import { TiArrowUnsorted } from "react-icons/ti";
+// import { AiFillCaretDown } from "react-icons/ai";
+// import { AiFillCaretUp } from "react-icons/ai";
 
 import React, { FormEvent, useCallback, useEffect } from "react";
-import * as yup from "yup";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { useState, useRef, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
