@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  socialMedia,
-  members,
-  popularCompanies,
-  newsFeed,
-  numbers,
-} from "../utils/content";
+import { newsFeed } from "../utils/content";
 import React from "react";
 import "./../components/global/home.css";
 import ContactForm from "@/components/contactForm";
@@ -15,58 +9,58 @@ import httpClient from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import EnlistModel from "@/components/enlistModel";
-import LightGallery from 'lightgallery/react';
+import LightGallery from "lightgallery/react";
 
 // import styles
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
-import 'lightgallery/css/lg-thumbnail.css';
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
 
 // If you want you can use SCSS instead of css
 // import 'lightgallery/scss/lightgallery.scss';
 // import 'lightgallery/scss/lg-zoom.scss';
 
 // import plugins if you need
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgZoom from 'lightgallery/plugins/zoom';
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
 
 type Member = {
   _id: string;
-  profilePicture: { key: string }
+  profilePicture: { key: string };
   fname: string;
   lname: string;
-  place: string
-}
+  place: string;
+};
 type Business = {
   _id: string;
   profilePicture: {
-    key: string
+    key: string;
   };
   name: string;
   about: string;
   website: string;
-}
+};
 const Index = () => {
-
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [personalData, setPersonalData] = useState<Member[]>([]);
   const [businessData, setBusinessData] = useState<Business[]>([]);
-  const [galleryData, setGalleryData] = useState<{ image: { key: string } }[] | []>([])
-  const [showEnlistModel, setShowEnlistModel] = useState(false)
-
-
+  const [galleryData, setGalleryData] = useState<
+    { image: { key: string } }[] | []
+  >([]);
+  const [showEnlistModel, setShowEnlistModel] = useState(false);
 
   useEffect(() => {
     const fetchPersonalData = async () => {
       try {
-        await httpClient().get(`/user/personal/verified`)
-          .then(res => {
+        await httpClient()
+          .get(`/user/personal/verified`)
+          .then((res) => {
             if (res.status === 200) {
-              console.log(res)
-              const slicedRes = res.data.data.slice(0, 8)
+              console.log(res);
+              const slicedRes = res.data.data.slice(0, 8);
               setPersonalData(slicedRes);
             }
-          })
+          });
       } catch (error) {
         console.log(error);
       }
@@ -77,14 +71,15 @@ const Index = () => {
 
     const fetchBusinessData = async () => {
       try {
-        await httpClient().get(`/user/business/verified`)
-          .then(res => {
+        await httpClient()
+          .get(`/user/business/verified`)
+          .then((res) => {
             if (res.status === 200) {
-              console.log(res)
-              const slicedRes = res.data.data.slice(0, 4)
+              console.log(res);
+              const slicedRes = res.data.data.slice(0, 4);
               setBusinessData(slicedRes);
             }
-          })
+          });
       } catch (error) {
         console.log(error);
       }
@@ -93,13 +88,13 @@ const Index = () => {
 
     const fetchGalleryData = async () => {
       try {
-        await httpClient().get(`/gallery/customer`)
-          .then(res => {
+        await httpClient()
+          .get(`/gallery/customer`)
+          .then((res) => {
             if (res.status === 200) {
-              setGalleryData(res.data.data)
-
+              setGalleryData(res.data.data);
             }
-          })
+          });
       } catch (error) {
         console.log(error);
       }
@@ -107,13 +102,15 @@ const Index = () => {
     };
 
     fetchBusinessData();
-    fetchGalleryData()
+    fetchGalleryData();
   }, []);
 
-  console.log(personalData[0])
+  console.log(personalData[0]);
   return (
     <>
-      <section className={`mainHeader bg-left md:bg-bottom text-white font-inter`}>
+      <section
+        className={`mainHeader bg-left md:bg-bottom text-white font-inter`}
+      >
         {/* \\\\\\\\\\\\\\\\ */}
         {/* \\\ Main header */}
         <div className="pt-36 pb-56 md:pt-44 md:pb-64 lg:pt-52 lg:pb-80 xl:pb-96 z-10 relative h-full">
@@ -263,7 +260,9 @@ const Index = () => {
       {/* \\\\\\\\\\\\ */}
       <section className="bg-lightBg ">
         <div className="max-w-screen-xl mx-auto px-5 xl:px-0 py-10 md:py-12 xl:py-20  text-center flex flex-col items-center">
-          <h3 className="text-textBlack font-poppins font-bold text-2xl md:text-3xl">Want to join the team?</h3>
+          <h3 className="text-textBlack font-poppins font-bold text-2xl md:text-3xl">
+            Want to join the team?
+          </h3>
           <button
             onClick={() => setShowEnlistModel(true)}
             className="mt-6 lg:mt-9 font-medium bg-brownBg text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
@@ -312,8 +311,8 @@ const Index = () => {
           <div className="bg-lightOrange w-full h-[1px] col-span-1 lg:col-span-2"></div>
         </div> */}
         <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
-            Meet Our Members
-          </h1>
+          Meet Our Members
+        </h1>
         <div className="flex flex-col justify-center items-center">
           <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-descBlack text-center">
             As a member, gain exclusive access to a thriving network of fellow
@@ -325,15 +324,24 @@ const Index = () => {
               <div className="team-member" key={member._id}>
                 <div>
                   <img
-                    src={member?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${member.profilePicture.key}` : 'images/profilePreview.png'}
+                    src={
+                      member?.profilePicture
+                        ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${member.profilePicture.key}`
+                        : "images/profilePreview.png"
+                    }
                     // src={`/personal-account-profilez-picture/${member.profilePicture.key}`}
                     alt="team-member-1"
                     className="rounded-md w-[333px] lg:w-[290px] h-[333px] lg:h-[290px] object-cover"
                   />
                 </div>
                 <div className="mt-2 text-center">
-                  <Link href={`/businesspersons/${member._id}`} className=" font-semibold   md:text-lg lg:text-xl">
-                    {member.fname}{ }{member.lname}
+                  <Link
+                    href={`/businesspersons/${member._id}`}
+                    className=" font-semibold   md:text-lg lg:text-xl"
+                  >
+                    {member.fname}
+                    {}
+                    {member.lname}
                   </Link>
                   <p className=" text-sm md:text-base text-[#333] font-medium">
                     Abu dhabi
@@ -342,7 +350,10 @@ const Index = () => {
               </div>
             ))}
           </div>
-          <Link href='/businesspersons' className="mt-8 md:mt-12 lg:mt-16 font-regular bg-brownBg transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">
+          <Link
+            href="/businesspersons"
+            className="mt-8 md:mt-12 lg:mt-16 font-regular bg-brownBg transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit"
+          >
             Load More
           </Link>
         </div>
@@ -354,7 +365,7 @@ const Index = () => {
 
       <section className="bg-lightBg py-14 md:py-16 lg:py-24">
         <div className=" max-w-screen-xl mx-auto px-5 xl:px-0 ">
-        <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
+          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
             Popular Companies
           </h1>
           <div className="flex items-center justify-center">
@@ -370,7 +381,15 @@ const Index = () => {
                 key={business._id}
               >
                 <div className="h-[135px] md:h-[232px] lg:h-[192px] xl:h-[232px] overflow-hidden rounded-2xl">
-                  <img src={business?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${business.profilePicture.key}` : "https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"} alt="company1" className="bg-cover" />
+                  <img
+                    src={
+                      business?.profilePicture
+                        ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${business.profilePicture.key}`
+                        : "https://imgv3.fotor.com/images/slider-image/three-skyscrapers-in-black-and-white-effect.png"
+                    }
+                    alt="company1"
+                    className="bg-cover"
+                  />
                 </div>
                 <div className="bg-white rounded-2xl p-7 flex items-start gap-4 relative">
                   {/* <div className="w-12 h-12">
@@ -383,7 +402,10 @@ const Index = () => {
                     <p className="mt-2 text-desc text-sm max-w-md font-semibold">
                       {business.website}
                     </p>
-                    <Link href={`/business/${business._id}`} className=" block mt-4 font-regular bg-brownBg text-lightGold text-sm py-3 px-4 hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700 w-fit">
+                    <Link
+                      href={`/business/${business._id}`}
+                      className=" block mt-4 font-regular bg-brownBg text-lightGold text-sm py-3 px-4 hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700 w-fit"
+                    >
                       View Details
                     </Link>
                     <img
@@ -396,7 +418,8 @@ const Index = () => {
               </div>
             ))}
           </div>
-          <Link href='/business'
+          <Link
+            href="/business"
             className="mt-8 md:mt-12 lg:mt-16 font-regular border border-brown py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-brown text-center block mx-auto
                 hover:bg-brownBg hover:text-lightGold w-fit"
           >
@@ -405,15 +428,13 @@ const Index = () => {
         </div>
       </section>
 
-      
-
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* NEWS FEED */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
       <section className="py-14 md:py-16 lg:py-24">
         <div className="max-w-screen-xl mx-auto px-4 xl:px-0 ">
-        <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
+          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
             News Feed
           </h1>
           <p className="md:max-w-3xl lg:max-w-none font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
@@ -434,7 +455,9 @@ const Index = () => {
                     <p className="font-semibold text-xl md:text-2xl">
                       {news.title}
                     </p>
-                    <p className="bg-brownBg text-lightGold px-2 py-2 text-xs">New</p>
+                    <p className="bg-brownBg text-lightGold px-2 py-2 text-xs">
+                      New
+                    </p>
                   </div>
                   <p className="mt-3 text-base md:text-lg lg:text-xl md:max-w-xs">
                     {news.description}
@@ -458,28 +481,30 @@ const Index = () => {
 
       <section className=" py-16 bg-lightBg">
         <div className="max-w-screen-xl mx-auto mb-16">
-        <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
+          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
             Gallery
           </h1>
         </div>
         <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
-
           <LightGallery
             // onInit={onInit}
             speed={500}
             plugins={[lgThumbnail, lgZoom]}
           >
             <div className="flex flex-wrap -mx-4">
-
-              {galleryData && galleryData.map((el, i) => (
-                <div className="md:w-1/3 px-4 mb-8" key={i}>
-                  <a href={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`}>
-                    <img alt="img1" src={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`} />
-                  </a>
-                </div>
-              ))
-              }
-
+              {galleryData &&
+                galleryData.map((el, i) => (
+                  <div className="md:w-1/3 px-4 mb-8" key={i}>
+                    <a
+                      href={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`}
+                    >
+                      <img
+                        alt="img1"
+                        src={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`}
+                      />
+                    </a>
+                  </div>
+                ))}
             </div>
           </LightGallery>
           {/* <div className="-m-1 flex flex-wrap md:-m-2">
@@ -558,5 +583,5 @@ const Index = () => {
       <ContactForm />
     </>
   );
-}
+};
 export default Index;

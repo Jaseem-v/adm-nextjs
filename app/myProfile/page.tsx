@@ -67,8 +67,6 @@ interface Photo {
   name: string;
 }
 
-let idCounter = 0; // Counter for generating unique IDs
-
 const Profile = () => {
   const [loginStatus, setloginStatus] = useState(true);
 
@@ -162,12 +160,12 @@ const Profile = () => {
   const [personalFirstname, setPersonalFirstname] = useState("");
   const [personalLastname, setPersonalLastname] = useState("");
   const [businessName, setBusinessName] = useState("");
-  const [primaryCategory, setPrimaryCategory] = useState('')
+  const [primaryCategory, setPrimaryCategory] = useState("");
   const [detailedInformation, setDetailedInformation] = useState({
-    locationType: '',
-    yearEstablished: '',
-    employees: ''
-  })
+    locationType: "",
+    yearEstablished: "",
+    employees: "",
+  });
   const [businessCategory, setBusinessCategory] = useState<BusinessCategory[]>(
     []
   );
@@ -261,8 +259,6 @@ const Profile = () => {
     }));
   };
 
-  
-
   // SECTION REFS
   const businessInfoRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -354,17 +350,6 @@ const Profile = () => {
       ...prevState,
       [section]: value,
     }));
-  };
-
-  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = event.target.value.trim();
-
-    if (input === "" || /^\d+$/.test(input)) {
-      setEditInfoState((prevState) => ({
-        ...prevState,
-        phone: input,
-      }));
-    }
   };
 
   // DROPZONE
@@ -654,8 +639,8 @@ const Profile = () => {
   };
 
   // \\\\\\\\\\\\\\\\\\\\\\\\\
-  // SOCIAL MEDIA 
-  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
+  // SOCIAL MEDIA
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
   const verifySocialMedia = async (data: SocialMediaFormValues) => {
     handleToggleEditMode("socialMedia");
 
@@ -760,8 +745,6 @@ const Profile = () => {
           (value) => value !== undefined
         );
 
-  
-
   // const updatedSocialMedia = useMemo(() => {
   //   return {
   //     ...editInfoState.socialMedia,
@@ -850,26 +833,29 @@ const Profile = () => {
     : console.log("business account data", businessAccountData);
 
   // \\\\\\\\\\\\\\\\\\\\\\\\\
-  // CATEGORIES 
-  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
+  // CATEGORIES
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
   const handleCategoryApply = async () => {
-    console.log('category', primaryCategory)
+    console.log("category", primaryCategory);
     if (primaryCategory.length > 0) {
-      const updatedBusinessAccountData = ({...businessAccountData, category: primaryCategory})
-      await httpClient().patch('user/business/profile', updatedBusinessAccountData)
-      .then(res => {
-        console.log(res)
-        setBusinessAccountData(updatedBusinessAccountData)
-      })
+      const updatedBusinessAccountData = {
+        ...businessAccountData,
+        category: primaryCategory,
+      };
+      await httpClient()
+        .patch("user/business/profile", updatedBusinessAccountData)
+        .then((res) => {
+          console.log(res);
+          setBusinessAccountData(updatedBusinessAccountData);
+        });
     }
-    handleToggleEditMode("businessCategories")
-    setIsPrimaryCategoryChange(!isPrimaryCategoryChange)
-  }
-
+    handleToggleEditMode("businessCategories");
+    setIsPrimaryCategoryChange(!isPrimaryCategoryChange);
+  };
 
   // \\\\\\\\\\\\\\\\\\\\\\\\\
-  // PRODUCTS & SERVICES 
-  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
+  // PRODUCTS & SERVICES
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
 
   type ServicesFormValues = {
     service: string;
@@ -896,7 +882,7 @@ const Profile = () => {
     setValue("service", product);
     setServiceItemEditValue(product);
   };
-  
+
   const handleProductAdd = async (data: ServicesFormValues) => {
     const service: string = data.service;
     console.log("service", data);
@@ -907,58 +893,59 @@ const Profile = () => {
       console.log("services", services);
       const updatedBusinessAccountData = { ...businessAccountData, services };
       console.log("updated", updatedBusinessAccountData);
-  
+
       if (data.service.length > 0) {
         try {
           await httpClient().patch(
             "user/business/profile",
             updatedBusinessAccountData
           );
-          setBusinessAccountData(updatedBusinessAccountData)
+          setBusinessAccountData(updatedBusinessAccountData);
         } catch (error) {
           console.log(error);
         }
       }
-      setValue('service', '')
+      setValue("service", "");
       setServiceItemEdit(false);
       setServiceItemEditValue("");
     } else if (!serviceItemEdit) {
-      const services: string[] = [...businessAccountData.services, service]
+      const services: string[] = [...businessAccountData.services, service];
       console.log("services", services);
       const updatedBusinessAccountData = { ...businessAccountData, services };
       console.log("updated", updatedBusinessAccountData);
-      
+
       if (data.service.length > 0) {
         try {
           await httpClient().patch(
             "user/business/profile",
             updatedBusinessAccountData
-            );
-            setBusinessAccountData(updatedBusinessAccountData)
-          } catch (error) {
-            console.log(error);
-          }
+          );
+          setBusinessAccountData(updatedBusinessAccountData);
+        } catch (error) {
+          console.log(error);
+        }
       }
       handleToggleEditMode("products");
     }
-    
   };
 
   const handleProductDelete = async () => {
     const deletedService = serviceItemEditValue;
-    const services = businessAccountData.services.filter(service => service !== deletedService)
+    const services = businessAccountData.services.filter(
+      (service) => service !== deletedService
+    );
     const updatedBusinessAccountData = { ...businessAccountData, services };
     try {
       await httpClient().patch(
         "user/business/profile",
         updatedBusinessAccountData
-        );
-        setBusinessAccountData(updatedBusinessAccountData)
+      );
+      setBusinessAccountData(updatedBusinessAccountData);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-    setServiceItemEdit(false  );
-  }
+    setServiceItemEdit(false);
+  };
 
   const servicesForm = useForm<ServicesFormValues>({
     defaultValues: {},
@@ -972,22 +959,25 @@ const Profile = () => {
   } = servicesForm;
   const { errors: errorsService } = formStateService;
 
-
   // \\\\\\\\\\\\\\\\\\\\\\\\\
-  // DETAILED INFORMATION 
-  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
+  // DETAILED INFORMATION
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
 
-  const verifyDetailedInformation = async() => {
+  const verifyDetailedInformation = async () => {
     // POST API
-    const updatedBusinessAccountData = ({...businessAccountData, detailedInformation})
-    // const updatedBusinessAccountData = ({...businessAccountData, 
-    //   locationType: detailedInformation.locationType, 
-    //   yearEstablished: detailedInformation.yearEstablished, 
+    const updatedBusinessAccountData = {
+      ...businessAccountData,
+      detailedInformation,
+    };
+    // const updatedBusinessAccountData = ({...businessAccountData,
+    //   locationType: detailedInformation.locationType,
+    //   yearEstablished: detailedInformation.yearEstablished,
     //   employees: detailedInformation.employees })
-    console.log('updatedBusiness', updatedBusinessAccountData)
+    console.log("updatedBusiness", updatedBusinessAccountData);
 
-    await httpClient().patch('/user/business/profile', updatedBusinessAccountData)
-    .then(res => console.log(res))
+    await httpClient()
+      .patch("/user/business/profile", updatedBusinessAccountData)
+      .then((res) => console.log(res));
 
     handleToggleEditMode("detailedInformation");
     console.log("verified detailed information");
@@ -1000,7 +990,7 @@ const Profile = () => {
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
-    setDetailedInformation(prevState => ({...prevState, [name]: value}))
+    setDetailedInformation((prevState) => ({ ...prevState, [name]: value }));
     setEditInfoState((prevState) => ({
       ...prevState,
       detailedInformation: { ...prevState.detailedInformation, [name]: value },
@@ -1008,9 +998,9 @@ const Profile = () => {
   };
 
   // \\\\\\\\\\\\\\\\\\\\\\\\\
-  // CONTACTS 
-  // \\\\\\\\\\\\\\\\\\\\\\\\\ 
-  
+  // CONTACTS
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+
   type ContactFormValues = {
     fname: string;
     lname: string;
@@ -1032,12 +1022,12 @@ const Profile = () => {
   const { errors: errorsContact } = formStateContact;
 
   const addContact = async (data: ContactFormValues) => {
-    const contactData = {...data, isAddressVisible: false}
-    console.log('contactData', contactData)
+    const contactData = { ...data, isAddressVisible: false };
+    console.log("contactData", contactData);
     // const contactDetails = [businessAccountData.contactDetails, contactData]
     // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
     // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
-  }
+  };
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -1645,7 +1635,9 @@ const Profile = () => {
                                 />
                               </div>
                               <div className="flex flex-col col-span-3 md:col-span-1 md:mr-2 form-control">
-                                <label htmlFor="buildingNumber">Building Number</label>
+                                <label htmlFor="buildingNumber">
+                                  Building Number
+                                </label>
                                 <input
                                   type="text"
                                   inputMode="numeric"
@@ -1814,16 +1806,16 @@ const Profile = () => {
                       </div>
                     </div>
                     <div className="flex flex-row gap-2">
-                        <MdAlternateEmail className="mt-1" />
-                        <div className="flex flex-col gap-1">
-                          <p className="text-lg font-medium flex items-center gap-1">
-                            Username{" "}
-                          </p>
-                          <p className="text-lg text-gray-700">
-                            {personalAccountData.username.slice(3)}
-                          </p>
-                        </div>
+                      <MdAlternateEmail className="mt-1" />
+                      <div className="flex flex-col gap-1">
+                        <p className="text-lg font-medium flex items-center gap-1">
+                          Username{" "}
+                        </p>
+                        <p className="text-lg text-gray-700">
+                          {personalAccountData.username.slice(3)}
+                        </p>
                       </div>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -2069,20 +2061,20 @@ const Profile = () => {
             {!editModeState.businessCategories ? (
               <div className="flex flex-col gap-2 mt-2">
                 {businessCategory &&
-                        businessCategory
-                          .filter((el) => {
-                            return el._id == businessAccountData.category;
-                          })
-                          .map((cat) => {
-                            return (
-                              <div
-                                className="w-80 px-4 py-2 bg-skeleton"
-                                key={cat._id}
-                              >
-                                <p>{cat.name}</p>
-                              </div>
-                            );
-                })}
+                  businessCategory
+                    .filter((el) => {
+                      return el._id == businessAccountData.category;
+                    })
+                    .map((cat) => {
+                      return (
+                        <div
+                          className="w-80 px-4 py-2 bg-skeleton"
+                          key={cat._id}
+                        >
+                          <p>{cat.name}</p>
+                        </div>
+                      );
+                    })}
                 {/* display the selected category */}
                 {/* <select
                   id="categories"
@@ -2128,7 +2120,7 @@ const Profile = () => {
                                 <p>{cat.name}</p>
                               </div>
                             );
-                      })}
+                          })}
                     </div>
                   ) : (
                     // <input
@@ -2151,7 +2143,7 @@ const Profile = () => {
                       placeholder="e.g. Marketing, consultent, design"
                       className="form-input md:w-80"
                       defaultValue={businessAccountData.category}
-                      onChange={(e) =>setPrimaryCategory(e.target.value)}
+                      onChange={(e) => setPrimaryCategory(e.target.value)}
                     >
                       <option value={""}></option>
 
@@ -2390,42 +2382,42 @@ const Profile = () => {
                       {`/30 Items Listed`}
                     </div>
                     <FormProvider {...servicesForm}>
-      <form
-        name="editProductForm"
-        onSubmit={handleSubmitService(handleProductAdd)}
-      >
-        <div className="flex">
-          <input
-            type="text"
-            className="form-input rounded-r-0"
-            {...registerService("service")}
-          />
-          <button
-            type="submit"
-            className="py-2 px-4 bg-success text-white"
-            title="save"
-          >
-            <FaCheck />
-          </button>
-          <button
-            type="submit"
-            className="py-2 px-4 bg-error text-white"
-            title="save"
-          >
-            <FaTrashAlt />
-          </button>
-          <div className="flex items-center justify-center px-2">
-            <IoClose
-              className="text-error w-6 h-6 stroke-3 cursor-pointer"
-              onClick={() => handleToggleEditMode("products")}
-            />
-          </div>
-        </div>
-        <p className="text-error text-sm mt-1">
-          {errorsService?.service?.message}
-        </p>
-      </form>
-    </FormProvider>
+                      <form
+                        name="editProductForm"
+                        onSubmit={handleSubmitService(handleProductAdd)}
+                      >
+                        <div className="flex">
+                          <input
+                            type="text"
+                            className="form-input rounded-r-0"
+                            {...registerService("service")}
+                          />
+                          <button
+                            type="submit"
+                            className="py-2 px-4 bg-success text-white"
+                            title="save"
+                          >
+                            <FaCheck />
+                          </button>
+                          <button
+                            type="submit"
+                            className="py-2 px-4 bg-error text-white"
+                            title="save"
+                          >
+                            <FaTrashAlt />
+                          </button>
+                          <div className="flex items-center justify-center px-2">
+                            <IoClose
+                              className="text-error w-6 h-6 stroke-3 cursor-pointer"
+                              onClick={() => handleToggleEditMode("products")}
+                            />
+                          </div>
+                        </div>
+                        <p className="text-error text-sm mt-1">
+                          {errorsService?.service?.message}
+                        </p>
+                      </form>
+                    </FormProvider>
                   </div>
                 )}
           </div>
@@ -2923,29 +2915,32 @@ const Profile = () => {
               </>
             ) : (
               <FormProvider {...contactForm}>
-              <div className="md:grid gap-2 grid-cols-2" >
-                <form className="flex flex-col gap-2 py-2" onSubmit={handleSubmitContact(addContact)}>
-                  <div className="form-control">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="w-80"
-                      id="firstname"
-                      {...registerContact("fname")}
-                    />
-                  </div>
-                  <span className="text-xs text-red-700">Required</span>
-                  <div className="form-control">
-                    <input
-                      type="text"
-                      placeholder="Last Name"
-                      className="w-80"
-                      id="lastname"
-                      {...registerContact("lname")}
-                    />
-                  </div>
-                  <span className="text-xs text-red-700">Required</span>
-                  {/* <div className="form-control">
+                <div className="md:grid gap-2 grid-cols-2">
+                  <form
+                    className="flex flex-col gap-2 py-2"
+                    onSubmit={handleSubmitContact(addContact)}
+                  >
+                    <div className="form-control">
+                      <input
+                        type="text"
+                        placeholder="First Name"
+                        className="w-80"
+                        id="firstname"
+                        {...registerContact("fname")}
+                      />
+                    </div>
+                    <span className="text-xs text-red-700">Required</span>
+                    <div className="form-control">
+                      <input
+                        type="text"
+                        placeholder="Last Name"
+                        className="w-80"
+                        id="lastname"
+                        {...registerContact("lname")}
+                      />
+                    </div>
+                    <span className="text-xs text-red-700">Required</span>
+                    {/* <div className="form-control">
                     <input
                       type="text"
                       placeholder="Title or Role"
@@ -2954,41 +2949,44 @@ const Profile = () => {
                       name="title"
                     />
                   </div> */}
-                  <div className="form-control">
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      className="w-80"
-                      id="email"
-                      {...registerContact("email")}
-                    />
+                    <div className="form-control">
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        className="w-80"
+                        id="email"
+                        {...registerContact("email")}
+                      />
+                    </div>
+                    <div className="form-control">
+                      <input
+                        type="text"
+                        placeholder="Phone"
+                        className="w-80"
+                        id="phone"
+                        {...registerContact("phone")}
+                      />
+                    </div>
+                    <div className="flex items-start flex-wrap gap-2 absolute top-6 right-6">
+                      <button
+                        className="bg-skeleton py-1 px-3  rounded "
+                        type="button"
+                        onClick={() => handleToggleEditMode("contact")}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="bg-orange text-white py-1 px-3 rounded "
+                        type="submit"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                  </form>
+                  <div className="error">
+                    First Name, Last Name and Title are required
                   </div>
-                  <div className="form-control">
-                    <input
-                      type="text"
-                      placeholder="Phone"
-                      className="w-80"
-                      id="phone"
-                      {...registerContact("phone")}
-                    />
-                  </div>
-                  <div className="flex items-start flex-wrap gap-2 absolute top-6 right-6">
-                    <button
-                      className="bg-skeleton py-1 px-3  rounded "
-                      type="button"
-                      onClick={() => handleToggleEditMode("contact")}
-                    >
-                      Cancel
-                    </button>
-                    <button className="bg-orange text-white py-1 px-3 rounded " type="submit">
-                      Verify
-                    </button>
-                  </div>
-                </form>
-                <div className="error">
-                  First Name, Last Name and Title are required
                 </div>
-              </div>
               </FormProvider>
             )}
 
