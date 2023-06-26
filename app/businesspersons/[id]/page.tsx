@@ -114,7 +114,7 @@ const BusinessPersonDetails = ({ params }: {
               <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
                 <div className="w-full max-h-[270px] flex items-center">
                   <img
-                    src={data.profilePicture.key ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${data.profilePicture.key}` : "/images/team5.png"}
+                    src={data?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${data.profilePicture.key}` : "/images/team5.png"}
                     alt="person"
                     className="object-cover h-64 rounded"
                   />
