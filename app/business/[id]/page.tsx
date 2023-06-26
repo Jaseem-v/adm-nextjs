@@ -68,7 +68,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
     link: string;
     // Add other properties if necessary
   }
-  const socialMediaLinks: SocialMediaLink[] = data?.socialMediaLinks;
+  const socialMediaLinks: SocialMediaLink[] = data?.socialMediaLinks ?? [];
 
   const instagramObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "INSTAGRAM");
   const facebookObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "FACEBOOK");
@@ -160,7 +160,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
             <img src="/images/locationImg.png" alt="location" />
 
             <Link target="_blank"
-              className="text-center navBtn font-medium bg-orange text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+              className="text-center navBtn font-medium bg-brownBg text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
               href={`https://www.google.com/maps?q=${data?.name.replace(/ /g, "+")},${data?.addressDetails.address.replace(/ /g, "+")},${data?.addressDetails.city.replace(/ /g, "+")},${data?.addressDetails.state.replace(/ /g, "+")},${data?.addressDetails.pincode}`}>
               Get Direction
             </Link>
@@ -218,7 +218,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
               className="px-4 w-52 md:w-full"
             />
             <a href="#">
-              <button className="py-4 px-7 md:py-5 md:px-10 bg-orange text-white">
+              <button className="py-4 px-7 md:py-5 md:px-10 bg-brownBg text-white">
                 Subscribe
               </button>
             </a>
