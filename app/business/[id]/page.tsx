@@ -68,15 +68,18 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
     link: string;
     // Add other properties if necessary
   }
-  // const socialMediaLinks = data.socialMediaLinks;
+  const socialMediaLinks: SocialMediaLink[] = data?.socialMediaLinks;
 
-  // const instagramObj = Object.values(socialMediaLinks).find((obj) => obj.title === "INSTAGRAM");
-  // const facebookObj = Object.values(socialMediaLinks).find((obj) => obj.title === "FACEBOOK");
-  // const linkedinObj = Object.values(socialMediaLinks).find((obj) => obj.title === "LINKEDIN");
-  // const twitterObj = Object.values(socialMediaLinks).find((obj) => obj.title === "TWITTER");
-  // const youtubeObj = Object.values(socialMediaLinks).find((obj) => obj.title === "YOUTUBE");
-  // const whatsappObj = Object.values(socialMediaLinks).find((obj) => obj.title === "WHATSAPP");
-  // const telegramObj = Object.values(socialMediaLinks).find((obj) => obj.title === "TELEGRAM");
+  const instagramObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "INSTAGRAM");
+  const facebookObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "FACEBOOK");
+  const linkedinObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "LINKEDIN");
+  const twitterObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "TWITTER");
+  const youtubeObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "YOUTUBE");
+  const whatsappObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "WHATSAPP");
+  const telegramObj = Object.values(socialMediaLinks).find((obj: { title: string }) => obj.title === "TELEGRAM");
+
+
+  console.log('socialmedia', data?.socialMediaLinks)
 
   const breadcrumbs = ['Business', 'Details']
   return (
@@ -166,30 +169,30 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
           <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
             <p className="font-semibold text-xl md:text-2xl">Social Media</p>
             <div className="grid grid-cols-4 gap-10">
-              <a href="#">
+              {facebookObj && <a href={`facebook.com/${facebookObj.link}`}>
                 <img src="/images/fb.png" alt="fb" />
-              </a>
-              <a href="#">
+              </a>}
+              {whatsappObj && <a href="#">
                 <img src="/images/whatsappp.png" alt="fb" />
-              </a>
-              <a href="#">
+              </a>}
+              {twitterObj && <a href="#">
                 <img src="/images/twitter2.png" alt="twitter" />
-              </a>
-              <a href="#">
+              </a>}
+              {instagramObj && <a href={`instagram.com/${instagramObj.link}`}>
                 <img src="/images/insta.png" alt="instagram" />
-              </a>
-              <a href="#">
+              </a>}
+              {linkedinObj && <a href="#">
                 <img src="/images/linkedin2.png" alt="linkedin" />
-              </a>
-              <a href="#">
+              </a>}
+              {youtubeObj && <a href="#">
                 <img src="/images/yt.png" alt="youtube" />
-              </a>
-              <a href="#">
-                <img src="/images/tiktok.png" alt="tiktok" />
-              </a>
-              <a href="#">
+              </a>}
+              {/* <a href="#">
+                  <img src="/images/tiktok.png" alt="tiktok" />
+                </a> */}
+              {telegramObj && <a href="#">
                 <img src="/images/tg.png" alt="telegram" />
-              </a>
+              </a>}
             </div>
           </div>
         </div>

@@ -25,7 +25,7 @@ interface Photo {
   name: string;
 }
 interface SocialMediaLink {
-  id: string;
+  _id: string;
   title: string;
   link: string;
 }
