@@ -160,7 +160,7 @@ const BusinessPersonDetails = ({ params }: {
                   </p>
                 </div> */}
               </div>
-              <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
+              <div className={`flex flex-col gap-6 md:gap-7 lg:gap-8 ${data.about === 'NO ABOUT' ? 'hidden' : ''}`}>
                 <p className="font-bold text-xl md:text-2xl">
                   About Business Man
                 </p>
@@ -282,7 +282,7 @@ const BusinessPersonDetails = ({ params }: {
               className="px-4 w-52 md:w-full"
             />
             <a href="#">
-              <button className="py-4 px-7 md:py-5 md:px-10 bg-orange text-white">
+              <button className="py-4 px-7 md:py-5 md:px-10 bg-brownBg text-white">
                 Subscribe
               </button>
             </a>
