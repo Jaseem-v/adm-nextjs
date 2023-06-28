@@ -89,6 +89,7 @@ const Profile = () => {
     contact: false,
     photos: false,
     detailedInformation: false,
+    advertisement: false
   };
   const [editModeState, setEditModeState] =
     useState<EditModeState>(initialEditModeState);
@@ -247,6 +248,12 @@ const Profile = () => {
     },
   });
   const [accountType, setAccountType] = useState<string | null>();
+  const [advertisement, setAdvertisement] = useState({
+    image: '',
+    desc: '',
+    type: 'real estate' || 'job',
+    visibility: true
+  })
 
   const handleSocialMediaChange = (
     name: string,
@@ -372,30 +379,30 @@ const Profile = () => {
           profileImg.append("image", file);
 
           try {
-            await httpClient("multipart/form-data")
-              .patch(
-                `user/${
-                  accountType === "personal" ? "personal" : "business"
-                }/change-profile-picture`,
-                profileImg
-              )
-              .then((res) => {
-                console.log("img upload", res);
-              })
-              .catch((err) => console.log("error updating", err));
+            if (section === "logo") {
+              setEditInfoState((prevState) => ({
+                ...prevState,
+                logo: URL.createObjectURL(file),
+              }));
+              await httpClient("multipart/form-data")
+                .patch(
+                  `user/${
+                    accountType === "personal" ? "personal" : "business"
+                  }/change-profile-picture`,
+                  profileImg
+                )
+                .then((res) => {
+                  console.log("img upload", res);
+                })
+                .catch((err) => console.log("error updating", err));
+            } else if (section === "companyImages") {
+              const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
+              setUploadedPhotos(newPhotos);
+              handlePhotoAdd(URL.createObjectURL(file));
+              setIsAddedPhoto(true);
+            }
           } catch (error) {
             console.log(error);
-          }
-          if (section === "logo") {
-            setEditInfoState((prevState) => ({
-              ...prevState,
-              logo: URL.createObjectURL(file),
-            }));
-          } else if (section === "companyImages") {
-            const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
-            setUploadedPhotos(newPhotos);
-            handlePhotoAdd(URL.createObjectURL(file));
-            setIsAddedPhoto(true);
           }
         };
 
