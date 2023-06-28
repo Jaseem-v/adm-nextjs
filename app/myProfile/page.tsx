@@ -3017,9 +3017,9 @@ const Profile = () => {
                 Post your advertisement
               </p>
             </div>
-            {!editModeState.contact ? (
+            {!editModeState.advertisement ? (
               <>
-                {!editModeState.photos ? (
+                {!editModeState.advertisement ? (
             <div className="border-2 border-black border-dashed p-4">
               <div className="flex flex-wrap lg:flex-col gap-4">
                 <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
@@ -3033,7 +3033,7 @@ const Profile = () => {
                     <div className="flex items-center font-bold gap-1">
                       <span
                         className="cursor-pointer hover:underline"
-                        onClick={() => handleToggleEditMode("photos")}
+                        onClick={() => handleToggleEditMode("advertisement")}
                       >
                         Add advertisement
                       </span>
@@ -3081,84 +3081,71 @@ const Profile = () => {
           )}
                 <button
                   className="py-2 mt-2 rounded w-48 bg-black text-white"
-                  onClick={() => handleToggleEditMode("contact")}
+                  onClick={() => handleToggleEditMode("advertisement")}
                 >
                   Add advertisement
                 </button>
               </>
             ) : (
               <FormProvider {...contactForm}>
-                <div className="md:grid gap-2 grid-cols-2">
-                  <form
-                    className="flex flex-col gap-2 py-2"
-                    onSubmit={handleSubmitContact(addContact)}
-                  >
-                    <div className="form-control">
-                      <input
-                        type="text"
-                        placeholder="First Name"
-                        className="w-80"
-                        id="firstname"
-                        {...registerContact("fname")}
-                      />
-                    </div>
-                    <span className="text-xs text-red-700">Required</span>
-                    <div className="form-control">
-                      <input
-                        type="text"
-                        placeholder="Last Name"
-                        className="w-80"
-                        id="lastname"
-                        {...registerContact("lname")}
-                      />
-                    </div>
-                    <span className="text-xs text-red-700">Required</span>
-                    {/* <div className="form-control">
-                    <input
-                      type="text"
-                      placeholder="Title or Role"
-                      className="w-80"
-                      id="title"
-                      name="title"
-                    />
-                  </div> */}
-                    <div className="form-control">
-                      <input
-                        type="email"
-                        placeholder="Email"
-                        className="w-80"
-                        id="email"
-                        {...registerContact("email")}
-                      />
-                    </div>
-                    <div className="form-control">
-                      <input
-                        type="text"
-                        placeholder="Phone"
-                        className="w-80"
-                        id="phone"
-                        {...registerContact("phone")}
-                      />
-                    </div>
-                    <div className="flex items-start flex-wrap gap-2 absolute top-6 right-6">
-                      <button
-                        className="bg-skeleton py-1 px-3  rounded "
-                        type="button"
-                        onClick={() => handleToggleEditMode("contact")}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className="bg-orange text-white py-1 px-3 rounded "
-                        type="submit"
-                      >
-                        Verify
-                      </button>
-                    </div>
-                  </form>
-                  <div className="error">
-                    First Name, Last Name and Title are required
+                <div {...getCompanyImagesRootProps()}>
+                <input type="file" {...getCompanyImagesInputProps()} />
+                <div
+                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                    isDragActive ? "border-blue-500" : "border-black"
+                  }`}
+                >
+                  <p className="font-semibold">Add a photo</p>
+                  <BsFillCameraFill className="w-11 h-11" />
+                </div>
+              </div>
+
+              <textarea name="desc" id="desc" cols={10} rows={5} className="form-input" placeholder="Enter the advertisement description"/>
+              
+              <div className="flex items-center gap-4">
+                  <p>Type</p>
+                  <div>
+                    <select
+                      id="type"
+                      className="w-48 form-input"
+                    >
+                      <option value=""></option>
+                      <option value="real estate">Real estate</option>
+                      <option value="Job">Job</option>
+                    </select>
                   </div>
+                </div>
+
+              <div className="flex flex-row gap-2 items-center">
+                              <label
+                                htmlFor="visibility"
+                                className="cursor-pointer"
+                              >
+                                <input
+                                  type="checkbox"
+                                  className="cursor-pointer"
+                                  id="visibility"
+                                  name="visibility"
+                                />
+                                <span className="ml-1 text-sm">
+                                  Hide advertisement
+                                </span>
+                              </label>
+                            </div>
+
+                            <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
+                  <button
+                    className="bg-skeleton py-1 px-3  rounded "
+                    onClick={() => handleToggleEditMode("advertisement")}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-orange text-white py-1 px-3 rounded "
+                    type="submit"
+                  >
+                    Verify
+                  </button>
                 </div>
               </FormProvider>
             )}
@@ -3168,6 +3155,8 @@ const Profile = () => {
         )}
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
+
+
         {/* \\\\\\\\\\\ */}
         {/* DETAILED INFORMATION👇 */}
         {accountType === "business" && (
