@@ -44,6 +44,7 @@ import {
   businessNameSchema,
   servicesSchema,
   contactDetailsSchema,
+  advertisementSchema
 } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
@@ -1031,6 +1032,39 @@ const Profile = () => {
   const addContact = async (data: ContactFormValues) => {
     const contactData = { ...data, isAddressVisible: false };
     console.log("contactData", contactData);
+    // const contactDetails = [businessAccountData.contactDetails, contactData]
+    // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
+    // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
+  };
+
+
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+  // ADVERTISEMENT
+  // \\\\\\\\\\\\\\\\\\\\\\\\\
+
+  type advertisementValues = {
+    image: string;
+    desc: string;
+    type: string;
+    visibility: boolean;
+  };
+
+  const advertisementForm = useForm<advertisementValues>({
+    defaultValues: {},
+    resolver: yupResolver(advertisementSchema),
+  });
+
+  const {
+    register: registerAd,
+    handleSubmit: handleSubmitAd,
+    formState: formStateAd,
+    setValue: setValueAd,
+  } = advertisementForm;
+  const { errors: errorsAd } = formStateAd;
+
+  const addAdvertisement = async (data: advertisementValues) => {
+    const adData = { ...data, isAddressVisible: false };
+    console.log("adData", adData);
     // const contactDetails = [businessAccountData.contactDetails, contactData]
     // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
     // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
@@ -3087,11 +3121,12 @@ const Profile = () => {
                 </button>
               </>
             ) : (
-              <FormProvider {...contactForm}>
+              <FormProvider {...advertisementForm}>
+                <form onSubmit={handleSubmitAd(addAdvertisement)} className="flex flex-col gap-2 py-2">
                 <div {...getCompanyImagesRootProps()}>
-                <input type="file" {...getCompanyImagesInputProps()} />
+                <input type="file" {...getCompanyImagesInputProps()} {...registerAd('image')} />
                 <div
-                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                  className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
                     isDragActive ? "border-blue-500" : "border-black"
                   }`}
                 >
@@ -3100,7 +3135,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <textarea name="desc" id="desc" cols={10} rows={5} className="form-input" placeholder="Enter the advertisement description"/>
+              <textarea name="desc" id="desc" rows={5} className="form-input max-w-3xl" placeholder="Enter the advertisement description" {...registerAd('desc')} />
               
               <div className="flex items-center gap-4">
                   <p>Type</p>
@@ -3108,6 +3143,7 @@ const Profile = () => {
                     <select
                       id="type"
                       className="w-48 form-input"
+                      {...registerAd('type')}
                     >
                       <option value=""></option>
                       <option value="real estate">Real estate</option>
@@ -3126,8 +3162,9 @@ const Profile = () => {
                                   className="cursor-pointer"
                                   id="visibility"
                                   name="visibility"
+                                  {...registerAd('visibility')}
                                 />
-                                <span className="ml-1 text-sm">
+                                <span className="ml-2">
                                   Hide advertisement
                                 </span>
                               </label>
@@ -3147,6 +3184,7 @@ const Profile = () => {
                     Verify
                   </button>
                 </div>
+                </form>
               </FormProvider>
             )}
 

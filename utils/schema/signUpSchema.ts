@@ -155,3 +155,10 @@ export const businessNameSchema = yup.object({
 export const servicesSchema = yup.object({
   service: yup.string().required("This field should not be empty."),
 });
+
+export const advertisementSchema = yup.object({
+  image: yup.string(),
+  desc: yup.string().required(),
+  type: yup.string().required(),
+  visibility: yup.boolean()
+});
