@@ -9,6 +9,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import { RiPhoneFill } from "react-icons/ri";
+import { RiAdvertisementFill } from "react-icons/ri";
 import { VscGlobe } from "react-icons/vsc";
 import { FaRegNewspaper } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
@@ -2995,6 +2996,171 @@ const Profile = () => {
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
 
+        {/* \\\\\\\\\\\ */}
+        {/* ADVERTISEMENT */}
+        {accountType === "business" && (
+          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 relative">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-medium font-lora text-black title">
+                  Advertisement
+                </p>
+              </div>
+              <p className="text-lg">
+                Post your advertisement
+              </p>
+            </div>
+            {!editModeState.contact ? (
+              <>
+                {!editModeState.photos ? (
+            <div className="border-2 border-black border-dashed p-4">
+              <div className="flex flex-wrap lg:flex-col gap-4">
+                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                  <RiAdvertisementFill className="h-5 w-6" />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4">
+                    <p className="text-gray-700">
+                    Add an advertisement for your business
+                    </p>
+                    <div className="flex items-center font-bold gap-1">
+                      <span
+                        className="cursor-pointer hover:underline"
+                        onClick={() => handleToggleEditMode("photos")}
+                      >
+                        Add advertisement
+                      </span>
+                      <FaChevronRight />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-row flex-wrap gap-4">
+              {/* if photo is added */}
+              {editInfoState.photos.length > 0 &&
+                editInfoState.photos.map((photo) => (
+                  <div key={photo.id}>
+                    <div className="relative">
+                      <div
+                        className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
+                        onClick={() => removePhoto(photo.id)}
+                      >
+                        <IoClose color="white" />
+                      </div>
+                      <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+                        <div
+                          className="h-48 w-48 bg-cover bg-no-repeat bg-center"
+                          style={{ backgroundImage: `url('${photo.name}')` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+              <div {...getCompanyImagesRootProps()}>
+                <input type="file" {...getCompanyImagesInputProps()} />
+                <div
+                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                    isDragActive ? "border-blue-500" : "border-black"
+                  }`}
+                >
+                  <p className="font-semibold">Add a photo</p>
+                  <BsFillCameraFill className="w-11 h-11" />
+                </div>
+              </div>
+            </div>
+          )}
+                <button
+                  className="py-2 mt-2 rounded w-48 bg-black text-white"
+                  onClick={() => handleToggleEditMode("contact")}
+                >
+                  Add advertisement
+                </button>
+              </>
+            ) : (
+              <FormProvider {...contactForm}>
+                <div className="md:grid gap-2 grid-cols-2">
+                  <form
+                    className="flex flex-col gap-2 py-2"
+                    onSubmit={handleSubmitContact(addContact)}
+                  >
+                    <div className="form-control">
+                      <input
+                        type="text"
+                        placeholder="First Name"
+                        className="w-80"
+                        id="firstname"
+                        {...registerContact("fname")}
+                      />
+                    </div>
+                    <span className="text-xs text-red-700">Required</span>
+                    <div className="form-control">
+                      <input
+                        type="text"
+                        placeholder="Last Name"
+                        className="w-80"
+                        id="lastname"
+                        {...registerContact("lname")}
+                      />
+                    </div>
+                    <span className="text-xs text-red-700">Required</span>
+                    {/* <div className="form-control">
+                    <input
+                      type="text"
+                      placeholder="Title or Role"
+                      className="w-80"
+                      id="title"
+                      name="title"
+                    />
+                  </div> */}
+                    <div className="form-control">
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        className="w-80"
+                        id="email"
+                        {...registerContact("email")}
+                      />
+                    </div>
+                    <div className="form-control">
+                      <input
+                        type="text"
+                        placeholder="Phone"
+                        className="w-80"
+                        id="phone"
+                        {...registerContact("phone")}
+                      />
+                    </div>
+                    <div className="flex items-start flex-wrap gap-2 absolute top-6 right-6">
+                      <button
+                        className="bg-skeleton py-1 px-3  rounded "
+                        type="button"
+                        onClick={() => handleToggleEditMode("contact")}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="bg-orange text-white py-1 px-3 rounded "
+                        type="submit"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                  </form>
+                  <div className="error">
+                    First Name, Last Name and Title are required
+                  </div>
+                </div>
+              </FormProvider>
+            )}
+
+            {/* edited */}
+          </div>
+        )}
+        {/* CONTACT👆 */}
+        {/* \\\\\\\\\\\ */}
         {/* \\\\\\\\\\\ */}
         {/* DETAILED INFORMATION👇 */}
         {accountType === "business" && (
