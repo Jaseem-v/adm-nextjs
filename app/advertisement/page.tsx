@@ -8,8 +8,8 @@ const Advertisement = () => {
 
   const breakpointColumnsObj = {
     default: 3,
-    1100: 3,
-    700: 2,
+    4000: 3,
+    1024: 2,
     500: 1
   };
 
@@ -27,10 +27,10 @@ const Advertisement = () => {
   return (
     <>
       <SectionHeader title="Advertisement" breadcrumbs={breadcrumbs} />
-      <section className="my-16 max-w-7xl mx-auto">
+      <section className="my-16 max-w-7xl mx-4 xl:mx-auto">
       <Masonry
         breakpointCols={breakpointColumnsObj}
-        className="my-masonry-grid"
+        className="my-masonry-grid xl:mx-0"
         columnClassName="my-masonry-grid_column">
         {/* array of JSX items */}
         {item}
