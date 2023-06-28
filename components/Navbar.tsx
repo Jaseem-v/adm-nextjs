@@ -450,7 +450,7 @@ const Navbar = () => {
             <div className="w-full flex items-start justify-center gap-5 text-center ">
               <div className="relative flex-1">
                 <button
-                  className=" w-full font-medium bg-lightGold text-brown py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                  className=" w-full font-medium bg-brownBg text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
                   onClick={() => {
                     setShowEnlistModel(true)
                     setIsMobileNavOpen(false)

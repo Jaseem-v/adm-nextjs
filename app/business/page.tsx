@@ -142,7 +142,7 @@ const Business = () => {
               className="focus:outline-none"
             />
             <a href="">
-              <button className="font-regular text-white bg-orange py-3  px-4 min-[380px]:px-8 md:px-12 text-base rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+              <button className="font-regular text-white bg-brownBg py-3  px-4 min-[380px]:px-8 md:px-12 text-base rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                 Search
               </button>
             </a>
