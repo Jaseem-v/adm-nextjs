@@ -18,8 +18,8 @@ const Advertisement = () => {
             <div>
             <img src="images/companyProfile.png" alt="c" className="rounded-t-md w-full h-full block"/>
             <div className="text p-6">
-              <h3 className="font-semibold text-xl">For sale</h3>
-              <p className="mt-4">This item is for sale hahah now grab this oppertunity and buy this whole company</p>
+              {/* <h3 className="font-semibold text-xl">For sale</h3> */}
+              <p className="mb-2">This item is for sale hahah now grab this oppertunity and buy this whole company</p>
             </div>
             </div>
           </div>

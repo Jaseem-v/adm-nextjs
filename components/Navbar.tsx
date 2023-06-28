@@ -69,6 +69,7 @@ const Navbar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showEnlistModel, setShowEnlistModel] = useState(false);
   const [username, setUsername] = useState('')
+  const [profileImage, setProfileImage] = useState('')
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const [isLoggedOut, setIsLoggedOut] = useState(false)
   const [isLoginPage, setIsLoginPage] = useState(false)
@@ -140,39 +141,43 @@ const Navbar = () => {
     //    const { loginStatus} = router.query;
     // setIsLoggedin(loginStatus === 'success');
 
-    // const fetchUser = async () => {
-    //   const accountType = localStorage.getItem('accountType')
+    const fetchUser = async () => {
+      const accountType = localStorage.getItem('accountType')
 
-    //   if (accountType === 'personal') {
-    //     try {
-    //       const response = await httpClient().get("user/personal/profile")
-    //       if (response.status === 200) {
-    //         const { username } = response.data.data
-    //         const editedUsername = username.slice(3)
-    //         setUsername(editedUsername)
-    //       }
-    //     } catch (error) {
-    //       console.log(error)
-    //     }
-    //   } else if (accountType === 'business') {
-    //     try {
-    //       const response = await httpClient().get("user/business/profile")
-    //       if (response.status === 200) {
-    //         const { username } = response.data.data
-    //         const editedUsername = username.slice(3)
-    //         setUsername(editedUsername)
-    //       }
-    //     } catch (error) {
-    //       console.log(error)
-    //     }
-    //   }
-    // }
-    // fetchUser()
-
+      if (accountType === 'personal') {
+        try {
+          const response = await httpClient().get("user/personal/profile")
+          if (response.status === 200) {
+            const { profilePicture } = response.data.data;
+            profilePicture.key ? setProfileImage(`https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${profilePicture.key}`) : setProfileImage('images/profilePreview.png');
+            const { username } = response.data.data
+            const editedUsername = username.slice(3)
+            setUsername(editedUsername)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      } else if (accountType === 'business') {
+        try {
+          const response = await httpClient().get("user/business/profile")
+          if (response.status === 200) {
+            const { profilePicture } = response.data.data;
+            profilePicture.key ? setProfileImage(`https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${profilePicture.key}`) : setProfileImage('images/profilePreview.png');
+            const { username } = response.data.data
+            const editedUsername = username.slice(3)
+            setUsername(editedUsername)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    fetchUser()
     // const loginStatus = token !== null
 
 
   }, [isLoggedOut, pathname])
+  console.log(profileImage)
 
   useEffect(() => {
     if (isLoggedin == false && isLoggedOut == true) {
@@ -285,12 +290,12 @@ const Navbar = () => {
         {isLoggedin ? <Dropdown menu={{ items }} placement="bottomRight" arrow>
           <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
           <div
-  className="h-9 w-9 rounded-full navbarImage"
-  style={{backgroundImage: 'url(images/profilePreview.png)'}}
+  className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+  style={{backgroundImage: `url(${profileImage})`}}
 ></div>
 
             <div className="flex items-center gap-2">
-              <p>{username}</p>
+              {/* <p>{username}</p> */}
               <img
                 src="/images/expand.svg"
                 alt="expand"
