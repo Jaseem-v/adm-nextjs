@@ -252,7 +252,7 @@ const Profile = () => {
   const [advertisement, setAdvertisement] = useState({
     image: '',
     desc: '',
-    type: 'real estate' || 'job',
+    type: 'REAL_ESTATE' || 'USED_CAR',
     visibility: true
   })
 
@@ -367,12 +367,11 @@ const Profile = () => {
         const reader: FileReader = new FileReader();
 
         const profileImg = new FormData();
+        const galleryImg = new FormData();
 
         reader.onabort = () => console.log("File reading was aborted");
         reader.onerror = () => console.log("File reading has failed");
         reader.onload = async () => {
-          // Do whatever you want with the file contents
-          const binaryStr: ArrayBuffer | null = reader.result as ArrayBuffer;
 
           console.log("file", file);
           console.log("image file", URL.createObjectURL(file));
@@ -398,9 +397,21 @@ const Profile = () => {
                 .catch((err) => console.log("error updating", err));
             } else if (section === "companyImages") {
               const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
+              galleryImg.append("image", file);
+              await httpClient("multipart/form-data")
+                .patch(
+                  `gallery`,
+                  galleryImg
+                )
+                .then((res) => {
+                  console.log("img upload", res);
+                })
+                .catch((err) => console.log("error updating", err));
               setUploadedPhotos(newPhotos);
               handlePhotoAdd(URL.createObjectURL(file));
               setIsAddedPhoto(true);
+            } else if (section === "advertisement") {
+              setAdvertisement(prevState => ({...prevState, image: URL.createObjectURL(file)}))
             }
           } catch (error) {
             console.log(error);
@@ -425,6 +436,9 @@ const Profile = () => {
 
   const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, "logo") });
+  
+    const { getRootProps: getAdRootProps, getInputProps: getAdInputProps } =
+    useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, "advertisement") });
 
   const removePhoto = (id: number) => {
     const newPhotos = editInfoState.photos.filter((photo) => photo.id !== id);
@@ -1063,8 +1077,19 @@ const Profile = () => {
   const { errors: errorsAd } = formStateAd;
 
   const addAdvertisement = async (data: advertisementValues) => {
-    const adData = { ...data, isAddressVisible: false };
-    console.log("adData", adData);
+    const adData = { ...data };
+    const { desc, type, visibility } = data;
+    setAdvertisement(prevState => ({...prevState, desc, type, visibility}))
+    console.log('adddd', advertisement)
+
+    console.log("adData", advertisement);
+    handleToggleEditMode("advertisement")
+
+    try {
+      await httpClient().post('advertisement', adData).then(res => console.log(res)) 
+    } catch (error) {
+      console.log(error)
+    }
     // const contactDetails = [businessAccountData.contactDetails, contactData]
     // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
     // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
@@ -3123,8 +3148,8 @@ const Profile = () => {
             ) : (
               <FormProvider {...advertisementForm}>
                 <form onSubmit={handleSubmitAd(addAdvertisement)} className="flex flex-col gap-2 py-2">
-                <div {...getCompanyImagesRootProps()}>
-                <input type="file" {...getCompanyImagesInputProps()} {...registerAd('image')} />
+                <div {...getAdRootProps()}>
+                <input type="file" {...getAdInputProps()} {...registerAd('image')} />
                 <div
                   className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
                     isDragActive ? "border-blue-500" : "border-black"
@@ -3135,7 +3160,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <textarea name="desc" id="desc" rows={5} className="form-input max-w-3xl" placeholder="Enter the advertisement description" {...registerAd('desc')} />
+              <textarea id="desc" rows={5} className="form-input max-w-3xl" placeholder="Enter the advertisement description" {...registerAd('desc')} />
               
               <div className="flex items-center gap-4">
                   <p>Type</p>
@@ -3146,8 +3171,8 @@ const Profile = () => {
                       {...registerAd('type')}
                     >
                       <option value=""></option>
-                      <option value="real estate">Real estate</option>
-                      <option value="Job">Job</option>
+                      <option value="REAL_ESTATE">Real estate</option>
+                      <option value="USED_CAR">Used car</option>
                     </select>
                   </div>
                 </div>
@@ -3161,11 +3186,10 @@ const Profile = () => {
                                   type="checkbox"
                                   className="cursor-pointer"
                                   id="visibility"
-                                  name="visibility"
                                   {...registerAd('visibility')}
                                 />
                                 <span className="ml-2">
-                                  Hide advertisement
+                                  Show advertisement
                                 </span>
                               </label>
                             </div>
