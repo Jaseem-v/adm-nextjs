@@ -253,7 +253,7 @@ const Profile = () => {
     image: '',
     desc: '',
     type: 'REAL_ESTATE' || 'USED_CAR',
-    visibility: true
+    visibility: ''
   })
 
   const handleSocialMediaChange = (
@@ -1078,8 +1078,8 @@ const Profile = () => {
 
   const addAdvertisement = async (data: advertisementValues) => {
     const adData = { ...data };
-    const { desc, type, visibility } = data;
-    setAdvertisement(prevState => ({...prevState, desc, type, visibility}))
+    let { desc, type, visibility } = data;
+    setAdvertisement(prevState => ({...prevState, desc, type, visibility: visibility ? 'Show' : 'Hide'}))
     console.log('adddd', advertisement)
 
     console.log("adData", advertisement);
