@@ -1,6 +1,8 @@
 "use client"
 
 import SectionHeader from "@/components/SectionHeader";
+import httpClient from "@/services/axiosInstance";
+import { useEffect } from "react";
 import Masonry from 'react-masonry-css'
 
 const Advertisement = () => {
@@ -12,6 +14,20 @@ const Advertisement = () => {
     1024: 2,
     500: 1
   };
+
+  useEffect(() => {
+    const getAd = async () => {
+      try {
+        const usedCar = await httpClient().get('advertisement/used-car/customer')
+        const realEstate = await httpClient().get('advertisement/real-estate/customer')
+        console.log(usedCar.data)
+        console.log(realEstate.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  getAd()
+  }, [])
 
   const item = (
     <div className="rounded-lg shadow-md inline-block h-fit">

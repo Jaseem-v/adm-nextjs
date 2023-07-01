@@ -250,8 +250,11 @@ const Profile = () => {
   });
   const [accountType, setAccountType] = useState<string | null>();
   const [advertisement, setAdvertisement] = useState({
-    image: FileWithPath
+    image: null | FileWithPath
   });
+  const [adImg, setAdImg] = useState('')
+console.log(adImg)
+
 
   const handleSocialMediaChange = (
     name: string,
@@ -369,8 +372,6 @@ const Profile = () => {
         reader.onabort = () => console.log("File reading was aborted");
         reader.onerror = () => console.log("File reading has failed");
         reader.onload = async () => {
-          console.log("file", file);
-          console.log("image file", URL.createObjectURL(file));
 
           profileImg.append("image", file);
 
@@ -406,6 +407,7 @@ const Profile = () => {
               setIsAddedPhoto(true);
             } else if (section === "advertisement") {
               setAdvertisement({image: file});
+              setAdImg(URL.createObjectURL(file))
             }
           } catch (error) {
             console.log(error);
@@ -463,6 +465,7 @@ const Profile = () => {
     setEditInfoState((prevState) => ({ ...prevState, logo: oldLogo }));
     setShowDeleteModel(false);
   };
+
 
   const handlePhotoAdd = (value: string) => {
     setEditInfoState((prevState) => {
@@ -1074,15 +1077,6 @@ const Profile = () => {
   const addAdvertisement = async (data: advertisementValues) => {
     const adData = { ...data };
     let { desc, type, visibility } = data;
-    setAdvertisement((prevState) => ({
-      ...prevState,
-      desc,
-      type,
-      visibility: visibility ? "Show" : "Hide",
-    }));
-    console.log("adddd", advertisement);
-
-    console.log("adData", advertisement);
 
     const formData = new FormData();
     formData.append("desc", desc);
@@ -3112,14 +3106,13 @@ const Profile = () => {
                   </div>
                 ) : (
                   <div className="flex flex-row flex-wrap gap-4">
-                    {/* if photo is added */}
-                    {editInfoState.photos.length > 0 &&
-                      editInfoState.photos.map((photo) => (
-                        <div key={photo.id}>
+                    {/* if ad is added */}
+                    {/* {adImg &&
+                        <div>
                           <div className="relative">
                             <div
                               className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
-                              onClick={() => removePhoto(photo.id)}
+                              onClick={() => removePhoto(1)}
                             >
                               <IoClose color="white" />
                             </div>
@@ -3127,25 +3120,13 @@ const Profile = () => {
                               <div
                                 className="h-48 w-48 bg-cover bg-no-repeat bg-center"
                                 style={{
-                                  backgroundImage: `url('${photo.name}')`,
+                                  backgroundImage: `url('${adImg}')`,
                                 }}
                               ></div>
                             </div>
                           </div>
                         </div>
-                      ))}
-
-                    <div {...getCompanyImagesRootProps()}>
-                      <input type="file" {...getCompanyImagesInputProps()} />
-                      <div
-                        className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
-                          isDragActive ? "border-blue-500" : "border-black"
-                        }`}
-                      >
-                        <p className="font-semibold">Add a photo</p>
-                        <BsFillCameraFill className="w-11 h-11" />
-                      </div>
-                    </div>
+                      } */}
                   </div>
                 )}
                 <button
@@ -3161,21 +3142,41 @@ const Profile = () => {
                   onSubmit={handleSubmitAd(addAdvertisement)}
                   className="flex flex-col gap-2 py-2"
                 >
-                  <div {...getAdRootProps()}>
+                  {adImg ?
+                  (<div>
+                    <div className="relative h-40 w-40">
+                      <div
+                        className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
+                        onClick={() => removePhoto(1)}
+                      >
+                        <IoClose color="white" />
+                      </div>
+                      <div className="h-40 w-40 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+                        <div
+                          className="h-48 w-48 bg-cover bg-no-repeat bg-center"
+                          style={{
+                            backgroundImage: `url('${adImg}')`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>) : 
+                  (<div {...getAdRootProps()}>
                     <input
                       type="file"
                       {...getAdInputProps()}
                       {...registerAd("image")}
-                    />
+                      />
                     <div
                       className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
                         isDragActive ? "border-blue-500" : "border-black"
                       }`}
-                    >
+                      >
                       <p className="font-semibold">Add a photo</p>
                       <BsFillCameraFill className="w-11 h-11" />
                     </div>
-                  </div>
+                  </div>)
+                    }
 
                   <textarea
                     id="desc"
