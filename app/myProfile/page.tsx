@@ -1103,7 +1103,7 @@ console.log(adImg)
 
   const removeAdImg = () => {
     setAdImg('')
-    setAdvertisement()
+    setAdvertisement(undefined)
   }
 
   const socialMediaEdited = isSocialMediaAdded && (
