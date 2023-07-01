@@ -249,9 +249,10 @@ const Profile = () => {
     },
   });
   const [accountType, setAccountType] = useState<string | null>();
-  const [advertisement, setAdvertisement] = useState({
-    image: null | FileWithPath
-  });
+  type AdvertisementType = {
+    image: string | any
+  }
+  const [advertisement, setAdvertisement] = useState<AdvertisementType>();
   const [adImg, setAdImg] = useState('')
 console.log(adImg)
 
@@ -1080,7 +1081,7 @@ console.log(adImg)
 
     const formData = new FormData();
     formData.append("desc", desc);
-    formData.append("image", advertisement.image);
+    formData.append("image", advertisement?.image);
     formData.append("type", type);
     formData.append("visibility", visibility ? "Hide" : "Show");
 
@@ -1091,11 +1092,19 @@ console.log(adImg)
     } catch (error) {
       console.log(error);
     }
+    setValueAd("desc", '')
+    setValueAd("type", '')
+    setAdImg('')
     handleToggleEditMode("advertisement");
     // const contactDetails = [businessAccountData.contactDetails, contactData]
     // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
     // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
   };
+
+  const removeAdImg = () => {
+    setAdImg('')
+    setAdvertisement()
+  }
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -3147,7 +3156,7 @@ console.log(adImg)
                     <div className="relative h-40 w-40">
                       <div
                         className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
-                        onClick={() => removePhoto(1)}
+                        onClick={removeAdImg}
                       >
                         <IoClose color="white" />
                       </div>
