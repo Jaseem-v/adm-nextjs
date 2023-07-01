@@ -250,10 +250,7 @@ const Profile = () => {
   });
   const [accountType, setAccountType] = useState<string | null>();
   const [advertisement, setAdvertisement] = useState({
-    image: "",
-    desc: "",
-    type: "REAL_ESTATE" || "USED_CAR",
-    visibility: "",
+    image: FileWithPath
   });
 
   const handleSocialMediaChange = (
@@ -408,10 +405,7 @@ const Profile = () => {
               handlePhotoAdd(URL.createObjectURL(file));
               setIsAddedPhoto(true);
             } else if (section === "advertisement") {
-              setAdvertisement((prevState) => ({
-                ...prevState,
-                image: URL.createObjectURL(file),
-              }));
+              setAdvertisement({image: file});
             }
           } catch (error) {
             console.log(error);
@@ -1090,16 +1084,16 @@ const Profile = () => {
 
     console.log("adData", advertisement);
 
-    const formData = new FormData()
+    const formData = new FormData();
     formData.append("desc", desc);
     formData.append("image", advertisement.image);
     formData.append("type", type);
-    formData.append("visibility", visibility ? "Hide" : "Show")
-    
+    formData.append("visibility", visibility ? "Hide" : "Show");
+
     try {
-      await httpClient()
-      .post("advertisement", formData)
-      .then((res) => console.log(res));
+      await httpClient("multipart/form-data")
+        .post("advertisement", formData)
+        .then((res) => console.log(res));
     } catch (error) {
       console.log(error);
     }
