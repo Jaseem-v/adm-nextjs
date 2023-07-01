@@ -44,7 +44,7 @@ import {
   businessNameSchema,
   servicesSchema,
   contactDetailsSchema,
-  advertisementSchema
+  advertisementSchema,
 } from "../../utils/schema/signUpSchema";
 import httpClient from "@/services/axiosInstance";
 import { toast } from "react-hot-toast";
@@ -90,7 +90,7 @@ const Profile = () => {
     contact: false,
     photos: false,
     detailedInformation: false,
-    advertisement: false
+    advertisement: false,
   };
   const [editModeState, setEditModeState] =
     useState<EditModeState>(initialEditModeState);
@@ -250,11 +250,11 @@ const Profile = () => {
   });
   const [accountType, setAccountType] = useState<string | null>();
   const [advertisement, setAdvertisement] = useState({
-    image: '',
-    desc: '',
-    type: 'REAL_ESTATE' || 'USED_CAR',
-    visibility: ''
-  })
+    image: "",
+    desc: "",
+    type: "REAL_ESTATE" || "USED_CAR",
+    visibility: "",
+  });
 
   const handleSocialMediaChange = (
     name: string,
@@ -372,7 +372,6 @@ const Profile = () => {
         reader.onabort = () => console.log("File reading was aborted");
         reader.onerror = () => console.log("File reading has failed");
         reader.onload = async () => {
-
           console.log("file", file);
           console.log("image file", URL.createObjectURL(file));
 
@@ -398,11 +397,9 @@ const Profile = () => {
             } else if (section === "companyImages") {
               const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
               galleryImg.append("image", file);
+              galleryImg.append("visibility", "Show");
               await httpClient("multipart/form-data")
-                .patch(
-                  `gallery`,
-                  galleryImg
-                )
+                .patch(`gallery`, galleryImg)
                 .then((res) => {
                   console.log("img upload", res);
                 })
@@ -411,7 +408,10 @@ const Profile = () => {
               handlePhotoAdd(URL.createObjectURL(file));
               setIsAddedPhoto(true);
             } else if (section === "advertisement") {
-              setAdvertisement(prevState => ({...prevState, image: URL.createObjectURL(file)}))
+              setAdvertisement((prevState) => ({
+                ...prevState,
+                image: URL.createObjectURL(file),
+              }));
             }
           } catch (error) {
             console.log(error);
@@ -436,9 +436,11 @@ const Profile = () => {
 
   const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } =
     useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, "logo") });
-  
-    const { getRootProps: getAdRootProps, getInputProps: getAdInputProps } =
-    useDropzone({ onDrop: (acceptedFiles) => onDrop(acceptedFiles, "advertisement") });
+
+  const { getRootProps: getAdRootProps, getInputProps: getAdInputProps } =
+    useDropzone({
+      onDrop: (acceptedFiles) => onDrop(acceptedFiles, "advertisement"),
+    });
 
   const removePhoto = (id: number) => {
     const newPhotos = editInfoState.photos.filter((photo) => photo.id !== id);
@@ -1051,7 +1053,6 @@ const Profile = () => {
     // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
   };
 
-
   // \\\\\\\\\\\\\\\\\\\\\\\\\
   // ADVERTISEMENT
   // \\\\\\\\\\\\\\\\\\\\\\\\\
@@ -1079,17 +1080,30 @@ const Profile = () => {
   const addAdvertisement = async (data: advertisementValues) => {
     const adData = { ...data };
     let { desc, type, visibility } = data;
-    setAdvertisement(prevState => ({...prevState, desc, type, visibility: visibility ? 'Show' : 'Hide'}))
-    console.log('adddd', advertisement)
+    setAdvertisement((prevState) => ({
+      ...prevState,
+      desc,
+      type,
+      visibility: visibility ? "Show" : "Hide",
+    }));
+    console.log("adddd", advertisement);
 
     console.log("adData", advertisement);
-    handleToggleEditMode("advertisement")
 
+    const formData = new FormData()
+    formData.append("desc", desc);
+    formData.append("image", advertisement.image);
+    formData.append("type", type);
+    formData.append("visibility", visibility ? "Hide" : "Show")
+    
     try {
-      await httpClient().post('advertisement', adData).then(res => console.log(res)) 
+      await httpClient()
+      .post("advertisement", formData)
+      .then((res) => console.log(res));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+    handleToggleEditMode("advertisement");
     // const contactDetails = [businessAccountData.contactDetails, contactData]
     // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
     // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
@@ -3072,72 +3086,74 @@ const Profile = () => {
                   Advertisement
                 </p>
               </div>
-              <p className="text-lg">
-                Post your advertisement
-              </p>
+              <p className="text-lg">Post your advertisement</p>
             </div>
             {!editModeState.advertisement ? (
               <>
                 {!editModeState.advertisement ? (
-            <div className="border-2 border-black border-dashed p-4">
-              <div className="flex flex-wrap lg:flex-col gap-4">
-                <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                  <RiAdvertisementFill className="h-5 w-6" />
-                </div>
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-4">
-                    <p className="text-gray-700">
-                    Add an advertisement for your business
-                    </p>
-                    <div className="flex items-center font-bold gap-1">
-                      <span
-                        className="cursor-pointer hover:underline"
-                        onClick={() => handleToggleEditMode("advertisement")}
-                      >
-                        Add advertisement
-                      </span>
-                      <FaChevronRight />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-row flex-wrap gap-4">
-              {/* if photo is added */}
-              {editInfoState.photos.length > 0 &&
-                editInfoState.photos.map((photo) => (
-                  <div key={photo.id}>
-                    <div className="relative">
-                      <div
-                        className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
-                        onClick={() => removePhoto(photo.id)}
-                      >
-                        <IoClose color="white" />
+                  <div className="border-2 border-black border-dashed p-4">
+                    <div className="flex flex-wrap lg:flex-col gap-4">
+                      <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                        <RiAdvertisementFill className="h-5 w-6" />
                       </div>
-                      <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
-                        <div
-                          className="h-48 w-48 bg-cover bg-no-repeat bg-center"
-                          style={{ backgroundImage: `url('${photo.name}')` }}
-                        ></div>
+                      <div className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-4">
+                          <p className="text-gray-700">
+                            Add an advertisement for your business
+                          </p>
+                          <div className="flex items-center font-bold gap-1">
+                            <span
+                              className="cursor-pointer hover:underline"
+                              onClick={() =>
+                                handleToggleEditMode("advertisement")
+                              }
+                            >
+                              Add advertisement
+                            </span>
+                            <FaChevronRight />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                ))}
+                ) : (
+                  <div className="flex flex-row flex-wrap gap-4">
+                    {/* if photo is added */}
+                    {editInfoState.photos.length > 0 &&
+                      editInfoState.photos.map((photo) => (
+                        <div key={photo.id}>
+                          <div className="relative">
+                            <div
+                              className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
+                              onClick={() => removePhoto(photo.id)}
+                            >
+                              <IoClose color="white" />
+                            </div>
+                            <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+                              <div
+                                className="h-48 w-48 bg-cover bg-no-repeat bg-center"
+                                style={{
+                                  backgroundImage: `url('${photo.name}')`,
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
 
-              <div {...getCompanyImagesRootProps()}>
-                <input type="file" {...getCompanyImagesInputProps()} />
-                <div
-                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
-                    isDragActive ? "border-blue-500" : "border-black"
-                  }`}
-                >
-                  <p className="font-semibold">Add a photo</p>
-                  <BsFillCameraFill className="w-11 h-11" />
-                </div>
-              </div>
-            </div>
-          )}
+                    <div {...getCompanyImagesRootProps()}>
+                      <input type="file" {...getCompanyImagesInputProps()} />
+                      <div
+                        className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                          isDragActive ? "border-blue-500" : "border-black"
+                        }`}
+                      >
+                        <p className="font-semibold">Add a photo</p>
+                        <BsFillCameraFill className="w-11 h-11" />
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <button
                   className="py-2 mt-2 rounded w-48 bg-black text-white"
                   onClick={() => handleToggleEditMode("advertisement")}
@@ -3147,67 +3163,75 @@ const Profile = () => {
               </>
             ) : (
               <FormProvider {...advertisementForm}>
-                <form onSubmit={handleSubmitAd(addAdvertisement)} className="flex flex-col gap-2 py-2">
-                <div {...getAdRootProps()}>
-                <input type="file" {...getAdInputProps()} {...registerAd('image')} />
-                <div
-                  className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
-                    isDragActive ? "border-blue-500" : "border-black"
-                  }`}
+                <form
+                  onSubmit={handleSubmitAd(addAdvertisement)}
+                  className="flex flex-col gap-2 py-2"
                 >
-                  <p className="font-semibold">Add a photo</p>
-                  <BsFillCameraFill className="w-11 h-11" />
-                </div>
-              </div>
-
-              <textarea id="desc" rows={5} className="form-input max-w-3xl" placeholder="Enter the advertisement description" {...registerAd('desc')} />
-              
-              <div className="flex items-center gap-4">
-                  <p>Type</p>
-                  <div>
-                    <select
-                      id="type"
-                      className="w-48 form-input"
-                      {...registerAd('type')}
+                  <div {...getAdRootProps()}>
+                    <input
+                      type="file"
+                      {...getAdInputProps()}
+                      {...registerAd("image")}
+                    />
+                    <div
+                      className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                        isDragActive ? "border-blue-500" : "border-black"
+                      }`}
                     >
-                      <option value=""></option>
-                      <option value="REAL_ESTATE">Real estate</option>
-                      <option value="USED_CAR">Used car</option>
-                    </select>
+                      <p className="font-semibold">Add a photo</p>
+                      <BsFillCameraFill className="w-11 h-11" />
+                    </div>
                   </div>
-                </div>
 
-              <div className="flex flex-row gap-2 items-center">
-                              <label
-                                htmlFor="visibility"
-                                className="cursor-pointer"
-                              >
-                                <input
-                                  type="checkbox"
-                                  className="cursor-pointer"
-                                  id="visibility"
-                                  {...registerAd('visibility')}
-                                />
-                                <span className="ml-2">
-                                  Show advertisement
-                                </span>
-                              </label>
-                            </div>
+                  <textarea
+                    id="desc"
+                    rows={5}
+                    className="form-input max-w-3xl"
+                    placeholder="Enter the advertisement description"
+                    {...registerAd("desc")}
+                  />
 
-                            <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
-                  <button
-                    className="bg-skeleton py-1 px-3  rounded "
-                    onClick={() => handleToggleEditMode("advertisement")}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="bg-orange text-white py-1 px-3 rounded "
-                    type="submit"
-                  >
-                    Verify
-                  </button>
-                </div>
+                  <div className="flex items-center gap-4">
+                    <p>Type</p>
+                    <div>
+                      <select
+                        id="type"
+                        className="w-48 form-input"
+                        {...registerAd("type")}
+                      >
+                        <option value=""></option>
+                        <option value="REAL_ESTATE">Real estate</option>
+                        <option value="USED_CAR">Used car</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-row gap-2 items-center">
+                    <label htmlFor="visibility" className="cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="cursor-pointer"
+                        id="visibility"
+                        {...registerAd("visibility")}
+                      />
+                      <span className="ml-2">Hide advertisement</span>
+                    </label>
+                  </div>
+
+                  <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
+                    <button
+                      className="bg-skeleton py-1 px-3  rounded "
+                      onClick={() => handleToggleEditMode("advertisement")}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="bg-orange text-white py-1 px-3 rounded "
+                      type="submit"
+                    >
+                      Verify
+                    </button>
+                  </div>
                 </form>
               </FormProvider>
             )}
@@ -3217,7 +3241,6 @@ const Profile = () => {
         )}
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
-
 
         {/* \\\\\\\\\\\ */}
         {/* DETAILED INFORMATION👇 */}
