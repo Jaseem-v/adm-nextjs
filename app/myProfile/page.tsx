@@ -736,7 +736,11 @@ const Profile = () => {
   } = socialMediaForm;
   const { errors: errorsSocialMedia } = formStateSocialMedia;
 
-  
+  setSocialMediaValue("instagram", instagramObj?.link || "");
+  setSocialMediaValue("facebook", facebookObj?.link || "");
+  setSocialMediaValue("twitter", twitterObj?.link || "");
+  setSocialMediaValue("linkedin", linkedinObj?.link || "");
+  setSocialMediaValue("youtube", youtubeObj?.link || "");
 
 
   const isSocialMediaAdded =
