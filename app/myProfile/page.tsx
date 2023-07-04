@@ -192,7 +192,7 @@ const Profile = () => {
       about: "",
       socialMediaLinks: [],
       services: [],
-      gallery: [],
+      gallerys: [],
       profilePicture: {
         key: "",
       },
@@ -361,7 +361,9 @@ console.log(adImg)
     }));
   };
 
+  // \\\\\\\\\\\\\\\\\\\\
   // DROPZONE
+  // \\\\\\\\\\\\\\\\\\\\
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[], section: string) => {
       acceptedFiles.forEach((file: FileWithPath) => {
@@ -397,8 +399,9 @@ console.log(adImg)
               const newPhotos = [...uploadedPhotos, URL.createObjectURL(file)];
               galleryImg.append("image", file);
               galleryImg.append("visibility", "Show");
+              console.log(galleryImg)
               await httpClient("multipart/form-data")
-                .patch(`gallery`, galleryImg)
+                .post(`gallery`, galleryImg)
                 .then((res) => {
                   console.log("img upload", res);
                 })
