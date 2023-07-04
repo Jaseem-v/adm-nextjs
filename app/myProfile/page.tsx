@@ -254,7 +254,6 @@ const Profile = () => {
   }
   const [advertisement, setAdvertisement] = useState<AdvertisementType>();
   const [adImg, setAdImg] = useState('')
-console.log(adImg)
 
 
   const handleSocialMediaChange = (
@@ -710,20 +709,6 @@ console.log(adImg)
     linkedin: string;
     youtube: string;
   };
-  const [personalSocialMediaLinks, setPersonalSocialMediaLinks] = useState({
-    facebook: "",
-    instagram: "",
-    linkedin: "",
-    twitter: "",
-    youtube: "",
-  });
-  const [businessSocialMediaLinks, setBusinessSocialMediaLinks] = useState({
-    facebook: "",
-    instagram: "",
-    linkedin: "",
-    twitter: "",
-    youtube: "",
-  });
 
   const sm =
       accountType === "personal"
@@ -750,7 +735,9 @@ console.log(adImg)
     setValue: setSocialMediaValue,
   } = socialMediaForm;
   const { errors: errorsSocialMedia } = formStateSocialMedia;
+
   
+
 
   const isSocialMediaAdded =
     accountType === "personal"
@@ -833,36 +820,21 @@ console.log(adImg)
           const res = response.data.data;
           // setBusinessAccountData(prevState => ({ ...prevState, category: res }))
           setBusinessCategory(res);
-          console.log(res);
+          // console.log(res);
         } catch (error) {
           console.log(error);
         }
       }
 
-      const sm =
-      accountType === "personal"
-        ? personalAccountData.socialMediaLinks
-        : businessAccountData.socialMediaLinks;
-  
-    const instagramObj = Object.values(sm).find((obj) => obj.title === "INSTAGRAM");
-    const facebookObj = Object.values(sm).find((obj) => obj.title === "FACEBOOK");
-    const linkedinObj = Object.values(sm).find((obj) => obj.title === "LINKEDIN");
-    const twitterObj = Object.values(sm).find((obj) => obj.title === "TWITTER");
-    const youtubeObj = Object.values(sm).find((obj) => obj.title === "YOUTUBE");
-
-    accountType === "personal" 
-    ? setPersonalSocialMediaLinks((prevState) => ({...prevState, instagram: instagramObj ? instagramObj.link : '', facebook: facebookObj ? facebookObj.link : ''}))
-    : setBusinessSocialMediaLinks((prevState) => ({...prevState, instagram: instagramObj ? instagramObj.link : '', facebook: facebookObj ? facebookObj.link : ''}));
-
     setIsLoading(false);
     };
+    accountType === "personal"
+      ? console.log("personal account data", personalAccountData)
+      : console.log("business account data", businessAccountData);
 
     userApiData();
   }, []);
 
-  accountType === "personal"
-    ? console.log("personal account data", personalAccountData)
-    : console.log("business account data", businessAccountData);
 
   // \\\\\\\\\\\\\\\\\\\\\\\\\
   // CATEGORIES

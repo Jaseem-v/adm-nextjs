@@ -177,7 +177,6 @@ const Navbar = () => {
 
 
   }, [isLoggedOut, pathname])
-  console.log(profileImage)
 
   useEffect(() => {
     if (isLoggedin == false && isLoggedOut == true) {
