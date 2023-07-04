@@ -726,31 +726,20 @@ console.log(adImg)
   });
 
   const sm =
-    accountType === "personal"
-      ? personalAccountData.socialMediaLinks
-      : businessAccountData.socialMediaLinks;
+      accountType === "personal"
+        ? personalAccountData.socialMediaLinks
+        : businessAccountData.socialMediaLinks;
+  
+    const instagramObj = Object.values(sm).find((obj) => obj.title === "INSTAGRAM");
+    const facebookObj = Object.values(sm).find((obj) => obj.title === "FACEBOOK");
+    const linkedinObj = Object.values(sm).find((obj) => obj.title === "LINKEDIN");
+    const twitterObj = Object.values(sm).find((obj) => obj.title === "TWITTER");
+    const youtubeObj = Object.values(sm).find((obj) => obj.title === "YOUTUBE");
 
-  const instagramObj = Object.values(sm).find(
-    (obj) => obj.title === "INSTAGRAM"
-  );
-  const facebookObj = Object.values(sm).find((obj) => obj.title === "FACEBOOK");
-  const linkedinObj = Object.values(sm).find((obj) => obj.title === "LINKEDIN");
-  const twitterObj = Object.values(sm).find((obj) => obj.title === "TWITTER");
-  const youtubeObj = Object.values(sm).find((obj) => obj.title === "YOUTUBE");
 
-  const defaultValues: SocialMediaFormValues = useMemo(
-    () => ({
-      instagram: instagramObj?.link || "",
-      facebook: facebookObj?.link || "",
-      twitter: "",
-      linkedin: "",
-      youtube: "",
-    }),
-    []
-  );
 
   const socialMediaForm = useForm<SocialMediaFormValues>({
-    defaultValues,
+    defaultValues: {},
     resolver: yupResolver(SocialMediaSchema),
   });
 
@@ -758,8 +747,10 @@ console.log(adImg)
     register: registerSocialMedia,
     handleSubmit: handleSubmitSocialMedia,
     formState: formStateSocialMedia,
+    setValue: setSocialMediaValue,
   } = socialMediaForm;
   const { errors: errorsSocialMedia } = formStateSocialMedia;
+  
 
   const isSocialMediaAdded =
     accountType === "personal"
@@ -847,7 +838,23 @@ console.log(adImg)
           console.log(error);
         }
       }
-      setIsLoading(false);
+
+      const sm =
+      accountType === "personal"
+        ? personalAccountData.socialMediaLinks
+        : businessAccountData.socialMediaLinks;
+  
+    const instagramObj = Object.values(sm).find((obj) => obj.title === "INSTAGRAM");
+    const facebookObj = Object.values(sm).find((obj) => obj.title === "FACEBOOK");
+    const linkedinObj = Object.values(sm).find((obj) => obj.title === "LINKEDIN");
+    const twitterObj = Object.values(sm).find((obj) => obj.title === "TWITTER");
+    const youtubeObj = Object.values(sm).find((obj) => obj.title === "YOUTUBE");
+
+    accountType === "personal" 
+    ? setPersonalSocialMediaLinks((prevState) => ({...prevState, instagram: instagramObj ? instagramObj.link : '', facebook: facebookObj ? facebookObj.link : ''}))
+    : setBusinessSocialMediaLinks((prevState) => ({...prevState, instagram: instagramObj ? instagramObj.link : '', facebook: facebookObj ? facebookObj.link : ''}));
+
+    setIsLoading(false);
     };
 
     userApiData();
@@ -2679,13 +2686,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. www.facebook.com/companyProfile"
                           {...registerSocialMedia("facebook")}
-                          value={personalSocialMediaLinks.facebook}
-                          onChange={(e) =>
-                            setPersonalSocialMediaLinks((prevState) => ({
-                              ...prevState,
-                              facebook: e.target.value,
-                            }))
-                          }
                         />
                       </div>
                     </div>
@@ -2703,10 +2703,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. @instagramProfile"
                           {...registerSocialMedia("instagram")}
-                          value={instagramObj && instagramObj.link}
-                          onChange={(e) =>
-                            handleSocialMediaChange("instagram", e)
-                          }
                         />
                       </div>
                     </div>
@@ -2724,10 +2720,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. @twitterProfile"
                           {...registerSocialMedia("twitter")}
-                          value={twitterObj && twitterObj.link}
-                          onChange={(e) =>
-                            handleSocialMediaChange("twitter", e)
-                          }
                         />
                       </div>
                     </div>
@@ -2745,10 +2737,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. www.linkedin.com/companyProfile"
                           {...registerSocialMedia("linkedin")}
-                          value={linkedinObj && linkedinObj.link}
-                          onChange={(e) =>
-                            handleSocialMediaChange("linkedin", e)
-                          }
                         />
                       </div>
                     </div>
@@ -2766,10 +2754,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. www.youtube.com/profile"
                           {...registerSocialMedia("youtube")}
-                          value={youtubeObj && youtubeObj.link}
-                          onChange={(e) =>
-                            handleSocialMediaChange("youtube", e)
-                          }
                         />
                       </div>
                     </div>
@@ -2791,13 +2775,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. www.facebook.com/companyProfile"
                           {...registerSocialMedia("facebook")}
-                          value={businessSocialMediaLinks.facebook}
-                          onChange={(e) =>
-                            setBusinessSocialMediaLinks((prevState) => ({
-                              ...prevState,
-                              facebook: e.target.value,
-                            }))
-                          }
                         />
                       </div>
                     </div>
@@ -2815,13 +2792,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. @instagramProfile"
                           {...registerSocialMedia("instagram")}
-                          value={businessSocialMediaLinks.instagram}
-                          onChange={(e) =>
-                            setBusinessSocialMediaLinks((prevState) => ({
-                              ...prevState,
-                              instagram: e.target.value,
-                            }))
-                          }
                         />
                       </div>
                     </div>
@@ -2839,13 +2809,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. @twitterProfile"
                           {...registerSocialMedia("twitter")}
-                          value={businessSocialMediaLinks.twitter}
-                          onChange={(e) =>
-                            setBusinessSocialMediaLinks((prevState) => ({
-                              ...prevState,
-                              twitter: e.target.value,
-                            }))
-                          }
                         />
                       </div>
                     </div>
@@ -2863,13 +2826,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. www.linkedin.com/companyProfile"
                           {...registerSocialMedia("linkedin")}
-                          value={businessSocialMediaLinks.linkedin}
-                          onChange={(e) =>
-                            setBusinessSocialMediaLinks((prevState) => ({
-                              ...prevState,
-                              linkedin: e.target.value,
-                            }))
-                          }
                         />
                       </div>
                     </div>
@@ -2887,13 +2843,6 @@ console.log(adImg)
                           className="form-input w-full"
                           placeholder="e.g. www.youtube.com/profile"
                           {...registerSocialMedia("youtube")}
-                          value={businessSocialMediaLinks.youtube}
-                          onChange={(e) =>
-                            setBusinessSocialMediaLinks((prevState) => ({
-                              ...prevState,
-                              youtube: e.target.value,
-                            }))
-                          }
                         />
                       </div>
                     </div>
@@ -2907,7 +2856,7 @@ console.log(adImg)
                     Cancel
                   </button>
                   <button
-                    className="bg-orange text-white py-1 px-3 rounded "
+                    className="bg-brownBg text-white py-1 px-3 rounded "
                     type="submit"
                   >
                     Verify
@@ -2918,8 +2867,9 @@ console.log(adImg)
           )}
         </div>
         {/* SOCAIL MEDIA LINKS👆 */}
+        {/* \\\\\\\\\\\\\\\\\\\\ */}
 
-        {/* \\\\\\\\\\\ */}
+        {/* \\\\\\\\\\\\\\\\\\\\ */}
         {/* CONTACT */}
         {accountType === "business" && (
           <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 relative">
