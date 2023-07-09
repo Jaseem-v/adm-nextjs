@@ -5,7 +5,9 @@ import httpClient from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import Masonry from 'react-masonry-css'
 
-type AdvertisementProps = {};
+type AdvertisementProps = {
+  
+};
 
 const Advertisement = () => {
   const breadcrumbs = ["Advertisement"];
@@ -54,7 +56,7 @@ const Advertisement = () => {
         {ads.map((ad, index) => (
           <div key={index} className="rounded-lg shadow-md inline-block h-fit">
             <div>
-            <img src="images/companyProfile.png" alt="c" className="rounded-t-md w-full h-full block"/>
+            <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block"/>
             <div className="text p-6">
               {/* <h3 className="font-semibold text-xl">For sale</h3> */}
               <p className="mb-2">{ad?.desc}</p>
