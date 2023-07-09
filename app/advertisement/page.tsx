@@ -8,8 +8,15 @@ import Masonry from 'react-masonry-css'
 type AdvertisementProps = {
   _id: string;
   desc: string;
+  createdAt: string;
   image: {
     key: string;
+  },
+  user: {
+    name: string;
+    profilePicture: {
+      key: string;
+    }
   }
 };
 
@@ -58,9 +65,19 @@ const Advertisement = () => {
         className="my-masonry-grid xl:mx-0"
         columnClassName="my-masonry-grid_column">
         {ads.map((ad) => (
-          <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit">
+          <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
             <div>
             <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block"/>
+            <div className="flex items-center justify-between px-6 pt-6">
+              <div className="flex items-center gap-2">
+                <div
+                  className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+                  style={{backgroundImage: `url(https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${ad.user?.profilePicture?.key})`}} 
+                />
+                <p className="font-semibold text-textBlack">{ad.user?.name}</p>
+              </div>
+              <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
+            </div>
             <div className="text p-6">
               {/* <h3 className="font-semibold text-xl">For sale</h3> */}
               <p className="mb-2">{ad?.desc}</p>
