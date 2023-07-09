@@ -2,11 +2,14 @@
 
 import SectionHeader from "@/components/SectionHeader";
 import httpClient from "@/services/axiosInstance";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Masonry from 'react-masonry-css'
+
+type AdvertisementProps = {};
 
 const Advertisement = () => {
   const breadcrumbs = ["Advertisement"];
+  const [ads, setAds] = useState<AdvertisementProps[]>([])
 
   const breakpointColumnsObj = {
     default: 3,
@@ -20,14 +23,14 @@ const Advertisement = () => {
       try {
         const usedCar = await httpClient().get('advertisement/used-car/customer')
         const realEstate = await httpClient().get('advertisement/real-estate/customer')
-        console.log(usedCar.data)
-        console.log(realEstate.data)
+        setAds([...usedCar.data.data, ...realEstate.data.data])
       } catch (error) {
         console.log(error)
       }
     }
-  getAd()
+    getAd()
   }, [])
+  console.log(ads)
 
   const item = (
     <div className="rounded-lg shadow-md inline-block h-fit">
@@ -48,38 +51,17 @@ const Advertisement = () => {
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid xl:mx-0"
         columnClassName="my-masonry-grid_column">
-        {/* array of JSX items */}
-        {item}
-        {item}
-        <div className="rounded-lg shadow-md inline-block">
+        {ads.map((ad, index) => (
+          <div key={index} className="rounded-lg shadow-md inline-block h-fit">
             <div>
-            <img src="images/about2.png" alt="c" className="rounded-t-md w-full h-full block"/>
+            <img src="images/companyProfile.png" alt="c" className="rounded-t-md w-full h-full block"/>
             <div className="text p-6">
-              <h3 className="font-semibold text-xl">For sale</h3>
-              <p className="mt-4">This item is for sale hahah now grab this oppertunity and buy this whole company</p>
+              {/* <h3 className="font-semibold text-xl">For sale</h3> */}
+              <p className="mb-2">{ad?.desc}</p>
             </div>
             </div>
           </div>
-        <div className="rounded-lg shadow-md inline-block">
-            <div>
-            <img src="images/header.png" alt="c" className="rounded-t-md w-full h-full block"/>
-            <div className="text p-6">
-              <h3 className="font-semibold text-xl">For sale</h3>
-              <p className="mt-4">This item is for sale hahah now grab this oppertunity and buy this whole company</p>
-            </div>
-            </div>
-          </div>
-        <div className="rounded-lg shadow-md inline-block">
-            <div>
-            <img src="images/team6.png" alt="c" className="rounded-t-md w-full h-full block"/>
-            <div className="text p-6">
-              <h3 className="font-semibold text-xl">For sale</h3>
-              <p className="mt-4">This item is for sale hahah now grab this oppertunity and buy this whole company</p>
-            </div>
-            </div>
-          </div>
-        {item}
-        {item}
+        ))}
       </Masonry>
       </section>
     </>
