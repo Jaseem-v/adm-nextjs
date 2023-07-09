@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import Masonry from 'react-masonry-css'
 
 type AdvertisementProps = {
-  
+  _id: string;
+  desc: string;
+  image: {
+    key: string;
+  }
 };
 
 const Advertisement = () => {
@@ -53,8 +57,8 @@ const Advertisement = () => {
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid xl:mx-0"
         columnClassName="my-masonry-grid_column">
-        {ads.map((ad, index) => (
-          <div key={index} className="rounded-lg shadow-md inline-block h-fit">
+        {ads.map((ad) => (
+          <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit">
             <div>
             <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block"/>
             <div className="text p-6">
