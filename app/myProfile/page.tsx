@@ -1094,6 +1094,43 @@ const Profile = () => {
     setAdvertisement(undefined)
   }
 
+  type AdvertisementProps = {
+    _id: string;
+    desc: string;
+    createdAt: string;
+    image: {
+      key: string;
+    },
+    type: string;
+    createdBy: {
+      name: string;
+      username: string;
+      profilePicture: {
+        key: string;
+      }
+    }
+  };
+
+  const [userAds, setUserAds] = useState<AdvertisementProps[]>([])
+
+  useEffect(() => {
+    const getAd = async () => {
+      try {
+        const usedCar = await httpClient().get('advertisement/used-car/approved')
+        const realEstate = await httpClient().get('advertisement/real-estate/approved')
+        const ads = [...usedCar?.data?.data, ...realEstate?.data?.data]
+        const account = accountType === 'personal' ? personalAccountData : businessAccountData;
+        const userAds = ads.filter((ad: AdvertisementProps) => ad?.createdBy?._id === account._id)
+        setUserAds([...ads])
+
+        setUserAds([...usedCar?.data?.data, ...realEstate?.data?.data])
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAd()
+  }, [])
+
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
       {facebookObj && (
@@ -1524,7 +1561,7 @@ const Profile = () => {
                     >
                       <div className="flex gap-4 items-center justify-between">
                         <div className="flex flex-col gap-1 form-control">
-                          <label>First name</label>
+                          <label>Business name</label>
                           <input
                             type="text"
                             className="w-full md:w-108 lg:w-56 xl:w-108  mb-2 "
