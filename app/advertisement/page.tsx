@@ -12,13 +12,28 @@ type AdvertisementProps = {
   image: {
     key: string;
   },
-  user: {
+  type: string;
+  createdBy: {
     name: string;
     profilePicture: {
       key: string;
     }
   }
 };
+// type AdvertisementProps = {
+//   _id: string;
+//   desc: string;
+//   createdAt: string;
+//   image: {
+//     key: string;
+//   },
+//   user: {
+//     name: string;
+//     profilePicture: {
+//       key: string;
+//     }
+//   }
+// };
 
 const Advertisement = () => {
   const breadcrumbs = ["Advertisement"];
@@ -34,9 +49,9 @@ const Advertisement = () => {
   useEffect(() => {
     const getAd = async () => {
       try {
-        const usedCar = await httpClient().get('advertisement/used-car/customer')
-        const realEstate = await httpClient().get('advertisement/real-estate/customer')
-        setAds([...usedCar.data.data, ...realEstate.data.data])
+        const usedCar = await httpClient().get('advertisement/used-car/approved')
+        const realEstate = await httpClient().get('advertisement/real-estate/approved')
+        setAds([...usedCar?.data?.data, ...realEstate?.data?.data])
       } catch (error) {
         console.log(error)
       }
@@ -72,9 +87,9 @@ const Advertisement = () => {
               <div className="flex items-center gap-2">
                 <div
                   className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-                  style={{backgroundImage: `url(https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${ad.user?.profilePicture?.key})`}} 
+                  style={{backgroundImage: `url(https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${ad.createdBy?.profilePicture?.key})`}} 
                 />
-                <p className="font-semibold text-textBlack">{ad.user?.name}</p>
+                <p className="font-semibold text-textBlack">{ad.createdBy?.name}</p>
               </div>
               <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
             </div>
