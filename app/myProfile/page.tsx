@@ -1105,6 +1105,7 @@ const Profile = () => {
     createdBy: {
       name: string;
       username: string;
+      _id: string;
       profilePicture: {
         key: string;
       }
