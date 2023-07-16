@@ -221,7 +221,7 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <li
+              {/* <li
                 className="py-10 hidden lg:block"
               >
                 <Link
@@ -231,7 +231,7 @@ const Navbar = () => {
                 >
                   About Us
                 </Link>
-              </li>
+              </li> */}
               <li
                 className="py-10 hidden lg:block"
               >
@@ -269,6 +269,17 @@ const Navbar = () => {
                   aria-current="page"
                 >
                   Events
+                </Link>
+              </li>
+              <li
+                className="py-10 hidden lg:block"
+              >
+                <Link
+                  href='/advertisement'
+                  className='nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                  aria-current="page"
+                >
+                  Advertisement
                 </Link>
               </li>
               <li
