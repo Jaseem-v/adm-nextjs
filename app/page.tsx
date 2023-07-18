@@ -115,12 +115,12 @@ const Index = () => {
         {/* \\\ Main header */}
         <div className="pt-36 pb-56 md:pt-44 md:pb-64 lg:pt-52 lg:pb-80 xl:pb-96 z-10 relative h-full">
           <div className="text-center flex flex-col justify-center  px-5 xl:px-0">
-            <p className="text-textBlack font-bold text-[28px] md:text-[42px] lg:text-[54px] leading-tight md:leading-[62px]">
+            <p className=" font-bold text-[28px] md:text-[42px] lg:text-[54px] leading-tight md:leading-[62px]">
               Empowering Businesses
               <br />
               and Building Connections
             </p>
-            <p className="text-descBlack font-medium mt-3 md:mt-4 text-sm md:text-lg lg:text-xl">
+            <p className="font-medium mt-3 md:mt-4 text-sm md:text-lg lg:text-xl">
               Connecting, empowering, and thriving - join the <br />
               Abudhabi Malayalees community today!
             </p>
@@ -132,7 +132,7 @@ const Index = () => {
               </Link>
               <Link href="/about">
                 <button
-                  className="py-[11px] md:py-[15px] px-6 md:px-10 bg-lightBg text-descBlack hover:bg-darkBg font-medium text-base md:text-lg lg:text-xl rounded-lg border border-white
+                  className="py-[11px] md:py-[15px] px-6 md:px-10 bg-white text-descBlack hover:bg-darkBg font-medium text-base md:text-lg lg:text-xl rounded-lg border border-white
                     flex items-center justify-center gap-2 active:translate-y-[1px] transition-all duration-75"
                 >
                   <p>Learn more</p>
