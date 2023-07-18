@@ -24,46 +24,41 @@ type AdvertisementProps = {
   }
 };
 
-const DropdownItems: MenuProps['items'] = [
-  {
-    key: '1',
-    label: (
-      <Link rel="noopener noreferrer" href="/business" >
-        Business Company
-      </Link>
-    ),
-  },
-  {
-    key: '2',
-    label: (
-      <Link rel="noopener noreferrer" href="/businesspersons" >
-        Business Persons
-      </Link>
-    ),
-  }
-];
-const enlistItems: MenuProps['items'] = [
-  {
-    key: '1',
-    label: (
-      <Link rel="noopener noreferrer" href="/business-listings/add-individual" >
-        Personal
-      </Link>
-    ),
-  },
-  {
-    key: '2',
-    label: (
-      <Link rel="noopener noreferrer" href="/business-listings/add-company" >
-        Business
-      </Link>
-    ),
-  }
-];
+
 
 const Advertisement = () => {
   const breadcrumbs = ["Advertisement"];
   const [ads, setAds] = useState<AdvertisementProps[]>([])
+  const [usedCars, setUsedCars] = useState<AdvertisementProps[]>([])
+  const [realEstate, setRealEstate] = useState<AdvertisementProps[]>([])
+  const [job, setJob] = useState<AdvertisementProps[]>([])
+
+  const DropdownItems: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <p onClick={() => setAds(job)}>
+          Job
+        </p>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <p onClick={() => setAds(usedCars)}>
+          Used car
+        </p>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <p onClick={() => setAds(realEstate)}>
+          Used car
+        </p>
+      ),
+    }
+  ];
 
   const breakpointColumnsObj = {
     default: 3,
@@ -72,11 +67,15 @@ const Advertisement = () => {
     500: 1
   };
 
+  useEffect(() => {},[ads])
+
   useEffect(() => {
     const getAd = async () => {
       try {
         const usedCar = await httpClient().get('advertisement/used-car/approved')
         const realEstate = await httpClient().get('advertisement/real-estate/approved')
+        setUsedCars(usedCar?.data?.data)
+        setRealEstate(realEstate?.data?.data)
         setAds([...usedCar?.data?.data, ...realEstate?.data?.data])
       } catch (error) {
         console.log(error)
@@ -101,7 +100,7 @@ const Advertisement = () => {
     <>
       <SectionHeader title="Advertisement" breadcrumbs={breadcrumbs} />
       <section className="my-16 max-w-7xl mx-4 xl:mx-auto">
-        <div className="w-32 border border-black border-opacity-50 px-4 py-2 my-4 flex items-center justify-center rounded">
+        <div className="w-44 border border-black border-opacity-50 px-4 py-2 mb-6 mx-auto rounded">
           <Dropdown menu={{ items: DropdownItems }} placement="bottomRight" arrow>
                   <div
                     className='text-smactive:text-slate-400 flex items-center justify-center gap-2 cursor-pointer'
