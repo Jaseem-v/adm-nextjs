@@ -4,6 +4,9 @@ import SectionHeader from "@/components/SectionHeader";
 import httpClient from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import Masonry from 'react-masonry-css'
+import type { MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
+import Link from "next/link";
 
 type AdvertisementProps = {
   _id: string;
@@ -20,20 +23,43 @@ type AdvertisementProps = {
     }
   }
 };
-// type AdvertisementProps = {
-//   _id: string;
-//   desc: string;
-//   createdAt: string;
-//   image: {
-//     key: string;
-//   },
-//   user: {
-//     name: string;
-//     profilePicture: {
-//       key: string;
-//     }
-//   }
-// };
+
+const DropdownItems: MenuProps['items'] = [
+  {
+    key: '1',
+    label: (
+      <Link rel="noopener noreferrer" href="/business" >
+        Business Company
+      </Link>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <Link rel="noopener noreferrer" href="/businesspersons" >
+        Business Persons
+      </Link>
+    ),
+  }
+];
+const enlistItems: MenuProps['items'] = [
+  {
+    key: '1',
+    label: (
+      <Link rel="noopener noreferrer" href="/business-listings/add-individual" >
+        Personal
+      </Link>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <Link rel="noopener noreferrer" href="/business-listings/add-company" >
+        Business
+      </Link>
+    ),
+  }
+];
 
 const Advertisement = () => {
   const breadcrumbs = ["Advertisement"];
@@ -75,6 +101,19 @@ const Advertisement = () => {
     <>
       <SectionHeader title="Advertisement" breadcrumbs={breadcrumbs} />
       <section className="my-16 max-w-7xl mx-4 xl:mx-auto">
+        <div className="w-32 border border-black border-opacity-50 px-4 py-2 my-4 flex items-center justify-center rounded">
+          <Dropdown menu={{ items: DropdownItems }} placement="bottomRight" arrow>
+                  <div
+                    className='text-smactive:text-slate-400 flex items-center justify-center gap-2 cursor-pointer'
+                    aria-current="page"
+                  >
+                    Advertisement
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1.34106L6 6.19106L11 1.34106" stroke="black" stroke-opacity="0.78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+          </Dropdown>
+        </div>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid xl:mx-0"
