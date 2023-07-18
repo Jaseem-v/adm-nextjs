@@ -1117,14 +1117,15 @@ const Profile = () => {
   useEffect(() => {
     const getAd = async () => {
       try {
-        const usedCar = await httpClient().get('advertisement/used-car/approved')
-        const realEstate = await httpClient().get('advertisement/real-estate/approved')
-        const ads = [...usedCar?.data?.data, ...realEstate?.data?.data]
-        const account = accountType === 'personal' ? personalAccountData : businessAccountData;
-        const userAds = ads.filter((ad: AdvertisementProps) => ad?.createdBy?._id === account._id)
-        setUserAds([...ads])
+        const ads = await httpClient().get('advertisement/owned')
+        console.log(ads.data.data)
+        // const realEstate = await httpClient().get('advertisement/real-estate/approved')
+        // const ads = [...usedCar?.data?.data, ...realEstate?.data?.data]
+        // const account = accountType === 'personal' ? personalAccountData : businessAccountData;
+        // const userAds = ads.filter((ad: AdvertisementProps) => ad?.createdBy?._id === account._id)
+        // setUserAds([...ads])
 
-        setUserAds([...usedCar?.data?.data, ...realEstate?.data?.data])
+        setUserAds([...ads?.data?.data])
       } catch (error) {
         console.log(error)
       }
@@ -3056,7 +3057,7 @@ const Profile = () => {
             </div>
             {!editModeState.advertisement ? (
               <>
-                {!editModeState.advertisement ? (
+                {userAds.length === 0 ? (
                   <div className="border-2 border-black border-dashed p-4">
                     <div className="flex flex-wrap lg:flex-col gap-4">
                       <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
@@ -3083,28 +3084,18 @@ const Profile = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-row flex-wrap gap-4">
-                    {/* if ad is added */}
-                    {/* {adImg &&
-                        <div>
-                          <div className="relative">
-                            <div
-                              className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
-                              onClick={() => removePhoto(1)}
-                            >
-                              <IoClose color="white" />
-                            </div>
-                            <div className="h-48 w-48 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
-                              <div
-                                className="h-48 w-48 bg-cover bg-no-repeat bg-center"
-                                style={{
-                                  backgroundImage: `url('${adImg}')`,
-                                }}
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
-                      } */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {userAds.map((ad) => (
+          <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
+            <div>
+            <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block"/>
+            <div className="flex items-center justify-between px-6 py-6">
+              <p className="mb-2">{ad?.desc}</p>
+              <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
+            </div>
+            </div>
+          </div>
+        ))}
                   </div>
                 )}
                 <button
