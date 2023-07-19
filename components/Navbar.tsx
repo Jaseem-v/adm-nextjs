@@ -404,16 +404,6 @@ const Navbar = () => {
               <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
-                  href="/about"
-                  className={nonSelectedStyle}
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
-                  About Us
-                </Link>
-              </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
-              <div>
-                <Link
                   href="/gallery"
                   className={nonSelectedStyle}
                   onClick={() => setIsMobileNavOpen(false)}
@@ -428,13 +418,13 @@ const Navbar = () => {
                   className={nonSelectedStyle}
                   onClick={() => setIsMobileNavOpen(false)}
                 >
-                  Business Firms
+                  Business Company
                 </Link>
               </div>
               <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
               <div>
                 <Link
-                  href="/business/persons"
+                  href="/businesspersons"
                   className={nonSelectedStyle}
                   onClick={() => setIsMobileNavOpen(false)}
                 >
@@ -449,6 +439,16 @@ const Navbar = () => {
                   onClick={() => setIsMobileNavOpen(false)}
                 >
                   Events
+                </Link>
+              </div>
+              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
+              <div>
+                <Link
+                  href="/advertisement"
+                  className={nonSelectedStyle}
+                  onClick={() => setIsMobileNavOpen(false)}
+                >
+                  Advertisement
                 </Link>
               </div>
               <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
