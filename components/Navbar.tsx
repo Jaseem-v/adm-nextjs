@@ -14,6 +14,7 @@ import { FaHome } from "react-icons/fa"
 import { IoPersonSharp } from "react-icons/io5"
 import { MdLogout } from "react-icons/md"
 import { usePathname, useRouter } from "next/navigation";
+import AdvertisementModel from "./advetisementModel";
 
 
 const businessItems: MenuProps['items'] = [
@@ -73,6 +74,7 @@ const Navbar = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const [isLoggedOut, setIsLoggedOut] = useState(false)
   const [isLoginPage, setIsLoginPage] = useState(false)
+  const [showAdvertisementModel, setShowAdvertisementModel] = useState(false)
 
 
   const logout = () => {
@@ -297,12 +299,14 @@ const Navbar = () => {
           </div>
         )}
         {/* login */}
-        {isLoggedin ? <Dropdown menu={{ items }} placement="bottomRight" arrow>
+        {isLoggedin ? 
+        <div className="flex items-center gap-6">
+          <Dropdown menu={{ items }} placement="bottomRight" arrow>
           <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
-          <div
-  className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-  style={{backgroundImage: `url(${profileImage})`}}
-></div>
+            <div
+              className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+              style={{backgroundImage: `url(${profileImage})`}}
+            ></div>
 
             <div className="flex items-center gap-2">
               {/* <p>{username}</p> */}
@@ -312,8 +316,18 @@ const Navbar = () => {
                 className="mt-1 cursor-pointer w-[11px] h-2"
               />
             </div>
+            
           </div>
-        </Dropdown> :
+        </Dropdown>
+        <button
+        className="navBtn font-medium bg-lightGold text-brown py-2 px-7 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+      >
+        Add
+      </button>
+      {showAdvertisementModel && (
+        <AdvertisementModel setShowAdvertisementModel={setShowAdvertisementModel} />
+      )}
+</div> :
           <div className="hidden lg:flex items-center gap-5 text-sm">
             <div className="relative">
               <Dropdown menu={{ items: enlistItems }} placement="bottomRight" arrow>
