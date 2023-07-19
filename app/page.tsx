@@ -42,6 +42,7 @@ type Business = {
 };
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [personalData, setPersonalData] = useState<Member[]>([]);
   const [businessData, setBusinessData] = useState<Business[]>([]);
   const [galleryData, setGalleryData] = useState<
@@ -101,6 +102,10 @@ const Index = () => {
       setIsLoading(false);
     };
 
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    const loggedin = token !== null;
+    setIsLoggedIn(loggedin)
+
     fetchBusinessData();
     fetchGalleryData();
   }, []);
@@ -125,18 +130,18 @@ const Index = () => {
               Abudhabi Malayalees community today!
             </p>
             <div className="flex gap-2 md:gap-4 mt-8 items-center justify-center">
-              <Link href="/business-listings/add-company">
+              <Link href="/business-listings/add-company" className={`${isLoggedIn ? 'hidden' : ''}`}>
                 <button className="py-3 md:py-4 px-8 md:px-12 bg-brownBg text-lightGold font-medium text-base md:text-lg lg:text-xl rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                   Register Now
                 </button>
               </Link>
               <Link href="/about">
                 <button
-                  className="py-[11px] md:py-[15px] px-6 md:px-10 bg-white text-descBlack hover:bg-darkBg font-medium text-base md:text-lg lg:text-xl rounded-lg border border-white
-                    flex items-center justify-center gap-2 active:translate-y-[1px] transition-all duration-75"
+                  className={`py-[11px] md:py-[15px] px-6 md:px-10 ${isLoggedIn ? 'bg-brownBg text-white' : 'bg-white text-descBlack hover:bg-darkBg border border-white'}  font-medium text-base md:text-lg lg:text-xl rounded-lg  
+                    flex items-center justify-center gap-2 active:translate-y-[1px] transition-all duration-75`}
                 >
                   <p>Learn more</p>
-                  <img src="/images/arrow-right2.svg" alt="right arrow" />
+                  <img src="/images/arrow-right.svg" alt="right arrow" />
                 </button>
               </Link>
             </div>
