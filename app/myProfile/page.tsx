@@ -3045,7 +3045,6 @@ const Profile = () => {
 
         {/* \\\\\\\\\\\ */}
         {/* ADVERTISEMENT */}
-        {accountType === "business" && (
           <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 relative">
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
@@ -3202,7 +3201,6 @@ const Profile = () => {
 
             {/* edited */}
           </div>
-        )}
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
 

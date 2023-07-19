@@ -245,7 +245,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
               <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
                 <div>
                 <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block"/>
-                <div className="flex items-center justify-between px-6 pt-6">
+                {/* <div className="flex items-center justify-between px-6 pt-6">
                   <div className="flex items-center gap-2">
                     <div
                       className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
@@ -254,7 +254,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                     <p className="font-semibold text-textBlack">{ad.createdBy?.name}</p>
                   </div>
                   <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
-                </div>
+                </div> */}
                 <div className="text p-6">
                   {/* <h3 className="font-semibold text-xl">For sale</h3> */}
                   <p className="mb-2">{ad?.desc}</p>
