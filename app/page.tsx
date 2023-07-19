@@ -40,11 +40,30 @@ type Business = {
   about: string;
   website: string;
 };
+
+type AdvertisementProps = {
+  _id: string;
+  desc: string;
+  createdAt: string;
+  image: {
+    key: string;
+  },
+  type: string;
+  createdBy: {
+    name: string;
+    profilePicture: {
+      key: string;
+    }
+  }
+};
+
+
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [personalData, setPersonalData] = useState<Member[]>([]);
   const [businessData, setBusinessData] = useState<Business[]>([]);
+  const [ads, setAds] = useState<AdvertisementProps[]>([])
   const [galleryData, setGalleryData] = useState<
     { image: { key: string } }[] | []
   >([]);
@@ -110,7 +129,22 @@ const Index = () => {
     fetchGalleryData();
   }, []);
 
-  console.log(personalData[0]);
+  useEffect(() => {
+    const getAd = async () => {
+      try {
+        const usedCar = await httpClient().get('advertisement/used-car/approved')
+        const realEstate = await httpClient().get('advertisement/real-estate/approved')
+        const job = await httpClient().get('advertisement/job/approved')
+        const ads = [...usedCar?.data?.data, ...realEstate?.data?.data, ...job?.data?.data].slice(0,3)
+        setAds(ads)
+        console.log(ads)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAd()
+  }, [])
+
   return (
     <>
       <section
@@ -437,7 +471,7 @@ const Index = () => {
       {/* NEWS FEED */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className="py-14 md:py-16 lg:py-24">
+      {/* <section className="py-14 md:py-16 lg:py-24">
         <div className="max-w-screen-xl mx-auto px-4 xl:px-0 ">
           <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
             News Feed
@@ -478,6 +512,52 @@ const Index = () => {
             ))}
           </div>
         </div>
+      </section> */}
+
+
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* ADVERTISEMENT */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section className="py-14 md:py-16 lg:py-24">
+        <div className="max-w-screen-xl mx-auto px-4 xl:px-0 flex flex-col justify-center items-center">
+          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
+            Advertisement
+          </h1>
+          {/* <p className="md:max-w-3xl lg:max-w-none font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
+            Connecting the Abu Dhabi Malayalee Community: Stay Updated with the
+            Latest News and Events
+          </p> */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 place-items-center">
+            {ads?.map((ad) => (
+              <div key={ad._id} className="rounded-2xl shadow-lg ">
+                <div>
+                <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-2xl w-full h-72 object-cover block"/>
+                <div className="flex items-center justify-between px-6 pt-6">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+                      style={{backgroundImage: `url(https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${ad.createdBy?.profilePicture?.key})`}} 
+                    />
+                    <p className="font-semibold text-textBlack">{ad.createdBy?.name}</p>
+                  </div>
+                  <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
+                </div>
+                <div className="text p-6">
+                  {/* <h3 className="font-semibold text-xl">For sale</h3> */}
+                  <p className="mb-2">{ad?.desc}</p>
+                </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Link
+            href="/advertisement"
+          >
+            <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-brownBg transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">Load More</button>
+            
+          </Link>
+        </div>
       </section>
 
       {/* \\\\\\\\\\\\\\\\\\\ */}
@@ -491,7 +571,7 @@ const Index = () => {
           </h1>
         </div>
         <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
-          <LightGallery
+          {/* <LightGallery
             // onInit={onInit}
             speed={500}
             plugins={[lgThumbnail, lgZoom]}
@@ -511,7 +591,7 @@ const Index = () => {
                   </div>
                 ))}
             </div>
-          </LightGallery>
+          </LightGallery> */}
           {/* <div className="-m-1 flex flex-wrap md:-m-2">
 
             <div className="flex flex-wrap">

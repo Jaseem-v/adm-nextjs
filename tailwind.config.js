@@ -19,6 +19,7 @@ module.exports = {
         brown: '#8B5D33',
         lightGold: '#ffedbc',
         brownBg: '#102036',
+        primary: '#102036',
       },
       backgroundImage: {
         logoBg:
@@ -52,7 +53,8 @@ module.exports = {
         descBlack: '#5c5c5c',
         lightBg: '#E5E5E5',
         darkBg: '#dbdbdb',
-        brown: '#8B5D33'
+        brown: '#8B5D33',
+        primary: '#102036',
       },
       borderColor: {
         lightGreen: "rgba(63, 130, 119, 0.1)",
