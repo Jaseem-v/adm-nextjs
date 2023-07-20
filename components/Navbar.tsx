@@ -6,52 +6,51 @@ import "./Navbar.css";
 import EnlistModel from "./enlistModel";
 import { Toaster } from "react-hot-toast";
 import httpClient from "@/services/axiosInstance";
-import type { MenuProps } from 'antd';
-import { Button, Dropdown } from 'antd';
-import { getLoginStatus } from './../services/loginStatus';
+import type { MenuProps } from "antd";
+import { Button, Dropdown } from "antd";
+import { getLoginStatus } from "./../services/loginStatus";
 
-import { FaHome } from "react-icons/fa"
-import { IoPersonSharp } from "react-icons/io5"
-import { MdLogout } from "react-icons/md"
+import { FaHome } from "react-icons/fa";
+import { IoPersonSharp } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
 import AdvertisementModel from "./advetisementModel";
 
-
-const businessItems: MenuProps['items'] = [
+const businessItems: MenuProps["items"] = [
   {
-    key: '1',
+    key: "1",
     label: (
-      <Link rel="noopener noreferrer" href="/business" >
+      <Link rel="noopener noreferrer" href="/business">
         Company
       </Link>
     ),
   },
   {
-    key: '2',
+    key: "2",
     label: (
-      <Link rel="noopener noreferrer" href="/businesspersons" >
+      <Link rel="noopener noreferrer" href="/businesspersons">
         Persons
       </Link>
     ),
-  }
+  },
 ];
-const enlistItems: MenuProps['items'] = [
+const enlistItems: MenuProps["items"] = [
   {
-    key: '1',
+    key: "1",
     label: (
-      <Link rel="noopener noreferrer" href="/business-listings/add-individual" >
+      <Link rel="noopener noreferrer" href="/business-listings/add-individual">
         Personal
       </Link>
     ),
   },
   {
-    key: '2',
+    key: "2",
     label: (
-      <Link rel="noopener noreferrer" href="/business-listings/add-company" >
+      <Link rel="noopener noreferrer" href="/business-listings/add-company">
         Business
       </Link>
     ),
-  }
+  },
 ];
 
 const navItems = [
@@ -69,42 +68,53 @@ const Navbar = () => {
   const [isEnlistDropdown, setIsEnlistDropdown] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showEnlistModel, setShowEnlistModel] = useState(false);
-  const [username, setUsername] = useState('')
-  const [profileImage, setProfileImage] = useState('')
-  const [isLoggedin, setIsLoggedIn] = useState(false)
-  const [isLoggedOut, setIsLoggedOut] = useState(false)
-  const [isLoginPage, setIsLoginPage] = useState(false)
-  const [showAdvertisementModel, setShowAdvertisementModel] = useState(false)
-
+  const [username, setUsername] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [isLoggedin, setIsLoggedIn] = useState(false);
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
+  const [isLoginPage, setIsLoginPage] = useState(false);
+  const [showAdvertisementModel, setShowAdvertisementModel] = useState(false);
 
   const logout = () => {
-    localStorage.removeItem('accessToken')
-    setIsLoggedOut(true)
-  }
+    localStorage.removeItem("accessToken");
+    setIsLoggedOut(true);
+  };
 
-  const items: MenuProps['items'] = [
+  const items: MenuProps["items"] = [
     {
-      key: '1',
+      key: "1",
       label: (
-        <Link rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
+        <Link
+          rel="noopener noreferrer"
+          href="/myProfile"
+          className="flex gap-2 items-center"
+        >
           <FaHome />
           Dashboard
         </Link>
       ),
     },
     {
-      key: '2',
+      key: "2",
       label: (
-        <Link rel="noopener noreferrer" href="/myProfile" className="flex gap-2 items-center">
+        <Link
+          rel="noopener noreferrer"
+          href="/myProfile"
+          className="flex gap-2 items-center"
+        >
           <IoPersonSharp />
           My profile
         </Link>
       ),
     },
     {
-      key: '3',
+      key: "3",
       label: (
-        <div rel="noopener noreferrer" className="flex gap-2 items-center border-none" onClick={logout}>
+        <div
+          rel="noopener noreferrer"
+          className="flex gap-2 items-center border-none"
+          onClick={logout}
+        >
           <MdLogout />
           Logout
         </div>
@@ -118,81 +128,86 @@ const Navbar = () => {
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
 
-
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === '/login') {
+    if (pathname === "/login") {
       setIsLoginPage(true);
     } else {
       setIsLoginPage(false);
     }
-  }, [pathname])
+  }, [pathname]);
 
   useEffect(() => {
-      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null;
-      const loggedin = token !== null;
-      if (isLoggedin !== loggedin)
-        setIsLoggedIn(loggedin)
-      // if (!token)
+    const token =
+      typeof localStorage !== "undefined"
+        ? localStorage.getItem("accessToken")
+        : null;
+    const loggedin = token !== null;
+    if (isLoggedin !== loggedin) setIsLoggedIn(loggedin);
+    // if (!token)
 
     // setIsLoggedIn(true)
-
 
     //    const { loginStatus} = router.query;
     // setIsLoggedin(loginStatus === 'success');
 
     const fetchUser = async () => {
-      const accountType = localStorage.getItem('accountType')
+      const accountType = localStorage.getItem("accountType");
 
-      if (accountType === 'personal') {
+      if (accountType === "personal") {
         try {
-          const response = await httpClient().get("user/personal/profile")
+          const response = await httpClient().get("user/personal/profile");
           if (response.status === 200) {
             const { profilePicture } = response.data.data;
-            profilePicture.key ? setProfileImage(`https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${profilePicture.key}`) : setProfileImage('images/profilePreview.png');
-            const { username } = response.data.data
-            const editedUsername = username.slice(3)
-            setUsername(editedUsername)
+            profilePicture.key
+              ? setProfileImage(
+                  `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${profilePicture.key}`
+                )
+              : setProfileImage("images/profilePreview.png");
+            const { username } = response.data.data;
+            const editedUsername = username.slice(3);
+            setUsername(editedUsername);
           }
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
-      } else if (accountType === 'business') {
+      } else if (accountType === "business") {
         try {
-          const response = await httpClient().get("user/business/profile")
+          const response = await httpClient().get("user/business/profile");
           if (response.status === 200) {
             const { profilePicture } = response.data.data;
-            profilePicture.key ? setProfileImage(`https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${profilePicture.key}`) : setProfileImage('images/profilePreview.png');
-            const { username } = response.data.data
-            const editedUsername = username.slice(3)
-            setUsername(editedUsername)
+            profilePicture.key
+              ? setProfileImage(
+                  `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${profilePicture.key}`
+                )
+              : setProfileImage("images/profilePreview.png");
+            const { username } = response.data.data;
+            const editedUsername = username.slice(3);
+            setUsername(editedUsername);
           }
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
-    }
-    fetchUser()
+    };
+    fetchUser();
     // const loginStatus = token !== null
-
-
-  }, [isLoggedOut, pathname])
+  }, [isLoggedOut, pathname]);
 
   useEffect(() => {
     if (isLoggedin == false && isLoggedOut == true) {
-      router.push("/")
+      router.push("/");
     }
-
-  }, [isLoggedin, isLoggedOut])
-
-
+  }, [isLoggedin, isLoggedOut]);
 
   return (
     // need to implement proper sticky navbar
     <header
-      className={`font-inter z-20 bg-brownBg text-white sticky top-0 left-0 ${isLoginPage ? 'hidden' : 'block'}`}
+      className={`font-inter z-20 bg-brownBg text-white sticky top-0 left-0 ${
+        isLoginPage ? "hidden" : "block"
+      }`}
       id="navbar"
     >
       <Toaster position="top-right" reverseOrder={false} />
@@ -212,11 +227,9 @@ const Navbar = () => {
         {!isMobileNav && (
           <div className="hidden lg:grid items-center px-16">
             <ul className="flex gap-10" id="navbar-cta">
-              <li
-                className="py-10 hidden lg:block"
-              >
+              <li className="py-10 hidden lg:block">
                 <Link
-                  href='/'
+                  href="/"
                   className={`nav1 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
                   aria-current="page"
                 >
@@ -234,23 +247,23 @@ const Navbar = () => {
                   About Us
                 </Link>
               </li> */}
-              <li
-                className="py-10 hidden lg:block"
-              >
+              <li className="py-10 hidden lg:block">
                 <Link
-                  href='/gallery'
+                  href="/gallery"
                   className={`nav3 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2`}
                   aria-current="page"
                 >
                   Gallery
                 </Link>
               </li>
-              <li
-                className="py-10 hidden lg:block h-[17px]"
-              >
-                <Dropdown menu={{ items: businessItems }} placement="bottomRight" arrow>
+              <li className="py-10 hidden lg:block h-[17px]">
+                <Dropdown
+                  menu={{ items: businessItems }}
+                  placement="bottomRight"
+                  arrow
+                >
                   <div
-                    className='nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2 cursor-pointer'
+                    className="nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2 cursor-pointer"
                     aria-current="page"
                   >
                     Business
@@ -262,34 +275,28 @@ const Navbar = () => {
                   </div>
                 </Dropdown>
               </li>
-              <li
-                className="py-10 hidden xl:block"
-              >
+              <li className="py-10 hidden xl:block">
                 <Link
-                  href='/events'
-                  className='nav5 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                  href="/events"
+                  className="nav5 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2"
                   aria-current="page"
                 >
                   Events
                 </Link>
               </li>
-              <li
-                className="py-10 hidden lg:block"
-              >
+              <li className="py-10 hidden lg:block">
                 <Link
-                  href='/advertisement'
-                  className='nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                  href="/advertisement"
+                  className="nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2"
                   aria-current="page"
                 >
                   Advertisement
                 </Link>
               </li>
-              <li
-                className="py-10 hidden lg:block"
-              >
+              <li className="py-10 hidden lg:block">
                 <Link
-                  href='/contact'
-                  className='nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2'
+                  href="/contact"
+                  className="nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2"
                   aria-current="page"
                 >
                   Contact Us
@@ -299,57 +306,37 @@ const Navbar = () => {
           </div>
         )}
         {/* login */}
-        {isLoggedin ? 
-        <div className="flex items-center gap-6">
-          <Dropdown menu={{ items }} placement="bottomRight" arrow>
-          <div className="flex items-center justify-end gap-3 hover:cursor-pointer">
-            <div
-              className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-              style={{backgroundImage: `url(${profileImage})`}}
-            ></div>
+        {isLoggedin ? (
+          <div className="flex items-center gap-6">
+            <Dropdown menu={{ items }} placement="bottomRight" arrow>
+              <div className="hidden md:flex items-center justify-end gap-3 hover:cursor-pointer ">
+                <div
+                  className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+                  style={{ backgroundImage: `url(${profileImage})` }}
+                ></div>
 
-            <div className="flex items-center gap-2">
-              {/* <p>{username}</p> */}
-              <img
-                src="/images/expand.svg"
-                alt="expand"
-                className="mt-1 cursor-pointer w-[11px] h-2"
+                <div className="flex items-center gap-2">
+                  {/* <p>{username}</p> */}
+                  <img
+                    src="/images/expand.svg"
+                    alt="expand"
+                    className="mt-1 cursor-pointer w-[11px] h-2"
+                  />
+                </div>
+              </div>
+            </Dropdown>
+            <button
+              className="navBtn font-medium bg-white text-primary py-2 px-7 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+              onClick={() => setShowAdvertisementModel(true)}
+            >
+              Add
+            </button>
+            {showAdvertisementModel && (
+              <AdvertisementModel
+                setShowAdvertisementModel={setShowAdvertisementModel}
               />
-            </div>
-            
-          </div>
-        </Dropdown>
-        <button
-        className="navBtn font-medium bg-white text-primary py-2 px-7 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-        onClick={() => setShowAdvertisementModel(true)}
-      >
-        Add
-      </button>
-      {showAdvertisementModel && (
-        <AdvertisementModel setShowAdvertisementModel={setShowAdvertisementModel} />
-      )}
-</div> :
-          <div className="hidden lg:flex items-center gap-5 text-sm">
-            <div className="relative">
-              <Dropdown menu={{ items: enlistItems }} placement="bottomRight" arrow>
-                <button
-                  className="navBtn font-medium bg-lightGold text-brown py-3 px-6 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-                >
-                  Register
-                </button>
-              </Dropdown>
-            </div>
-            <Link href="/login">
-              <button className="navBtn font-medium bg-white text-black py-3 px-10 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
-                Login
-              </button>
-            </Link>
-          </div>}
-
-        {showEnlistModel && (
-          <EnlistModel setShowEnlistModel={setShowEnlistModel} />
-        )}
-        {/* \\\\\\\\\\\\\\\\\ */}
+            )}
+            {/* \\\\\\\\\\\\\\\\\ */}
         {/* mobile menu */}
         <div className="-mr-2 flex lg:hidden z-30">
           {/* Hamburger button */}
@@ -397,6 +384,32 @@ const Navbar = () => {
             )}
           </button>
         </div>
+          </div>
+        ) : (
+          <div className="hidden lg:flex items-center gap-5 text-sm">
+            <div className="relative">
+              <Dropdown
+                menu={{ items: enlistItems }}
+                placement="bottomRight"
+                arrow
+              >
+                <button className="navBtn font-medium bg-lightGold text-brown py-3 px-6 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                  Register
+                </button>
+              </Dropdown>
+            </div>
+            <Link href="/login">
+              <button className="navBtn font-medium bg-white text-black py-3 px-10 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                Login
+              </button>
+            </Link>
+          </div>
+        )}
+
+        {showEnlistModel && (
+          <EnlistModel setShowEnlistModel={setShowEnlistModel} />
+        )}
+        
       </div>
       {/* <div className="w-full h-[1px] bg-white navLine"></div> */}
       {/* Mobile menu, toggle classNamees based on menu state */}
@@ -482,8 +495,8 @@ const Navbar = () => {
                 <button
                   className=" w-full font-medium bg-brownBg text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
                   onClick={() => {
-                    setShowEnlistModel(true)
-                    setIsMobileNavOpen(false)
+                    setShowEnlistModel(true);
+                    setIsMobileNavOpen(false);
                   }}
                 >
                   Register
