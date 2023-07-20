@@ -1546,7 +1546,7 @@ const Profile = () => {
                             Cancel
                           </button>
                           <button
-                            className="bg-orange text-white py-1 px-3 rounded "
+                            className="bg-primary text-white py-1 px-3 rounded "
                             type="submit"
                           >
                             Verify
@@ -1586,7 +1586,7 @@ const Profile = () => {
                             Cancel
                           </button>
                           <button
-                            className="bg-orange text-white py-1 px-3 rounded "
+                            className="bg-primary text-white py-1 px-3 rounded "
                             type="submit"
                           >
                             Verify
@@ -1634,7 +1634,7 @@ const Profile = () => {
                               Cancel
                             </button>
                             <button
-                              className="bg-orange text-white py-1 px-3 rounded "
+                              className="bg-primary text-white py-1 px-3 rounded "
                               type="submit"
                             >
                               Verify
@@ -1828,7 +1828,7 @@ const Profile = () => {
                               <input type="text" />
                             </div>
                           </div>
-                          <p className="font-semibold cursor-pointer text-orange-600 hover:underline">
+                          <p className="font-semibold cursor-pointer text-cyan-950 hover:underline">
                             + Add Service Area
                           </p>
                         </div>
@@ -1951,7 +1951,7 @@ const Profile = () => {
                           Cancel
                         </button>
                         <button
-                          className="bg-orange text-white py-1 px-3 rounded "
+                          className="bg-primary text-white py-1 px-3 rounded "
                           onClick={verifyWebsite}
                         >
                           Verify
@@ -2025,7 +2025,7 @@ const Profile = () => {
                     Cancel
                   </button>
                   <button
-                    className="bg-orange text-white py-1 px-3 rounded "
+                    className="bg-primary text-white py-1 px-3 rounded "
                     onClick={verifyAbout}
                   >
                     Verify
@@ -2149,7 +2149,7 @@ const Profile = () => {
                       Cancel
                     </button>
                     <button
-                      className="bg-orange text-white py-1 px-3 rounded "
+                      className="bg-primary text-white py-1 px-3 rounded "
                       onClick={verifyBusinessCategories}
                     >
                       Verify
@@ -2441,7 +2441,7 @@ const Profile = () => {
                           <span>Add a product</span>
                         </div>
                         {/* <div className="flex flex-row gap-2 items-center cursor-pointer">
-              <TiArrowUnsorted className="text-orange-700" />
+              <TiArrowUnsorted className="text-primary-700" />
               <span>Reorder product</span>
             </div> */}
                       </div>
@@ -2643,7 +2643,7 @@ const Profile = () => {
                     Cancel
                   </button>
                   <button
-                    className="bg-orange text-white py-1 px-3 rounded "
+                    className="bg-primary text-white py-1 px-3 rounded "
                     onClick={verifySocialMedia}
                   >
                     Verify
@@ -2910,7 +2910,7 @@ const Profile = () => {
                           Edit
                         </button>
                         <span className="px-2">|</span>
-                        <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-orange text-xs w-1/2">
+                        <button className="btn px-3 py-1 rounded text-darkOrange border-2 border-darkOrange hover:text-white hover:bg-primary text-xs w-1/2">
                           Remove
                         </button>
                       </div>
@@ -3023,7 +3023,7 @@ const Profile = () => {
                         Cancel
                       </button>
                       <button
-                        className="bg-orange text-white py-1 px-3 rounded "
+                        className="bg-primary text-white py-1 px-3 rounded "
                         type="submit"
                       >
                         Verify
@@ -3189,7 +3189,7 @@ const Profile = () => {
                       Cancel
                     </button>
                     <button
-                      className="bg-orange text-white py-1 px-3 rounded "
+                      className="bg-primary text-white py-1 px-3 rounded "
                       type="submit"
                     >
                       Verify
@@ -3231,7 +3231,7 @@ const Profile = () => {
                       Cancel
                     </button>
                     <button
-                      className="bg-orange text-white py-1 px-3 rounded "
+                      className="bg-primary text-white py-1 px-3 rounded "
                       onClick={verifyDetailedInformation}
                     >
                       Verify

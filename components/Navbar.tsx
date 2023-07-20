@@ -124,7 +124,9 @@ const Navbar = () => {
   // const [isLoggedin, setIsLoggedin] = useState(false)
 
   const selectedStyle =
-    "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400  px-2";
+    "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
+  // const selectedStyle =
+  //   "nav1 text-base font-bold hover:text-slate-300 active:text-slate-400  px-2";
   const nonSelectedStyle =
     "text-base  text-gray-300 hover:text-white active:text-slate-400 px-2";
 
@@ -337,53 +339,53 @@ const Navbar = () => {
               />
             )}
             {/* \\\\\\\\\\\\\\\\\ */}
-        {/* mobile menu */}
-        <div className="-mr-2 flex lg:hidden z-30">
-          {/* Hamburger button */}
-          <button
-            type="button"
-            className="mobile-menu inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:text-white transition duration-700 ease-in-out"
-            aria-label="Main menu"
-            aria-expanded="false"
-            onClick={() => setIsMobileNavOpen((prevState) => !prevState)}
-          >
-            {!isMobileNavOpen ? (
-              <svg
-                className=" block h-8 w-8"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                id="menu-open"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
+            {/* mobile menu */}
+            <div className="-mr-2 flex lg:hidden z-30">
+              {/* Hamburger button */}
+              <button
+                type="button"
+                className="mobile-menu inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:text-white transition duration-700 ease-in-out"
+                aria-label="Main menu"
+                aria-expanded="false"
+                onClick={() => setIsMobileNavOpen((prevState) => !prevState)}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="block h-8 w-8"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                id="menu-close"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            )}
-          </button>
-        </div>
+                {!isMobileNavOpen ? (
+                  <svg
+                    className=" block h-8 w-8"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    id="menu-open"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="block h-8 w-8"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    id="menu-close"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
         ) : (
           <div className="hidden lg:flex items-center gap-5 text-sm">
@@ -409,15 +411,35 @@ const Navbar = () => {
         {showEnlistModel && (
           <EnlistModel setShowEnlistModel={setShowEnlistModel} />
         )}
-        
       </div>
       {/* <div className="w-full h-[1px] bg-white navLine"></div> */}
       {/* Mobile menu, toggle classNamees based on menu state */}
       {isMobileNavOpen && (
         <div className=" lg:hidden z-50" id="myLinks">
           <div className="flex flex-col gap-16 items-start justify-center px-6 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
+          {isLoggedin && (
+              <div className="self-end flex items-center gap-6 ">
+                <Dropdown menu={{ items }} placement="bottomRight" arrow>
+                  <div className="flex items-center justify-end gap-3 hover:cursor-pointer ">
+                    <div
+                      className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+                      style={{ backgroundImage: `url(${profileImage})` }}
+                    ></div>
+
+                    <div className="flex items-center gap-2">
+                      {/* <p>{username}</p> */}
+                      <img
+                        src="/images/expand.svg"
+                        alt="expand"
+                        className="mt-1 cursor-pointer w-[11px] h-2"
+                      />
+                    </div>
+                  </div>
+                </Dropdown>
+              </div>
+            )}
             <div
-              className="flex flex-col items-start justify-center gap-4 w-full"
+              className="flex flex-col items-center justify-center gap-8 w-full"
               id="navbar-cta"
             >
               <div>
@@ -429,7 +451,7 @@ const Navbar = () => {
                   Home
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
+              {/* <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" /> */}
               <div>
                 <Link
                   href="/gallery"
@@ -439,7 +461,7 @@ const Navbar = () => {
                   Gallery
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
+              {/* <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" /> */}
               <div>
                 <Link
                   href="/business"
@@ -449,7 +471,7 @@ const Navbar = () => {
                   Business Company
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
+              {/* <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" /> */}
               <div>
                 <Link
                   href="/businesspersons"
@@ -459,7 +481,7 @@ const Navbar = () => {
                   Business Persons
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
+              {/* <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" /> */}
               <div>
                 <Link
                   href="/events"
@@ -469,7 +491,7 @@ const Navbar = () => {
                   Events
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
+              {/* <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" /> */}
               <div>
                 <Link
                   href="/advertisement"
@@ -479,7 +501,7 @@ const Navbar = () => {
                   Advertisement
                 </Link>
               </div>
-              <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" />
+              {/* <div className="w-full h-[1px] bg-white bg-opacity-10 navLine" /> */}
               <div>
                 <Link
                   href="/contact"
@@ -490,6 +512,8 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
+            
+            {!isLoggedin && 
             <div className="w-full flex items-start justify-center gap-5 text-center ">
               <div className="relative flex-1">
                 <button
@@ -510,7 +534,7 @@ const Navbar = () => {
                   Login
                 </button>
               </Link>
-            </div>
+            </div>}
           </div>
         </div>
       )}
