@@ -321,6 +321,7 @@ const Navbar = () => {
         </Dropdown>
         <button
         className="navBtn font-medium bg-white text-primary py-2 px-7 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+        onClick={() => setShowAdvertisementModel(true)}
       >
         Add
       </button>
