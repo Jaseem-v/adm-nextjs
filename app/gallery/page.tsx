@@ -1,6 +1,42 @@
+"use client";
+
 import SectionHeader from "@/components/SectionHeader";
+import LightGallery from "lightgallery/react";
+import { useEffect, useState } from "react";
+import httpClient from "@/services/axiosInstance";
+
+// import styles
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
+
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
 
 const Gallery = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [galleryData, setGalleryData] = useState<
+  { image: { key: string } }[] | []
+>([]);
+
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        await httpClient()
+          .get(`/gallery/customer`)
+          .then((res) => {
+            if (res.status === 200) {
+              setGalleryData(res.data.data);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+    fetchGalleryData();
+  }
+  , []);
   const breadcrumbs = ['Gallery']
 
 
@@ -22,51 +58,32 @@ const Gallery = () => {
                 Businesses and Connections of Abu Dhabi Malayalees
               </h2>
               <p className="md:max-w-3xl lg:max-w-5xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-descBlack">
-                Welcome to our gallery section, where we proudly showcase the
-                businesses and connections of our vibrant Abu Dhabi Malayalee
-                community. As a community focused on empowering businesses and
-                building connections, we understand the importance of showcasing
-                the diverse range of talents, services and products that our
-                members have to offer.
+              Welcome to our gallery section, where we proudly showcase the businesses and connections of our vibrant Abu Dhabi Malayalee community. As a community focused on empowering businesses and building connections, we understand the importance of showcasing the diverse range of talents, services and products that our members have to offer.
               </p>
             </div>
+          <LightGallery
+            // onInit={onInit}
+            speed={500}
+            plugins={[lgThumbnail, lgZoom]}
+          >
+            <div className="flex flex-wrap -mx-4 my-10">
+              {galleryData &&
+                galleryData.map((el, i) => (
+                  <div className="md:w-1/3 px-4 mb-8" key={i}>
+                    <a
+                      href={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`}
+                    >
+                      <img
+                        alt="img1"
+                        src={`https://abudhabi-malayalees.onrender.com/resource/gallery/${el.image.key}`}
+                      />
+                    </a>
+                  </div>
+                ))}
+            </div>
+          </LightGallery>
           </div>
 
-          <div
-            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4
-                mt-16 gap-2 mb-2"
-          >
-            <img
-              src="/images/one.png"
-              alt="gallery img"
-              className="w-full h-full object-cover md:col-span-2 md:row-span-2"
-            />
-            <img
-              src="/images/two.png"
-              alt="gallery img"
-              className="w-full h-full object-cover"
-            />
-            <img
-              src="/images/three.png"
-              alt="gallery img"
-              className="w-full h-full object-cover"
-            />
-            <img
-              src="/images/four.png"
-              alt="gallery img"
-              className="w-full h-full object-cover md:col-span-2 md:row-span-2"
-            />
-            <img
-              src="/images/five.png"
-              alt="gallery img"
-              className="w-full h-full object-cover "
-            />
-            <img
-              src="/images/aboutUs-1.png"
-              alt="gallery img"
-              className="w-full h-full object-cover "
-            />
-          </div>
         </div>
       </section>
     </>

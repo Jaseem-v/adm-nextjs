@@ -22,7 +22,7 @@ const businessItems: MenuProps['items'] = [
     key: '1',
     label: (
       <Link rel="noopener noreferrer" href="/business" >
-        Business Company
+        Company
       </Link>
     ),
   },
@@ -30,7 +30,7 @@ const businessItems: MenuProps['items'] = [
     key: '2',
     label: (
       <Link rel="noopener noreferrer" href="/businesspersons" >
-        Business Persons
+        Persons
       </Link>
     ),
   }

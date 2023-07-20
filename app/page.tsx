@@ -571,7 +571,7 @@ const Index = () => {
           </h1>
         </div>
         <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
-          {/* <LightGallery
+          <LightGallery
             // onInit={onInit}
             speed={500}
             plugins={[lgThumbnail, lgZoom]}
@@ -591,7 +591,7 @@ const Index = () => {
                   </div>
                 ))}
             </div>
-          </LightGallery> */}
+          </LightGallery>
           {/* <div className="-m-1 flex flex-wrap md:-m-2">
 
             <div className="flex flex-wrap">
