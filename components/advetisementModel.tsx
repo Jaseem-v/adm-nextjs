@@ -92,6 +92,7 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
     setValueAd("desc", '')
     setValueAd("type", '')
     setAdImg('')
+    setShowAdvertisementModel(false)
     // const contactDetails = [businessAccountData.contactDetails, contactData]
     // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
     // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
@@ -125,8 +126,8 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
         className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-75 flex items-center justify-center z-50"
         onClick={() => setShowAdvertisementModel(false)}
       />
-      <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center text-black z-50" onClick={() => setShowAdvertisementModel(false)}>
-        <div className="relative flex flex-col md:flex-row gap-5 p-5 text-center font-medium text-2xl lg:text-3xl bg-white rounded-lg">
+      <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center text-black z-50">
+        <div className="relative flex flex-col md:flex-row gap-6 p-5 text-center font-medium  bg-white rounded-lg">
         <FormProvider {...advertisementForm}>
                 <form
                   onSubmit={handleSubmitAd(addAdvertisement)}
@@ -134,16 +135,16 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                 >
                   {adImg ?
                   (<div>
-                    <div className="relative h-40 w-40">
+                    <div className="relative h-40 w-full">
                       <div
                         className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
                         onClick={removeAdImg}
                       >
                         <IoClose color="white" />
                       </div>
-                      <div className="h-40 w-40 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+                      <div className="h-40 w-full border border-gray-600 flex justify-center items-center rounded overflow-hidden">
                         <div
-                          className="h-48 w-48 bg-cover bg-no-repeat bg-center"
+                          className="h-40 w-full bg-cover bg-no-repeat bg-center"
                           style={{
                             backgroundImage: `url('${adImg}')`,
                           }}
@@ -158,7 +159,7 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                       {...registerAd("image")}
                       />
                     <div
-                      className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+                      className={`w-full h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
                         isDragActive ? "border-blue-500" : "border-black"
                       }`}
                       >
@@ -171,7 +172,7 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                   <textarea
                     id="desc"
                     rows={5}
-                    className="form-input max-w-3xl"
+                    className="border rounded-md border-[#b7babf] py-2 px-3 text-sm max-w-3xl"
                     placeholder="Enter the advertisement description"
                     {...registerAd("desc")}
                   />
@@ -181,12 +182,13 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                     <div>
                       <select
                         id="type"
-                        className="w-48 form-input"
+                        className="w-48 border rounded-md border-[#b7babf] py-2 px-3 text-sm"
                         {...registerAd("type")}
                       >
                         <option value=""></option>
                         <option value="REAL_ESTATE">Real estate</option>
                         <option value="USED_CAR">Used car</option>
+                        <option value="JOB">Job</option>
                       </select>
                     </div>
                   </div>
@@ -203,14 +205,15 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                     </label>
                   </div>
 
-                  <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
+                  <div className="flex items-center justify-end gap-2 mt-4 w-full">
                     <button
                       className="bg-skeleton py-1 px-3  rounded "
+                      onClick={() => setShowAdvertisementModel(false)}
                     >
                       Cancel
                     </button>
                     <button
-                      className="bg-orange text-white py-1 px-3 rounded "
+                      className="bg-primary text-white py-1 px-3 rounded "
                       type="submit"
                     >
                       Verify
