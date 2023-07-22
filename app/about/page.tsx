@@ -53,7 +53,7 @@ const AboutUs = () => {
                   <p className="pt-8 lg:pt-16 font-medium text-xl leading-[1.5]">Abu Dhabi Malayalees is a vibrant and thriving business community of Malayalees in Abu Dhabi, United Arab Emirates. We are a group of like-minded individuals who come together to foster a strong sense of community, promote business opportunities, and support each other in both personal and professional endeavors.</p>
                   <p className="pt-2 lg:pt-4 font-medium text-xl leading-[1.5]">We aim to provide a platform for our members to network, share ideas, and explore new business opportunities.</p>
                   <Link href="/register" >
-                  <button className="mt-9 font-medium bg-brownBg text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2">
+                  <button className="mt-9 font-medium bg-primary text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2">
             Register Now
             <img src="/images/arrow-right.svg" alt="right arrow" />
           </button>
@@ -119,7 +119,7 @@ const AboutUs = () => {
           <h3 className="text-textBlack font-poppins font-bold text-2xl md:text-3xl">Want to join the team?</h3>
             <button
               onClick={() => setShowEnlistModel(true)}
-              className="mt-9 font-medium bg-brownBg text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
+              className="mt-9 font-medium bg-primary text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
             >
               Enlist Now
               <img src="/images/arrow-right.svg" alt="right arrow" />

@@ -349,7 +349,7 @@ const BusinessPersonDetails = ({ params }: {
               className="px-4 w-52 md:w-full"
             />
             <a href="#">
-              <button className="py-4 px-7 md:py-5 md:px-10 bg-brownBg text-white">
+              <button className="py-4 px-7 md:py-5 md:px-10 bg-primary text-white">
                 Subscribe
               </button>
             </a>

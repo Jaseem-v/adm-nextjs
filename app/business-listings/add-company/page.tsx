@@ -461,7 +461,7 @@ const EnlistCompany = () => {
           </label> */}
 
           <button
-            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-brownBg text-lightGold col-span-4 md:col-span-2 text-[15px] w-fit ${isStepOneError ? "bg-opacity-50" : ""
+            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-primary text-lightGold col-span-4 md:col-span-2 text-[15px] w-fit ${isStepOneError ? "bg-opacity-50" : ""
               }`}
           >
             Add my company

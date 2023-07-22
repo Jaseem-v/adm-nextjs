@@ -207,7 +207,7 @@ const Navbar = () => {
   return (
     // need to implement proper sticky navbar
     <header
-      className={`font-inter z-20 bg-brownBg text-white sticky top-0 left-0 ${
+      className={`font-inter z-20 bg-primary text-white sticky top-0 left-0 ${
         isLoginPage ? "hidden" : "block"
       }`}
       id="navbar"
@@ -517,7 +517,7 @@ const Navbar = () => {
             <div className="w-full flex items-start justify-center gap-5 text-center ">
               <div className="relative flex-1">
                 <button
-                  className=" w-full font-medium bg-brownBg text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                  className=" w-full font-medium bg-primary text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
                   onClick={() => {
                     setShowEnlistModel(true);
                     setIsMobileNavOpen(false);

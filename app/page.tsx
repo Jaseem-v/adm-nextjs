@@ -165,13 +165,13 @@ const Index = () => {
             </p>
             <div className="flex gap-2 md:gap-4 mt-8 items-center justify-center">
               <Link href="/business-listings/add-company" className={`${isLoggedIn ? 'hidden' : ''}`}>
-                <button className="py-3 md:py-4 px-8 md:px-12 bg-brownBg text-lightGold font-medium text-base md:text-lg lg:text-xl rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                <button className="py-3 md:py-4 px-8 md:px-12 bg-primary text-lightGold font-medium text-base md:text-lg lg:text-xl rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                   Register Now
                 </button>
               </Link>
               <Link href="/about">
                 <button
-                  className={`py-[11px] md:py-[15px] px-6 md:px-10 ${isLoggedIn ? 'bg-brownBg text-white' : 'bg-white text-descBlack hover:bg-darkBg border border-white'}  font-medium text-base md:text-lg lg:text-xl rounded-lg  
+                  className={`py-[11px] md:py-[15px] px-6 md:px-10 ${isLoggedIn ? 'bg-primary text-white' : 'bg-white text-descBlack hover:bg-darkBg border border-white'}  font-medium text-base md:text-lg lg:text-xl rounded-lg  
                     flex items-center justify-center gap-2 active:translate-y-[1px] transition-all duration-75`}
                 >
                   <p>Learn more</p>
@@ -284,7 +284,7 @@ const Index = () => {
                 ideas, and explore new business opportunities.
               </p>
               <Link href="/about">
-                <button className="mt-9 font-medium bg-brownBg text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2">
+                <button className="mt-9 font-medium bg-primary text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2">
                   Learn more
                   <img src="/images/arrow-right.svg" alt="right arrow" />
                 </button>
@@ -304,7 +304,7 @@ const Index = () => {
           </h3>
           <button
             onClick={() => setShowEnlistModel(true)}
-            className="mt-6 lg:mt-9 font-medium bg-brownBg text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
+            className="mt-6 lg:mt-9 font-medium bg-primary text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
           >
             Join our community
             <img src="/images/arrow-right.svg" alt="right arrow" />
@@ -391,7 +391,7 @@ const Index = () => {
           </div>
           <Link
             href="/businesspersons"
-            className="mt-8 md:mt-12 lg:mt-16 font-regular bg-brownBg transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit"
+            className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit"
           >
             Load More
           </Link>
@@ -443,7 +443,7 @@ const Index = () => {
                     </p>
                     <Link
                       href={`/business/${business._id}`}
-                      className=" block mt-4 font-regular bg-brownBg text-lightGold text-sm py-3 px-4 hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700 w-fit"
+                      className=" block mt-4 font-regular bg-primary text-lightGold text-sm py-3 px-4 hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700 w-fit"
                     >
                       View Details
                     </Link>
@@ -460,7 +460,7 @@ const Index = () => {
           <Link
             href="/business"
             className="mt-8 md:mt-12 lg:mt-16 font-regular border border-brown py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-brown text-center block mx-auto
-                hover:bg-brownBg hover:text-lightGold w-fit"
+                hover:bg-primary hover:text-lightGold w-fit"
           >
             Load More
           </Link>
@@ -494,7 +494,7 @@ const Index = () => {
                     <p className="font-semibold text-xl md:text-2xl">
                       {news.title}
                     </p>
-                    <p className="bg-brownBg text-lightGold px-2 py-2 text-xs">
+                    <p className="bg-primary text-lightGold px-2 py-2 text-xs">
                       New
                     </p>
                   </div>
@@ -554,7 +554,7 @@ const Index = () => {
           <Link
             href="/advertisement"
           >
-            <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-brownBg transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">Load More</button>
+            <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">Load More</button>
             
           </Link>
         </div>

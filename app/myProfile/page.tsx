@@ -1291,7 +1291,7 @@ const Profile = () => {
             <div className="flex flex-col gap-4 lg:py-6 w-full xl:w-min">
               <div className="w-full xl:w-[800px] h-8 bg-skeleton rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-brownBg flex items-center justify-center font-semibold text-white"
+                  className="h-full bg-primary flex items-center justify-center font-semibold text-white"
                   style={{
                     width: `${
                       accountType === "personal"
@@ -2873,7 +2873,7 @@ const Profile = () => {
                     Cancel
                   </button>
                   <button
-                    className="bg-brownBg text-white py-1 px-3 rounded "
+                    className="bg-primary text-white py-1 px-3 rounded "
                     type="submit"
                   >
                     Verify

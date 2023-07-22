@@ -5,7 +5,7 @@ const Footer = () => {
   const pathname = usePathname()
   const isLoginPage = pathname === '/login'
   return (
-    <footer className={`bg-brownBg text-white px-4 xl:px-0 font-inter ${isLoginPage ? 'hidden' : 'block'}`}>
+    <footer className={`bg-primary text-white px-4 xl:px-0 font-inter ${isLoginPage ? 'hidden' : 'block'}`}>
       <div
         className="max-w-screen-xl mx-auto
             flex justify-between flex-col lg:flex-row gap-y-8

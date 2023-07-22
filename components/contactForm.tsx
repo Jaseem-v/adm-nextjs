@@ -68,7 +68,7 @@ const ContactForm = () => {
               ></textarea>
               <button
                 type="submit"
-                className="text-lightGold bg-brownBg py-4 md:py-7 lg:py-7 rounded-[40px]
+                className="text-lightGold bg-primary py-4 md:py-7 lg:py-7 rounded-[40px]
                            transition ease-in-out duration-300 active:bg-amber-700 hover:bg-brownBgInvert"
               >
                 Submit
