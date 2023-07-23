@@ -395,7 +395,7 @@ const Navbar = () => {
                 placement="bottomRight"
                 arrow
               >
-                <button className="navBtn font-medium bg-lightGold text-brown py-3 px-6 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                <button className="navBtn font-medium bg-lightGold text-primary py-3 px-6 min-w-[120px] rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                   Register
                 </button>
               </Dropdown>
