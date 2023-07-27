@@ -24,7 +24,7 @@ const Login = () => {
 
   const form = useForm<FormValues>({
     defaultValues: {},
-    resolver: yupResolver(signInSchema),
+    resolver: yupResolver<any>(signInSchema),
   });
 
   const { register, handleSubmit, formState, trigger, watch, setValue } = form;

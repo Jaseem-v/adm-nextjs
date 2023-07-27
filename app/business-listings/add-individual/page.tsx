@@ -57,7 +57,7 @@ const EnlistIndividual = () => {
       password: "",
       place: "",
     },
-    resolver: yupResolver(businessIndividualSchema),
+    resolver: yupResolver<any>(businessIndividualSchema),
   });
 
   const { register, handleSubmit, formState, trigger, watch, setValue } = form;

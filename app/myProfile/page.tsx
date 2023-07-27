@@ -133,7 +133,7 @@ const Profile = () => {
 
   const businessInfoForm = useForm<BusinessInfoFormValues>({
     defaultValues: {},
-    resolver: yupResolver(updateBusinessInfoSchema),
+    resolver: yupResolver<any>(updateBusinessInfoSchema),
   });
 
   const {
@@ -598,7 +598,7 @@ const Profile = () => {
   };
   const fullnameForm = useForm<FullnameFormValue>({
     defaultValues: {},
-    resolver: yupResolver(fullnameSchema),
+    resolver: yupResolver<any>(fullnameSchema),
   });
 
   const {
@@ -635,7 +635,7 @@ const Profile = () => {
 
   const businessNameForm = useForm<businessNameFormValue>({
     defaultValues: {},
-    resolver: yupResolver(businessNameSchema),
+    resolver: yupResolver<any>(businessNameSchema),
   });
 
   const {
@@ -725,7 +725,7 @@ const Profile = () => {
 
   const socialMediaForm = useForm<SocialMediaFormValues>({
     defaultValues: {},
-    resolver: yupResolver(SocialMediaSchema),
+    resolver: yupResolver<any>(SocialMediaSchema),
   });
 
   const {
@@ -873,7 +873,7 @@ const Profile = () => {
 
   const serviceEditForm = useForm<ServicesFormValues>({
     defaultValues: {},
-    resolver: yupResolver(servicesSchema),
+    resolver: yupResolver<any>(servicesSchema),
   });
 
   const {
@@ -959,7 +959,7 @@ const Profile = () => {
 
   const servicesForm = useForm<ServicesFormValues>({
     defaultValues: {},
-    resolver: yupResolver(servicesSchema),
+    resolver: yupResolver<any>(servicesSchema),
   });
 
   const {
@@ -1020,7 +1020,7 @@ const Profile = () => {
 
   const contactForm = useForm<ContactFormValues>({
     defaultValues: {},
-    resolver: yupResolver(contactDetailsSchema),
+    resolver: yupResolver<any>(contactDetailsSchema),
   });
 
   const {
@@ -1052,7 +1052,7 @@ const Profile = () => {
 
   const advertisementForm = useForm<advertisementValues>({
     defaultValues: {},
-    resolver: yupResolver(advertisementSchema),
+    resolver: yupResolver<any>(advertisementSchema),
   });
 
   const {

@@ -3,6 +3,7 @@
 import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./../../../components/enlist/form.css";
@@ -105,7 +106,7 @@ const EnlistCompany = () => {
       username: "",
       password: "",
     },
-    resolver: yupResolver(businessFirstStepSchema),
+    resolver: yupResolver<any>(businessFirstStepSchema),
   });
 
   const {
@@ -393,7 +394,7 @@ const EnlistCompany = () => {
               <option value={""}></option>
 
               {
-                categoryData && categoryData.map((el,i) => (
+                categoryData && categoryData.map((el, i) => (
 
                   <option value={el._id} key={i}>{el.name}</option>
                 ))
@@ -470,7 +471,7 @@ const EnlistCompany = () => {
       </form>
     </div>
   );
-  
+
 
   return (
     <div className="container grid justify-items-center pt-14 w-full mx-auto xl:grid-cols-2">

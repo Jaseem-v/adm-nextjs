@@ -61,7 +61,7 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
 
   const advertisementForm = useForm<advertisementValues>({
     defaultValues: {},
-    resolver: yupResolver(advertisementSchema),
+    resolver: yupResolver<any>(advertisementSchema),
   });
 
   const {
