@@ -3083,7 +3083,7 @@ const Profile = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-3 gap-4">
                     {userAds.map((ad) => (
           <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
             <div>

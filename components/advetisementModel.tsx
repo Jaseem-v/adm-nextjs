@@ -193,6 +193,22 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                     </div>
                   </div>
 
+                  <div className="flex items-center gap-4">
+                    <p>Category</p>
+                    <div>
+                      <select
+                        id="type"
+                        className="w-48 border rounded-md border-[#b7babf] py-2 px-3 text-sm"
+                        {...registerAd("type")}
+                      >
+                        <option value=""></option>
+                        <option value="REAL_ESTATE">Real estate</option>
+                        <option value="USED_CAR">Used car</option>
+                        <option value="JOB">Job</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div className="flex flex-row gap-2 items-center">
                     <label htmlFor="visibility" className="cursor-pointer">
                       <input

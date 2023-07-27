@@ -34,6 +34,40 @@ const businessItems: MenuProps["items"] = [
     ),
   },
 ];
+const advertismentItems: MenuProps["items"] = [
+  {
+    key: "1",
+    label: (
+      <Link rel="noopener noreferrer" href="/advertisement?category=all">
+        All
+      </Link>
+    ),
+  },
+  {
+    key: "2",
+    label: (
+      <Link rel="noopener noreferrer" href="/advertisement?category=real-estate">
+        Realestate
+      </Link>
+    ),
+  },
+  {
+    key: "3",
+    label: (
+      <Link rel="noopener noreferrer" href="/advertisement?category=used-car">
+        Used car
+      </Link>
+    ),
+  },
+  {
+    key: "3",
+    label: (
+      <Link rel="noopener noreferrer" href="/advertisement?category=job">
+        Job
+      </Link>
+    ),
+  },
+];
 const enlistItems: MenuProps["items"] = [
   {
     key: "1",
@@ -165,8 +199,8 @@ const Navbar = () => {
             const { profilePicture } = response.data.data;
             profilePicture.key
               ? setProfileImage(
-                  `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${profilePicture.key}`
-                )
+                `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${profilePicture.key}`
+              )
               : setProfileImage("images/profilePreview.png");
             const { username } = response.data.data;
             const editedUsername = username.slice(3);
@@ -182,8 +216,8 @@ const Navbar = () => {
             const { profilePicture } = response.data.data;
             profilePicture.key
               ? setProfileImage(
-                  `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${profilePicture.key}`
-                )
+                `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${profilePicture.key}`
+              )
               : setProfileImage("images/profilePreview.png");
             const { username } = response.data.data;
             const editedUsername = username.slice(3);
@@ -207,9 +241,8 @@ const Navbar = () => {
   return (
     // need to implement proper sticky navbar
     <header
-      className={`font-inter z-20 bg-primary text-white sticky top-0 left-0 ${
-        isLoginPage ? "hidden" : "block"
-      }`}
+      className={`font-inter z-20 bg-primary text-white sticky top-0 left-0 ${isLoginPage ? "hidden" : "block"
+        }`}
       id="navbar"
     >
       <Toaster position="top-right" reverseOrder={false} />
@@ -287,13 +320,24 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="py-10 hidden lg:block">
-                <Link
-                  href="/advertisement"
-                  className="nav6 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2"
-                  aria-current="page"
+                <Dropdown
+                  menu={{ items: advertismentItems }}
+                  placement="bottomRight"
+                  arrow
                 >
-                  Advertisement
-                </Link>
+                  <div
+                    className="nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2 cursor-pointer"
+                    aria-current="page"
+                  >
+                    Advertisement
+                    <img
+                      src="/images/expand.svg"
+                      alt="expand"
+                      className="mt-1cursor-pointer"
+                    />
+                  </div>
+                </Dropdown>
+
               </li>
               <li className="py-10 hidden lg:block">
                 <Link
@@ -331,7 +375,7 @@ const Navbar = () => {
               className="navBtn font-medium bg-white text-primary py-2 px-7 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
               onClick={() => setShowAdvertisementModel(true)}
             >
-              Add
+              post AD
             </button>
             {showAdvertisementModel && (
               <AdvertisementModel
@@ -417,7 +461,7 @@ const Navbar = () => {
       {isMobileNavOpen && (
         <div className=" lg:hidden z-50" id="myLinks">
           <div className="flex flex-col gap-16 items-start justify-center px-6 py-10 sm:px-3  links w-full h-screen absolute top-0 right-0 bg-black">
-          {isLoggedin && (
+            {isLoggedin && (
               <div className="self-end flex items-center gap-6 ">
                 <Dropdown menu={{ items }} placement="bottomRight" arrow>
                   <div className="flex items-center justify-end gap-3 hover:cursor-pointer ">
@@ -512,29 +556,29 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
-            
-            {!isLoggedin && 
-            <div className="w-full flex items-start justify-center gap-5 text-center ">
-              <div className="relative flex-1">
-                <button
-                  className=" w-full font-medium bg-primary text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
-                  onClick={() => {
-                    setShowEnlistModel(true);
-                    setIsMobileNavOpen(false);
-                  }}
-                >
-                  Register
-                </button>
-                {showEnlistModel && (
-                  <EnlistModel setShowEnlistModel={setShowEnlistModel} />
-                )}
-              </div>
-              <Link href="/login" className="flex-1">
-                <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
-                  Login
-                </button>
-              </Link>
-            </div>}
+
+            {!isLoggedin &&
+              <div className="w-full flex items-start justify-center gap-5 text-center ">
+                <div className="relative flex-1">
+                  <button
+                    className=" w-full font-medium bg-primary text-white py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75"
+                    onClick={() => {
+                      setShowEnlistModel(true);
+                      setIsMobileNavOpen(false);
+                    }}
+                  >
+                    Register
+                  </button>
+                  {showEnlistModel && (
+                    <EnlistModel setShowEnlistModel={setShowEnlistModel} />
+                  )}
+                </div>
+                <Link href="/login" className="flex-1">
+                  <button className="w-full font-medium bg-white text-black py-3 px-12 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
+                    Login
+                  </button>
+                </Link>
+              </div>}
           </div>
         </div>
       )}
