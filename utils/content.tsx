@@ -185,3 +185,9 @@ const Home = () => {
 };
 
 export {socialMedia , members, popularCompanies, newsFeed , numbers};
+
+
+export function formatDate(inputDate: string) {
+  const [year, month, day] = inputDate.split("-");
+  return `${day}-${month}-${year}`;
+}

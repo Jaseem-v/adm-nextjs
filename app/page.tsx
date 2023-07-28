@@ -1,6 +1,6 @@
 "use client";
 
-import { newsFeed } from "../utils/content";
+import { formatDate, newsFeed } from "../utils/content";
 import React from "react";
 import "./../components/global/home.css";
 import ContactForm from "@/components/contactForm";
@@ -23,6 +23,7 @@ import "lightgallery/css/lg-thumbnail.css";
 // import plugins if you need
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
+import Masonry from "react-masonry-css";
 
 type Member = {
   _id: string;
@@ -49,12 +50,20 @@ type AdvertisementProps = {
     key: string;
   },
   type: string;
+  createdByRole: string;
   createdBy: {
-    name: string;
+    fname: string;
+    lname: string;
     profilePicture: {
       key: string;
     }
   }
+};
+const breakpointColumnsObj = {
+  default: 3,
+  4000: 3,
+  1024: 2,
+  500: 1
 };
 
 
@@ -77,7 +86,7 @@ const Index = () => {
           .then((res) => {
             if (res.status === 200) {
               console.log(res);
-              const slicedRes = res.data.data.slice(0, 8);
+              const slicedRes = res.data.data.slice(0, 6);
               setPersonalData(slicedRes);
             }
           });
@@ -135,7 +144,7 @@ const Index = () => {
         const usedCar = await httpClient().get('advertisement/used-car/approved')
         const realEstate = await httpClient().get('advertisement/real-estate/approved')
         const job = await httpClient().get('advertisement/job/approved')
-        const ads = [...usedCar?.data?.data, ...realEstate?.data?.data, ...job?.data?.data].slice(0,3)
+        const ads = [...usedCar?.data?.data, ...realEstate?.data?.data, ...job?.data?.data].slice(0, 7)
         setAds(ads)
         console.log(ads)
       } catch (error) {
@@ -319,6 +328,80 @@ const Index = () => {
       {/* NUMBERS */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+      {/* ADVERTISEMENT */}
+      {/* \\\\\\\\\\\\\\\\\\\ */}
+
+      <section className="py-14 md:py-16 lg:py-24">
+        <div className="max-w-screen-xl mx-auto px-4 xl:px-0 flex flex-col justify-center items-center">
+          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
+            Advertisement
+          </h1>
+          {/* <p className="md:max-w-3xl lg:max-w-none font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
+            Connecting the Abu Dhabi Malayalee Community: Stay Updated with the
+            Latest News and Events
+          </p> */}
+          <div className="my-16 max-w-7xl mx-4 xl:mx-auto">
+
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="my-masonry-grid xl:mx-0"
+              columnClassName="my-masonry-grid_column">
+              {ads?.length ? ads.map((ad) => (
+                <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
+                  <div>
+                    {ad?.image?.key ? <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" /> : null}
+                    <div className="flex items-center justify-between px-6 pt-6">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+                          style={{ backgroundImage: `url(${ad.createdBy?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/${ad.createdByRole == "Personal_Accounts" ? "personal" : "business"}-account-profile-picture/${ad.createdBy?.profilePicture?.key}` : 'images/profilePreview.png'})` }}
+                        />
+                        <p className="font-semibold text-textBlack">{ad.createdBy?.fname}</p>
+                      </div>
+                      <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
+                    </div>
+                    <div className="text p-6">
+                      {/* <h3 className="font-semibold text-xl">For sale</h3> */}
+                      <p className="mb-2">{ad?.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              )) : null}
+            </Masonry>
+            {/*  
+         /*   {ads?.map((ad) => (
+           <div key={ad._id} className="rounded-2xl shadow-lg w-full h-full">
+                <div>
+                  {ad?.image?.key ? <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-2xl w-full h-72 object-cover block" /> : null}
+                  <div className="flex items-center justify-between px-6 pt-6">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+                        style={{ backgroundImage: `url(${ad.createdBy?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/${ad.createdByRole == "Personal_Accounts" ? "personal" : "business"}-account-profile-picture/${ad.createdBy?.profilePicture?.key}` : 'images/profilePreview.png'})` }}
+                      />
+                      <p className="font-semibold text-textBlack">{ad.createdBy?.fname}</p>
+                    </div>
+                    <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
+                  </div>
+                  <div className="text p-6">
+                    {/* <h3 className="font-semibold text-xl">For sale</h3> 
+                    <p className="mb-2">{ad?.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+              */}
+          </div>
+          <Link
+            href="/advertisement"
+          >
+            <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">Load More</button>
+
+          </Link>
+        </div>
+      </section>
+
       {/* <section className=" py-16 bg-gray bg-zinc-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -341,7 +424,7 @@ const Index = () => {
       {/* MEMBERS */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className=" max-w-screen-xl mx-auto px-5 xl:px-0 py-16">
+      <section className="bg-lightBg  py-14 md:py-16 lg:py-24">
         {/* <div className="about-us-title grid place-items-center justify-items-center grid-cols-6 gap-1 md:gap-0 overflow-hidden">
           <div className="bg-lightOrange w-full h-[1px]  col-span-1 lg:col-span-2"></div>
           <h3 className="min-w-[188px] font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black z-10 pl-1 col-span-4 lg:col-span-2 whitespace-nowrap">
@@ -349,60 +432,63 @@ const Index = () => {
           </h3>
           <div className="bg-lightOrange w-full h-[1px] col-span-1 lg:col-span-2"></div>
         </div> */}
-        <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
-          Meet Our Members
-        </h1>
-        <div className="flex flex-col justify-center items-center">
-          <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-descBlack text-center">
-            As a member, gain exclusive access to a thriving network of fellow
-            entrepreneurs and professionals, all united by the shared goal of
-            success. Join us today and unlock your potential.
-          </p>
-          <div className="team grid  mt-12 md:grid-cols-2 xl:grid-cols-4 gap-y-7 lg:gap-y-10 lg:gap-x-10 gap-x-7">
-            {personalData.map((member) => (
-              <div className="team-member" key={member._id}>
-                <div>
-                  <img
-                    src={
-                      member?.profilePicture
-                        ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${member.profilePicture.key}`
-                        : "images/profilePreview.png"
-                    }
-                    // src={`/personal-account-profilez-picture/${member.profilePicture.key}`}
-                    alt="team-member-1"
-                    className="rounded-md w-[333px] lg:w-[290px] h-[333px] lg:h-[290px] object-cover"
-                  />
+        <div className="max-w-screen-xl mx-auto px-5 xl:px-0 py-16">
+          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
+            Meet Our Members
+          </h1>
+          <div className="flex flex-col justify-center items-center">
+            <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-descBlack text-center">
+              As a member, gain exclusive access to a thriving network of fellow
+              entrepreneurs and professionals, all united by the shared goal of
+              success. Join us today and unlock your potential.
+            </p>
+            <div className="team grid  mt-12 md:grid-cols-2 xl:grid-cols-4 gap-y-7 lg:gap-y-10 lg:gap-x-10 gap-x-7">
+              {personalData.map((member) => (
+                <div className="team-member" key={member._id}>
+                  <div>
+                    <img
+                      src={
+                        member?.profilePicture
+                          ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${member.profilePicture.key}`
+                          : "images/profilePreview.png"
+                      }
+                      // src={`/personal-account-profilez-picture/${member.profilePicture.key}`}
+                      alt="team-member-1"
+                      className="rounded-md w-[333px] lg:w-[290px] h-[333px] lg:h-[290px] object-cover"
+                    />
+                  </div>
+                  <div className="mt-2 text-center">
+                    <Link
+                      href={`/businesspersons/${member._id}`}
+                      className=" font-semibold   md:text-lg lg:text-xl"
+                    >
+                      {member.fname}
+                      { }
+                      {member.lname}
+                    </Link>
+                    <p className=" text-sm md:text-base text-[#333] font-medium">
+                      Abu dhabi
+                    </p>
+                  </div>
                 </div>
-                <div className="mt-2 text-center">
-                  <Link
-                    href={`/businesspersons/${member._id}`}
-                    className=" font-semibold   md:text-lg lg:text-xl"
-                  >
-                    {member.fname}
-                    {}
-                    {member.lname}
-                  </Link>
-                  <p className=" text-sm md:text-base text-[#333] font-medium">
-                    Abu dhabi
-                  </p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <Link
+              href="/businesspersons"
+              className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit"
+            >
+              Load More
+            </Link>
           </div>
-          <Link
-            href="/businesspersons"
-            className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit"
-          >
-            Load More
-          </Link>
         </div>
+
       </section>
 
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* POPULAR COMPANIES */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className="bg-lightBg py-14 md:py-16 lg:py-24">
+      <section className=" py-14 md:py-16 lg:py-24">
         <div className=" max-w-screen-xl mx-auto px-5 xl:px-0 ">
           <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
             Popular Companies
@@ -515,50 +601,7 @@ const Index = () => {
       </section> */}
 
 
-      {/* \\\\\\\\\\\\\\\\\\\ */}
-      {/* ADVERTISEMENT */}
-      {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className="py-14 md:py-16 lg:py-24">
-        <div className="max-w-screen-xl mx-auto px-4 xl:px-0 flex flex-col justify-center items-center">
-          <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
-            Advertisement
-          </h1>
-          {/* <p className="md:max-w-3xl lg:max-w-none font-semibold text-base md:text-lg lg:text-xl mt-8 text-desc text-center">
-            Connecting the Abu Dhabi Malayalee Community: Stay Updated with the
-            Latest News and Events
-          </p> */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 place-items-center">
-            {ads?.map((ad) => (
-              <div key={ad._id} className="rounded-2xl shadow-lg ">
-                <div>
-                <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-2xl w-full h-72 object-cover block"/>
-                <div className="flex items-center justify-between px-6 pt-6">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-                      style={{backgroundImage: `url(https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${ad.createdBy?.profilePicture?.key})`}} 
-                    />
-                    <p className="font-semibold text-textBlack">{ad.createdBy?.name}</p>
-                  </div>
-                  <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
-                </div>
-                <div className="text p-6">
-                  {/* <h3 className="font-semibold text-xl">For sale</h3> */}
-                  <p className="mb-2">{ad?.desc}</p>
-                </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <Link
-            href="/advertisement"
-          >
-            <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">Load More</button>
-            
-          </Link>
-        </div>
-      </section>
 
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* GALLERY */}
