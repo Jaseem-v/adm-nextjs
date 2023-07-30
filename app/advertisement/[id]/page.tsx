@@ -31,13 +31,12 @@ type AdvertisementProps = {
 
 
 
-const Advertisement = ({
-  params,
-  searchParams,
-}: {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+const Advertisement = ({ params }: {
+  params: { id: string }
 }) => {
+
+  const { id } = params
+
   // const router = useRouter()
   const breadcrumbs = ["Advertisement"];
   const [ads, setAds] = useState<AdvertisementProps[]>([])
@@ -45,7 +44,7 @@ const Advertisement = ({
   // const [realEstate, setRealEstate] = useState<AdvertisementProps[]>([])
   // const [job, setJob] = useState<AdvertisementProps[]>([])
 
-  console.log(searchParams);
+  console.log(id);
 
 
   // const DropdownItems: MenuProps['items'] = [
@@ -86,10 +85,10 @@ const Advertisement = ({
 
   useEffect(() => {
     const getAd = async () => {
-      if (searchParams.category) {
+      if (id) {
 
         try {
-          const adsapi = await httpClient().get(`advertisement${searchParams?.category != "all" ? `/${searchParams?.category}` : ''}/approved`)
+          const adsapi = await httpClient().get(`advertisement${id != "all" ? `/${id}` : ''}/approved`)
           // const realEstate = await httpClient().get('advertisement/real-estate/approved')
           // setUsedCars(usedCar?.data?.data)
           // setRealEstate(realEstate?.data?.data)
@@ -101,7 +100,7 @@ const Advertisement = ({
 
     }
     getAd()
-  }, [searchParams])
+  }, [id])
   // console.log(ads)
 
   const item = (

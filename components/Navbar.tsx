@@ -38,7 +38,7 @@ const advertismentItems: MenuProps["items"] = [
   {
     key: "1",
     label: (
-      <Link rel="noopener noreferrer" href="/advertisement?category=all">
+      <Link rel="noopener noreferrer" href="/advertisement/all">
         All
       </Link>
     ),
@@ -46,7 +46,7 @@ const advertismentItems: MenuProps["items"] = [
   {
     key: "2",
     label: (
-      <Link rel="noopener noreferrer" href="/advertisement?category=real-estate">
+      <Link rel="noopener noreferrer" href="/advertisement/real-estate">
         Realestate
       </Link>
     ),
@@ -54,7 +54,7 @@ const advertismentItems: MenuProps["items"] = [
   {
     key: "3",
     label: (
-      <Link rel="noopener noreferrer" href="/advertisement?category=used-car">
+      <Link rel="noopener noreferrer" href="/advertisement/used-car">
         Used car
       </Link>
     ),
@@ -62,7 +62,7 @@ const advertismentItems: MenuProps["items"] = [
   {
     key: "4",
     label: (
-      <Link rel="noopener noreferrer" href="/advertisement?category=job">
+      <Link rel="noopener noreferrer" href="/advertisement/job">
         Job
       </Link>
     ),
