@@ -21,7 +21,7 @@ const businessItems: MenuProps["items"] = [
     key: "1",
     label: (
       <Link rel="noopener noreferrer" href="/business">
-        Company
+        Business Directory
       </Link>
     ),
   },
@@ -29,7 +29,7 @@ const businessItems: MenuProps["items"] = [
     key: "2",
     label: (
       <Link rel="noopener noreferrer" href="/businesspersons">
-        Persons
+        Personal Directory
       </Link>
     ),
   },
@@ -241,7 +241,7 @@ const Navbar = () => {
   return (
     // need to implement proper sticky navbar
     <header
-      className={`font-inter z-20 bg-primary text-white sticky top-0 left-0 ${isLoginPage ? "hidden" : "block"
+      className={`font-inter z-20 bg-nav text-white sticky top-0 left-0 ${isLoginPage ? "hidden" : "block"
         }`}
       id="navbar"
     >
@@ -301,7 +301,7 @@ const Navbar = () => {
                     className="nav4 text-sm hover:text-slate-300 active:text-slate-400 flex items-center justify-center gap-2 cursor-pointer"
                     aria-current="page"
                   >
-                    Business
+                    Directory
                     <img
                       src="/images/expand.svg"
                       alt="expand"

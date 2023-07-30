@@ -161,7 +161,7 @@ const Index = () => {
       >
         {/* \\\\\\\\\\\\\\\\ */}
         {/* \\\ Main header */}
-        <div className="pt-36 pb-56 md:pt-44 md:pb-64 lg:pt-52 lg:pb-80 xl:pb-[415px] z-10 relative h-full">
+        <div className="pt-36 pb-56 md:pt-44 md:pb-64 lg:pt-52 lg:pb-52 z-10 relative h-full">
           <div className="z-50 text-white text-center flex flex-col justify-center  px-5 xl:px-0">
             <p className=" font-bold text-[28px] md:text-[42px] lg:text-[54px] leading-tight md:leading-[62px]">
               Empowering Businesses
@@ -173,11 +173,11 @@ const Index = () => {
               Abudhabi Malayalees community today!
             </p>
             <div className="flex gap-2 md:gap-4 mt-8 items-center justify-center">
-              <Link href="/business-listings/add-company" className={`${isLoggedIn ? 'hidden' : ''}`}>
+              {/* <Link href="/business-listings/add-company" className={`${isLoggedIn ? 'hidden' : ''}`}>
                 <button className="py-3 md:py-4 px-8 md:px-12 bg-primary text-lightGold font-medium text-base md:text-lg lg:text-xl rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75">
                   Register Now
                 </button>
-              </Link>
+              </Link> */}
               <Link href="/about">
                 <button
                   className={`py-[11px] md:py-[15px] px-6 md:px-10 ${isLoggedIn ? 'bg-primary text-white' : 'bg-white text-descBlack hover:bg-darkBg border border-white'}  font-medium text-base md:text-lg lg:text-xl rounded-lg  
@@ -264,7 +264,7 @@ const Index = () => {
             <div className="bg-lightOrange w-full h-[1px]"></div>
           </div> */}
           <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333]">
-            We believe community grows businesses
+            We believe community <span className="color-meroon">grows businesses</span>
           </h1>
           <h6 className="font-inter text-base md:text-lg lg:text-xl font-normal text-descBlack mt-4">
             Connecting Malayalee Entrepreneurs for Collective Success
@@ -277,8 +277,14 @@ const Index = () => {
             />
             <div className="flex flex-col font-inter ">
               <h2 className="font-bold text-3xl md:text-4xl xl:text-5xl text-textBlack">
-                Discover Our Story <br />
-                and Mission
+                Discover &nbsp;
+                <span className="color-meroon">
+                  Our Story
+                </span> <br />
+                and &nbsp;
+                <span className="color-meroon">
+                  Mission
+                </span>
               </h2>
               <p className="pt-8 lg:pt-16 font-medium text-lg lg:text-xl leading-[1.5] text-descBlack">
                 Abu Dhabi Malayalees is a vibrant and thriving business
@@ -293,7 +299,7 @@ const Index = () => {
                 ideas, and explore new business opportunities.
               </p>
               <Link href="/about">
-                <button className="mt-9 font-medium bg-primary text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2">
+                <button className="mt-9 font-medium bg-meroon bg-hover-meroon text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2">
                   Learn more
                   <img src="/images/arrow-right.svg" alt="right arrow" />
                 </button>
@@ -306,14 +312,14 @@ const Index = () => {
       {/* \\\\\\\\\\\\ */}
       {/* SECTION */}
       {/* \\\\\\\\\\\\ */}
-      <section className="bg-lightBg ">
+      <section className="bg-even ">
         <div className="max-w-screen-xl mx-auto px-5 xl:px-0 py-10 md:py-12 xl:py-20  text-center flex flex-col items-center">
           <h3 className="text-textBlack font-poppins font-bold text-2xl md:text-3xl">
-            Want to join the team?
+            Want to join the <span className="color-meroon"> team </span> ?
           </h3>
           <button
             onClick={() => setShowEnlistModel(true)}
-            className="mt-6 lg:mt-9 font-medium bg-primary text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
+            className="mt-6 lg:mt-9 font-medium bg-meroon bg-hover-meroon text-lightGold py-3 px-6 rounded-lg hover:bg-opacity-90 active:translate-y-[1px] transition-all duration-75 flex items-center justify-center gap-2"
           >
             Join our community
             <img src="/images/arrow-right.svg" alt="right arrow" />
@@ -396,7 +402,7 @@ const Index = () => {
           <Link
             href="/advertisement"
           >
-            <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">Load More</button>
+            <button className="mt-8 md:mt-12 lg:mt-16 font-regular bg-meroon bg-hover-meroon transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit">Load More</button>
 
           </Link>
         </div>
@@ -424,7 +430,7 @@ const Index = () => {
       {/* MEMBERS */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className="bg-lightBg  py-14 md:py-16 lg:py-24">
+      <section className="bg-even  py-14 md:py-16 lg:py-24">
         {/* <div className="about-us-title grid place-items-center justify-items-center grid-cols-6 gap-1 md:gap-0 overflow-hidden">
           <div className="bg-lightOrange w-full h-[1px]  col-span-1 lg:col-span-2"></div>
           <h3 className="min-w-[188px] font-bold text-2xl md:text-3xl lg:text-4xl font-kaisei text-black z-10 pl-1 col-span-4 lg:col-span-2 whitespace-nowrap">
@@ -432,9 +438,9 @@ const Index = () => {
           </h3>
           <div className="bg-lightOrange w-full h-[1px] col-span-1 lg:col-span-2"></div>
         </div> */}
-        <div className="max-w-screen-xl mx-auto px-5 xl:px-0 py-16">
+        <div className="max-w-screen-xl mx-auto px-5 xl:px-0">
           <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
-            Meet Our Members
+            Meet Our <span className="color-meroon">Members </span>
           </h1>
           <div className="flex flex-col justify-center items-center">
             <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-descBlack text-center">
@@ -475,7 +481,7 @@ const Index = () => {
             </div>
             <Link
               href="/businesspersons"
-              className="mt-8 md:mt-12 lg:mt-16 font-regular bg-primary transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit"
+              className="mt-8 md:mt-12 lg:mt-16 font-regular bg-meroon bg-hover-meroon transition-all duration-200 active:bg-amber-700 py-3 px-12 text-base rounded-full text-lightGold w-fit"
             >
               Load More
             </Link>
@@ -484,6 +490,10 @@ const Index = () => {
 
       </section>
 
+
+
+
+
       {/* \\\\\\\\\\\\\\\\\\\ */}
       {/* POPULAR COMPANIES */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
@@ -491,7 +501,7 @@ const Index = () => {
       <section className=" py-14 md:py-16 lg:py-24">
         <div className=" max-w-screen-xl mx-auto px-5 xl:px-0 ">
           <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
-            Popular Companies
+            Popular <span className="color-meroon">Companies</span>
           </h1>
           <div className="flex items-center justify-center">
             <p className="md:max-w-3xl lg:max-w-4xl font-semibold text-base md:text-lg lg:text-xl mt-8 text-descBlack text-center">
@@ -502,7 +512,7 @@ const Index = () => {
           <div className="companies mt-12 md:mt-16 lg:mt-20  grid lg:grid-cols-2 gap-x-8 gap-y-12 justify-items-center">
             {businessData.map((business) => (
               <div
-                className="company flex flex-col gap-3 w-full xl:w-[575px]"
+                className="company flex flex-col gap-3 w-full xl:w-[575px] shadow-md"
                 key={business._id}
               >
                 <div className="h-[135px] md:h-[232px] lg:h-[192px] xl:h-[232px] overflow-hidden rounded-2xl">
@@ -524,12 +534,12 @@ const Index = () => {
                     <p className="font-semibold text-2xl md:text-3xl lg:text-4xl">
                       {business.name}
                     </p>
-                    <p className="mt-2 text-desc text-sm max-w-md font-semibold">
+                    <p className="mt-2 text-desc text-sm max-w-md font-semibold ">
                       {business.website}
                     </p>
                     <Link
                       href={`/business/${business._id}`}
-                      className=" block mt-4 font-regular bg-primary text-lightGold text-sm py-3 px-4 hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700 w-fit"
+                      className=" block mt-4 font-regular bg-meroon bg-hover-meroon text-lightGold text-sm py-3 px-4 hover:bg-opacity-90 transition-all duration-200 active:bg-amber-700 w-fit"
                     >
                       View Details
                     </Link>
@@ -546,7 +556,7 @@ const Index = () => {
           <Link
             href="/business"
             className="mt-8 md:mt-12 lg:mt-16 font-regular border border-brown py-3 px-10 md:px-12 text-sm md:text-base rounded-full text-brown text-center block mx-auto
-                hover:bg-primary hover:text-lightGold w-fit"
+                bg-meroon bg-hover-meroon text-lightGold hover:text-lightGold w-fit"
           >
             Load More
           </Link>
@@ -566,7 +576,7 @@ const Index = () => {
             Connecting the Abu Dhabi Malayalee Community: Stay Updated with the
             Latest News and Events
           </p>
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 place-items-center">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 place-itesm-center">
             {newsFeed.map((news) => (
               <div
                 className="rounded-[20px] shadow-card flex flex-col items-start justify-center"
@@ -607,10 +617,10 @@ const Index = () => {
       {/* GALLERY */}
       {/* \\\\\\\\\\\\\\\\\\\ */}
 
-      <section className=" py-16 bg-lightBg">
+      <section className=" py-16 bg-even">
         <div className="max-w-screen-xl mx-auto mb-16">
           <h1 className="font-albra text-3xl md:text-4xl xl:text-5xl font-bold text-[#333] text-center">
-            Gallery
+            Our <span className="color-meroon"> Gallery </span>
           </h1>
         </div>
         <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">

@@ -62,25 +62,25 @@ const eventsDummy = [
 
 type Event = {
   _id: number,
-    image: string,
-    title: string,
-    desc: string,
-    date: string,
-    time: string,
+  image: string,
+  title: string,
+  desc: string,
+  date: string,
+  time: string,
 }
 
 const Events = () => {
   const [events, setEvents] = useState<Event[]>([])
-  useEffect(() =>  {
+  useEffect(() => {
     const fetchEvents = async () => {
-    try {
-      const response = await httpClient().get('/event/customer')
-      setEvents(response.data.data)
-    } catch (error) {
-      console.log(error)
+      try {
+        const response = await httpClient().get('/event/customer')
+        setEvents(response.data.data)
+      } catch (error) {
+        console.log(error)
+      }
     }
-  }
-  fetchEvents()
+    fetchEvents()
   }, [])
 
   const breadcrumbs = ['Events']
@@ -98,7 +98,8 @@ const Events = () => {
             max-w-screen-xl mx-auto"
         >
           <div className="px-6 xl:px-0">
-            <p className="font-bold text-3xl lg:text-4xl text-textBlack">Upcoming events</p>
+            <p className="font-bold text-3xl lg:text-4xl text-textBlack">Upcoming
+              <span className="color-meroon">  events </span></p>
             <div
               className="event-cards mt-8 md:mt-9 lg:mt-11
                     grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10 lg:gap-12"
@@ -114,7 +115,7 @@ const Events = () => {
                             py-5 md:py-6 
                             font-normal flex flex-col"
                   >
-                    <p className="text-base lg:text-lg">{event.title}</p>
+                    <p className="text-base lg:text-lg color-meroon">{event.title}</p>
                     <p className="text-xs lg:text-sm font-semibold text-desc">
                       {event.desc}
                     </p>

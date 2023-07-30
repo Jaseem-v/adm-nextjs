@@ -5,7 +5,7 @@ const Footer = () => {
   const pathname = usePathname()
   const isLoginPage = pathname === '/login'
   return (
-    <footer className={`bg-primary text-white px-4 xl:px-0 font-inter ${isLoginPage ? 'hidden' : 'block'}`}>
+    <footer className={`bg-nav text-white px-4 xl:px-0 font-inter ${isLoginPage ? 'hidden' : 'block'}`}>
       <div
         className="max-w-screen-xl mx-auto
             flex justify-between flex-col lg:flex-row gap-y-8
@@ -24,7 +24,8 @@ const Footer = () => {
             className="text-base md:text-lg pt-3 md:pt-4 lg:pt-5 text-white
                     max-w-lg"
           >
-            We are a group of like-minded individuals who come together to foster a strong sense of community, promote business opportunities, and support each other in both personal and professional endeavors.
+            We are a group of like-minded individuals who come together to foster a strong sense of community,
+            promote business opportunities, and support each other in both personal and professional endeavors.
           </p>
         </div>
         <div>

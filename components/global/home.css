@@ -1,7 +1,8 @@
 .mainHeader {
   background-image: url(https://besthqwallpapers.com/Uploads/28-11-2020/147323/4k-dubai-burj-khalifa-nightscapes-modern-buildings.jpg);
-  background-size: cover;
   position: relative;
+  background: #e4074e url(https://themezhub.net/reveal-live/reveal/assets/img/landing-bg.png) no-repeat;
+  background-size: cover;
 }
 
 
@@ -13,6 +14,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
 }
 
 .social-media-section {
@@ -138,12 +140,7 @@
   align-items: center;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide {
   position: relative;
   height: 50vh;
   transition: all 0.4s ease-out;
@@ -152,76 +149,36 @@
   opacity: 0.25;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide.swiper-slide-prev,
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide.swiper-slide-next {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-prev,
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-next {
   width: 20% !important;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide.swiper-slide-active {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-active {
   height: 80vh;
   width: 60% !important;
   opacity: 1;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide.swiper-slide-active:hover
-  .zoom {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-active:hover .zoom {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .image {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .image {
   width: 100%;
   height: 100%;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .image
-  img {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .image img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .overlay {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -230,12 +187,10 @@
   height: auto;
   padding: 50px 50px 30px 50px;
   background: #000;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.4) 50%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(0deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0) 100%);
   display: flex;
   align-items: center;
   opacity: 0;
@@ -243,38 +198,18 @@
   transition: all 0.3s ease-out;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .overlay.show {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay.show {
   opacity: 1;
   visibility: visible;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .overlay.show
-  .text-wrap {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay.show .text-wrap {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .overlay
-  .text-wrap {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay .text-wrap {
   display: flex;
   flex-direction: column;
   max-width: 600px;
@@ -284,30 +219,12 @@
   transition: all 0.4s linear;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .overlay
-  .text-wrap
-  .name
-  span {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay .text-wrap .name span {
   font-size: 2.2em;
   font-weight: 700;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .overlay
-  .text-wrap
-  .caption
-  p {
+.gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay .text-wrap .caption p {
   font-size: 1.16em;
   color: #fff;
   line-height: 1.7;
@@ -328,14 +245,8 @@
   color: #fff;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-next-button.swiper-button-disabled,
-.gallery-wrapper
-  .content
-  .gallery.full
-  .swiper-prev-button.swiper-button-disabled {
+.gallery-wrapper .content .gallery.full .swiper-next-button.swiper-button-disabled,
+.gallery-wrapper .content .gallery.full .swiper-prev-button.swiper-button-disabled {
   opacity: 0.2;
 }
 
@@ -369,74 +280,36 @@
   width: 100%;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide {
+.gallery-wrapper .content .gallery.thumb .swiper-container .swiper-wrapper .swiper-slide {
   position: relative;
   height: 10vh;
   box-sizing: border-box;
   cursor: pointer;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide.swiper-slide-thumb-active
-  .image {
+.gallery-wrapper .content .gallery.thumb .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-thumb-active .image {
   box-shadow: inset 0px 0px 0px 2px #ed1b28;
   padding: 2px;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide.swiper-slide-thumb-active
-  .image
-  .overlay {
+.gallery-wrapper .content .gallery.thumb .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-thumb-active .image .overlay {
   opacity: 1;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .image {
+.gallery-wrapper .content .gallery.thumb .swiper-container .swiper-wrapper .swiper-slide .image {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .image
-  img {
+.gallery-wrapper .content .gallery.thumb .swiper-container .swiper-wrapper .swiper-slide .image img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-container
-  .swiper-wrapper
-  .swiper-slide
-  .image
-  .overlay {
+.gallery-wrapper .content .gallery.thumb .swiper-container .swiper-wrapper .swiper-slide .image .overlay {
   position: absolute;
   left: 2px;
   top: 2px;
@@ -483,14 +356,8 @@
   background-color: #c5101b;
 }
 
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-next-button.swiper-button-disabled,
-.gallery-wrapper
-  .content
-  .gallery.thumb
-  .swiper-prev-button.swiper-button-disabled {
+.gallery-wrapper .content .gallery.thumb .swiper-next-button.swiper-button-disabled,
+.gallery-wrapper .content .gallery.thumb .swiper-prev-button.swiper-button-disabled {
   opacity: 0.2;
 }
 
@@ -503,84 +370,33 @@
     height: 70vh;
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide {
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide {
     height: 50vh;
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide.swiper-slide-prev,
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide.swiper-slide-next {
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-prev,
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-next {
     width: 10% !important;
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide.swiper-slide-active {
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide.swiper-slide-active {
     height: 70vh;
     width: 80% !important;
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide
-    .overlay {
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay {
     padding: 20px;
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide
-    .overlay
-    .text-wrap {
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay .text-wrap {
     transform: translateY(0);
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide
-    .overlay
-    .text-wrap
-    .name
-    span {
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay .text-wrap .name span {
     font-size: 1.6em;
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.full
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide
-    .overlay
-    .text-wrap
-    .caption
-    p {
+  .gallery-wrapper .content .gallery.full .swiper-container .swiper-wrapper .swiper-slide .overlay .text-wrap .caption p {
     font-size: 1.06em;
   }
 
@@ -610,12 +426,7 @@
     max-width: 100%;
   }
 
-  .gallery-wrapper
-    .content
-    .gallery.thumb
-    .swiper-container
-    .swiper-wrapper
-    .swiper-slide {
+  .gallery-wrapper .content .gallery.thumb .swiper-container .swiper-wrapper .swiper-slide {
     height: 80px;
   }
 

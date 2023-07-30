@@ -8,7 +8,7 @@ interface SectionHeaderProps {
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({ title, breadcrumbs }) => {
   return (
-    <div className="bg-primary text-white py-16 md:py-20 lg:py-24 xl:py-28 flex flex-col items-center justify-center px-5 xl:px-0 mx-auto relative">
+    <div className="text-white py-16 md:py-20 lg:py-24 xl:py-28 flex flex-col items-center justify-center px-5 xl:px-0 mx-auto relative" style={{ background: `#e4074e url(https://themezhub.net/reveal-live/reveal/assets/img/landing-bg.png) no-repeat `, backgroundSize: 'cover' }}>
       <p className="font-joane font-bold text-4xl md:text-5xl lg:text-[64px] mt-3 md:mt-4 lg:mt-5">
         {title}
       </p>
