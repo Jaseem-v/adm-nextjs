@@ -382,54 +382,7 @@ const Navbar = () => {
                 setShowAdvertisementModel={setShowAdvertisementModel}
               />
             )}
-            {/* \\\\\\\\\\\\\\\\\ */}
-            {/* mobile menu */}
-            <div className="-mr-2 flex lg:hidden z-30">
-              {/* Hamburger button */}
-              <button
-                type="button"
-                className="mobile-menu inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:text-white transition duration-700 ease-in-out"
-                aria-label="Main menu"
-                aria-expanded="false"
-                onClick={() => setIsMobileNavOpen((prevState) => !prevState)}
-              >
-                {!isMobileNavOpen ? (
-                  <svg
-                    className=" block h-8 w-8"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    id="menu-open"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="block h-8 w-8"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    id="menu-close"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
+
           </div>
         ) : (
           <div className="hidden lg:flex items-center gap-5 text-sm">
@@ -451,6 +404,55 @@ const Navbar = () => {
             </Link>
           </div>
         )}
+
+        {/* \\\\\\\\\\\\\\\\\ */}
+        {/* mobile menu */}
+        <div className="-mr-2 flex lg:hidden z-30">
+          {/* Hamburger button */}
+          <button
+            type="button"
+            className="mobile-menu inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:text-white transition duration-700 ease-in-out"
+            aria-label="Main menu"
+            aria-expanded="false"
+            onClick={() => setIsMobileNavOpen((prevState) => !prevState)}
+          >
+            {!isMobileNavOpen ? (
+              <svg
+                className=" block h-8 w-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                id="menu-open"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="block h-8 w-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                id="menu-close"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
 
         {showEnlistModel && (
           <EnlistModel setShowEnlistModel={setShowEnlistModel} />
