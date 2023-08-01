@@ -366,6 +366,40 @@ const EnlistCompany = () => {
             </div>
             <p className="error">{errorsOne.phoneNumber?.message}</p>
           </div>
+          {/* <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
+            Company Account Details
+          </p> */}
+          <div className="form-control col-span-6 mt-4">
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              id="email"
+              placeholder="e.g. harrybrook@business.com"
+              {...register("email")}
+              onBlur={() => trigger("email")}
+            />
+            <p className="error">{errorsOne.email?.message}</p>
+          </div>
+          <div className="form-control col-span-3 mt-4">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              {...register("username")}
+              onBlur={() => trigger("username")}
+            />
+            <p className="error">{errorsOne.username?.message}</p>
+          </div>
+          <div className="form-control col-span-3 mt-4">
+            <label htmlFor="password">Password</label>
+            <input
+              type="text"
+              id="password"
+              {...register("password")}
+              onBlur={() => trigger("password")}
+            />
+            <p className="error">{errorsOne.password?.message}</p>
+          </div>
 
           <div className="form-control col-span-6 mt-4">
             <label htmlFor="websiteUrl">Website URL (optional)</label>
@@ -415,40 +449,7 @@ const EnlistCompany = () => {
             <span className="ml-1">Don{`'`}t dispaly my address publicly</span>
           </label>
 
-          <p className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
-            Company Account Details
-          </p>
-          <div className="form-control col-span-6">
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              id="email"
-              placeholder="e.g. harrybrook@business.com"
-              {...register("email")}
-              onBlur={() => trigger("email")}
-            />
-            <p className="error">{errorsOne.email?.message}</p>
-          </div>
-          <div className="form-control col-span-3 mt-4">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              {...register("username")}
-              onBlur={() => trigger("username")}
-            />
-            <p className="error">{errorsOne.username?.message}</p>
-          </div>
-          <div className="form-control col-span-3 mt-4">
-            <label htmlFor="password">Password</label>
-            <input
-              type="text"
-              id="password"
-              {...register("password")}
-              onBlur={() => trigger("password")}
-            />
-            <p className="error">{errorsOne.password?.message}</p>
-          </div>
+
           {/* <label htmlFor="hasServiceArea" className="col-span-6 text-sm">
             <input
               type="checkbox"
