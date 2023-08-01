@@ -131,7 +131,7 @@ const Advertisement = ({ params }: {
                   <div className="flex items-center gap-2">
                     <div
                       className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-                      style={{ backgroundImage: `url(${ad.createdBy?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/${ad.createdByRole == "Personal_Accounts" ? "personal" : "business"}-account-profile-picture/${ad.createdBy?.profilePicture?.key}` : 'images/profilePreview.png'})` }}
+                      style={{ backgroundImage: `url(${ad.createdBy?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/${ad.createdByRole == "Personal_Accounts" ? "personal" : "business"}-account-profile-picture/${ad.createdBy?.profilePicture?.key}` : 'https://abudhabimalayalees.com/images/profilePreview.png'})` }}
                     />
                     <p className="font-semibold text-textBlack">{ad.createdBy?.fname}</p>
                   </div>
