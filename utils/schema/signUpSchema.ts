@@ -34,6 +34,9 @@ export const businessFirstStepSchema = yup.object({
             "Landline number must be  8 or 9 digits",
             value,
             "phoneNumber"
+
+
+            
           );
         }
       } else if (numberType === "mobile") {
