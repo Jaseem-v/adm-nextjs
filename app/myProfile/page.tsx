@@ -1549,7 +1549,7 @@ const Profile = () => {
                             className="bg-primary text-white py-1 px-3 rounded "
                             type="submit"
                           >
-                            Verify
+                            submit
                           </button>
                         </div>
                       </div>
@@ -1589,7 +1589,7 @@ const Profile = () => {
                             className="bg-primary text-white py-1 px-3 rounded "
                             type="submit"
                           >
-                            Verify
+                            submit
                           </button>
                         </div>
                       </div>
@@ -1637,7 +1637,7 @@ const Profile = () => {
                               className="bg-primary text-white py-1 px-3 rounded "
                               type="submit"
                             >
-                              Verify
+                              submit
                             </button>
                           </div>
                         )}
@@ -1954,7 +1954,7 @@ const Profile = () => {
                           className="bg-primary text-white py-1 px-3 rounded "
                           onClick={verifyWebsite}
                         >
-                          Verify
+                          submit
                         </button>
                       </div>
                     )}
@@ -2028,7 +2028,7 @@ const Profile = () => {
                     className="bg-primary text-white py-1 px-3 rounded "
                     onClick={verifyAbout}
                   >
-                    Verify
+                    submit
                   </button>
                 </div>
               )}
@@ -2152,7 +2152,7 @@ const Profile = () => {
                       className="bg-primary text-white py-1 px-3 rounded "
                       onClick={verifyBusinessCategories}
                     >
-                      Verify
+                      submit
                     </button>
                   </div>
                 )}
@@ -2876,7 +2876,7 @@ const Profile = () => {
                     className="bg-primary text-white py-1 px-3 rounded "
                     type="submit"
                   >
-                    Verify
+                    Add
                   </button>
                 </div>
               </form>
@@ -3026,7 +3026,7 @@ const Profile = () => {
                         className="bg-primary text-white py-1 px-3 rounded "
                         type="submit"
                       >
-                        Verify
+                        Submit
                       </button>
                     </div>
                   </form>
@@ -3192,7 +3192,7 @@ const Profile = () => {
                       className="bg-primary text-white py-1 px-3 rounded "
                       type="submit"
                     >
-                      Verify
+                      Submit
                     </button>
                   </div>
                 </form>
@@ -3234,7 +3234,7 @@ const Profile = () => {
                       className="bg-primary text-white py-1 px-3 rounded "
                       onClick={verifyDetailedInformation}
                     >
-                      Verify
+                      Submit
                     </button>
                   </div>
                 )}
