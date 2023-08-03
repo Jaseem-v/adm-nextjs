@@ -206,22 +206,22 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
           <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
             <p className="font-semibold text-xl md:text-2xl">Social Media</p>
             <div className="grid grid-cols-4 gap-10">
-              {facebookObj && <a href={`facebook.com/${facebookObj.link}`}>
+              {facebookObj && <a href={facebookObj.link}>
                 <img src="/images/fb.png" alt="fb" />
               </a>}
               {whatsappObj && <a href="#">
                 <img src="/images/whatsappp.png" alt="fb" />
               </a>}
-              {twitterObj && <a href="#">
+              {twitterObj && <a href={twitterObj.link}>
                 <img src="/images/twitter2.png" alt="twitter" />
               </a>}
-              {instagramObj && <a href={`instagram.com/${instagramObj.link}`}>
+              {instagramObj && <a href={instagramObj.link}>
                 <img src="/images/insta.png" alt="instagram" />
               </a>}
-              {linkedinObj && <a href="#">
+              {linkedinObj && <a href={linkedinObj.link}>
                 <img src="/images/linkedin2.png" alt="linkedin" />
               </a>}
-              {youtubeObj && <a href="#">
+              {youtubeObj && <a href={youtubeObj.link}>
                 <img src="/images/yt.png" alt="youtube" />
               </a>}
               {/* <a href="#">
@@ -234,7 +234,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         {/* <!-- advetisemnt --> */}
-        {ads.length > 0 && 
+        {ads?.length > 0 && 
         <div className="mt-8 lg:mt-10 max-w-7xl mx-2 lg:mx-auto">
           <p className="font-semibold text-xl md:text-2xl mb-5 lg:mb-7 pl-4">Advertisements</p>
           <Masonry

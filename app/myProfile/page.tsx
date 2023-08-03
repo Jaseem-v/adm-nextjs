@@ -1284,7 +1284,7 @@ const Profile = () => {
                   : overallCompletionPercentage}
                 %
               </p>
-              <p className="font-semibold text-lg md:text-xl lg:max-w-[194px]">
+              <p className="font-semibold text-lg md:text-xl lg:max-w-[140px]">
                 of your profile is complete
               </p>
             </div>
@@ -2693,9 +2693,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="facebook">Facebook URL</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsFacebook />
-                          <p className="text-sm">https://</p>
+                          {/* <p className="text-sm">https://</p> */}
                         </div>
                         <input
                           type="text"
@@ -2710,9 +2710,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="instagram">Instagram</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsInstagram />
-                          <p className="text-sm">@</p>
+                          {/* <p className="text-sm">@</p> */}
                         </div>
                         <input
                           type="text"
@@ -2727,9 +2727,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="twitter">Twitter</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsTwitter />
-                          <p className="text-sm">@</p>
+                          {/* <p className="text-sm">@</p> */}
                         </div>
                         <input
                           type="text"
@@ -2744,9 +2744,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="linkedin">LinkedIn URL</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsLinkedin />
-                          <p className="text-sm">https://</p>
+                          {/* <p className="text-sm">https://</p> */}
                         </div>
                         <input
                           type="text"
@@ -2761,9 +2761,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="youtube">Youtube Channel</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsYoutube />
-                          <p className="text-sm">https://</p>
+                          {/* <p className="text-sm">https://</p> */}
                         </div>
                         <input
                           type="text"
@@ -2782,9 +2782,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="facebook">Facebook URL</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsFacebook />
-                          <p className="text-sm">https://</p>
+                          {/* <p className="text-sm">https://</p> */}
                         </div>
                         <input
                           type="text"
@@ -2799,9 +2799,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="instagram">Instagram</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsInstagram />
-                          <p className="text-sm">@</p>
+                          {/* <p className="text-sm">@</p> */}
                         </div>
                         <input
                           type="text"
@@ -2816,9 +2816,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="twitter">Twitter</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[94px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsTwitter />
-                          <p className="text-sm">@</p>
+                          {/* <p className="text-sm">@</p> */}
                         </div>
                         <input
                           type="text"
@@ -2833,9 +2833,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="linkedin">LinkedIn URL</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsLinkedin />
-                          <p className="text-sm">https://</p>
+                          {/* <p className="text-sm">https://</p> */}
                         </div>
                         <input
                           type="text"
@@ -2850,9 +2850,9 @@ const Profile = () => {
                     <div className="flex flex-col gap-1">
                       <label htmlFor="youtube">Youtube Channel</label>
                       <div className="flex w-full flex-row">
-                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[88px]">
+                        <div className="flex items-center gap-2 px-2 py-2 bg-skeleton w-[40px]">
                           <BsYoutube />
-                          <p className="text-sm">https://</p>
+                          {/* <p className="text-sm">https://</p> */}
                         </div>
                         <input
                           type="text"
