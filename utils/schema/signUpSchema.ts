@@ -27,11 +27,11 @@ export const businessFirstStepSchema = yup.object({
     .test("phoneNumber", "Invalid phone number", function (value) {
       const numberType = this.parent.numberType;
       if (numberType === "landline") {
-        if (/^\d{8}$/.test(value)) {
+        if (/^\d{8,9}$/.test(value)) {
           return true;
         } else {
           throw new yup.ValidationError(
-            "Landline number must be 8 digits",
+            "Landline number must be  8 or 9 digits",
             value,
             "phoneNumber"
           );
