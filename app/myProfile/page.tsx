@@ -788,7 +788,7 @@ const Profile = () => {
             setPersonalLastname(res.lname);
             setEditInfoState((prevState) => ({
               ...prevState,
-              logo: `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${res?.profilePicture?.key}`,
+              logo: `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${res?.profilePicture?.key}`,
             }));
           } else if (response.status === 400) {
             toast.error(response.data.message, {
