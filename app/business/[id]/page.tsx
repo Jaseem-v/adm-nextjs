@@ -145,7 +145,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                 </p>
               </div>
               {/* <!-- owner details --> */}
-              {data?.contactDetails ? <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
+              {data?.contactDetails?.fname ? <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
                 <p className="font-semibold text-xl md:text-2xl">Owner Details</p>
                 <div className="flex flex-col gap-4 text-desc text-lg md:text-xl">
                   <p className="font-semibold">
