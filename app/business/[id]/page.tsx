@@ -135,7 +135,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
               <p className="font-medium text-lg md:text-xl">Overview</p>
             </div>
             <div className="flex flex-col gap-8 md:gap-9 lg:gap-10 p-9 md:p-11 font-poppins">
-              <img src={data?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${data.profilePicture.key}` : "/images/companyProfile.png"} alt="img" />
+              <img src={data?.profilePicture ? `https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${data.profilePicture.key}` : "https://www.agfineliving.com/wp-content/uploads/2015/03/16626680948_45cd075760_k.jpg"} alt="img" />
               <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
                 <p className="font-bold text-2xl md:text-3xl">{data?.name}</p>
                 <p className="font-medium text-lg md:text-xl text-desc max-w-2xl">
