@@ -145,7 +145,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                 </p>
               </div>
               {/* <!-- owner details --> */}
-              <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
+              {data?.contactDetails ? <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
                 <p className="font-semibold text-xl md:text-2xl">Owner Details</p>
                 <div className="flex flex-col gap-4 text-desc text-lg md:text-xl">
                   <p className="font-semibold">
@@ -159,20 +159,38 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                     Phone : <span className="font-medium">{data?.contactDetails.phone}</span>
                   </p>
                 </div>
-              </div>
+              </div> : null}
               {/* <!-- company gallery --> */}
-              <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
+              {/* <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
                 <p className="font-semibold text-xl md:text-2xl">Company Gallery</p>
                 <div className="flex gap-6 overflow-x-scroll lg:overflow-auto">
                   <img src="/images/gallery4.png" alt="" />
                   <img src="/images/gallery2.png" alt="" />
                   <img src="/images/gallery3.png" alt="" />
                 </div>
+              </div> */}
+              <div className="flex flex-col gap-6 md:gap-7 lg:gap-8">
+                <p className="font-semibold text-xl md:text-2xl">Contact info</p>
+                <div className="flex flex-col gap-4 font-medium text-base md:text-lg">
+                  <div className="flex items-center justify-start gap-2">
+                    <img src="/images/location.svg" alt="location" />
+                    <p>{data?.addressDetails.address} , {data?.addressDetails.city} , {data?.addressDetails.state} , {data?.addressDetails.pincode}</p>
+
+                  </div>
+                  <div className="flex items-center justify-start gap-2">
+                    <img src="/images/mail.svg" alt="mail" />
+                    <p>{data?.email}</p>
+                  </div>
+                  <div className="flex items-center justify-start gap-2">
+                    <img src="/images/phone.svg" alt="phone" />
+                    <p>{data?.phone}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           {/* <!-- contact info card --> */}
-          <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
+          {/* <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
             <p className="font-semibold text-xl md:text-2xl">Contact info</p>
             <div className="flex flex-col gap-4 font-medium text-base md:text-lg">
               <div className="flex items-center justify-start gap-2">
@@ -189,7 +207,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                 <p>{data?.phone}</p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* <!-- location --> */}
           <div className="w-full xl:max-w-[400px] bg-white rounded-[10px] flex flex-col px-5 md:px-6 lg:px-7 py-8 md:py-9 lg:py-10 gap-7">
@@ -234,18 +252,18 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         {/* <!-- advetisemnt --> */}
-        {ads?.length > 0 && 
-        <div className="mt-8 lg:mt-10 max-w-7xl mx-2 lg:mx-auto">
-          <p className="font-semibold text-xl md:text-2xl mb-5 lg:mb-7 pl-4">Advertisements</p>
-          <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid xl:mx-0"
-            columnClassName="my-masonry-grid_column">
-            {ads.map((ad) => (
-              <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
-                <div>
-                <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block"/>
-                {/* <div className="flex items-center justify-between px-6 pt-6">
+        {ads?.length > 0 &&
+          <div className="mt-8 lg:mt-10 max-w-7xl mx-2 lg:mx-auto">
+            <p className="font-semibold text-xl md:text-2xl mb-5 lg:mb-7 pl-4">Advertisements</p>
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="my-masonry-grid xl:mx-0"
+              columnClassName="my-masonry-grid_column">
+              {ads.map((ad) => (
+                <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
+                  <div>
+                    <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" />
+                    {/* <div className="flex items-center justify-between px-6 pt-6">
                   <div className="flex items-center gap-2">
                     <div
                       className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
@@ -255,15 +273,15 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
                   </div>
                   <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
                 </div> */}
-                <div className="text p-6">
-                  {/* <h3 className="font-semibold text-xl">For sale</h3> */}
-                  <p className="mb-2">{ad?.desc}</p>
+                    <div className="text p-6">
+                      {/* <h3 className="font-semibold text-xl">For sale</h3> */}
+                      <p className="mb-2">{ad?.desc}</p>
+                    </div>
+                  </div>
                 </div>
-                </div>
-              </div>
-            ))}
-          </Masonry>
-        </div>}
+              ))}
+            </Masonry>
+          </div>}
       </section>
 
       {/* \\\\\\\\\\\\ */}
