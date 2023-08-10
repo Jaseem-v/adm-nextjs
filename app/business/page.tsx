@@ -107,13 +107,12 @@ const Business = () => {
       {/* SECTION */}
       {/* \\\\\\\\\\\\ */}
 
-      <div className="my-12 md:my-14 lg:my-16 max-w-screen-xl mx-auto px-5 xl:px-0">
+      {/* <div className="my-12 md:my-14 lg:my-16 max-w-screen-xl mx-auto px-5 xl:px-0">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-10 md:gap-12 lg:gap-16">
           <div className="flex-1">
             <img src="/images/firms1.png" alt="img" className="w-full" />
           </div>
           <div className="flex flex-col text-left flex-1">
-            {/* <p className="font-medium text-xl lg:text-2xl">Business</p> */}
             <p className="font-medium text-3xl md:text-4xl xl:text-5xl text-textBlack">
             Unlock the Power of Connections
             </p>
@@ -122,7 +121,7 @@ const Business = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* \\\\\\\\\\\\ */}
       {/* COMPANIES */}
@@ -131,7 +130,7 @@ const Business = () => {
       <section>
         <div className="max-w-screen-xl mx-auto px-5 xl:px-0">
           {/* <!-- search div --> */}
-          <div
+          {/* <div
             className="border border-black px-4 py-2 lg:py-3
                 flex items-center justify-between
                 mt-10 md:mt-11 lg:mt-12 max-w-full"
@@ -146,7 +145,7 @@ const Business = () => {
                 Search
               </button>
             </a>
-          </div>
+          </div> */}
 
           {/* <!-- company card section --> */}
           <div

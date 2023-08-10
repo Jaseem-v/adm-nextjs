@@ -338,26 +338,26 @@ const EnlistCompany = () => {
               </select>
               {watch("numberType") === "landline" ? (
                 <div className="flex items-center col-span-2">
-                  <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+971</div>
+                  {/* <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+971</div> */}
                   <input
                     type="tel"
                     pattern="[0-9]"
                     id="phoneNumber"
                     placeholder="e.g. 123 456 789"
-                    className="border-y border-r border-[#B7BABF] rounded-r px-3 py-2 w-full"
+                    className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
                     {...register("phoneNumber")}
                     onBlur={() => trigger("phoneNumber")}
                   />
                 </div>
               ) : (
                 <div className="flex items-center col-span-2">
-                  <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+02</div>
+                  {/* <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+02</div> */}
                   <input
                     type="tel"
                     pattern="[0-9]"
                     id="phoneNumber"
                     placeholder="e.g. 123 4567"
-                    className="border-y border-r border-[#B7BABF] rounded-r px-3 py-2 w-full"
+                    className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
                     {...register("phoneNumber")}
                     onBlur={() => trigger("phoneNumber")}
                   />

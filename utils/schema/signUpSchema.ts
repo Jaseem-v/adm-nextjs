@@ -26,31 +26,34 @@ export const businessFirstStepSchema = yup.object({
     .required("Phone number is required")
     .test("phoneNumber", "Invalid phone number", function (value) {
       const numberType = this.parent.numberType;
+
       if (numberType === "landline") {
-        if (/^\d{8,9}$/.test(value)) {
+        if (/^(00971|\+971|0)5[0-9]{8}$/.test(value)) {
           return true;
         } else {
           throw new yup.ValidationError(
-            "Landline number must be  8 or 9 digits",
+            "Invalid landline number format",
             value,
             "phoneNumber"
-
-
-            
           );
         }
       } else if (numberType === "mobile") {
-        if (/^\d{7}$/.test(value)) {
+        if (/^(00971|\+971|0)2[0-9]{7}$/.test(value)) {
           return true;
         } else {
           throw new yup.ValidationError(
-            "Mobile number must be 7 digits",
+            "Invalid mobile number format",
             value,
             "phoneNumber"
           );
         }
       }
-      return false;
+
+      throw new yup.ValidationError(
+        "Invalid numberType",
+        numberType,
+        "numberType"
+      );
     }),
   websiteUrl: yup.string(),
   // .matches(
