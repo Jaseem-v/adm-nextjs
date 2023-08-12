@@ -332,7 +332,7 @@ const EnlistCompany = () => {
           <div className=" col-span-6">
             <label htmlFor="phoneNumber">Phone number</label>
             <div className="grid grid-cols-3 gap-4 items-center">
-              <select id="numberType" {...register("numberType")} className="border border-[#B7BABF] rounded px-3 py-2">
+              <select id="numberType" {...register("numberType")} className="border border-[#B7BABF] rounded px-3 py-2" onChange={() => trigger("phoneNumber")}>
                 <option value="landline">Landline</option>
                 <option value="mobile">Mobile</option>
               </select>
@@ -346,7 +346,7 @@ const EnlistCompany = () => {
                     placeholder="e.g. 123 456 789"
                     className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
                     {...register("phoneNumber")}
-                    onBlur={() => trigger("phoneNumber")}
+                    // onBlur={() => trigger("phoneNumber")}
                   />
                 </div>
               ) : (
@@ -359,7 +359,7 @@ const EnlistCompany = () => {
                     placeholder="e.g. 123 4567"
                     className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
                     {...register("phoneNumber")}
-                    onBlur={() => trigger("phoneNumber")}
+                    // onBlur={() => trigger("phoneNumber")}
                   />
                 </div>
               )}
