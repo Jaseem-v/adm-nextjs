@@ -363,7 +363,14 @@ const EnlistCompany = () => {
                         id="phoneNumber"
                         placeholder="e.g. 123 456 789"
                         className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
-                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          trigger('phoneNumber');
+                        }}
+                        onBlur={() => {
+                          trigger('phoneNumber');
+                        }}
+                        value={field.value}
                       />
                     )}
                   />
@@ -380,7 +387,15 @@ const EnlistCompany = () => {
                         id="phoneNumber"
                         placeholder="e.g. 123 4567"
                         className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
-                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          trigger('phoneNumber');
+                        }}
+                        onBlur={() => {
+                          trigger('phoneNumber');
+                        }}
+                        value={field.value}
+                      // {...field}
                       />
                     )}
                   />
