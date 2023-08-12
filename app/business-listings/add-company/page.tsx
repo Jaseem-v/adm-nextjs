@@ -293,7 +293,7 @@ const EnlistCompany = () => {
           </p>
 
           <div className="form-control col-span-6 ">
-            <label htmlFor="streetAddress">Street Address</label>
+            <label htmlFor="streetAddress">Street</label>
             <input
               type="text"
               id="streetAddress"
@@ -304,7 +304,7 @@ const EnlistCompany = () => {
             <p className="error">{errorsOne.streetAddress?.message}</p>
           </div>
           <div className="form-control col-span-3 mt-4">
-            <label htmlFor="building">Building Number</label>
+            <label htmlFor="building">Address</label>
             <input
               type="text"
               id="building"
