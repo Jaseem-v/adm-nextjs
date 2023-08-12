@@ -346,8 +346,8 @@ const EnlistCompany = () => {
                       trigger('phoneNumber');
                     }}
                   >
-                    <option value="landline">Landline</option>
                     <option value="mobile">Mobile</option>
+                    <option value="landline">Landline</option>
                   </select>
                 )}
               />

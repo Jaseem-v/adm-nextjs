@@ -28,21 +28,21 @@ export const businessFirstStepSchema = yup.object({
       const numberType = this.parent.numberType;
 
       if (numberType === "landline") {
-        if (/^(00971|\+971|0)5[0-9]{8}$/.test(value)) {
-          return true;
-        } else {
-          throw new yup.ValidationError(
-            "Invalid landline number format",
-            value,
-            "phoneNumber"
-          );
-        }
-      } else if (numberType === "mobile") {
         if (/^(00971|\+971|0)2[0-9]{7}$/.test(value)) {
           return true;
         } else {
           throw new yup.ValidationError(
             "Invalid mobile number format",
+            value,
+            "phoneNumber"
+          );
+        }
+      } else if (numberType === "mobile") {
+        if (/^(00971|\+971|0)5[0-9]{8}$/.test(value)) {
+          return true;
+        } else {
+          throw new yup.ValidationError(
+            "Invalid landline number format",
             value,
             "phoneNumber"
           );
