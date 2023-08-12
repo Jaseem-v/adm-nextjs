@@ -2,7 +2,7 @@
 
 import { EnlistSkeleton } from "@/components/enlist/enlistSkeleton";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -115,6 +115,7 @@ const EnlistCompany = () => {
     formState,
     trigger,
     watch,
+    control
   } = form;
   const { errors: errorsOne } = formState;
 
@@ -329,37 +330,59 @@ const EnlistCompany = () => {
           <h1 className="font-serif font-medium text-xl col-span-6 mt-10 mb-4">
             How will customers contact you?
           </h1>
-          <div className=" col-span-6">
+          <div className="col-span-6">
             <label htmlFor="phoneNumber">Phone number</label>
             <div className="grid grid-cols-3 gap-4 items-center">
-              <select id="numberType" {...register("numberType")} className="border border-[#B7BABF] rounded px-3 py-2" onChange={() => trigger("phoneNumber")}>
-                <option value="landline">Landline</option>
-                <option value="mobile">Mobile</option>
-              </select>
-              {watch("numberType") === "landline" ? (
+              <Controller
+                name="numberType"
+                control={control}
+                defaultValue="landline"
+                render={({ field }) => (
+                  <select
+                    id="numberType"
+                    className="border border-[#B7BABF] rounded px-3 py-2"
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger('phoneNumber');
+                    }}
+                  >
+                    <option value="landline">Landline</option>
+                    <option value="mobile">Mobile</option>
+                  </select>
+                )}
+              />
+              {watch('numberType') === 'landline' ? (
                 <div className="flex items-center col-span-2">
-                  {/* <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+971</div> */}
-                  <input
-                    type="tel"
-                    pattern="[0-9]"
-                    id="phoneNumber"
-                    placeholder="e.g. 123 456 789"
-                    className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
-                    {...register("phoneNumber")}
-                    // onBlur={() => trigger("phoneNumber")}
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="tel"
+                        pattern="[0-9]"
+                        id="phoneNumber"
+                        placeholder="e.g. 123 456 789"
+                        className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
+                        {...field}
+                      />
+                    )}
                   />
                 </div>
               ) : (
                 <div className="flex items-center col-span-2">
-                  {/* <div className="border-y border-l border-[#B7BABF] rounded-l px-3 py-2 bg-skeleton">+02</div> */}
-                  <input
-                    type="tel"
-                    pattern="[0-9]"
-                    id="phoneNumber"
-                    placeholder="e.g. 123 4567"
-                    className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
-                    {...register("phoneNumber")}
-                    // onBlur={() => trigger("phoneNumber")}
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="tel"
+                        pattern="[0-9]"
+                        id="phoneNumber"
+                        placeholder="e.g. 123 4567"
+                        className="border-y border-r border-[#B7BABF] rounded-r rounded-l px-3 py-2 w-full"
+                        {...field}
+                      />
+                    )}
                   />
                 </div>
               )}
@@ -461,10 +484,11 @@ const EnlistCompany = () => {
               We deliver or provide service at customer locations
             </span>
           </label> */}
-
+          {/* ${isStepOneError ? "bg-opacity-50" : "" } */}
           <button
-            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-primary text-lightGold col-span-4 md:col-span-2 text-[15px] w-fit ${isStepOneError ? "bg-opacity-50" : ""
-              }`}
+            className={`font-normal font-inter mt-4 mb-7 px-5 py-3 rounded bg-primary text-lightGold col-span-4 md:col-span-2 text-[15px] w-fit
+             
+             `}
           >
             Add my company
           </button>
