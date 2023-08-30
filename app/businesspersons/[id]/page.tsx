@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import SectionHeader from "@/components/SectionHeader";
 import Masonry from 'react-masonry-css'
+import { formatDate } from "@/utils/content";
 
 type AdvertisementProps = {
   _id: string;
@@ -14,11 +15,13 @@ type AdvertisementProps = {
     key: string;
   },
   type: string;
+  title:string;
   createdBy: {
     name: string;
     profilePicture: {
       key: string;
-    }
+    };
+    _id:string;
   }
 };
 
@@ -105,7 +108,7 @@ const BusinessPersonDetails = ({ params }: {
   useEffect(() => {
     const getAd = async () => {
       try {
-        const ads = await httpClient().get(`advertisement/owned/${id}`)
+        const ads = await httpClient().get(`advertisement/user/${id}`)
         console.log('ads', ads)
         setAds(ads.data?.data)
       } catch (error) {
@@ -301,7 +304,7 @@ const BusinessPersonDetails = ({ params }: {
 
         </div>
         {ads?.length > 0 &&
-          <div className="mt-8 lg:mt-10 max-w-7xl mx-2 lg:mx-auto">
+          <div className="mt-8 lg:mt-10 max-w-7xl mx-2 lg:mx-auto bg-white rounded-[10px] p-6">
             <p className="font-semibold text-xl md:text-2xl mb-5 lg:mb-7 pl-4">Advertisements</p>
             <Masonry
               breakpointCols={breakpointColumnsObj}
@@ -310,20 +313,18 @@ const BusinessPersonDetails = ({ params }: {
               {ads?.map((ad) => (
                 <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
                   <div>
-                    <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" />
+                    {ad?.image?.key ? <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" /> : null}
                     <div className="flex items-center justify-between px-6 pt-6">
                       <div className="flex items-center gap-2">
-                        <div
-                          className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-                          style={{ backgroundImage: `url(https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${ad.createdBy?.profilePicture?.key})` }}
-                        />
-                        <p className="font-semibold text-textBlack">{ad.createdBy?.name}</p>
+                        <p className="font-semibold text-textBlack text-lg">{ad?.title}</p>
                       </div>
-                      <p className="text-sm text-descBlack">{ad.createdAt.slice(0, 10)}</p>
                     </div>
-                    <div className="text p-6">
+                    <div className="text  px-6 pt-6">
                       {/* <h3 className="font-semibold text-xl">For sale</h3> */}
                       <p className="mb-2">{ad?.desc}</p>
+                    </div>
+                    <div className="flex items-center justify-between p-6">
+                      <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
                     </div>
                   </div>
                 </div>
@@ -333,7 +334,7 @@ const BusinessPersonDetails = ({ params }: {
       </section>
       {/* \\\\\\\\\\\\\\\\  */}
       {/*  \\\ Newsletter */}
-      <section className="overflow-hidden">
+      {/* <section className="overflow-hidden">
         <div className="flex flex-col items-start md:items-center justify-center pt-20 md:pt-24 lg:pt-28 pb-32 lg:pb-36 px-5 xl:px-0 text-left md:text-center">
           <p className="font-semibold text-xl md:text-2xl ">
             Subscribe to our newsletter
@@ -355,7 +356,7 @@ const BusinessPersonDetails = ({ params }: {
             </a>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };

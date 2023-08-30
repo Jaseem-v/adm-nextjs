@@ -214,7 +214,7 @@ const EnlistCompany = () => {
     try {
       await httpClient()
         .post("user/business/signup", finalData)
-        .then((res) => {
+        .then((res: any) => {
           console.log(res);
 
           if (res.status === 200) {
@@ -222,6 +222,8 @@ const EnlistCompany = () => {
               icon: "👏",
             });
             navigate.push("/register-success");
+          } else if (res.data.success == false) {
+            toast.error(res.data.message);
           } else {
             // Handle non-200 status codes  
             toast.error("An error occurred during signup");

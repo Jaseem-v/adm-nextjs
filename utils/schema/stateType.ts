@@ -13,6 +13,8 @@ export type Data = {
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
+  profilePicture: { key: string };
+
   __v: number;
 };
 

@@ -78,7 +78,7 @@ const BusinessPersons = () => {
             your passion for success.
           </p>
           {/* search div  */}
-          <div
+          {/* <div
             className="border border-black px-4 py-2 lg:py-3
                 flex items-center justify-between
                 mt-10 md:mt-11 lg:mt-12 w-full"
@@ -93,7 +93,7 @@ const BusinessPersons = () => {
                 Search
               </button>
             </a>
-          </div>
+          </div> */}
 
           {/* business persons div */}
           <div className="grid place-items-center justify-items-center w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10 md:mb-14 xl:mb-20 mt-14 md:mt-16 xl:mt-20">
@@ -108,17 +108,25 @@ const BusinessPersons = () => {
                   className="py-4 md:py-5 lg:py-6  px-6 md:px-8 lg:px-10  rounded-[20px]
                     border border-black flex gap-4 items-center justify-center w-full"
                 >
-                  <img
-                    src="/images/testimonialImg.png"
+                  {/* <img
+                    src={
+                      person?.profilePicture
+                        ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${person?.profilePicture.key}`
+                        : "images/profilePreview.png"
+                    }
                     alt="person"
                     className=""
+                  /> */}
+                  <div
+                    className="h-20 w-20 rounded-full navbarImage bg-cover bg-center"
+                    style={{ backgroundImage: `url(${person?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/personal-account-profile-picture/${person?.profilePicture?.key}` : 'https://abudhabimalayalees.com/images/profilePreview.png'})` }}
                   />
                   <div className="flex flex-col gap-1 items-start">
                     <p className="font-semibold text-lg md:text-xl">
                       {`${person.fname} ${person.lname}`}
                     </p>
-                    <p className="font-light text-sm">CEO Amazon</p>
-                    <p className="font-light text-sm">www.amazon.com</p>
+                    <p className="font-light text-sm">Abu dhabi</p>
+                    {/* <p className="font-light text-sm">www.amazon.com</p> */}
                   </div>
                 </div>
               </Link>

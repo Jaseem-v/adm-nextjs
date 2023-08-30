@@ -24,6 +24,7 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
   type advertisementValues = {
     image: string;
     desc: string;
+    title: string;
     type: string;
     category: string;
     visibility: boolean;
@@ -81,13 +82,14 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
 
   const addAdvertisement = async (data: advertisementValues) => {
     const adData = { ...data };
-    let { desc, type, visibility, category } = data;
+    let { desc, type, visibility, category, title } = data;
 
     if (type == "JOB" && !category) {
       toast.error("pls choose job catgeory");
     } else {
       const formData = new FormData();
       formData.append("desc", desc);
+      formData.append("title", title);
       formData.append("image", advertisement?.image);
       formData.append("type", type);
       formData.append("visibility", visibility ? "Hide" : "Show");
@@ -209,6 +211,11 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                   </div>
                 </div>)
               }
+              <input type="text"
+                className="border rounded-md border-[#b7babf] py-2 px-3 text-sm max-w-3xl"
+                placeholder="Enter the ad title (Need a salesman)"
+                {...registerAd("title")}
+              />
 
               <textarea
                 id="desc"
@@ -217,6 +224,7 @@ const AdvertisementModel = ({ setShowAdvertisementModel }: AdvertisementModelPro
                 placeholder="Enter the advertisement description"
                 {...registerAd("desc")}
               />
+
 
               <div className="flex items-center gap-4">
                 <p>Type</p>

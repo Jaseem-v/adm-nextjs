@@ -153,7 +153,7 @@ const Business = () => {
                 mt-14 lg:mt-16 mb-14 md:mb-20 lg:mb-24 
                 gap-x-10 md:gap-x-11 lg:gap-x-12 gap-y-6 md:gap-y-7 lg:gap-8"
           >
-            {business && business.reverse().map((firm) => (
+            {business && business.map((firm) => (
               <Link href={`/business/${firm._id}`} key={firm._id} >
                 <div
                   className="flex flex-col items-center justify-between shadow-eventCard

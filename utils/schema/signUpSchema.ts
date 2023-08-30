@@ -165,6 +165,7 @@ export const servicesSchema = yup.object({
 export const advertisementSchema = yup.object({
   image: yup.string(),
   desc: yup.string().required(),
+  title: yup.string().required(),
   type: yup.string().required(),
   visibility: yup.boolean()
 });

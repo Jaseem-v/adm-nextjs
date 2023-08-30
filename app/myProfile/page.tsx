@@ -54,6 +54,9 @@ import {
   PersonalAccountDataType,
 } from "@/utils/schema/stateType";
 import { redirect } from "next/navigation";
+import Masonry from "react-masonry-css";
+import { formatDate } from "@/utils/content";
+import AdvertisementModel from "@/components/advetisementModel";
 
 type EditModeState = {
   [key: string]: boolean;
@@ -385,8 +388,7 @@ const Profile = () => {
               }));
               await httpClient("multipart/form-data")
                 .patch(
-                  `user/${
-                    accountType === "personal" ? "personal" : "business"
+                  `user/${accountType === "personal" ? "personal" : "business"
                   }/change-profile-picture`,
                   profileImg
                 )
@@ -409,7 +411,7 @@ const Profile = () => {
               handlePhotoAdd(URL.createObjectURL(file));
               setIsAddedPhoto(true);
             } else if (section === "advertisement") {
-              setAdvertisement({image: file});
+              setAdvertisement({ image: file });
               setAdImg(URL.createObjectURL(file))
             }
           } catch (error) {
@@ -453,8 +455,7 @@ const Profile = () => {
     try {
       await httpClient()
         .delete(
-          `user/${
-            accountType === "personal" ? "personal" : "business"
+          `user/${accountType === "personal" ? "personal" : "business"
           }/change-profile-picture`
         )
         .then((res) => {
@@ -711,15 +712,15 @@ const Profile = () => {
   };
 
   const sm =
-      accountType === "personal"
-        ? personalAccountData.socialMediaLinks
-        : businessAccountData.socialMediaLinks;
-  
-    const instagramObj = Object.values(sm).find((obj) => obj.title === "INSTAGRAM");
-    const facebookObj = Object.values(sm).find((obj) => obj.title === "FACEBOOK");
-    const linkedinObj = Object.values(sm).find((obj) => obj.title === "LINKEDIN");
-    const twitterObj = Object.values(sm).find((obj) => obj.title === "TWITTER");
-    const youtubeObj = Object.values(sm).find((obj) => obj.title === "YOUTUBE");
+    accountType === "personal"
+      ? personalAccountData.socialMediaLinks
+      : businessAccountData.socialMediaLinks;
+
+  const instagramObj = Object.values(sm).find((obj) => obj.title === "INSTAGRAM");
+  const facebookObj = Object.values(sm).find((obj) => obj.title === "FACEBOOK");
+  const linkedinObj = Object.values(sm).find((obj) => obj.title === "LINKEDIN");
+  const twitterObj = Object.values(sm).find((obj) => obj.title === "TWITTER");
+  const youtubeObj = Object.values(sm).find((obj) => obj.title === "YOUTUBE");
 
 
 
@@ -738,21 +739,21 @@ const Profile = () => {
 
   useEffect(() => {
     setSocialMediaValue("instagram", instagramObj?.link || "");
-  setSocialMediaValue("facebook", facebookObj?.link || "");
-  setSocialMediaValue("twitter", twitterObj?.link || "");
-  setSocialMediaValue("linkedin", linkedinObj?.link || "");
-  setSocialMediaValue("youtube", youtubeObj?.link || "");
+    setSocialMediaValue("facebook", facebookObj?.link || "");
+    setSocialMediaValue("twitter", twitterObj?.link || "");
+    setSocialMediaValue("linkedin", linkedinObj?.link || "");
+    setSocialMediaValue("youtube", youtubeObj?.link || "");
   }, [instagramObj, facebookObj, twitterObj, linkedinObj, youtubeObj]);
 
 
   const isSocialMediaAdded =
     accountType === "personal"
       ? Object.values(personalAccountData.socialMediaLinks).some(
-          (value) => value !== undefined
-        )
+        (value) => value !== undefined
+      )
       : Object.values(businessAccountData.socialMediaLinks).some(
-          (value) => value !== undefined
-        );
+        (value) => value !== undefined
+      );
 
   // const updatedSocialMedia = useMemo(() => {
   //   return {
@@ -832,7 +833,7 @@ const Profile = () => {
         }
       }
 
-    setIsLoading(false);
+      setIsLoading(false);
     };
     accountType === "personal"
       ? console.log("personal account data", personalAccountData)
@@ -1063,31 +1064,31 @@ const Profile = () => {
   } = advertisementForm;
   const { errors: errorsAd } = formStateAd;
 
-  const addAdvertisement = async (data: advertisementValues) => {
-    const adData = { ...data };
-    let { desc, type, visibility } = data;
+  // const addAdvertisement = async (data: advertisementValues) => {
+  //   const adData = { ...data };
+  //   let { desc, type, visibility } = data;
 
-    const formData = new FormData();
-    formData.append("desc", desc);
-    formData.append("image", advertisement?.image);
-    formData.append("type", type);
-    formData.append("visibility", visibility ? "Hide" : "Show");
+  //   const formData = new FormData();
+  //   formData.append("desc", desc);
+  //   formData.append("image", advertisement?.image);
+  //   formData.append("type", type);
+  //   formData.append("visibility", visibility ? "Hide" : "Show");
 
-    try {
-      await httpClient("multipart/form-data")
-        .post("advertisement", formData)
-        .then((res) => console.log(res));
-    } catch (error) {
-      console.log(error);
-    }
-    setValueAd("desc", '')
-    setValueAd("type", '')
-    setAdImg('')
-    handleToggleEditMode("advertisement");
-    // const contactDetails = [businessAccountData.contactDetails, contactData]
-    // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
-    // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
-  };
+  //   try {
+  //     await httpClient("multipart/form-data")
+  //       .post("advertisement", formData)
+  //       .then((res) => console.log(res));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   setValueAd("desc", '')
+  //   setValueAd("type", '')
+  //   setAdImg('')
+  //   handleToggleEditMode("advertisement");
+  //   // const contactDetails = [businessAccountData.contactDetails, contactData]
+  //   // const updatedBusinessAccountData = {...businessAccountData, contactDetails}
+  //   // console.log('updatedBusinessAccountData', updatedBusinessAccountData)
+  // };
 
   const removeAdImg = () => {
     setAdImg('')
@@ -1098,40 +1099,77 @@ const Profile = () => {
     _id: string;
     desc: string;
     createdAt: string;
+    title: string;
     image: {
       key: string;
     },
     type: string;
+    createdByRole: string;
+    status: string;
     createdBy: {
-      name: string;
-      username: string;
-      _id: string;
+      fname: string;
+      lname: string;
       profilePicture: {
         key: string;
       }
+      _id: string;
     }
   };
 
   const [userAds, setUserAds] = useState<AdvertisementProps[]>([])
 
-  useEffect(() => {
-    const getAd = async () => {
-      try {
-        const ads = await httpClient().get('advertisement/owned')
-        console.log(ads.data.data)
-        // const realEstate = await httpClient().get('advertisement/real-estate/approved')
-        // const ads = [...usedCar?.data?.data, ...realEstate?.data?.data]
-        // const account = accountType === 'personal' ? personalAccountData : businessAccountData;
-        // const userAds = ads.filter((ad: AdvertisementProps) => ad?.createdBy?._id === account._id)
-        // setUserAds([...ads])
+  const getAd = async () => {
+    try {
+      const ads = await httpClient().get('advertisement/owned')
+      console.log(ads.data.data)
+      // const realEstate = await httpClient().get('advertisement/real-estate/approved')
+      // const ads = [...usedCar?.data?.data, ...realEstate?.data?.data]
+      // const account = accountType === 'personal' ? personalAccountData : businessAccountData;
+      // const userAds = ads.filter((ad: AdvertisementProps) => ad?.createdBy?._id === account._id)
+      // setUserAds([...ads])
 
-        setUserAds([...ads?.data?.data])
-      } catch (error) {
-        console.log(error)
-      }
+      setUserAds([...ads?.data?.data])
+    } catch (error) {
+      console.log(error)
     }
+  }
+
+  useEffect(() => {
     getAd()
   }, [])
+
+
+  // ads
+
+  const [showAdvertisementModel, setShowAdvertisementModel] = useState(false);
+
+  const breakpointColumnsObj = {
+    default: 3,
+    4000: 3,
+    1024: 2,
+    500: 1
+  };
+
+  const addAdvertisment = () => {
+    setShowAdvertisementModel(true)
+  }
+
+  const removeAd = async (id: string) => {
+    httpClient().delete(`advertisement/user/${id}`).then((res: any) => {
+      if (res.status == 400) {
+        toast.error(res.data.message, {
+          icon: "👏",
+        });
+      }
+
+      if (res.status == 200) {
+        toast.success(res.data.message);
+        getAd()
+      }
+
+
+    })
+  }
 
   const socialMediaEdited = isSocialMediaAdded && (
     <div className="flex flex-col gap-6">
@@ -1293,11 +1331,10 @@ const Profile = () => {
                 <div
                   className="h-full bg-primary flex items-center justify-center font-semibold text-white"
                   style={{
-                    width: `${
-                      accountType === "personal"
-                        ? personalOverallCompletionPercentage
-                        : overallCompletionPercentage
-                    }%`,
+                    width: `${accountType === "personal"
+                      ? personalOverallCompletionPercentage
+                      : overallCompletionPercentage
+                      }%`,
                   }}
                 >
                   {accountType === "personal"
@@ -1313,15 +1350,14 @@ const Profile = () => {
                 {/* ITEM 1 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      accountType === "personal"
-                        ? isPersonalNameCompleted
-                          ? "text-success"
-                          : "text-error"
-                        : isAddressCompleted
+                    className={`${accountType === "personal"
+                      ? isPersonalNameCompleted
                         ? "text-success"
                         : "text-error"
-                    }`}
+                      : isAddressCompleted
+                        ? "text-success"
+                        : "text-error"
+                      }`}
                   >
                     {accountType === "personal"
                       ? "Name & phone"
@@ -1341,9 +1377,8 @@ const Profile = () => {
                 {accountType === "business" && (
                   <div className="flex justify-between items-center gap-2">
                     <p
-                      className={`${
-                        isCategoriesCompleted ? "text-success" : "text-error"
-                      }`}
+                      className={`${isCategoriesCompleted ? "text-success" : "text-error"
+                        }`}
                     >
                       Business Categories
                     </p>
@@ -1362,9 +1397,8 @@ const Profile = () => {
                 {/* ITEM 3 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isAboutCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isAboutCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Detailed Description
                   </p>
@@ -1375,9 +1409,8 @@ const Profile = () => {
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isPhotoCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isPhotoCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Logo or Image
                   </p>
@@ -1395,9 +1428,8 @@ const Profile = () => {
                 {accountType === "business" && (
                   <div className="flex justify-between items-center gap-2">
                     <p
-                      className={`${
-                        isServicesCompleted ? "text-success" : "text-error"
-                      }`}
+                      className={`${isServicesCompleted ? "text-success" : "text-error"
+                        }`}
                     >
                       Services
                     </p>
@@ -1413,9 +1445,8 @@ const Profile = () => {
                 {/* ITEM 4 */}
                 <div className="flex justify-between items-center gap-2">
                   <p
-                    className={`${
-                      isSocialMediaCompleted ? "text-success" : "text-error"
-                    }`}
+                    className={`${isSocialMediaCompleted ? "text-success" : "text-error"
+                      }`}
                   >
                     Social Media
                   </p>
@@ -2100,13 +2131,13 @@ const Profile = () => {
                       onChange={(e) => {
                         accountType === "personal"
                           ? setPersonalAccountData((prevState) => ({
-                              ...prevState,
-                              about: e.target.value,
-                            }))
+                            ...prevState,
+                            about: e.target.value,
+                          }))
                           : setBusinessAccountData((prevState) => ({
-                              ...prevState,
-                              about: e.target.value,
-                            }));
+                            ...prevState,
+                            about: e.target.value,
+                          }));
                       }}
                     ></textarea>
                   </div>
@@ -2261,7 +2292,7 @@ const Profile = () => {
                   )}
 
                   {editModeState.businessCategories &&
-                  isPrimaryCategoryChange ? (
+                    isPrimaryCategoryChange ? (
                     <div className="flex items-center gap-4">
                       <div
                         className="hover:underline cursor-pointer text-success"
@@ -2453,77 +2484,77 @@ const Profile = () => {
 
             {!editModeState.products
               ? businessAccountData.services.length === 0 && (
-                  <div className="border-2 border-black border-dashed p-4">
-                    <div className="flex flex-wrap gap-4">
-                      <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                        <MdMiscellaneousServices className="h-5 w-6" />
-                      </div>
-                      <div className="flex flex-col gap-6">
-                        <div className="flex flex-col gap-4">
-                          <p className="text-gray-700">
-                            Attract the right customers by creating a list of up
-                            to 30 products or services that you offer.
-                          </p>
-                          <div className="flex items-center font-bold gap-1">
-                            <span
-                              className="cursor-pointer hover:underline"
-                              onClick={() => handleToggleEditMode("products")}
-                            >
-                              Create services list
-                            </span>
-                            <FaChevronRight />
-                          </div>
-                        </div>
-                      </div>
+                <div className="border-2 border-black border-dashed p-4">
+                  <div className="flex flex-wrap gap-4">
+                    <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                      <MdMiscellaneousServices className="h-5 w-6" />
                     </div>
-                  </div>
-                )
-              : !serviceItemEdit && (
-                  <div className="flex flex-col gap-2">
-                    <hr className="w-full text-grey-300" />
-                    <div className="text-xs">
-                      {`1`}
-                      {`/30 Items Listed`}
-                    </div>
-                    <FormProvider {...servicesForm}>
-                      <form
-                        name="editProductForm"
-                        onSubmit={handleSubmitService(handleProductAdd)}
-                      >
-                        <div className="flex">
-                          <input
-                            type="text"
-                            className="form-input rounded-r-0"
-                            {...registerService("service")}
-                          />
-                          <button
-                            type="submit"
-                            className="py-2 px-4 bg-success text-white"
-                            title="save"
-                          >
-                            <FaCheck />
-                          </button>
-                          <button
-                            type="submit"
-                            className="py-2 px-4 bg-error text-white"
-                            title="save"
-                          >
-                            <FaTrashAlt />
-                          </button>
-                          <div className="flex items-center justify-center px-2">
-                            <IoClose
-                              className="text-error w-6 h-6 stroke-3 cursor-pointer"
-                              onClick={() => handleToggleEditMode("products")}
-                            />
-                          </div>
-                        </div>
-                        <p className="text-error text-sm mt-1">
-                          {errorsService?.service?.message}
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-4">
+                        <p className="text-gray-700">
+                          Attract the right customers by creating a list of up
+                          to 30 products or services that you offer.
                         </p>
-                      </form>
-                    </FormProvider>
+                        <div className="flex items-center font-bold gap-1">
+                          <span
+                            className="cursor-pointer hover:underline"
+                            onClick={() => handleToggleEditMode("products")}
+                          >
+                            Create services list
+                          </span>
+                          <FaChevronRight />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
+                </div>
+              )
+              : !serviceItemEdit && (
+                <div className="flex flex-col gap-2">
+                  <hr className="w-full text-grey-300" />
+                  <div className="text-xs">
+                    {`1`}
+                    {`/30 Items Listed`}
+                  </div>
+                  <FormProvider {...servicesForm}>
+                    <form
+                      name="editProductForm"
+                      onSubmit={handleSubmitService(handleProductAdd)}
+                    >
+                      <div className="flex">
+                        <input
+                          type="text"
+                          className="form-input rounded-r-0"
+                          {...registerService("service")}
+                        />
+                        <button
+                          type="submit"
+                          className="py-2 px-4 bg-success text-white"
+                          title="save"
+                        >
+                          <FaCheck />
+                        </button>
+                        <button
+                          type="submit"
+                          className="py-2 px-4 bg-error text-white"
+                          title="save"
+                        >
+                          <FaTrashAlt />
+                        </button>
+                        <div className="flex items-center justify-center px-2">
+                          <IoClose
+                            className="text-error w-6 h-6 stroke-3 cursor-pointer"
+                            onClick={() => handleToggleEditMode("products")}
+                          />
+                        </div>
+                      </div>
+                      <p className="text-error text-sm mt-1">
+                        {errorsService?.service?.message}
+                      </p>
+                    </form>
+                  </FormProvider>
+                </div>
+              )}
           </div>
         )}
         {/* PRODUCTS AND SERVICES👆 */}
@@ -2602,9 +2633,8 @@ const Profile = () => {
               <div {...getCompanyImagesRootProps()}>
                 <input type="file" {...getCompanyImagesInputProps()} />
                 <div
-                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
-                    isDragActive ? "border-blue-500" : "border-black"
-                  }`}
+                  className={`w-48 h-48 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${isDragActive ? "border-blue-500" : "border-black"
+                    }`}
                 >
                   <p className="font-semibold">Add a photo</p>
                   <BsFillCameraFill className="w-11 h-11" />
@@ -3043,164 +3073,188 @@ const Profile = () => {
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
 
+        {showAdvertisementModel && (
+          <AdvertisementModel
+            setShowAdvertisementModel={setShowAdvertisementModel}
+          />
+        )}
+
         {/* \\\\\\\\\\\ */}
         {/* ADVERTISEMENT */}
-          <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 relative">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <p className="text-2xl font-medium font-lora text-black title">
-                  Advertisement
-                </p>
-              </div>
-              <p className="text-lg">Post your advertisement</p>
+        <div className="flex flex-col gap-4 bg-white text-gray-800 p-6 relative">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <p className="text-2xl font-medium font-lora text-black title">
+                Advertisement
+              </p>
             </div>
-            {!editModeState.advertisement ? (
-              <>
-                {userAds.length === 0 ? (
-                  <div className="border-2 border-black border-dashed p-4">
-                    <div className="flex flex-wrap lg:flex-col gap-4">
-                      <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
-                        <RiAdvertisementFill className="h-5 w-6" />
+            {/* <p className="text-lg">Post your advertisement</p> */}
+          </div>
+          {/* {!editModeState.advertisement ? ( */}
+          <>
+            {userAds.length === 0 ? (
+              <div className="border-2 border-black border-dashed p-4">
+                <div className="flex flex-wrap lg:flex-col gap-4">
+                  <div className="bg-skeleton w-12 h-12 flex items-center justify-center rounded-full">
+                    <RiAdvertisementFill className="h-5 w-6" />
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
+                      <p className="text-gray-700">
+                        Add an advertisement for your business
+                      </p>
+                      <div className="flex items-center font-bold gap-1">
+                        <span
+                          className="cursor-pointer hover:underline"
+                          onClick={(e) => { e.preventDefault(); addAdvertisment() }}
+                        >
+                          Add advertisement
+                        </span>
+                        <FaChevronRight />
                       </div>
-                      <div className="flex flex-col gap-6">
-                        <div className="flex flex-col gap-4">
-                          <p className="text-gray-700">
-                            Add an advertisement for your business
-                          </p>
-                          <div className="flex items-center font-bold gap-1">
-                            <span
-                              className="cursor-pointer hover:underline"
-                              onClick={() =>
-                                handleToggleEditMode("advertisement")
-                              }
-                            >
-                              Add advertisement
-                            </span>
-                            <FaChevronRight />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="max-w-7xl mx-4 xl:mx-auto">
+                <Masonry
+                  breakpointCols={breakpointColumnsObj}
+                  className="my-masonry-grid xl:mx-0"
+                  columnClassName="my-masonry-grid_column">
+                  {userAds?.length ? userAds.map((ad) => (
+                    <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
+                      <div>
+                        {ad?.image?.key ? <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" /> : null}
+                        <div className="flex items-center justify-between px-6 pt-6">
+                          <div className="flex items-center gap-2">
+                            <p className="font-semibold text-textBlack text-lg">{ad?.title}</p>
                           </div>
+                          <p className="font-semibold text-textBlack text-lg" onClick={(e) => { e.preventDefault(); removeAd(ad?._id) }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 18a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1ZM20 6h-4V5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H4a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2ZM10 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4Zm7 14a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8h10Zm-3-1a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1Z" /></svg></p>
+
+                        </div>
+                        <div className="text  px-6 pt-6">
+                          {/* <h3 className="font-semibold text-xl">For sale</h3> */}
+                          <p className="mb-2">{ad?.desc}</p>
+                        </div>
+                        <div className="flex items-center justify-between p-6">
+                          <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
+                          <p className="text-sm text-descBlack">{ad?.status}</p>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="grid md:grid-cols-3 gap-4">
-                    {userAds.map((ad) => (
-          <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
-            <div>
-            <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block"/>
-            <div className="flex items-center justify-between px-6 py-6">
-              <p className="mb-2">{ad?.desc}</p>
-              <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
-            </div>
-            </div>
-          </div>
-        ))}
-                  </div>
-                )}
-                <button
-                  className="py-2 mt-2 rounded w-48 bg-black text-white"
-                  onClick={() => handleToggleEditMode("advertisement")}
-                >
-                  Add advertisement
-                </button>
-              </>
-            ) : (
-              <FormProvider {...advertisementForm}>
-                <form
-                  onSubmit={handleSubmitAd(addAdvertisement)}
-                  className="flex flex-col gap-2 py-2"
-                >
-                  {adImg ?
-                  (<div>
-                    <div className="relative h-40 w-40">
-                      <div
-                        className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
-                        onClick={removeAdImg}
-                      >
-                        <IoClose color="white" />
-                      </div>
-                      <div className="h-40 w-40 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
-                        <div
-                          className="h-48 w-48 bg-cover bg-no-repeat bg-center"
-                          style={{
-                            backgroundImage: `url('${adImg}')`,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>) : 
-                  (<div {...getAdRootProps()}>
-                    <input
-                      type="file"
-                      {...getAdInputProps()}
-                      {...registerAd("image")}
-                      />
-                    <div
-                      className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
-                        isDragActive ? "border-blue-500" : "border-black"
-                      }`}
-                      >
-                      <p className="font-semibold">Add a photo</p>
-                      <BsFillCameraFill className="w-11 h-11" />
-                    </div>
-                  </div>)
-                    }
-
-                  <textarea
-                    id="desc"
-                    rows={5}
-                    className="form-input max-w-3xl"
-                    placeholder="Enter the advertisement description"
-                    {...registerAd("desc")}
-                  />
-
-                  <div className="flex items-center gap-4">
-                    <p>Type</p>
-                    <div>
-                      <select
-                        id="type"
-                        className="w-48 form-input"
-                        {...registerAd("type")}
-                      >
-                        <option value=""></option>
-                        <option value="REAL_ESTATE">Real estate</option>
-                        <option value="USED_CAR">Used car</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-row gap-2 items-center">
-                    <label htmlFor="visibility" className="cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="cursor-pointer"
-                        id="visibility"
-                        {...registerAd("visibility")}
-                      />
-                      <span className="ml-2">Hide advertisement</span>
-                    </label>
-                  </div>
-
-                  <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
-                    <button
-                      className="bg-skeleton py-1 px-3  rounded "
-                      onClick={() => handleToggleEditMode("advertisement")}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className="bg-primary text-white py-1 px-3 rounded "
-                      type="submit"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </FormProvider>
+                  )) : null}
+                </Masonry>
+              </div>
             )}
+            <button
+              className="py-2 mt-2 rounded w-48 bg-black text-white"
+              onClick={(e) => { e.preventDefault(); addAdvertisment() }}
+            >
+              Add advertisement
+            </button>
+          </>
+
+          {/*  
+          //  ) : (
+          //     <FormProvider {...advertisementForm}>
+          //       <form
+          //         onSubmit={handleSubmitAd(addAdvertisement)}
+          //         className="flex flex-col gap-2 py-2"
+          //       >
+          //         {adImg ?
+          //         (<div>
+          //           <div className="relative h-40 w-40">
+          //             <div
+          //               className="absolute top-0 right-0 flex flex-col justify-center items-center w-8 h-8 bg-red-500 rounded cursor-pointer"
+          //               onClick={removeAdImg}
+          //             >
+          //               <IoClose color="white" />
+          //             </div>
+          //             <div className="h-40 w-40 border border-gray-600 flex justify-center items-center rounded overflow-hidden">
+          //               <div
+          //                 className="h-48 w-48 bg-cover bg-no-repeat bg-center"
+          //                 style={{
+          //                   backgroundImage: `url('${adImg}')`,
+          //                 }}
+          //               ></div>
+          //             </div>
+          //           </div>
+          //         </div>) : 
+          //         (<div {...getAdRootProps()}>
+          //           <input
+          //             type="file"
+          //             {...getAdInputProps()}
+          //             {...registerAd("image")}
+          //             />
+          //           <div
+          //             className={`w-40 h-40 border-2 rounded border-dashed p-4 flex flex-col gap-2 items-center justify-center cursor-pointer border-black ${
+          //               isDragActive ? "border-blue-500" : "border-black"
+          //             }`}
+          //             >
+          //             <p className="font-semibold">Add a photo</p>
+          //             <BsFillCameraFill className="w-11 h-11" />
+          //           </div>
+          //         </div>)
+          //           }
+
+          //         <textarea
+          //           id="desc"
+          //           rows={5}
+          //           className="form-input max-w-3xl"
+          //           placeholder="Enter the advertisement description"
+          //           {...registerAd("desc")}
+          //         />
+
+          //         <div className="flex items-center gap-4">
+          //           <p>Type</p>
+          //           <div>
+          //             <select
+          //               id="type"
+          //               className="w-48 form-input"
+          //               {...registerAd("type")}
+          //             >
+          //               <option value=""></option>
+          //               <option value="REAL_ESTATE">Real estate</option>
+          //               <option value="USED_CAR">Used car</option>
+          //             </select>
+          //           </div>
+          //         </div>
+
+          //         <div className="flex flex-row gap-2 items-center">
+          //           <label htmlFor="visibility" className="cursor-pointer">
+          //             <input
+          //               type="checkbox"
+          //               className="cursor-pointer"
+          //               id="visibility"
+          //               {...registerAd("visibility")}
+          //             />
+          //             <span className="ml-2">Hide advertisement</span>
+          //           </label>
+          //         </div>
+
+          //         <div className="absolute top-6 right-6 flex items-start flex-wrap w-min-content gap-2">
+          //           <button
+          //             className="bg-skeleton py-1 px-3  rounded "
+          //             onClick={() => handleToggleEditMode("advertisement")}
+          //           >
+          //             Cancel
+          //           </button>
+          //           <button
+          //             className="bg-primary text-white py-1 px-3 rounded "
+          //             type="submit"
+          //           >
+          //             Submit
+          //           </button>
+          //         </div>
+          //       </form>
+          //     </FormProvider>
+          //   )
+          //   }
 
             {/* edited */}
-          </div>
+        </div>
         {/* CONTACT👆 */}
         {/* \\\\\\\\\\\ */}
 

@@ -7,20 +7,25 @@ import { BusinessAccountDataType } from "@/utils/schema/stateType";
 import Link from "next/link";
 import Masonry from 'react-masonry-css'
 import { useState, useEffect } from 'react';
+import { formatDate } from "@/utils/content";
 
 type AdvertisementProps = {
   _id: string;
   desc: string;
   createdAt: string;
+  title: string;
   image: {
     key: string;
   },
   type: string;
+  createdByRole: string;
   createdBy: {
-    name: string;
+    fname: string;
+    lname: string;
     profilePicture: {
       key: string;
     }
+    _id: string;
   }
 };
 
@@ -56,7 +61,7 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const getAd = async () => {
       try {
-        const ads = await httpClient().get(`advertisement/owned/${id}`)
+        const ads = await httpClient().get(`advertisement/user/${id}`)
         console.log('ads', ads)
         setAds(ads.data?.data)
       } catch (error) {
@@ -253,29 +258,27 @@ const CompanyDetails = ({ params }: { params: { id: string } }) => {
         </div>
         {/* <!-- advetisemnt --> */}
         {ads?.length > 0 &&
-          <div className="mt-8 lg:mt-10 max-w-7xl mx-2 lg:mx-auto">
+          <div className="mt-8 lg:mt-10 max-w-7xl mx-2 lg:mx-auto bg-white rounded-[10px] p-6">
             <p className="font-semibold text-xl md:text-2xl mb-5 lg:mb-7 pl-4">Advertisements</p>
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="my-masonry-grid xl:mx-0"
               columnClassName="my-masonry-grid_column">
-              {ads.map((ad) => (
+              {ads?.map((ad) => (
                 <div key={ad._id} className="rounded-lg shadow-md inline-block h-fit w-full">
                   <div>
-                    <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" />
-                    {/* <div className="flex items-center justify-between px-6 pt-6">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-                      style={{backgroundImage: `url(https://abudhabi-malayalees.onrender.com/resource/business-account-profile-picture/${ad.createdBy?.profilePicture?.key})`}} 
-                    />
-                    <p className="font-semibold text-textBlack">{ad.createdBy?.name}</p>
-                  </div>
-                  <p className="text-sm text-descBlack">{ad.createdAt.slice(0,10)}</p>
-                </div> */}
-                    <div className="text p-6">
+                    {ad?.image?.key ? <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" /> : null}
+                    <div className="flex items-center justify-between px-6 pt-6">
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold text-textBlack text-lg">{ad?.title}</p>
+                      </div>
+                    </div>
+                    <div className="text  px-6 pt-6">
                       {/* <h3 className="font-semibold text-xl">For sale</h3> */}
                       <p className="mb-2">{ad?.desc}</p>
+                    </div>
+                    <div className="flex items-center justify-between p-6">
+                      <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
                     </div>
                   </div>
                 </div>

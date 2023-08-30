@@ -46,6 +46,7 @@ type AdvertisementProps = {
   _id: string;
   desc: string;
   createdAt: string;
+  title: string;
   image: {
     key: string;
   },
@@ -57,6 +58,7 @@ type AdvertisementProps = {
     profilePicture: {
       key: string;
     }
+    _id: string;
   }
 };
 const breakpointColumnsObj = {
@@ -141,12 +143,11 @@ const Index = () => {
   useEffect(() => {
     const getAd = async () => {
       try {
-        const usedCar = await httpClient().get('advertisement/used-car/approved')
-        const realEstate = await httpClient().get('advertisement/real-estate/approved')
-        const job = await httpClient().get('advertisement/job/approved')
-        const ads = [...usedCar?.data?.data, ...realEstate?.data?.data, ...job?.data?.data].slice(0, 7)
-        setAds(ads)
-        console.log(ads)
+        const adsapi = await httpClient().get(`advertisement/approved`)
+        // const realEstate = await httpClient().get('advertisement/real-estate/approved')
+        // setUsedCars(usedCar?.data?.data)
+        // setRealEstate(realEstate?.data?.data)
+        setAds(adsapi?.data?.data)
       } catch (error) {
         console.log(error)
       }
@@ -359,17 +360,24 @@ const Index = () => {
                     {ad?.image?.key ? <img src={`https://abudhabi-malayalees.onrender.com/resource/advertisement/${ad?.image?.key}`} alt="c" className="rounded-t-md w-full h-full block" /> : null}
                     <div className="flex items-center justify-between px-6 pt-6">
                       <div className="flex items-center gap-2">
-                        <div
-                          className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
-                          style={{ backgroundImage: `url(${ad.createdBy?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/${ad.createdByRole == "Personal_Accounts" ? "personal" : "business"}-account-profile-picture/${ad.createdBy?.profilePicture?.key}` : 'images/profilePreview.png'})` }}
-                        />
-                        <p className="font-semibold text-textBlack">{ad.createdBy?.fname}</p>
+                        <p className="font-semibold text-textBlack text-lg">{ad?.title}</p>
                       </div>
-                      <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
                     </div>
-                    <div className="text p-6">
+                    <div className="text  px-6 pt-6">
                       {/* <h3 className="font-semibold text-xl">For sale</h3> */}
                       <p className="mb-2">{ad?.desc}</p>
+                    </div>
+                    <div className="flex items-center justify-between p-6">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
+                          style={{ backgroundImage: `url(${ad.createdBy?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/${ad.createdByRole == "Personal_Accounts" ? "personal" : "business"}-account-profile-picture/${ad.createdBy?.profilePicture?.key}` : 'https://abudhabimalayalees.com/images/profilePreview.png'})` }}
+                        />
+                        <Link href={`/${ad.createdByRole == "Personal_Accounts" ? "businesspersons" : "business"}/${ad.createdBy?._id}`}>
+                          <p className="font-medium text-textBlack">{ad.createdBy?.fname}</p>
+                        </Link>
+                      </div>
+                      <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
                     </div>
                   </div>
                 </div>
