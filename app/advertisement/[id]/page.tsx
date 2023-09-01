@@ -139,7 +139,7 @@ const Advertisement = ({ params }: {
                   <p className="mb-2">{ad?.desc}</p>
                 </div>
                 <div className="flex items-center justify-between p-6">
-                  <div className="flex items-center gap-2">
+                  {/* <div className="flex items-center gap-2">
                     <div
                       className="h-9 w-9 rounded-full navbarImage bg-cover bg-center"
                       style={{ backgroundImage: `url(${ad.createdBy?.profilePicture?.key ? `https://abudhabi-malayalees.onrender.com/resource/${ad.createdByRole == "Personal_Accounts" ? "personal" : "business"}-account-profile-picture/${ad.createdBy?.profilePicture?.key}` : 'https://abudhabimalayalees.com/images/profilePreview.png'})` }}
@@ -147,7 +147,7 @@ const Advertisement = ({ params }: {
                     <Link href={`/${ad.createdByRole == "Personal_Accounts" ? "businesspersons" : "business"}/${ad.createdBy?._id}`}>
                       <p className="font-medium text-textBlack">{ad.createdBy?.fname}</p>
                     </Link>
-                  </div>
+                  </div> */}
                   <p className="text-sm text-descBlack">{formatDate(ad.createdAt.slice(0, 10))}</p>
                 </div>
               </div>
