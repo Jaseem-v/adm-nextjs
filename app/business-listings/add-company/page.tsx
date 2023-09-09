@@ -433,7 +433,7 @@ const EnlistCompany = () => {
           <div className="form-control col-span-3 mt-4">
             <label htmlFor="password">Password</label>
             <input
-              type="text"
+              type="password"
               id="password"
               {...register("password")}
               onBlur={() => trigger("password")}
